@@ -14,7 +14,20 @@ export interface LunarGlobeProps {
   sun: SubPoint | null
   earth: SubPoint | null
   site: { lat: number; lon: number; label: string } | null
+  /** Why sun/earth are missing (e.g. JPL Horizons unreachable). Shown instead of fake lighting. */
+  positionNote?: string | null
+  onTextureError?: () => void
   className?: string
+}
+
+/** True if this browser can create a WebGL context at all (hardware acceleration off, some VMs/managed laptops: false). */
+function webglAvailable(): boolean {
+  try {
+    const c = document.createElement('canvas')
+    return Boolean(c.getContext('webgl2') || c.getContext('webgl'))
+  } catch {
+    return false
+  }
 }
 
 /**
@@ -46,7 +59,29 @@ function latitudeRing(latDeg: number, color: string, opacity: number) {
  * The sphere is smooth: crater shadows from terrain are NOT rendered here, the
  * terrain-aware answer is the horizon panorama.
  */
-export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site, className }: LunarGlobeProps) {
+export default function LunarGlobe(props: LunarGlobeProps) {
+  const [glOk] = React.useState(webglAvailable)
+  const [glError, setGlError] = React.useState<string | null>(null)
+  if (!glOk || glError) {
+    return (
+      <div className={cn('grid place-items-center rounded-md border border-rule-soft bg-[#070c15] p-6 text-center', props.className)}>
+        <div className="max-w-sm space-y-2 text-sm">
+          <p className="font-medium text-ink">3D view needs WebGL, which this browser has turned off</p>
+          <p className="text-muted">
+            Turn on hardware acceleration (Chrome: Settings, System, "Use graphics acceleration when available"),
+            then reload. Everything else in LunaNav works without it, including the polar map.
+          </p>
+          {glError && <p className="text-xs text-faint">{glError}</p>}
+        </div>
+      </div>
+    )
+  }
+  return <GlobeScene {...props} onGlError={setGlError} />
+}
+
+function GlobeScene({
+  textureUrl, textureCredit, sun, earth, site, positionNote, onTextureError, onGlError, className,
+}: LunarGlobeProps & { onGlError: (msg: string) => void }) {
   const mountRef = React.useRef<HTMLDivElement>(null)
   const sceneRef = React.useRef<{
     renderer: THREE.WebGLRenderer
@@ -54,6 +89,7 @@ export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site
     controls: OrbitControls
     moon: THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>
     sunLight: THREE.DirectionalLight
+    headLight: THREE.DirectionalLight
     sunArrow: THREE.ArrowHelper
     earthMarker: THREE.Mesh
     earthLine: THREE.Line
@@ -64,7 +100,13 @@ export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site
   // one-time scene setup
   React.useEffect(() => {
     const mount = mountRef.current!
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    let renderer: THREE.WebGLRenderer
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    } catch (e) {
+      onGlError(e instanceof Error ? e.message : String(e))
+      return
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.outputColorSpace = THREE.SRGBColorSpace
     mount.appendChild(renderer.domElement)
@@ -83,8 +125,13 @@ export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site
     )
     scene.add(moon)
     scene.add(new THREE.AmbientLight(0xffffff, 0.06))
-    const sunLight = new THREE.DirectionalLight(0xfff4e0, 2.6)
+    const sunLight = new THREE.DirectionalLight(0xfff4e0, 0)
     scene.add(sunLight)
+    // Neutral light that follows the camera, used ONLY when no Sun position is available,
+    // so the Moon stays visible without pretending to show real illumination.
+    const headLight = new THREE.DirectionalLight(0xffffff, 1.3)
+    camera.add(headLight)
+    scene.add(camera)
 
     scene.add(latitudeRing(-80, CHART_COLORS.terrainEdge, 0.7))
     scene.add(latitudeRing(-85, CHART_COLORS.terrainEdge, 0.45))
@@ -110,7 +157,7 @@ export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site
     )
     scene.add(siteMarker)
 
-    sceneRef.current = { renderer, camera, controls, moon, sunLight, sunArrow, earthMarker, earthLine, siteMarker }
+    sceneRef.current = { renderer, camera, controls, moon, sunLight, headLight, sunArrow, earthMarker, earthLine, siteMarker }
 
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = mount
@@ -172,7 +219,11 @@ export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site
         setTextureState('ok')
       },
       undefined,
-      () => live && setTextureState('error'),
+      () => {
+        if (!live) return
+        setTextureState('error')
+        onTextureError?.()
+      },
     )
     return () => {
       live = false
@@ -189,7 +240,13 @@ export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site
       s.sunArrow.position.copy(d.clone().multiplyScalar(1.12))
       s.sunArrow.setDirection(d)
       s.sunArrow.visible = true
-    } else s.sunArrow.visible = false
+      s.sunLight.intensity = 2.6
+      s.headLight.intensity = 0
+    } else {
+      s.sunArrow.visible = false
+      s.sunLight.intensity = 0
+      s.headLight.intensity = 1.3
+    }
     if (earth) {
       const d = moonDir(earth.latitude_deg, earth.longitude_deg)
       s.earthMarker.position.copy(d.clone().multiplyScalar(1.8))
@@ -220,10 +277,16 @@ export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site
     <div className={cn('relative overflow-hidden rounded-md border border-rule-soft bg-[#070c15]', className)}>
       <div ref={mountRef} className="absolute inset-0" aria-label="Interactive 3D Moon. Drag to rotate, scroll to zoom." role="img" />
       <div className="pointer-events-none absolute top-2 left-2 z-10 space-y-1 rounded bg-night/80 px-2 py-1.5 text-xs text-muted">
-        <p className="flex items-center gap-1.5"><i className="h-0.5 w-3 bg-sun" />Sunlight direction</p>
-        <p className="flex items-center gap-1.5"><i className="size-2 rounded-full bg-earth" />Earth direction (not to scale)</p>
+        {sun && <p className="flex items-center gap-1.5"><i className="h-0.5 w-3 bg-sun" />Sunlight direction</p>}
+        {earth && <p className="flex items-center gap-1.5"><i className="size-2 rounded-full bg-earth" />Earth direction (not to scale)</p>}
         {site && <p className="flex items-center gap-1.5"><i className="size-2 rounded-full bg-signal" />{site.label}</p>}
       </div>
+      {!sun && (
+        <div role="status" className="absolute inset-x-2 bottom-2 z-10 rounded-md border border-sun/40 bg-night/90 px-3 py-2 text-xs leading-relaxed text-muted">
+          <span className="font-medium text-sun">No Sun position, so this lighting is neutral, not real.</span>{' '}
+          {positionNote ?? 'Waiting for the calculation…'}
+        </div>
+      )}
       <Button size="sm" variant="secondary" className="absolute top-2 right-2 z-10" onClick={resetView}>
         <RotateCcw /> Reset view
       </Button>
@@ -231,7 +294,7 @@ export default function LunarGlobe({ textureUrl, textureCredit, sun, earth, site
       <p className="text-[11px] leading-snug text-faint">
         {textureState === 'ok' && (textureCredit ?? 'Moon Trek imagery')}
         {textureState === 'loading' && 'Loading imagery from NASA/JPL Moon Trek…'}
-        {textureState === 'error' && 'Imagery unavailable (Moon Trek not reachable). Lighting and directions are still shown.'}
+        {textureState === 'error' && 'Imagery unavailable (see the message below). Showing a plain sphere.'}
         {textureState === 'none' && 'Imagery off.'}
         {' '}Smooth sphere: terrain shadows are not drawn here; see the horizon panorama.
       </p>

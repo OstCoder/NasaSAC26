@@ -89,3 +89,23 @@ def test_imagery_endpoint_reports_unreachable_trek(client):
     st = client.get("/api/jpl/status?force=true").json()
     assert st["horizons"]["reachable"] is False and st["trek"]["reachable"] is False
     assert st["horizons"]["message"]
+
+
+def test_layer_with_no_tiles_is_an_error_not_a_black_image(make, tmp_path):
+    fake = FakeTrek(missing_cols=set(range(4096)))  # every tile 404s, as with a wrong layer path
+    im = make(fake)
+    with pytest.raises(JplUnavailableError, match="may be wrong or retired"):
+        im.global_jpeg("lola_shade", 1)
+    with pytest.raises(JplUnavailableError, match="LROC WAC"):
+        im.south_pole_png("lola_shade", 256, -84)
+    assert not list(tmp_path.rglob("*.jpg")) and not list(tmp_path.rglob("south_pole_*.png"))
+
+
+def test_fixing_a_layer_path_ignores_old_missing_markers(make, tmp_path):
+    im = make(FakeTrek(missing_cols=set(range(4096))))
+    with pytest.raises(JplUnavailableError):
+        im.global_jpeg("lola_shade", 0)
+    im2 = make(FakeTrek())
+    im2.layers["lola_shade"] = dataclasses.replace(im2.layers["lola_shade"], path="Moon/EQ/Corrected_Layer")
+    jpg, _ = im2.global_jpeg("lola_shade", 0)
+    assert np.asarray(Image.open(io.BytesIO(jpg))).mean() > 10

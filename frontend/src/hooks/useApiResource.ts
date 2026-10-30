@@ -9,7 +9,8 @@ export interface Resource<T> {
 
 /**
  * Runs `fetcher` whenever `key` changes (debounced), aborting stale requests.
- * Keeps the previous data while loading so charts don't flash empty.
+ * Keeps the previous data while loading so charts don't flash empty, but clears it
+ * when the request is cancelled (key -> null) or fails.
  */
 export function useApiResource<T>(
   key: string | null,
@@ -21,7 +22,11 @@ export function useApiResource<T>(
   fetchRef.current = fetcher
 
   React.useEffect(() => {
-    if (key === null) return
+    if (key === null) {
+      // No request now: drop old data so nothing from a previous mode/input is shown as current.
+      setState({ data: null, error: null, loading: false })
+      return
+    }
     const ctrl = new AbortController()
     setState((s) => ({ ...s, loading: true }))
     const timer = window.setTimeout(() => {

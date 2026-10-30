@@ -69,12 +69,29 @@ class TrekImagery:
         except KeyError as exc:
             raise InvalidInputError(f"Unknown imagery layer {layer_id!r}; choose one of {sorted(self.layers)}") from exc
 
+    def _layer_dir(self, layer: Layer) -> Path:
+        # Keyed by the Trek path (not the config id) so correcting a path in the config
+        # never reuses stale "no tile" markers from the old one.
+        return self.cache / "tiles" / layer.path.replace("/", "__")
+
+    def _require_coverage(self, layer: Layer, valid: np.ndarray, what: str) -> None:
+        """Refuse to return imagery that is mostly empty instead of serving a black/blank picture."""
+        frac = float(valid.mean()) if valid.size else 0.0
+        if frac < 0.5:
+            others = [k for k in self.layers if k != layer.id]
+            raise JplUnavailableError(
+                f"Moon Trek returned no data for {frac:.0%} coverage of the '{layer.label}' layer ({what}). "
+                f"The layer path '{layer.path}' may be wrong or retired"
+                + (f"; try the '{self.layers[others[0]].label}' layer instead." if others else "."),
+                details={"service": "trek", "layer": layer.id, "coverage": round(frac, 3)},
+            )
+
     def tile_url(self, layer: Layer, z: int, row: int, col: int, ext: str) -> str:
         return f"{self.jpl.trek_tiles_url}/{layer.path}/1.0.0/default/default028mm/{z}/{row}/{col}.{ext}"
 
     def get_tile(self, layer: Layer, z: int, row: int, col: int) -> np.ndarray | None:
         """RGB uint8 array (256x256x3), or None where Trek has no data. Raises JplUnavailableError."""
-        base = self.cache / layer.id / str(z) / str(row)
+        base = self._layer_dir(layer) / str(z) / str(row)
         missing_marker = base / f"{col}.none"
         for ext in layer.extensions:
             p = base / f"{col}.{ext}"
@@ -152,7 +169,7 @@ class TrekImagery:
             raise InvalidInputError("size_px must be between 256 and 4096")
         layer = self.layer(layer_id)
         z = self.choose_zoom(layer, size_px, max_lat)
-        out = self.cache / "rendered" / f"sp_{layer.id}_{size_px}_{abs(max_lat):g}_z{z}.png"
+        out = self._layer_dir(layer) / "rendered" / f"south_pole_{size_px}_{abs(max_lat):g}_z{z}.png"
         meta = {"layer": layer.id, "zoom": z, "max_lat": max_lat, "size_px": size_px,
                 "half_width_km": float(rho_for_lat(max_lat)), "credit": layer.credit}
         if out.exists():
@@ -162,6 +179,7 @@ class TrekImagery:
         first_row = int(math.floor((90 - max_lat) / deg_per_row))  # row containing max_lat
         rows = range(min(first_row, 2 ** z - 1), 2 ** z)
         mosaic, valid = self._mosaic(layer, z, rows)
+        self._require_coverage(layer, valid, "south polar region")
         lat_top = 90 - rows.start * deg_per_row
         px_per_deg = TILE / deg_per_row
 
@@ -187,11 +205,12 @@ class TrekImagery:
         layer = self.layer(layer_id)
         if not 0 <= zoom <= min(3, layer.max_zoom):
             raise InvalidInputError("zoom must be between 0 and 3 for the global texture")
-        out = self.cache / "rendered" / f"global_{layer.id}_z{zoom}.jpg"
+        out = self._layer_dir(layer) / "rendered" / f"global_z{zoom}.jpg"
         meta = {"layer": layer.id, "zoom": zoom, "credit": layer.credit}
         if out.exists():
             return out.read_bytes(), meta
-        mosaic, _ = self._mosaic(layer, zoom, range(0, 2 ** zoom))
+        mosaic, valid = self._mosaic(layer, zoom, range(0, 2 ** zoom))
+        self._require_coverage(layer, valid, "global texture")
         buf = io.BytesIO()
         Image.fromarray(mosaic.clip(0, 255).astype(np.uint8)).save(buf, "JPEG", quality=88)
         out.parent.mkdir(parents=True, exist_ok=True)

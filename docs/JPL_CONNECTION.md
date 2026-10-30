@@ -71,6 +71,10 @@ This caches both imagery layers and the listed Horizons months. Afterwards the a
 | `JPL Horizons answered HTTP 503` | Horizons is busy or in maintenance. Wait a few minutes; cached months keep working. |
 | `disagree with the independent cross-check ... set jpl.horizons_lon_sign to -1` | Change that value in `config/lunanav.config.json`, restart, and delete `data/cache/horizons/` if anything was cached. |
 | Imagery shows "Imagery unavailable" | Run `check_jpl.py`. If only Moon Trek fails, JPL mode calculations still work; pick "Imagery: None". |
+| 3D Moon says "needs WebGL" | Your browser has hardware acceleration off (Chrome: Settings, System, "Use graphics acceleration when available"), or a managed laptop/VM blocks WebGL. The polar map works without it. Test at https://get.webgl.org. |
+| 3D Moon shows a grey sphere with "No Sun position" | The calculation failed (the notice says why, usually Horizons unreachable). Switch to Demo data to see real-geometry lighting from the built-in model. |
+| 3D Moon says "The 3D viewer stopped" / "could not be downloaded" | The dev server restarted after an update. Reload the page. |
+| Imagery error "returned no data … layer path may be wrong" | That Moon Trek layer name has changed. Pick the other layer in the Imagery dropdown, or update its `path` in the config. |
 | A Moon Trek layer always 404s | Trek renamed or retired it. Find the current layer in the Moon Trek portal (trek.nasa.gov/moon) and update `imagery.layers.<id>.path` in the config. |
 
 ## 6. Where the code lives

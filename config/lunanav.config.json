@@ -87,7 +87,7 @@
     "trek_max_parallel_requests": 12
   },
   "imagery": {
-    "default_layer": "lola_shade",
+    "default_layer": "wac",
     "south_pole_size_px": 2048,
     "layers": {
       "lola_shade": {
@@ -110,6 +110,7 @@
         "max_zoom": 8,
         "credit": "Imagery: NASA/GSFC/Arizona State University LROC. Tiles: NASA/JPL Moon Trek."
       }
-    }
+    },
+    "$comment": "'wac' path is confirmed from public Trek examples. 'lola_shade' path is unverified: if it fails, LunaNav reports it instead of showing a blank Moon."
   }
 }

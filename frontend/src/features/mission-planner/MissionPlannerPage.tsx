@@ -1,5 +1,6 @@
 import { CalendarPlus, GitCompare, Globe2, LoaderCircle, Map as MapIcon, X } from 'lucide-react'
 import * as React from 'react'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { ErrorNotice } from '@/components/ErrorNotice'
 import { ProvenanceStrip } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
@@ -109,16 +110,41 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                 }
               />
             ) : (
-              <React.Suspense fallback={<div className="grid aspect-square w-full place-items-center text-sm text-muted">Loading 3D viewer…</div>}>
-                <LunarGlobe
-                  className="aspect-square w-full"
-                  textureUrl={imageryLayer ? api.globalImageryUrl(imageryLayer, 2) : null}
-                  textureCredit={imageryCredit}
-                  sun={snapshot.data?.sun.sub_point ?? null}
-                  earth={snapshot.data?.earth.sub_point ?? null}
-                  site={selectionA ? { lat: selectionA.lat, lon: selectionA.lon, label: selectionA.label } : null}
-                />
-              </React.Suspense>
+              <ErrorBoundary
+                resetKey={imageryLayer + mode}
+                fallback={(err, reset) => (
+                  <div className="grid aspect-square w-full place-items-center rounded-md border border-rule-soft p-6 text-center text-sm">
+                    <div className="max-w-sm space-y-2">
+                      <p className="font-medium text-ink">The 3D viewer stopped</p>
+                      <p className="text-muted">
+                        {/Loading chunk|dynamically imported module|Failed to fetch/i.test(err.message)
+                          ? 'Its code could not be downloaded, usually because the dev server restarted. Reload the page.'
+                          : err.message}
+                      </p>
+                      <Button size="sm" onClick={reset}>Try again</Button>
+                    </div>
+                  </div>
+                )}
+              >
+                <React.Suspense fallback={<div className="grid aspect-square w-full place-items-center text-sm text-muted">Loading 3D viewer…</div>}>
+                  <LunarGlobe
+                    className="aspect-square w-full"
+                    textureUrl={imageryLayer ? api.globalImageryUrl(imageryLayer, 2) : null}
+                    textureCredit={imageryCredit}
+                    sun={snapshot.data?.sun.sub_point ?? null}
+                    earth={snapshot.data?.earth.sub_point ?? null}
+                    positionNote={
+                      scenario.error?.message ?? snapshot.error?.message ??
+                      (scenario.loading || snapshot.loading ? 'Calculating the Sun position…' : null)
+                    }
+                    onTextureError={() => {
+                      const url = api.globalImageryUrl(imageryLayer, 2)
+                      api.imageryError(url).then((e) => setImageryError(e?.message ?? 'Image failed to load.'))
+                    }}
+                    site={selectionA ? { lat: selectionA.lat, lon: selectionA.lon, label: selectionA.label } : null}
+                  />
+                </React.Suspense>
+              </ErrorBoundary>
             )}
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
