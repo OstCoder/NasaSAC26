@@ -3,7 +3,7 @@
  * Datetimes arrive as ISO-8601 UTC strings.
  */
 
-export type Mode = 'demo' | 'scientific'
+export type Mode = 'demo' | 'jpl' | 'scientific'
 
 export type ProvenanceLevel =
   | 'synthetic'
@@ -148,6 +148,12 @@ export interface ScenarioResult {
   provenance: Provenance
 }
 
+export interface SubPoint {
+  latitude_deg: number
+  longitude_deg: number
+  distance_km: number
+}
+
 export interface BodyState {
   azimuth_deg: number
   elevation_deg: number
@@ -159,6 +165,7 @@ export interface BodyState {
   hours_until_transition: number | null
   transition_kind: 'set' | 'rise' | null
   transition_beyond_lookahead: boolean
+  sub_point: SubPoint | null
 }
 
 export interface Snapshot {
@@ -218,6 +225,22 @@ export interface AppConfig {
   providers: Record<Mode, { ephemeris: string; terrain: string }>
   visibility: Record<string, string | number>
   features: Record<string, boolean>
+  imagery: { default_layer: string; layers: Record<string, { label: string; credit: string }> }
+}
+
+export interface ServiceStatus {
+  service: string
+  url: string
+  reachable: boolean
+  message: string
+  latency_ms: number
+}
+
+export interface JplStatus {
+  checked_utc: string
+  horizons: ServiceStatus
+  trek: ServiceStatus
+  horizons_cache: { directory: string; months: string[] } | null
 }
 
 export interface ApiErrorBody {

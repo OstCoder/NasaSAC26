@@ -1,4 +1,5 @@
 import { BookOpen, GitCompare, Map } from 'lucide-react'
+import { JplStatusPill } from '@/components/JplStatus'
 import { useApp } from '@/hooks/useAppContext'
 import { cn } from '@/lib/utils'
 import type { Mode } from '@/types/api'
@@ -10,6 +11,13 @@ const NAV: { id: View; label: string; icon: typeof Map; flag: string }[] = [
   { id: 'compare', label: 'Compare scenarios', icon: GitCompare, flag: 'scenario_comparison' },
   { id: 'methodology', label: 'Data & methodology', icon: BookOpen, flag: 'methodology_page' },
 ]
+
+const MODE_LABEL: Record<Mode, string> = { demo: 'Demo data', jpl: 'JPL live', scientific: 'Scientific' }
+const MODE_HINT: Record<Mode, string> = {
+  demo: 'Approximate built-in ephemeris with synthetic terrain. Works offline.',
+  jpl: 'Live Sun and Earth positions from JPL Horizons. Terrain only where LOLA masks exist.',
+  scientific: 'JPL Horizons plus LOLA terrain masks. Refuses to compute if either is missing.',
+}
 
 function LunaMark() {
   // Crescent with a horizon line: the product is about what sits above a horizon.
@@ -50,6 +58,7 @@ export function TopNav({ view, onView }: { view: View; onView: (v: View) => void
             </button>
           ))}
         </nav>
+        <JplStatusPill />
         <div role="radiogroup" aria-label="Data mode" className="flex items-center gap-1 rounded-md border border-rule-soft p-0.5">
           {config.mode.allowed.map((m: Mode) => (
             <button
@@ -60,13 +69,12 @@ export function TopNav({ view, onView }: { view: View; onView: (v: View) => void
               className={cn(
                 'h-7 rounded px-2.5 text-[13px] font-medium capitalize transition-colors',
                 mode === m
-                  ? m === 'demo'
-                    ? 'bg-sun/15 text-sun'
-                    : 'bg-both/15 text-both'
+                  ? { demo: 'bg-sun/15 text-sun', jpl: 'bg-signal/20 text-signal', scientific: 'bg-both/15 text-both' }[m]
                   : 'text-muted hover:text-ink',
               )}
+              title={MODE_HINT[m]}
             >
-              {m === 'demo' ? 'Demo data' : 'Scientific'}
+              {MODE_LABEL[m]}
             </button>
           ))}
         </div>

@@ -1,4 +1,4 @@
-import { AlertTriangle, CalendarX, DatabaseZap, PlugZap } from 'lucide-react'
+import { AlertTriangle, CalendarX, DatabaseZap, PlugZap, SatelliteDish } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { fmtUtc } from '@/lib/format'
 import type { ApiError } from '@/services/api'
@@ -34,6 +34,18 @@ export function ErrorNotice({ error, onUseDemo }: { error: ApiError; onUseDemo?:
             Switch to demo mode
           </Button>
         )}
+      </div>
+    )
+  } else if (error.code === 'JPL_UNAVAILABLE') {
+    Icon = SatelliteDish
+    title = 'NASA/JPL data could not be used'
+    action = (
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="text-muted">
+          The LunaNav server needs internet access to JPL. Run <code className="text-ink">python scripts/check_jpl.py</code> in
+          the backend folder for a diagnosis, or switch to demo mode.
+        </p>
+        {onUseDemo && <Button size="sm" onClick={onUseDemo}>Switch to demo mode</Button>}
       </div>
     )
   } else if (error.code === 'BACKEND_UNREACHABLE') {

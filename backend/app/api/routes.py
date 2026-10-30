@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from typing import Optional
 
-from fastapi import APIRouter, Query
+import json
+
+from fastapi import APIRouter, Query, Response
 
 from app.core.settings import get_settings
 from app.models.schemas import (
@@ -24,6 +26,8 @@ from app.models.schemas import (
 )
 from app.providers.registry import get_bundle
 from app.services.comparison import ScenarioComparisonService, ScenarioService
+from app.services.imagery import get_imagery
+from app.services.jpl_status import jpl_status
 from app.services.sites import get_site_repository
 
 router = APIRouter(prefix="/api")
@@ -93,3 +97,43 @@ def reschedule(req: RescheduleRequest):
         req.location, req.original_landing_utc, req.proposed_landing_utc,
         req.duration_hours, req.step_minutes, req.mode,
     )
+
+
+# ------------------------------------------------------------ NASA/JPL ----
+
+
+@router.get("/jpl/status")
+def jpl_status_route(force: bool = False):
+    """Reachability of JPL Horizons and Moon Trek from this server (cached 30 s)."""
+    return jpl_status(force)
+
+
+@router.get("/imagery/layers")
+def imagery_layers():
+    im = get_imagery()
+    return [{"id": l.id, "label": l.label, "credit": l.credit, "source": f"{im.jpl.trek_tiles_url}/{l.path}"}
+            for l in im.layers.values()]
+
+
+def _image_response(data: bytes, meta: dict, media_type: str) -> Response:
+    return Response(content=data, media_type=media_type, headers={
+        "Cache-Control": "public, max-age=86400",
+        "X-LunaNav-Imagery": json.dumps(meta),
+        "Access-Control-Expose-Headers": "X-LunaNav-Imagery",
+    })
+
+
+@router.get("/imagery/south-pole")
+def imagery_south_pole(layer: Optional[str] = None, size: int = 2048, max_lat: float = -80.0):
+    """Moon Trek imagery reprojected to LunaNav's south polar stereographic map grid (PNG)."""
+    im = get_imagery()
+    data, meta = im.south_pole_png(layer or im.settings.imagery["default_layer"], size, max_lat)
+    return _image_response(data, meta, "image/png")
+
+
+@router.get("/imagery/global")
+def imagery_global(layer: Optional[str] = None, zoom: int = 2):
+    """Equirectangular global texture stitched from Moon Trek tiles (JPEG), for the 3D globe."""
+    im = get_imagery()
+    data, meta = im.global_jpeg(layer or "wac", zoom)
+    return _image_response(data, meta, "image/jpeg")

@@ -117,3 +117,10 @@
 .leaflet-tooltip.crater-label::before {
   display: none;
 }
+.leaflet-tooltip.crater-label-on-image {
+  color: #dde5f0;
+  text-shadow: 0 0 3px #000, 0 0 2px #000;
+}
+.leaflet-image-layer {
+  image-rendering: auto;
+}

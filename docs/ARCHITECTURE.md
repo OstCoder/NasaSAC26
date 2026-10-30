@@ -54,7 +54,8 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `models/schemas.py` | All request/response contracts. |
 | `providers/base.py` | `EphemerisProvider`, `LunarTerrainProvider`, `HorizonMask`, `SubPointTable`. |
 | `providers/ephemeris_analytic.py` | Meeus analytic Sun/Moon + optical libration. |
-| `providers/ephemeris_tabulated.py` | JPL Horizons tables (Scientific Mode). |
+| `providers/ephemeris_tabulated.py` | Static Horizons tables + shared interpolation. |
+| `providers/ephemeris_horizons_live.py` | Live Horizons: monthly fetch, disk cache, cross-check against the analytic model. |
 | `providers/ephemeris_spice.py` | NAIF SPICE (integration point, unvalidated). |
 | `providers/horizons_format.py` | Horizons query builder and CSV parser. |
 | `providers/terrain.py` | Synthetic, LOLA-mask and flat horizon providers. |
@@ -64,6 +65,9 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `services/metrics.py` | Metric registry. |
 | `services/visibility.py` | `VisibilityCalculator`: scenario series, snapshot, event refinement. |
 | `services/comparison.py` | `ScenarioService`, `ScenarioComparisonService`. |
+| `services/imagery.py` | Moon Trek tile cache, reprojection to the polar map grid, global texture. |
+| `services/jpl_status.py` | Live reachability of Horizons and Moon Trek. |
+| `core/http.py` | Single outbound HTTP function (mocked in tests). |
 
 ## Frontend modules
 
@@ -78,6 +82,7 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `features/mission-planner` | `ScenarioEditor` (shared) and the planner page. |
 | `features/comparison` | `DeltaTable`, `PairedBands`, `TradeoffNotes`, page. |
 | `features/rescheduler` | Rescheduling workflow, reusing comparison components. |
+| `features/lunar-globe` | three.js 3D Moon (lazy-loaded), lit from the snapshot's sub-solar point. |
 | `features/methodology` | Provider/effects/conventions page driven by `/api/providers`. |
 | `config/features.ts` | Server flags + local overrides (`?ff=flag:on`). |
 
@@ -103,4 +108,5 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `INVALID_INPUT` | 422 | Bad coordinates, naive timestamp, duration out of bounds, schema violation |
 | `OUT_OF_SUPPORTED_RANGE` | 422 | Window outside config range or provider range; `details` holds the supported range |
 | `UNKNOWN_SITE` | 404 | `site_id` not in catalogue |
+| `JPL_UNAVAILABLE` | 503 | Horizons/Moon Trek unreachable, errored, or failed the cross-check |
 | `SCIENTIFIC_DATA_UNAVAILABLE` | 503 | Required provider/dataset missing; `message` names the missing file |

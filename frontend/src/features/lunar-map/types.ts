@@ -20,5 +20,8 @@ export interface LunarMapProps {
   onSelectSite: (site: Site, slot: Slot) => void
   /** Present only when custom coordinates are enabled. */
   onPickCoordinates?: (lat: number, lon: number, slot: Slot) => void
+  /** South-polar-stereographic image covering 80°S to the pole (see /api/imagery/south-pole). */
+  imagery?: { url: string; credit: string } | null
+  onImageryError?: (url: string) => void
   className?: string
 }

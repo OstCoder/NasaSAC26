@@ -16,6 +16,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 
 class Mode(str, Enum):
     demo = "demo"
+    jpl = "jpl"  # live JPL Horizons geometry; LOLA terrain where available, else flat (labelled)
     scientific = "scientific"
 
 
@@ -208,6 +209,14 @@ class SnapshotRequest(BaseModel):
     lookahead_hours: Optional[float] = Field(None, gt=0)
 
 
+class SubPoint(BaseModel):
+    """Point on the Moon where the body is at the zenith, plus Moon-centre distance."""
+
+    latitude_deg: float
+    longitude_deg: float
+    distance_km: float
+
+
 class BodyState(BaseModel):
     azimuth_deg: float
     elevation_deg: float
@@ -219,6 +228,7 @@ class BodyState(BaseModel):
     hours_until_transition: Optional[float] = None
     transition_kind: Optional[Literal["set", "rise"]] = None
     transition_beyond_lookahead: bool = False
+    sub_point: Optional[SubPoint] = None
 
 
 class Snapshot(BaseModel):

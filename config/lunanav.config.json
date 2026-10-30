@@ -6,7 +6,11 @@
   },
   "mode": {
     "default": "demo",
-    "allowed": ["demo", "scientific"]
+    "allowed": [
+      "demo",
+      "jpl",
+      "scientific"
+    ]
   },
   "simulation": {
     "supported_start_utc": "2026-01-01T00:00:00Z",
@@ -33,8 +37,12 @@
       "ephemeris": "analytic_meeus",
       "terrain": "synthetic_horizon"
     },
+    "jpl": {
+      "ephemeris": "horizons_live",
+      "terrain": "lola_or_flat"
+    },
     "scientific": {
-      "ephemeris": "horizons_table",
+      "ephemeris": "horizons_live",
       "terrain": "lola_horizon_mask"
     }
   },
@@ -42,7 +50,8 @@
     "sites": "data/demo/sites.json",
     "demo_horizon_masks": "data/demo/horizon_masks.json",
     "scientific_ephemeris_dir": "data/scientific/ephemeris",
-    "scientific_horizon_dir": "data/scientific/horizon_masks"
+    "scientific_horizon_dir": "data/scientific/horizon_masks",
+    "cache_dir": "data/cache"
   },
   "visibility": {
     "sun_angular_radius_deg": 0.2666,
@@ -62,6 +71,45 @@
     "experimental_comm_link_budget": false,
     "experimental_site_ranking": false,
     "experimental_ai_explanations": false,
-    "experimental_report_export": false
+    "experimental_report_export": false,
+    "lunar_imagery": true,
+    "lunar_globe_3d": true
+  },
+  "jpl": {
+    "$comment": "Live NASA/JPL services. No API key required. Override URLs with LUNANAV_HORIZONS_URL / LUNANAV_TREK_URL (e.g. for a proxy).",
+    "horizons_api_url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+    "horizons_step": "30 m",
+    "horizons_timeout_s": 90,
+    "horizons_lon_sign": 1,
+    "horizons_crosscheck_tolerance_deg": 0.5,
+    "trek_tiles_url": "https://trek.nasa.gov/tiles",
+    "trek_timeout_s": 20,
+    "trek_max_parallel_requests": 12
+  },
+  "imagery": {
+    "default_layer": "lola_shade",
+    "south_pole_size_px": 2048,
+    "layers": {
+      "lola_shade": {
+        "label": "LOLA colour shaded relief",
+        "path": "Moon/EQ/LRO_LOLA_ClrShade_Global_128ppd_v04",
+        "extensions": [
+          "png",
+          "jpg"
+        ],
+        "max_zoom": 6,
+        "credit": "Elevation: NASA/GSFC LRO LOLA team. Tiles: NASA/JPL Moon Trek."
+      },
+      "wac": {
+        "label": "LROC WAC mosaic",
+        "path": "Moon/EQ/LRO_WAC_Mosaic_Global_303ppd_v02",
+        "extensions": [
+          "jpg",
+          "png"
+        ],
+        "max_zoom": 8,
+        "credit": "Imagery: NASA/GSFC/Arizona State University LROC. Tiles: NASA/JPL Moon Trek."
+      }
+    }
   }
 }

@@ -160,7 +160,8 @@ class TestModes:
         demo = client.get("/api/providers?mode=demo").json()
         sci = client.get("/api/providers?mode=scientific").json()
         assert all(p["available"] for p in demo)
-        assert not sci[0]["available"] and sci[0]["unavailable_reason"]
+        assert sci[0]["id"] == "horizons_live"
+        assert not sci[1]["available"] and "LOLA" in sci[1]["unavailable_reason"]
 
     def test_scientific_mode_with_data(self, tmp_path, settings, write_json):
         """With (fixture) Horizons tables + LOLA-format masks, scientific mode computes and labels results."""

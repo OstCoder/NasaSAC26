@@ -151,3 +151,36 @@ class FlatHorizonProvider(LunarTerrainProvider):
 
     def horizon_mask(self, lat_deg, lon_deg, site_id=None):
         return flat_mask("Flat geometric horizon (no terrain)", ProvenanceLevel.geometric_only)
+
+
+class LolaOrFlatHorizonProvider(LolaHorizonMaskProvider):
+    """JPL mode terrain: a LOLA mask when one exists, otherwise the flat geometric horizon.
+
+    The fallback is never hidden: a flat mask carries ``geometric_only``
+    provenance, so the result is labelled "terrain obstruction not applied".
+    """
+
+    id = "lola_or_flat"
+
+    def info(self):
+        n = len(self._entries)
+        return make_info(
+            id=self.id,
+            kind="terrain",
+            name="LOLA horizon masks where available, otherwise flat horizon",
+            provenance=ProvenanceLevel.scientific_sourced if n else ProvenanceLevel.geometric_only,
+            source="LRO LOLA-derived masks (data/scientific/horizon_masks) or none",
+            description=(
+                f"{n} LOLA mask(s) loaded. Locations without a mask use the flat geometric horizon "
+                "and are labelled 'geometric only', which overestimates visibility near the poles."
+            ),
+            effects=EffectsIncluded(terrain_topography=n > 0, lunar_curvature_in_horizon=n > 0),
+            available=True,
+        )
+
+    def horizon_mask(self, lat_deg, lon_deg, site_id=None):
+        try:
+            return super().horizon_mask(lat_deg, lon_deg, site_id)
+        except DataUnavailableError:
+            return flat_mask("No LOLA horizon mask for this location: flat geometric horizon used",
+                             ProvenanceLevel.geometric_only)

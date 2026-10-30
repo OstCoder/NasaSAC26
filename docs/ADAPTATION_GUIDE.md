@@ -26,7 +26,7 @@ If the window extends past 2030, also reconsider the fixed UTC→TT offset in `c
 
 | Format | Steps |
 | --- | --- |
-| Horizons access (default plan) | `python scripts/fetch_horizons.py --start ... --stop ... --step "30 m"` → `python scripts/validate_ephemeris.py`. Scientific Mode ephemeris turns on automatically. |
+| Horizons access (default plan) | Already live: JPL and Scientific modes fetch from Horizons on demand (see docs/JPL_CONNECTION.md). For a frozen offline table instead, `python scripts/fetch_horizons.py ...` and set `providers.scientific.ephemeris` to `"horizons_table"`. |
 | SPICE kernels | Put kernels in `data/scientific/spice/`, `pip install spiceypy`, adjust `KERNELS` in `providers/ephemeris_spice.py`, set `providers.scientific.ephemeris` to `"spice"` in config. Validate with `validate_ephemeris.py` (swap the provider). |
 | Pre-computed Sun/Earth az/el per site | Write a provider that returns sub-points, or (simpler) a terrain-independent `SiteSkyProvider` and bypass `topocentric_az_el` in `VisibilityCalculator._geometry`. Keep the same `ScenarioResult` output. |
 | Their own CSV/JSON of sub-points | Convert to the `{times_utc, sub_lat_deg, sub_lon_deg, distance_km}` format in `providers/ephemeris_tabulated.py` and drop into `data/scientific/ephemeris/`. |
@@ -38,7 +38,8 @@ If the window extends past 2030, also reconsider the fixed UTC→TT offset in `c
 | LOLA DEM GeoTIFF (polar stereographic) | `pip install rasterio`; `python scripts/build_horizon_mask.py --dem <file> --site-id <id> --lat .. --lon ..` for each site. Check the CRS printout and height units (`--scale 1000` if km). |
 | Pre-computed horizon masks | Write JSON `{site_id, latitude_deg, longitude_deg, source, azimuth_deg[], elevation_deg[]}` into `data/scientific/horizon_masks/`. Azimuth 0–<360 clockwise from north, elevation in degrees. |
 | Illumination/visibility rasters (% time lit, etc.) | New `LunarTerrainProvider` method or a separate provider; expose as a new metric category or map layer. These are summaries; they don't replace time-resolved masks. |
-| Imagery / hillshade tiles | Tile them on the same south-polar-stereographic km grid (origin at the pole, y up, 0° at top) and set `VITE_LUNAR_TILE_URL` (+ `VITE_LUNAR_TILE_ATTRIBUTION`). For other projections, use Proj4Leaflet and update `features/lunar-map/projection.ts`. |
+| New Moon Trek layer | Add an entry under `imagery.layers` in the config (Trek path, extensions, max zoom, credit). It appears in the map's Imagery picker and the 3D globe. |
+| Imagery / hillshade tiles from elsewhere | Tile them on the same south-polar-stereographic km grid (origin at the pole, y up, 0° at top) and set `VITE_LUNAR_TILE_URL` (+ `VITE_LUNAR_TILE_ATTRIBUTION`). For other projections, use Proj4Leaflet and update `features/lunar-map/projection.ts`. |
 
 Scientific Mode terrain turns on when at least one mask exists. Custom coordinates without a mask stay unavailable in Scientific Mode by design (within 0.25 km match tolerance, `MATCH_TOLERANCE_KM`).
 

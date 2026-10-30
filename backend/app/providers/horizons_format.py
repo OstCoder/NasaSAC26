@@ -23,7 +23,7 @@ AU_KM = 149_597_870.7
 API_URL = "https://ssd.jpl.nasa.gov/api/horizons.api"
 
 
-def build_query(start: str, stop: str, step: str = "30 m") -> str:
+def build_query(start: str, stop: str, step: str = "30 m", api_url: str = API_URL) -> str:
     params = {
         "format": "text",
         "COMMAND": "'301'",
@@ -39,7 +39,7 @@ def build_query(start: str, stop: str, step: str = "30 m") -> str:
         "ANG_FORMAT": "'DEG'",
         "TIME_DIGITS": "'MINUTES'",
     }
-    return f"{API_URL}?{urlencode(params)}"
+    return f"{api_url}?{urlencode(params)}"
 
 
 _MONTHS = {m: i for i, m in enumerate(
@@ -57,6 +57,10 @@ def _parse_time(s: str) -> datetime:
 def parse_observer_csv(text: str, lon_sign: int = 1) -> dict[str, dict]:
     """Return {'sun': table, 'earth': table} in LunaNav's tabulated-ephemeris format."""
     lines = text.splitlines()
+    if "$$SOE" not in text:
+        # Horizons reports problems as plain text (e.g. "API ERROR", "No ephemeris for target").
+        snippet = " ".join(l.strip() for l in lines if l.strip())[:300]
+        raise ValueError(f"Horizons returned no ephemeris table: {snippet or 'empty response'}")
     try:
         soe = next(i for i, l in enumerate(lines) if l.strip() == "$$SOE")
         eoe = next(i for i, l in enumerate(lines) if l.strip() == "$$EOE")
@@ -72,11 +76,21 @@ def parse_observer_csv(text: str, lon_sign: int = 1) -> dict[str, dict]:
         raise ValueError(f"Column with {needles} not found in header: {header}")
 
     i_obs_lon, i_obs_lat = find("obs", "lon"), find("obs", "lat")
-    i_sun_lon, i_sun_lat = find("sun", "lon"), find("sun", "lat")
+    # Column names differ between Horizons versions: "SunSub-LON" (new) vs "Solar-lon" (old).
+    try:
+        i_sun_lon, i_sun_lat = find("sun", "lon"), find("sun", "lat")
+    except ValueError:
+        i_sun_lon, i_sun_lat = find("sol", "lon"), find("sol", "lat")
     i_r = next(i for i, c in enumerate(cols) if c == "r")
     i_delta = next(i for i, c in enumerate(cols) if c == "delta")
 
     rows = [l.split(",") for l in lines[soe + 1:eoe] if l.strip()]
+    if not rows:
+        raise ValueError("Horizons table is empty")
+    for r in rows:
+        for i in (i_obs_lon, i_obs_lat, i_sun_lon, i_sun_lat, i_r, i_delta):
+            if r[i].strip().lower() in ("n.a.", "", "nan"):
+                raise ValueError(f"Horizons returned 'n.a.' values at {r[0].strip()}")
     times = [_parse_time(r[0]).strftime("%Y-%m-%dT%H:%M:%SZ") for r in rows]
 
     def lon(v):

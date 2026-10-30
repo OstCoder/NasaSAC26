@@ -49,8 +49,11 @@ function ProviderRow({ p }: { p: ProviderInfo }) {
 export function MethodologyPage() {
   const { config } = useApp()
   const demo = useApiResource<ProviderInfo[]>('demo', () => api.providers('demo'), 0)
+  const jpl = useApiResource<ProviderInfo[]>('jpl', () => api.providers('jpl'), 0)
   const sci = useApiResource<ProviderInfo[]>('scientific', () => api.providers('scientific'), 0)
-  const all = [...(demo.data ?? []), ...(sci.data ?? [])]
+  const all = [...(demo.data ?? []), ...(jpl.data ?? []), ...(sci.data ?? [])].filter(
+    (p, i, arr) => arr.findIndex((q) => q.id === p.id) === i,
+  )
 
   return (
     <div className="mx-auto max-w-[1100px] space-y-4">
@@ -70,10 +73,14 @@ export function MethodologyPage() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-3">
         <Card>
           <CardHeader title="Demo mode" description="For exploring the interface and method. Skylines are invented." />
           <CardContent>{demo.data?.map((p) => <ProviderRow key={p.id} p={p} />)}</CardContent>
+        </Card>
+        <Card>
+          <CardHeader title="JPL live mode" description="Live JPL Horizons geometry. Terrain applied only where LOLA masks exist; otherwise results are labelled geometric only." />
+          <CardContent>{jpl.data?.map((p) => <ProviderRow key={p.id} p={p} />)}</CardContent>
         </Card>
         <Card>
           <CardHeader title="Scientific mode" description="Uses only sourced data. If a dataset is missing, results are withheld, never substituted." />

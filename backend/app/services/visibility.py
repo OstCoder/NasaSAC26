@@ -18,6 +18,7 @@ from app.models.schemas import (
     ResolvedLocation,
     ScenarioResult,
     Snapshot,
+    SubPoint,
     TimeSeries,
 )
 from app.providers.base import HorizonMask
@@ -189,6 +190,7 @@ class VisibilityCalculator:
                 nxt = t_cross
                 hours = round((t_cross - when).total_seconds() / 3600.0, 3)
                 kind = "set" if now_vis else "rise"
+            sp = self.bundle.ephemeris.sub_points(body, [when])
             states[body] = BodyState(
                 azimuth_deg=round(float(geo[body][0][0]), 4),
                 elevation_deg=round(float(geo[body][1][0]), 4),
@@ -200,6 +202,9 @@ class VisibilityCalculator:
                 hours_until_transition=hours,
                 transition_kind=kind,
                 transition_beyond_lookahead=nxt is None,
+                sub_point=SubPoint(latitude_deg=round(float(sp.sub_lat_deg[0]), 5),
+                                   longitude_deg=round(float(sp.sub_lon_deg[0]), 5),
+                                   distance_km=round(float(sp.distance_km[0]), 1)),
             )
         return Snapshot(
             location=loc, time_utc=when, sun=states["sun"], earth=states["earth"],

@@ -4,7 +4,13 @@ A lunar landing-site visibility explorer, built as a foundation for the NASA Spa
 
 Pick a site near the lunar south pole (or click anywhere on the polar map), choose a landing date and mission length, and LunaNav shows when the Sun and Earth are above the **terrain** horizon, not just above a flat one. You can compare two site/date scenarios side by side, or see what changes if a landing slips.
 
-Every result carries a provenance label. Out of the box the app runs in **Demo Mode**: real (approximate) celestial geometry over **synthetic** terrain skylines. Scientific Mode refuses to compute until real Horizons and LOLA-derived data are loaded.
+Every result carries a provenance label. Three modes:
+
+- **Demo data**: built-in approximate ephemeris over **synthetic** terrain skylines. Works offline.
+- **JPL live**: Sun/Earth positions fetched live from **NASA JPL Horizons**, plus LRO imagery from **NASA/JPL Moon Trek** on the polar map and a **3D Moon** lit by the real Sun direction. Terrain is applied only where LOLA masks exist; otherwise results say "geometric only".
+- **Scientific**: JPL Horizons + LOLA terrain masks, and refuses to compute if either is missing.
+
+To connect to JPL, see [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md). In short: `python scripts/check_jpl.py`, then pick **JPL live**.
 
 ## Quick start
 
@@ -28,8 +34,9 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 57 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
-                              # intervals, API contract, comparison, rescheduler, mode switching
+cd backend && pytest          # 72 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+                              # intervals, API contract, comparison, rescheduler, mode switching,
+                              # JPL Horizons live provider and Moon Trek imagery (mocked network)
 cd frontend && npm test       # projection round-trips
 cd frontend && npm run build  # strict TypeScript + production bundle
 ```
@@ -41,6 +48,7 @@ cd frontend && npm run build  # strict TypeScript + production bundle
 | **Mission planner** | Polar map with 5 example sites and click-to-pick custom coordinates; landing time (UTC) and duration; saved candidate dates; Sun/Earth elevation, azimuth, terrain skyline, clearance, time to sunset/Earthset; 360° horizon panorama; scrubbable visibility timeline; mission summary metrics. |
 | **Compare scenarios** | Two site/date/duration scenarios side by side with every metric, change highlighting, aligned visibility bands, and data-derived trade-off statements. |
 | **Reschedule a mission** | Same site and duration, original vs proposed date: changes in sunlight, Earth visibility, simultaneous visibility and longest blackouts. |
+| **Lunar viewer** | Moon Trek imagery (LOLA shaded relief or LROC WAC) reprojected onto the polar map; 3D Moon lit from the Sun direction at the inspected time, with Earth direction and the selected site. |
 | **Data & methodology** | Calculation pipeline, providers per mode and their availability, which physical effects each includes, conventions, and what results do not mean. |
 
 ## Data honesty, in short
@@ -88,18 +96,19 @@ lunanav/
 | --- | --- |
 | Analytic ephemeris, topocentric geometry, horizon obstruction, interval detection, metrics, comparison, rescheduler | Working, tested |
 | Demo terrain skylines | Working, **synthetic by design** |
-| Horizons table provider + parser + fetch script | Working against fixtures; not run against live Horizons in this repo (no network in the build environment) |
+| JPL Horizons live provider (monthly cache, cross-check, status endpoint) | Working against a format-faithful mock; **not yet run against live Horizons** (build environment had no access to JPL). Run `scripts/check_jpl.py`. |
+| Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. Global WAC endpoint confirmed from public docs; **LOLA shaded-relief layer path unverified**, so check with `check_jpl.py`. |
 | LOLA horizon-mask builder (DEM ray-march with curvature) | Algorithm working and tested on synthetic DEMs; GeoTIFF script needs `rasterio` and a real LOLA product |
 | SPICE provider | Implemented, **not validated**: needs `spiceypy` + kernels |
-| Imagery basemap | Not bundled. Map shows graticule and approximate crater outlines; a tile layer in the same projection can be enabled via `VITE_LUNAR_TILE_URL` |
 | 3D terrain, power model, link budget, rankings, AI explanations, report export | Extension points and feature flags only |
 
 ## API
 
-`GET /api/config`, `GET /api/sites`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/sites`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): layers, data flow, extension points
 - [docs/METHODOLOGY.md](docs/METHODOLOGY.md): the math, conventions, accuracy, what is and isn't modelled
 - [docs/ADAPTATION_GUIDE.md](docs/ADAPTATION_GUIDE.md): how to respond when NASA releases more information
+- [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md): connecting to JPL Horizons and Moon Trek, troubleshooting

@@ -48,6 +48,18 @@ class SimulationSettings:
 
 
 @dataclass(frozen=True)
+class JplSettings:
+    horizons_api_url: str
+    horizons_step: str
+    horizons_timeout_s: float
+    horizons_lon_sign: int
+    horizons_crosscheck_tolerance_deg: float
+    trek_tiles_url: str
+    trek_timeout_s: float
+    trek_max_parallel_requests: int
+
+
+@dataclass(frozen=True)
 class Settings:
     raw: dict[str, Any]
     default_mode: str
@@ -59,6 +71,8 @@ class Settings:
     sun_angular_radius_deg: float
     earth_angular_radius_deg: float
     features: dict[str, bool]
+    jpl: JplSettings
+    imagery: dict[str, Any]
 
     def public_dict(self) -> dict[str, Any]:
         """Subset of the config that is safe and useful for the frontend."""
@@ -71,6 +85,11 @@ class Settings:
             "providers": self.providers,
             "visibility": raw["visibility"],
             "features": self.features,
+            "imagery": {
+                "default_layer": self.imagery["default_layer"],
+                "layers": {k: {"label": v["label"], "credit": v["credit"]}
+                           for k, v in self.imagery["layers"].items()},
+            },
         }
 
 
@@ -83,6 +102,7 @@ def load_settings(path: Path | None = None) -> Settings:
     cfg_path = Path(os.environ.get("LUNANAV_CONFIG", path or DEFAULT_CONFIG_PATH))
     raw = json.loads(cfg_path.read_text())
     sim = raw["simulation"]
+    jpl = raw["jpl"]
     allowed = tuple(raw["mode"]["allowed"])
     default_mode = os.environ.get("LUNANAV_MODE", raw["mode"]["default"])
     if default_mode not in allowed:
@@ -105,10 +125,24 @@ def load_settings(path: Path | None = None) -> Settings:
         ),
         reference_radius_km=float(raw["coordinates"]["reference_radius_km"]),
         providers=raw["providers"],
-        datasets={k: _resolve(v) for k, v in raw["datasets"].items()},
+        datasets={
+            **{k: _resolve(v) for k, v in raw["datasets"].items()},
+            **({"cache_dir": Path(os.environ["LUNANAV_CACHE_DIR"])} if os.environ.get("LUNANAV_CACHE_DIR") else {}),
+        },
         sun_angular_radius_deg=float(raw["visibility"]["sun_angular_radius_deg"]),
         earth_angular_radius_deg=float(raw["visibility"]["earth_angular_radius_deg"]),
-        features={k: bool(v) for k, v in raw["features"].items()},
+        features={k: bool(v) for k, v in raw["features"].items() if not k.startswith("$")},
+        jpl=JplSettings(
+            horizons_api_url=os.environ.get("LUNANAV_HORIZONS_URL", jpl["horizons_api_url"]),
+            horizons_step=jpl["horizons_step"],
+            horizons_timeout_s=float(jpl["horizons_timeout_s"]),
+            horizons_lon_sign=int(jpl["horizons_lon_sign"]),
+            horizons_crosscheck_tolerance_deg=float(jpl["horizons_crosscheck_tolerance_deg"]),
+            trek_tiles_url=os.environ.get("LUNANAV_TREK_URL", jpl["trek_tiles_url"]).rstrip("/"),
+            trek_timeout_s=float(jpl["trek_timeout_s"]),
+            trek_max_parallel_requests=int(jpl["trek_max_parallel_requests"]),
+        ),
+        imagery=raw["imagery"],
     )
 
 

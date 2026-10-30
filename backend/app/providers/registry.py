@@ -15,9 +15,15 @@ from app.models.schemas import Mode
 
 from .base import EphemerisProvider, LunarTerrainProvider
 from .ephemeris_analytic import AnalyticMeeusEphemeris
+from .ephemeris_horizons_live import HorizonsLiveEphemeris
 from .ephemeris_spice import SpiceEphemeris
 from .ephemeris_tabulated import HorizonsTableEphemeris
-from .terrain import FlatHorizonProvider, LolaHorizonMaskProvider, SyntheticHorizonProvider
+from .terrain import (
+    FlatHorizonProvider,
+    LolaHorizonMaskProvider,
+    LolaOrFlatHorizonProvider,
+    SyntheticHorizonProvider,
+)
 
 EphemerisFactory = Callable[[Settings], EphemerisProvider]
 TerrainFactory = Callable[[Settings], LunarTerrainProvider]
@@ -27,6 +33,9 @@ EPHEMERIS_FACTORIES: dict[str, EphemerisFactory] = {
         s.simulation.supported_start, s.simulation.supported_end
     ),
     "horizons_table": lambda s: HorizonsTableEphemeris(s.datasets["scientific_ephemeris_dir"]),
+    "horizons_live": lambda s: HorizonsLiveEphemeris(
+        s.jpl, s.datasets["cache_dir"], s.simulation.supported_start, s.simulation.supported_end
+    ),
     "spice": lambda s: SpiceEphemeris(
         s.datasets["scientific_ephemeris_dir"].parent / "spice",
         s.simulation.supported_start,
@@ -37,6 +46,7 @@ EPHEMERIS_FACTORIES: dict[str, EphemerisFactory] = {
 TERRAIN_FACTORIES: dict[str, TerrainFactory] = {
     "synthetic_horizon": lambda s: SyntheticHorizonProvider(s.datasets["demo_horizon_masks"]),
     "lola_horizon_mask": lambda s: LolaHorizonMaskProvider(s.datasets["scientific_horizon_dir"]),
+    "lola_or_flat": lambda s: LolaOrFlatHorizonProvider(s.datasets["scientific_horizon_dir"]),
     "flat": lambda s: FlatHorizonProvider(),
 }
 

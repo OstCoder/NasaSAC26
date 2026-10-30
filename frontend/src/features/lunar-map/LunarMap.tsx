@@ -3,6 +3,7 @@ import * as React from 'react'
 import {
   Circle,
   CircleMarker,
+  ImageOverlay,
   MapContainer,
   Marker,
   Polyline,
@@ -71,8 +72,15 @@ function CursorReadout({ onMove }: { onMove: (v: { lat: number; lon: number } | 
  * Vector reference layers only by default; an imagery tile layer in the same
  * grid can be enabled with VITE_LUNAR_TILE_URL.
  */
-export function LunarMap({ sites, selections, activeSlot, onSelectSite, onPickCoordinates, className }: LunarMapProps) {
+const IMAGERY_BOUNDS = L.latLngBounds([-OUTER, -OUTER], [OUTER, OUTER])
+
+export function LunarMap({
+  sites, selections, activeSlot, onSelectSite, onPickCoordinates, className, imagery, onImageryError,
+}: LunarMapProps) {
   const [cursor, setCursor] = React.useState<{ lat: number; lon: number } | null>(null)
+  const [imgState, setImgState] = React.useState<'idle' | 'loading' | 'ok' | 'error'>('idle')
+  React.useEffect(() => setImgState(imagery ? 'loading' : 'idle'), [imagery?.url])
+  const hasImagery = Boolean(imagery) && imgState !== 'error'
 
   return (
     <div className={cn('relative overflow-hidden rounded-md border border-rule-soft', className)}>
@@ -88,6 +96,20 @@ export function LunarMap({ sites, selections, activeSlot, onSelectSite, onPickCo
         style={{ cursor: onPickCoordinates ? 'crosshair' : undefined }}
       >
         {LUNAR_TILE_URL && <TileLayer url={LUNAR_TILE_URL} attribution={LUNAR_TILE_ATTRIBUTION} noWrap />}
+        {imagery && (
+          <ImageOverlay
+            key={imagery.url}
+            url={imagery.url}
+            bounds={IMAGERY_BOUNDS}
+            eventHandlers={{
+              load: () => setImgState('ok'),
+              error: () => {
+                setImgState('error')
+                onImageryError?.(imagery.url)
+              },
+            }}
+          />
+        )}
 
         {LAT_RINGS.map((lat) => (
           <Circle
@@ -124,9 +146,9 @@ export function LunarMap({ sites, selections, activeSlot, onSelectSite, onPickCo
             center={toLeaflet(c.lat, c.lon)}
             radius={c.diameterKm / 2}
             interactive={false}
-            pathOptions={{ color: CHART_COLORS.terrainEdge, weight: 1, dashArray: '3 3', fillColor: '#0a111d', fillOpacity: 0.6 }}
+            pathOptions={{ color: hasImagery ? '#c9d3e3' : CHART_COLORS.terrainEdge, weight: 1, dashArray: '3 3', opacity: hasImagery ? 0.55 : 1, fillColor: '#0a111d', fillOpacity: hasImagery ? 0 : 0.6 }}
           >
-            <Tooltip permanent direction="center" className="crater-label">
+            <Tooltip permanent direction="center" className={hasImagery ? 'crater-label crater-label-on-image' : 'crater-label'}>
               {c.name}
             </Tooltip>
           </Circle>
@@ -174,11 +196,12 @@ export function LunarMap({ sites, selections, activeSlot, onSelectSite, onPickCo
       <div className="pointer-events-none absolute right-2 bottom-2 z-[500] rounded bg-night/85 px-2 py-1 text-xs text-muted num">
         {cursor && cursor.lat <= -80 ? `${fmtLat(cursor.lat)}  ${fmtLon(cursor.lon)}` : 'South polar stereographic'}
       </div>
-      {!LUNAR_TILE_URL && (
-        <div className="pointer-events-none absolute left-2 bottom-2 z-[500] max-w-[60%] rounded bg-night/85 px-2 py-1 text-[11px] leading-snug text-faint">
-          Reference map: graticule and approximate crater outlines. No imagery basemap loaded.
-        </div>
-      )}
+      <div className="pointer-events-none absolute left-2 bottom-2 z-[500] max-w-[62%] rounded bg-night/85 px-2 py-1 text-[11px] leading-snug text-faint">
+        {imagery && imgState === 'ok' && imagery.credit}
+        {imagery && imgState === 'loading' && 'Loading imagery from NASA/JPL Moon Trek… (first load can take a minute)'}
+        {imagery && imgState === 'error' && 'Imagery unavailable. Showing reference outlines only.'}
+        {!imagery && !LUNAR_TILE_URL && 'Reference map: graticule and approximate crater outlines.'}
+      </div>
     </div>
   )
 }

@@ -52,7 +52,7 @@ def build_provenance(bundle: ProviderBundle, mask: HorizonMask) -> Provenance:
     if eph.provenance == ProvenanceLevel.analytic_approximate:
         caveats.append("Ephemeris is a truncated analytic model (~0.05-0.1 deg); near-grazing events "
                        "may shift by tens of minutes to hours.")
-    prefix = "DEMO MODE" if bundle.mode == Mode.demo else "SCIENTIFIC MODE"
+    prefix = {Mode.demo: "DEMO MODE", Mode.jpl: "JPL LIVE", Mode.scientific: "SCIENTIFIC MODE"}[bundle.mode]
     return Provenance(
         mode=bundle.mode,
         overall=overall,

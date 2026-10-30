@@ -39,6 +39,27 @@ from app.models.schemas import EffectsIncluded, ProvenanceLevel
 from .base import Body, EphemerisProvider, SubPointTable, make_info
 
 
+def table_from_json(raw: dict) -> dict:
+    """Validate and index one tabulated body (shared by table and live providers)."""
+    times = [parse_utc(t) for t in raw["times_utc"]]
+    epoch = np.array([t.timestamp() for t in times])
+    if len(epoch) < 2 or np.any(np.diff(epoch) <= 0):
+        raise DataUnavailableError("Ephemeris table must contain >=2 strictly increasing timestamps")
+    vec = unit_vector(np.asarray(raw["sub_lat_deg"], float), np.asarray(raw["sub_lon_deg"], float))
+    return {"epoch": epoch, "vec": vec, "dist": np.asarray(raw["distance_km"], float),
+            "start": times[0], "end": times[-1], "source": raw.get("source", "JPL Horizons")}
+
+
+def interpolate_table(tab: dict, times: list[datetime]) -> SubPointTable:
+    """Linear interpolation on unit vectors (renormalised) and distance."""
+    t = np.array([x.timestamp() for x in times])
+    v = np.stack([np.interp(t, tab["epoch"], tab["vec"][:, k]) for k in range(3)], axis=-1)
+    v /= np.linalg.norm(v, axis=1, keepdims=True)
+    lat = np.degrees(np.arcsin(np.clip(v[:, 2], -1, 1)))
+    lon = np.degrees(np.arctan2(v[:, 1], v[:, 0]))
+    return SubPointTable(lat, lon, np.interp(t, tab["epoch"], tab["dist"]))
+
+
 class HorizonsTableEphemeris(EphemerisProvider):
     id = "horizons_table"
 
@@ -60,20 +81,7 @@ class HorizonsTableEphemeris(EphemerisProvider):
                 "Run backend/scripts/fetch_horizons.py to generate it.",
                 details={"missing_file": rel(path)},
             )
-        raw = json.loads(path.read_text())
-        times = [parse_utc(t) for t in raw["times_utc"]]
-        epoch = np.array([t.timestamp() for t in times])
-        if len(epoch) < 2 or np.any(np.diff(epoch) <= 0):
-            raise DataUnavailableError(f"{path} must contain >=2 strictly increasing timestamps")
-        vec = unit_vector(np.asarray(raw["sub_lat_deg"], float), np.asarray(raw["sub_lon_deg"], float))
-        return {
-            "epoch": epoch,
-            "vec": vec,
-            "dist": np.asarray(raw["distance_km"], float),
-            "start": times[0],
-            "end": times[-1],
-            "source": raw.get("source", "JPL Horizons"),
-        }
+        return table_from_json(json.loads(path.read_text()))
 
     @property
     def available(self) -> bool:
@@ -123,9 +131,4 @@ class HorizonsTableEphemeris(EphemerisProvider):
                 f"({to_iso(tab['start'])} to {to_iso(tab['end'])}).",
                 details={"supported_start_utc": to_iso(tab["start"]), "supported_end_utc": to_iso(tab["end"])},
             )
-        t = np.array([x.timestamp() for x in times])
-        v = np.stack([np.interp(t, tab["epoch"], tab["vec"][:, k]) for k in range(3)], axis=-1)
-        v /= np.linalg.norm(v, axis=1, keepdims=True)
-        lat = np.degrees(np.arcsin(np.clip(v[:, 2], -1, 1)))
-        lon = np.degrees(np.arctan2(v[:, 1], v[:, 0]))
-        return SubPointTable(lat, lon, np.interp(t, tab["epoch"], tab["dist"]))
+        return interpolate_table(tab, times)

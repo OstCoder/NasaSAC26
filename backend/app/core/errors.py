@@ -37,3 +37,10 @@ class DataUnavailableError(LunaNavError):
 class UnknownSiteError(LunaNavError):
     code = "UNKNOWN_SITE"
     http_status = 404
+
+
+class JplUnavailableError(DataUnavailableError):
+    """A live NASA/JPL service (Horizons, Moon Trek) could not be reached or returned unusable data."""
+
+    code = "JPL_UNAVAILABLE"
+    http_status = 503

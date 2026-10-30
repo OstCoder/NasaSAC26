@@ -9,3 +9,4 @@ data/scientific/ephemeris/*.json
 data/scientific/horizon_masks/*.json
 data/scientific/spice/
 .DS_Store
+data/cache/
