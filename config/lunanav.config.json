@@ -1,0 +1,67 @@
+{
+  "$comment": "Central LunaNav configuration. Backend reads this at startup and serves the public subset at GET /api/config. Edit here first when NASA publishes new challenge details. See docs/ADAPTATION_GUIDE.md.",
+  "app": {
+    "name": "LunaNav",
+    "version": "0.1.0"
+  },
+  "mode": {
+    "default": "demo",
+    "allowed": ["demo", "scientific"]
+  },
+  "simulation": {
+    "supported_start_utc": "2026-01-01T00:00:00Z",
+    "supported_end_utc": "2030-12-31T23:59:59Z",
+    "default_landing_utc": "2027-01-15T12:00:00Z",
+    "default_duration_hours": 336,
+    "min_duration_hours": 1,
+    "max_duration_hours": 1440,
+    "default_step_minutes": 30,
+    "min_step_minutes": 5,
+    "max_samples": 20000,
+    "lookahead_hours_for_events": 720
+  },
+  "coordinates": {
+    "body": "Moon",
+    "frame": "Mean Earth / Polar Axis (ME), IAU planetocentric",
+    "longitude_convention": "east-positive, -180 to 180",
+    "reference_radius_km": 1737.4,
+    "map_min_latitude_deg": -90,
+    "map_max_latitude_deg": -80
+  },
+  "providers": {
+    "demo": {
+      "ephemeris": "analytic_meeus",
+      "terrain": "synthetic_horizon"
+    },
+    "scientific": {
+      "ephemeris": "horizons_table",
+      "terrain": "lola_horizon_mask"
+    }
+  },
+  "datasets": {
+    "sites": "data/demo/sites.json",
+    "demo_horizon_masks": "data/demo/horizon_masks.json",
+    "scientific_ephemeris_dir": "data/scientific/ephemeris",
+    "scientific_horizon_dir": "data/scientific/horizon_masks"
+  },
+  "visibility": {
+    "sun_angular_radius_deg": 0.2666,
+    "earth_angular_radius_deg": 0.95,
+    "sun_visibility_rule": "center_above_terrain",
+    "earth_visibility_rule": "center_above_terrain"
+  },
+  "features": {
+    "mission_planner": true,
+    "scenario_comparison": true,
+    "rescheduler": true,
+    "custom_coordinates": true,
+    "horizon_panorama": true,
+    "methodology_page": true,
+    "experimental_3d_terrain": false,
+    "experimental_power_model": false,
+    "experimental_comm_link_budget": false,
+    "experimental_site_ranking": false,
+    "experimental_ai_explanations": false,
+    "experimental_report_export": false
+  }
+}
