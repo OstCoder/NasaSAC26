@@ -42,6 +42,7 @@ from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
 from app.services.geometric import sun_visibility_response
 from app.services.geometric_earth import earth_visibility_response
+from app.services.feasibility import feasibility_matrix
 from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
@@ -157,6 +158,17 @@ def geometric_earth(site_id: str, window: str = "initial"):
     terrain-adjusted answer use ``/api/phase3``.
     """
     return earth_visibility_response(site_id=site_id, window=window)
+
+
+@router.get("/feasibility")
+def feasibility():
+    """Phase 4: every candidate x both windows against the Phase 1 requirements.
+
+    Composes the committed terrain-adjusted metrics, the shared requirement
+    thresholds and Task 1/Task 2's geometric baselines into one matrix. It
+    reports pass/fail/unknown per requirement; it does not rank sites.
+    """
+    return feasibility_matrix()
 
 
 @router.get("/phase3")
