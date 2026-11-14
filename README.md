@@ -45,7 +45,7 @@ cd frontend && npm run build  # strict TypeScript + production bundle
 
 | View | What you can do |
 | --- | --- |
-| **Mission planner** | Polar map with 5 example sites and click-to-pick custom coordinates; landing time (UTC) and duration; saved candidate dates; Sun/Earth elevation, azimuth, terrain skyline, clearance, time to sunset/Earthset; 360° horizon panorama; scrubbable visibility timeline; mission summary metrics. |
+| **Mission planner** | Polar map with published candidate landing sites and click-to-pick custom coordinates; landing time (UTC) and duration; saved candidate dates; Sun/Earth elevation, azimuth, terrain skyline, clearance, time to sunset/Earthset; 360° horizon panorama; scrubbable visibility timeline; mission summary metrics. Sites carry their LOLA elevation and nearest permanently shadowed region (PSRs drawn on the map). |
 | **Compare scenarios** | Two site/date/duration scenarios side by side with every metric, change highlighting, aligned visibility bands, and data-derived trade-off statements. |
 | **Reschedule a mission** | Same site and duration, original vs proposed date: changes in sunlight, Earth visibility, simultaneous visibility and longest blackouts. |
 | **Lunar viewer** | Moon Trek imagery (LROC WAC, LOLA shaded relief or LOLA elevation) on three views: south polar map; zoomable whole-Moon 2D map with the night side and the Sun and Earth sub-points; 3D Moon shaped by LOLA elevation. All are lit by the Sun's position right now, or at the inspected mission time, and label craters from the IAU gazetteer. |
@@ -58,7 +58,7 @@ cd frontend && npm run build  # strict TypeScript + production bundle
 - **Scientific Mode** requires `data/scientific/ephemeris/{sun,earth}.json` (from JPL Horizons) and `data/scientific/horizon_masks/*.json` (from LOLA DEMs). If either is missing, the API returns `503 SCIENTIFIC_DATA_UNAVAILABLE` and the UI says so. Nothing is substituted.
 - Sun visibility is never presented as power; Earth visibility is never presented as a comms link.
 - Comparisons describe differences. They do not rank or recommend sites.
-- Demo site coordinates are approximate points near named features, not official Artemis region definitions.
+- Candidate sites use exact published coordinates (Mazarico et al. 2011 / NASA 2020 site numbering) with LOLA elevations — see [docs/SITES.md](docs/SITES.md). Demo Mode horizon skylines are still synthetic.
 
 ## Repository layout
 
@@ -104,7 +104,7 @@ lunanav/
 
 ## API
 
-`GET /api/config`, `GET /api/sites`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/sites`, `GET /api/psrs`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 

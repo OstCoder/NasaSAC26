@@ -80,6 +80,31 @@ class Provenance(BaseModel):
 # ---------------------------------------------------------------- sites ----
 
 
+class SourceRef(BaseModel):
+    """A cited source for a site's coordinates or measurements."""
+
+    label: str
+    url: Optional[str] = None
+
+
+class PsrProximity(BaseModel):
+    """Nearest permanently shadowed region (PSR) to a site.
+
+    ``distance_km`` is the point-to-boundary distance in the south polar
+    stereographic plane of the LROC PSR product (scale error < 0.2% poleward
+    of 85 S). PSR boundaries only include regions larger than 5 km2, so
+    sub-km PSRs near the sites are not counted; the site record's ``sources``
+    quote published smaller-PSR distances where they exist.
+    """
+
+    psr_id: str
+    label: str
+    distance_km: float
+    area_km2: float
+    centroid_latitude_deg: float
+    centroid_longitude_deg: float
+
+
 class Site(BaseModel):
     id: str
     name: str
@@ -90,6 +115,14 @@ class Site(BaseModel):
     coordinate_note: str = ""
     tags: list[str] = Field(default_factory=list)
     source: str = ""
+    # --- Task 1 site-selection enrichment (all optional for backward compatibility) ---
+    nasa_site_id: Optional[str] = None
+    elevation_m: Optional[float] = None
+    elevation_note: Optional[str] = None
+    slope_deg: Optional[float] = None
+    nearest_psr: Optional[PsrProximity] = None
+    psrs_within_10_km: Optional[int] = None
+    sources: list[SourceRef] = Field(default_factory=list)
 
 
 class LocationInput(BaseModel):
@@ -100,6 +133,11 @@ class LocationInput(BaseModel):
     longitude_deg: Optional[float] = None
     label: Optional[str] = None
     height_m: float = Field(2.0, ge=0, le=100, description="Observer height above local terrain")
+    elevation_m: Optional[float] = Field(
+        None, ge=-9000, le=9000,
+        description="Elevation of a custom site above the reference sphere (m). "
+                    "Catalogue sites carry this automatically.",
+    )
 
     @model_validator(mode="after")
     def _one_of(self):
@@ -116,6 +154,7 @@ class ResolvedLocation(BaseModel):
     longitude_deg: float
     is_custom: bool
     height_m: float
+    elevation_m: Optional[float] = None  # site elevation above the reference sphere, from the catalogue
 
 
 # ------------------------------------------------------------- scenario ----
@@ -231,6 +270,22 @@ class Crater(BaseModel):
     latitude_deg: float
     longitude_deg: float
     diameter_km: float
+
+
+class PsrOut(BaseModel):
+    """PSR polygon for map drawing, in the south polar stereographic km frame.
+
+    Ring coordinates use the same projection as the frontend map
+    (x = rho*sin(lon), y = rho*cos(lon)); draw with Leaflet [y, x].
+    """
+
+    psr_id: str
+    area_km2: float
+    perimeter_km: float
+    centroid_latitude_deg: float
+    centroid_longitude_deg: float
+    near_crater: str = ""
+    rings: list[list[list[float]]]
 
 
 class BodyState(BaseModel):

@@ -1,46 +1,171 @@
 {
-  "dataset": "LunaNav demo landing sites",
-  "version": "0.1.0",
-  "coordinate_frame": "Selenographic planetocentric, Mean Earth/Polar Axis, longitude east-positive",
-  "disclaimer": "Points are illustrative locations on or near named south-polar features. Coordinates are approximate and are NOT official Artemis landing-region definitions. Verify against the IAU Gazetteer of Planetary Nomenclature and LOLA products before scientific use.",
+  "dataset": "LunaNav landing-site catalogue (Phase 1 / Task 1 selection)",
+  "version": "1.0.0",
+  "coordinate_frame": "Selenographic planetocentric, Mean Earth/Polar Axis, longitude east-positive, [-180, 180)",
+  "selection_method": "Each mission candidate is a published, individually traced coordinate inside one of the task's three candidate regions (Shackleton crater rim, the Shackleton-de Gerlache Connecting Ridge, de Gerlache crater rim). Primary provenance: LOLA illumination study of Mazarico et al. (2011), which the PGDA 5 m/pix site DEMs are named after; elevations are sampled from those DEMs. See docs/SITES.md for the full deliverable table and source notes.",
+  "disclaimer": "Coordinates are exact published study points, not official Artemis landing-region definitions and not landing-certified sites. Sites 001/011 and 007 lie inside Artemis III candidate regions named by NASA in 2022; the Shackleton-rim point traces to the NASA 2020 crewed candidate list. Elevations are LOLA samples at the points, not terrain-averages. Verify against the IAU Gazetteer and LROC QuickMap before operational use.",
   "mission_candidates": [
-    "peak-near-shackleton",
+    "shackleton-rim",
     "connecting-ridge",
     "de-gerlache-rim"
   ],
   "sites": [
     {
-      "id": "connecting-ridge",
-      "name": "Shackleton–de Gerlache Connecting Ridge",
-      "latitude_deg": -89.45,
-      "longitude_deg": -137.31,
-      "region": "South Polar Region",
-      "description": "Elevated ridge between Shackleton and de Gerlache craters, frequently discussed in the literature for its long periods of illumination.",
-      "coordinate_note": "Approximate point on the ridge crest (~222.7°E), taken from published illumination studies; verify before use.",
-      "tags": ["ridge", "near-pole", "mission-candidate"],
-      "source": "Approximate literature value"
+      "id": "shackleton-rim",
+      "name": "Shackleton Crater Rim (SR1)",
+      "latitude_deg": -89.78,
+      "longitude_deg": -155.73,
+      "region": "Rim of Shackleton crater (20.9 km diameter, IAU centre -89.67, 129.78E; the south pole lies on this rim)",
+      "description": "Sunlit crest on the rim of Shackleton crater, 10.5 km from the pole. The crater floor below is one of the largest, oldest PSRs at the pole (~40 K, possible surface ice), while the rim crest sees sunlight most of the year. The far-side-facing geometry keeps Earth low on the horizon, trading direct-to-Earth time for illumination.",
+      "coordinate_note": "Mazarico et al. (2011) LOLA point 4, cross-referenced to NASA 2020 crewed candidate site 004 (Kumari et al. 2022 / JESA Table 1); Glaser et al. (2017) independently place a rim cluster at -89.7815, 204.70E (1.4 km away, 82.1% mean illumination, 89.8% solar visibility, 65 h max shadow).",
+      "tags": [
+        "crater-rim",
+        "far-side-facing",
+        "mission-candidate"
+      ],
+      "source": "Mazarico et al. 2011, Icarus 211, 1066 (point 4); NASA 2020 site 004",
+      "nasa_site_id": "NASA 2020 site 004",
+      "sources": [
+        {
+          "label": "Mazarico et al. 2011, Icarus 211, 1066-1081 (LOLA point 4, ~86.7% sunlit rate)",
+          "url": "https://doi.org/10.1016/j.icarus.2010.10.030"
+        },
+        {
+          "label": "Kumari et al. 2022, Planet. Sci. J. 3:224 (NASA 2020 site numbering; site-004 illumination context)",
+          "url": "https://doi.org/10.3847/PSJ/ac88c2"
+        },
+        {
+          "label": "Glaser et al. 2017, 'Illumination conditions at the lunar poles' (rim clusters S0-S2; nearest PSR 30-370 m from lit clusters; max shadow 65 h)",
+          "url": "https://ntrs.nasa.gov/citations/20170007365"
+        },
+        {
+          "label": "PGDA LOLA 5 m/pix Site04 DEM (elevation sample)",
+          "url": "https://pgda.gsfc.nasa.gov/products/78"
+        },
+        {
+          "label": "IAU Gazetteer, Shackleton",
+          "url": "https://planetarynames.wr.usgs.gov/Feature/5450"
+        }
+      ],
+      "elevation_m": 1734.05,
+      "elevation_note": "LOLA 5 m/pix PGDA site DEM (Site04), median of the 125 m window at the point; height relative to the 1737.4 km reference sphere, RMS height uncertainty 0.32 m (Barker et al. 2021).",
+      "slope_deg": 8.8
     },
     {
-      "id": "peak-near-shackleton",
-      "name": "Peak Near Shackleton",
-      "latitude_deg": -88.81,
-      "longitude_deg": 123.64,
-      "region": "South Polar Region",
-      "description": "Massif on the far side of Shackleton crater as seen from Earth; an example of a high-standing site with a low local horizon.",
-      "coordinate_note": "Approximate summit area; verify before use.",
-      "tags": ["massif", "far-side-facing", "mission-candidate"],
-      "source": "Approximate literature value"
+      "id": "connecting-ridge",
+      "name": "Shackleton-de Gerlache Connecting Ridge (CR1)",
+      "latitude_deg": -89.45,
+      "longitude_deg": -137.31,
+      "region": "Ridge crest between Shackleton and de Gerlache craters (Artemis III candidate region 'Connecting Ridge', 2022)",
+      "description": "16.7 km from the pole on the crest of the ridge linking Shackleton and de Gerlache. The best-lit ground documented at the south pole: Glaser et al. (2017) find 88.0% mean illumination and 92.1% solar visibility at 2 m on this crest, with darkness spells limited to a few days, and a 5,200 m2 PSR only ~100 m from the lit cluster. Like the Shackleton rim it faces the far side, so Earth sits low.",
+      "coordinate_note": "Mazarico et al. (2011) LOLA point 1, cross-referenced to NASA 2020 crewed candidate site 001; ESA/DLR studies of the same crest use CR1 at -89.4649, 222.1027E (De Rosa et al. 2012; Glaser et al. 2014); Glaser et al. (2017) C1 is at -89.4398, 222.83E, 1.9 km along the crest.",
+      "tags": [
+        "ridge",
+        "near-pole",
+        "far-side-facing",
+        "mission-candidate"
+      ],
+      "source": "Mazarico et al. 2011, Icarus 211, 1066 (point 1); NASA 2020 site 001",
+      "nasa_site_id": "NASA 2020 site 001",
+      "sources": [
+        {
+          "label": "Mazarico et al. 2011, Icarus 211, 1066-1081 (LOLA point 1, ~89.0% sunlit rate)",
+          "url": "https://doi.org/10.1016/j.icarus.2010.10.030"
+        },
+        {
+          "label": "Glaser et al. 2014, Icarus 243, 78-90 (CR1 illumination; 92.3% of time lit at 2 m, longest darkness 4.6 d)",
+          "url": "https://doi.org/10.1016/j.icarus.2014.08.013"
+        },
+        {
+          "label": "Glaser et al. 2017, 'Illumination conditions at the lunar poles' (C1: 88.0% mean illumination, 92.1% solar visibility, 112 h max shadow; PSR 100 m away; max slope 12.8 deg)",
+          "url": "https://ntrs.nasa.gov/citations/20170007365"
+        },
+        {
+          "label": "De Rosa et al. 2012, Planet. Space Sci. 74, 224-246 (ESA Lunar Lander CR1 candidate)",
+          "url": "https://doi.org/10.1016/j.pss.2012.08.002"
+        },
+        {
+          "label": "Kumari et al. 2022, Planet. Sci. J. 3:224 (NASA 2020 site numbering)",
+          "url": "https://doi.org/10.3847/PSJ/ac88c2"
+        },
+        {
+          "label": "PGDA LOLA 5 m/pix Site01 DEM (elevation sample)",
+          "url": "https://pgda.gsfc.nasa.gov/products/78"
+        }
+      ],
+      "elevation_m": 1955.23,
+      "elevation_note": "LOLA 5 m/pix PGDA site DEM (Site01), median of the 125 m window at the point; height relative to the 1737.4 km reference sphere, RMS height uncertainty 0.29 m (Barker et al. 2021).",
+      "slope_deg": 3.79
     },
     {
       "id": "de-gerlache-rim",
-      "name": "de Gerlache Rim",
-      "latitude_deg": -88.71,
-      "longitude_deg": -68.8,
-      "region": "South Polar Region",
-      "description": "Point on the rim of de Gerlache crater, on the Earth-facing side of the pole.",
-      "coordinate_note": "Approximate rim location; de Gerlache crater centre is near 88.5°S, 87°W.",
-      "tags": ["crater-rim", "near-side-facing", "mission-candidate"],
-      "source": "Approximate"
+      "name": "de Gerlache Crater Rim (GR1)",
+      "latitude_deg": -88.67,
+      "longitude_deg": -68.1,
+      "region": "Rim of de Gerlache crater (32.7 km diameter, IAU centre -88.48, -88.34; Artemis III candidate region 'de Gerlache Rim 1', 2022)",
+      "description": "On the Earth-facing side of the pole: the counterpart geometry case where direct-to-Earth line of sight is favoured over illumination. Kumari et al. (2022) find the rim's central point is 82.6% illuminated on average, the rim crest rises ~1400 m, and a large old PSR on the crater floor holds trapped volatiles but is not safely reachable from the rim (walls steeper than 25 deg).",
+      "coordinate_note": "Mazarico et al. (2011) LOLA point 11, cross-referenced to NASA 2020 crewed candidate site 011; the same point is the central point analysed by Kumari et al. (2022) (max mean illumination 82.6%).",
+      "tags": [
+        "crater-rim",
+        "near-side-facing",
+        "mission-candidate"
+      ],
+      "source": "Mazarico et al. 2011, Icarus 211, 1066 (point 11); NASA 2020 site 011",
+      "nasa_site_id": "NASA 2020 site 011",
+      "sources": [
+        {
+          "label": "Mazarico et al. 2011, Icarus 211, 1066-1081 (LOLA point 11, ~85.6% sunlit rate)",
+          "url": "https://doi.org/10.1016/j.icarus.2010.10.030"
+        },
+        {
+          "label": "Kumari et al. 2022, Planet. Sci. J. 3:224, site 011 (82.6% max mean illumination; rim elevation ~1400 m; floor PSR with trapped volatiles; slopes 15-25 deg on walls)",
+          "url": "https://doi.org/10.3847/PSJ/ac88c2"
+        },
+        {
+          "label": "PGDA LOLA 5 m/pix Site11 DEM (elevation sample)",
+          "url": "https://pgda.gsfc.nasa.gov/products/78"
+        },
+        {
+          "label": "IAU Gazetteer, de Gerlache",
+          "url": "https://planetarynames.wr.usgs.gov/"
+        }
+      ],
+      "elevation_m": 1808.1,
+      "elevation_note": "LOLA 5 m/pix PGDA site DEM (Site11), median of the 125 m window at the point; height relative to the 1737.4 km reference sphere, RMS height uncertainty 0.31 m (Barker et al. 2021).",
+      "slope_deg": 3.82
+    },
+    {
+      "id": "peak-near-shackleton",
+      "name": "Peak Near Shackleton (site 007)",
+      "latitude_deg": -88.81,
+      "longitude_deg": 123.64,
+      "region": "Massif between Shackleton and Slater craters (Artemis III candidate region 'Peak Near Shackleton', 2022)",
+      "description": "High-standing massif ~15 km from the Shackleton rim crest. Kumari et al. (2022) analyse this point in depth: 85.9% maximum mean illumination at the central point, slopes mostly <15 deg, small young PSRs within the site, and a water-detection PSR within the 10 km exploration zone.",
+      "coordinate_note": "Mazarico et al. (2011) LOLA point 7, cross-referenced to NASA 2020 crewed candidate site 007 (Kumari et al. 2022 / JESA Table 1). Reference site; not a Phase 1 mission candidate (the Shackleton-rim candidate covers this side of the pole).",
+      "tags": [
+        "massif",
+        "far-side-facing",
+        "reference"
+      ],
+      "source": "Mazarico et al. 2011, Icarus 211, 1066 (point 7); NASA 2020 site 007",
+      "nasa_site_id": "NASA 2020 site 007",
+      "sources": [
+        {
+          "label": "Mazarico et al. 2011, Icarus 211, 1066-1081 (LOLA point 7, ~85.5% sunlit rate)",
+          "url": "https://doi.org/10.1016/j.icarus.2010.10.030"
+        },
+        {
+          "label": "Kumari et al. 2022, Planet. Sci. J. 3:224, site 007 (85.9% max mean illumination; PSRs and ISRU targets in the exploration zones)",
+          "url": "https://doi.org/10.3847/PSJ/ac88c2"
+        },
+        {
+          "label": "PGDA LOLA 5 m/pix Site07 DEM",
+          "url": "https://pgda.gsfc.nasa.gov/products/78"
+        }
+      ],
+      "elevation_m": 1645.39,
+      "elevation_note": "LOLA 5 m/pix PGDA site DEM (Site07), median of the 125 m window at the point; height relative to the 1737.4 km reference sphere, RMS height uncertainty 0.29 m (Barker et al. 2021).",
+      "slope_deg": 3.05
     },
     {
       "id": "malapert-massif",
@@ -48,10 +173,14 @@
       "latitude_deg": -85.99,
       "longitude_deg": 2.9,
       "region": "South Polar Region",
-      "description": "Large massif near the 0° meridian, facing Earth; a candidate for steadier direct-to-Earth line of sight than sites on the far-side-facing slopes.",
-      "coordinate_note": "Approximate summit area; verify before use.",
-      "tags": ["massif", "near-side-facing"],
-      "source": "Approximate"
+      "description": "Large massif near the 0 meridian, facing Earth; a candidate for steadier direct-to-Earth line of sight than sites on the far-side-facing slopes.",
+      "coordinate_note": "Approximate summit area; Mazarico et al. (2011) point 23 ('summit of Mt. Malapert') lies 1.4 km away at -85.97, 357.70E. Verify before use.",
+      "tags": [
+        "massif",
+        "near-side-facing",
+        "reference"
+      ],
+      "source": "Approximate literature value (cf. Mazarico point 23)"
     },
     {
       "id": "mons-mouton",
@@ -59,10 +188,15 @@
       "latitude_deg": -84.6,
       "longitude_deg": 31.0,
       "region": "South Polar Region",
-      "description": "Flat-topped mountain (formerly Leibnitz β); the IM-2 lander targeted its plateau in 2025.",
-      "coordinate_note": "Highest point per Wikipedia (84°36′S 31°00′E).",
-      "tags": ["plateau", "near-side-facing"],
+      "description": "Flat-topped mountain (formerly Leibnitz beta); the IM-2 lander targeted its plateau in 2025.",
+      "coordinate_note": "Highest point per Wikipedia (84 deg 36' S 31 deg 00' E); Mazarico et al. (2011) point 20 (Leibnitz beta plateau) is at -85.43, 31.73E, ~93 km farther south.",
+      "tags": [
+        "plateau",
+        "near-side-facing",
+        "reference"
+      ],
       "source": "https://en.wikipedia.org/wiki/Mons_Mouton"
     }
-  ]
+  ],
+  "sites_version_note": "elevation_m/slope_deg are sampled by backend/scripts/sample_site_elevation.py; evidence in data/reference/site_elevations.json"
 }

@@ -20,7 +20,7 @@
     "objective": "Investigate lunar south-polar terrain from the candidate sites.",
     "duration_days": 7,
     "candidate_sites": [
-      "peak-near-shackleton",
+      "shackleton-rim",
       "connecting-ridge",
       "de-gerlache-rim"
     ]
@@ -62,6 +62,8 @@
   "datasets": {
     "sites": "data/demo/sites.json",
     "craters": "data/reference/moon_craters.json",
+    "psr_catalogue": "data/reference/psrs.json",
+    "site_elevations": "data/reference/site_elevations.json",
     "demo_horizon_masks": "data/demo/horizon_masks.json",
     "scientific_ephemeris_dir": "data/scientific/ephemeris",
     "scientific_horizon_dir": "data/scientific/horizon_masks",

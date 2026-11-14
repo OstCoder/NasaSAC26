@@ -5,7 +5,7 @@ This document describes exactly what LunaNav computes, what it includes, and wha
 ## 1. Coordinates and time
 
 - **Body frame:** Moon Mean Earth / Polar Axis (ME). Selenographic latitude/longitude, planetocentric, longitude east-positive in [−180°, 180°).
-- **Reference sphere:** 1737.4 km. Observer height (default 2 m) is above this sphere. Real site elevation is not yet added to the observer radius (see "Known limitations").
+- **Reference sphere:** 1737.4 km. Observer height (default 2 m) is above this sphere. Catalogue landing sites additionally add their recorded LOLA elevation (see §9); custom coordinates default to the sphere unless the caller supplies `elevation_m`.
 - **Local frame:** East-North-Up. **Azimuth** is clockwise from local north. Near the south pole, north points along the meridian toward the equator. Exact poles are rejected because azimuth is undefined there.
 - **Time:** All inputs must be timezone-aware; naive timestamps are rejected. UTC → TT uses a fixed 69.184 s, valid for the configured 2026–2030 window.
 
@@ -96,6 +96,6 @@ A result's overall level is the **weakest** of its ephemeris and terrain-mask le
 
 ## 9. Known limitations
 
-- Observer radius ignores site elevation above the reference sphere (matters for parallax only at the ~0.001° level, but matters greatly for horizon masks, which must be computed at the true surface height; the LOLA builder does this).
-- Demo site coordinates are approximate.
-- Map basemap is vector-only (graticule and approximate crater outlines from the IAU Gazetteer).
+- Site elevation: catalogue sites now carry a recorded LOLA elevation (sampled from the PGDA 5 m/pix site DEMs, `data/reference/site_elevations.json`) and the scenario geometry adds it to the observer radius. The parallax effect on Sun/Earth elevation is tiny (~0.0005° per km), but the value keeps the geometry consistent with the terrain surface and is validated at load time against the sampled evidence file. Custom coordinates without an explicit `elevation_m` still sit on the reference sphere.
+- Demo site coordinates are exact published points (Mazarico et al. 2011), but the served horizon masks in Demo Mode remain synthetic — only the Scientific Mode LOLA builder uses real terrain.
+- Map basemap is vector-only (graticule, LROC PSR polygons and IAU Gazetteer crater outlines).

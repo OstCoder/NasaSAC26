@@ -12,6 +12,7 @@ import type {
   LocationInput,
   Mode,
   ProviderInfo,
+  PsrOut,
   RescheduleResult,
   ScenarioInput,
   ScenarioResult,
@@ -72,6 +73,16 @@ export const api = {
     signal?: AbortSignal,
   ) => post<Snapshot>('/api/snapshot', body, signal),
   craters: (signal?: AbortSignal) => request<Crater[]>('/api/craters', { signal }),
+  /** PSR polygons (LROC/LOLA); rings in south polar stereographic km. */
+  psrs: (opts?: { minAreaKm2?: number; maxLat?: number; nearSiteId?: string; radiusKm?: number }, signal?: AbortSignal) => {
+    const q = new URLSearchParams()
+    if (opts?.minAreaKm2 !== undefined) q.set('min_area_km2', String(opts.minAreaKm2))
+    if (opts?.maxLat !== undefined) q.set('max_latitude_deg', String(opts.maxLat))
+    if (opts?.nearSiteId) q.set('near_site_id', opts.nearSiteId)
+    if (opts?.radiusKm !== undefined) q.set('radius_km', String(opts.radiusKm))
+    const qs = q.toString()
+    return request<PsrOut[]>(`/api/psrs${qs ? `?${qs}` : ''}`, { signal })
+  },
   skyNow: (mode: Mode, signal?: AbortSignal) => request<SkyNow>(`/api/sky/now?mode=${mode}`, { signal }),
   jplStatus: (force = false) => request<JplStatus>(`/api/jpl/status${force ? '?force=true' : ''}`),
   /** URLs for image endpoints (used directly by <img>/Leaflet/three.js loaders). */
