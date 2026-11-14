@@ -230,7 +230,7 @@ export function LunarMap({
       </div>
       <div className="pointer-events-none absolute left-2 bottom-2 z-[500] max-w-[62%] rounded bg-night/85 px-2 py-1 text-[11px] leading-snug text-faint">
         {imagery && imgState === 'ok' && `${imagery.credit} Shadows in the image were captured by LRO; the shaded area is the night side.`}
-        {imagery && imgState === 'loading' && 'Loading sharp imagery from NASA/JPL Moon Trek… (first load can take a minute)'}
+        {imagery && imgState === 'loading' && 'Loading sharp imagery from NASA/JPL Moon Trek… (a first load downloads tiles and takes a few seconds)'}
         {imagery && imgState === 'error' && 'Imagery unavailable. Showing reference outlines only.'}
         {!imagery && !LUNAR_TILE_URL && 'Reference map: graticule and IAU crater outlines.'}
       </div>

@@ -104,7 +104,17 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                 sites={sites}
                 selections={{ A: selectionOf(draftA, sites), B: features.scenario_comparison ? selectionOf(draftB, sites) : undefined }}
                 activeSlot={slot}
-                imagery={imageryLayer ? { url: api.southPoleImageryUrl(imageryLayer, 2048, -80), previewUrl: api.southPoleImageryUrl(imageryLayer, 512, -80), credit: imageryCredit } : null}
+                imagery={
+                  imageryLayer
+                    ? {
+                        // 1024 covers the card at 2x density and renders 128 Trek tiles cold
+                        // instead of 612 at 2048 (~6 s rather than ~24 s on a first load).
+                        url: api.southPoleImageryUrl(imageryLayer, 1024, -80),
+                        previewUrl: api.southPoleImageryUrl(imageryLayer, 512, -80),
+                        credit: imageryCredit,
+                      }
+                    : null
+                }
                 onImageryError={(url) => api.imageryError(url).then((e) => setImageryError(e?.message ?? 'Image failed to load.'))}
                 craters={craters}
                 sun={shownSun}
