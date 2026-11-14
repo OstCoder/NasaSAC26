@@ -41,6 +41,7 @@ from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
 from app.services.geometric import sun_visibility_response
+from app.services.mission_report import mission_report
 from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
@@ -184,6 +185,18 @@ def terrain_horizon(
     return terrain_horizon_response(
         site_id=site_id, latitude_deg=latitude_deg, longitude_deg=longitude_deg,
         window=window)
+
+
+@router.get("/mission-report")
+def mission_report_route(site_id: str, window: str = "initial"):
+    """Phase 3 Task 11: one result envelope per site and window, for Phase 4.
+
+    Concatenates the terrain basis and coverage, adjusted visibility, intervals,
+    metrics and the Phase 1 requirement checks into one deterministic document.
+    Every number is copied from ``/api/terrain-horizon`` and ``/api/phase3``;
+    there is no wall clock, so a re-run reproduces it. Geometry only.
+    """
+    return mission_report(site_id=site_id, window=window)
 
 
 @router.get("/sites", response_model=list[Site])

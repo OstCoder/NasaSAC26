@@ -527,17 +527,17 @@ and reproducible results.
 
 ## Task 11: Prepare Results for Phase 4
 
-- [ ] Standardize calculated results into JSON.
-- [ ] Include the site identifier and coordinates.
-- [ ] Include mission start and end timestamps.
-- [ ] Include sunlight and Earth visibility metrics.
-- [ ] Include continuous visibility windows.
-- [ ] Include simultaneous visibility statistics.
-- [ ] Include mission requirement results.
-- [ ] Include data source and model quality labels.
-- [ ] Provide structured results for frontend charts.
-- [ ] Test the calculation output for at least one site.
-- [ ] Confirm that frontend developers understand
+- [x] Standardize calculated results into JSON.
+- [x] Include the site identifier and coordinates.
+- [x] Include mission start and end timestamps.
+- [x] Include sunlight and Earth visibility metrics.
+- [x] Include continuous visibility windows.
+- [x] Include simultaneous visibility statistics.
+- [x] Include mission requirement results.
+- [x] Include data source and model quality labels.
+- [x] Provide structured results for frontend charts.
+- [x] Test the calculation output for at least one site.
+- [x] Confirm that frontend developers understand
       all output fields and units.
 
 ### Example Output Structure
@@ -571,6 +571,18 @@ Replace null values with actual calculations.
 
 The example is a schema template, not a
 completed scientific result.
+
+### Implemented
+
+`backend/app/services/mission_report.py` assembles the envelope behind
+`GET /api/mission-report?site_id=<id>&window=initial|alternative`, schema
+`lunanav.mission_report.v1`. It reads, and never recalculates, the terrain basis
+and coverage from `terrain_horizon.py`, the adjusted visibility, intervals and
+metrics from `phase3.py`, and the Phase 1 checks and thresholds from
+`requirements.py`. `mission_report_json()` sorts keys and includes no wall
+clock, so a re-run reproduces the document byte for byte (asserted in
+`backend/tests/test_mission_report.py`). Every field, its unit and its meaning
+are listed in [docs/MISSION_REPORT.md](docs/MISSION_REPORT.md).
 
 ### Suggested Backend Structure
 
@@ -682,13 +694,13 @@ before you start.
 
 ## Task 3: Phase 3 result envelope
 
-- [ ] One JSON document per site and window
+- [x] One JSON document per site and window
       combining the series, adjusted
       visibility, intervals, metrics,
       requirements and provenance.
-- [ ] Deterministic ordering and rounding,
+- [x] Deterministic ordering and rounding,
       one schema string, a version field.
-- [ ] Documented in `docs/` and covered by a
+- [x] Documented in `docs/` and covered by a
       test that a re-run reproduces it byte
       for byte.
 
