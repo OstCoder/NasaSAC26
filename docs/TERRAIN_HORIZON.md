@@ -95,6 +95,16 @@ terrain-verified. `provenance.expected_terrain_provenance` stays
 - **No atmosphere, no scattering, no libration beyond the stored ephemeris.**
   The numbers are airless geometry at the stored UTC samples.
 
+## In the website
+
+The Mission Planner's *Phase 4 · Terrain horizon profile* panel
+(`frontend/src/features/phase3/TerrainHorizonPanel.tsx`) draws this profile with
+the Sun and Earth tracks from `/api/series` on top, shows the `terrain` or
+`geometric only` badge from the payload itself, and prints the observer height,
+both pixel tiers, the 150 km range, the maximum obstruction and its azimuth. It
+reports how many samples sit above the skyline and how many the terrain blocks,
+so the chart is never the only copy of a number.
+
 ## HTTP
 
 ```bash

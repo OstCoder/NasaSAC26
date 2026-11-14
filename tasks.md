@@ -654,18 +654,18 @@ before you start.
 
 ## Task 1: Horizon profile view
 
-- [ ] Draw the site's terrain horizon profile
+- [x] Draw the site's terrain horizon profile
       from `GET /api/terrain-horizon` in the
       Mission Planner.
-- [ ] Overlay the Sun and Earth elevation
+- [x] Overlay the Sun and Earth elevation
       tracks, with their azimuths.
-- [ ] Label the profile `terrain` or
+- [x] Label the profile `terrain` or
       `geometric only` from the payload, never
       inferred from the site name.
-- [ ] Show the observer height, the 5 m/80 m
+- [x] Show the observer height, the 5 m/80 m
       tiers, the 150 km range and the maximum
       obstruction with its azimuth.
-- [ ] Explain in one sentence why a skyline
+- [x] Explain in one sentence why a skyline
       above the Sun's maximum elevation means
       no sunlight in that window.
 
