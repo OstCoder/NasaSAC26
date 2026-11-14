@@ -865,14 +865,14 @@ before you start.
 
 ## Task 2: Feasibility matrix
 
-- [ ] One row per candidate, both mission
+- [x] One row per candidate, both mission
       windows against every Phase 1
       requirement.
-- [ ] Each cell is met, not met or unknown,
+- [x] Each cell is met, not met or unknown,
       with the measured value and threshold.
-- [ ] Link each cell to the metric that
+- [x] Link each cell to the metric that
       produced it; no hand-entered values.
-- [ ] State that `unknown` is not a pass.
+- [x] State that `unknown` is not a pass.
 
 ## Task 3: Phase 3 result envelope
 
