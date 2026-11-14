@@ -17,9 +17,18 @@ const STATUS_WORD: Record<RequirementStatus, string> = {
   unknown: 'unknown',
 }
 
+const CHECK_METRIC: Record<string, string> = {
+  min_sun_visible_pct: 'sun_visible_pct',
+  min_earth_visible_pct: 'earth_visible_pct',
+  max_earth_blackout_hours: 'longest_earth_blackout_hours',
+}
+
 function StatusCell({ check }: { check: RequirementCheck }) {
   return (
-    <td className="border-t border-rule-soft px-2 py-1.5 text-center" title={check.detail}>
+    <td
+      className="border-t border-rule-soft px-2 py-1.5 text-center"
+      title={`${check.detail} (metric: ${CHECK_METRIC[check.id] ?? check.id}, shared with the requirements engine — no hand-entered values)`}
+    >
       <span className={cn('num text-xs font-medium', STATUS_STYLE[check.status])}>
         {STATUS_WORD[check.status]}
       </span>
@@ -139,6 +148,13 @@ export function FeasibilityPanel() {
             </table>
           </div>
         )}
+        <p className="mt-3 text-xs text-faint">
+          "unknown" is not a pass: a requirement marked unknown cannot be decided from
+          this window (its value is missing or window-limited), and a window-limited
+          longest-blackout can never clear an "at most" target because the window caps
+          it. Every cell is computed by the shared metric registry — the same numbers
+          the requirements engine reports, never hand-entered.
+        </p>
         {matrix.data?.notes && (
           <ul className="mt-3 space-y-1 text-xs text-faint">
             {matrix.data.notes.map((note) => (
