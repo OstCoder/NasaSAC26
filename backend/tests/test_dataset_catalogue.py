@@ -1,0 +1,90 @@
+"""Phase 2 Task 4: one catalogue over sites, series, terrain and references."""
+
+import pytest
+
+from app.services.dataset_catalogue import (
+    SCHEMA,
+    build_catalogue,
+    reset_cache,
+    series_site_problems,
+    site_record_problems,
+)
+
+
+@pytest.fixture(scope="module")
+def catalogue():
+    reset_cache()
+    return build_catalogue()
+
+
+def test_every_dataset_is_listed_with_units_and_conventions(catalogue):
+    assert catalogue["schema"] == SCHEMA
+    ids = {entry["id"] for entry in catalogue["datasets"]}
+    assert {"sites", "site_series", "site_terrain", "site_elevations",
+            "psr_catalogue", "craters", "ephemeris", "horizon_masks", "cache"} <= ids
+    for entry in catalogue["datasets"]:
+        assert entry["path"]
+        assert entry["kind"] in {"sites", "observations", "terrain", "reference", "cache"}
+        assert entry["longitude_convention"].startswith("selenographic east-positive")
+        assert entry["units"]["angle"] == "degrees"
+        assert entry["units"]["time"].startswith("UTC")
+
+
+def test_cross_dataset_checks_pass_and_counts_match_the_files(catalogue):
+    assert catalogue["problems"] == []
+    by_id = {entry["id"]: entry for entry in catalogue["datasets"]}
+    assert by_id["sites"]["records"] >= 3
+    assert by_id["site_series"]["records"] == 1014
+    assert by_id["site_terrain"]["records"] == 3
+    assert by_id["site_series"]["available"] is True
+    assert by_id["site_terrain"]["available"] is True
+    assert by_id["site_series"]["sources"]
+    assert by_id["site_terrain"]["sources"]
+
+
+def test_datasets_that_do_not_exist_say_so_instead_of_vanishing(catalogue):
+    by_id = {entry["id"]: entry for entry in catalogue["datasets"]}
+    for dataset_id in ("ephemeris", "horizon_masks"):
+        entry = by_id[dataset_id]
+        assert entry["available"] is False
+        assert entry["unavailable_reason"]
+    assert "Task 6" in by_id["horizon_masks"]["unavailable_reason"]
+
+
+def test_cache_is_described_without_inventing_content(catalogue):
+    cache = next(entry for entry in catalogue["datasets"] if entry["id"] == "cache")
+    months = cache["details"]["horizons_months"]
+    assert isinstance(months, list)
+    assert all(len(month) == 7 and month[4] == "-" for month in months)
+    assert isinstance(cache["details"]["trek_tiles"], int)
+    assert "not" in cache["details"]["policy"]
+
+
+def test_site_records_are_validated():
+    good = {"id": "x", "latitude_deg": -89.0, "longitude_deg": -155.73,
+            "elevation_m": 100.0, "source": "test"}
+    assert site_record_problems(good) == []
+    assert site_record_problems({**good, "latitude_deg": -95.0})
+    assert site_record_problems({**good, "longitude_deg": 400.0})
+    assert site_record_problems({**good, "elevation_m": float("nan")})
+    assert site_record_problems({**good, "source": "  "})
+
+
+def test_series_must_describe_the_catalogue_point():
+    catalogue_site = {"id": "shackleton-rim", "latitude_deg": -89.78,
+                      "longitude_deg": -155.73, "elevation_m": 1734.05}
+    ok = {"latitude_deg": -89.78, "longitude_deg": -155.73, "elevation_m": 1734.05}
+    assert series_site_problems(ok, catalogue_site) == []
+    assert series_site_problems({**ok, "latitude_deg": -89.7}, catalogue_site)
+    assert series_site_problems({**ok, "elevation_m": 1736.0}, catalogue_site)
+    # 204.27 E is the same meridian but the wrong stored convention.
+    assert series_site_problems({**ok, "longitude_deg": 204.27}, catalogue_site)
+
+
+def test_api_serves_the_catalogue(client):
+    response = client.get("/api/datasets")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["schema"] == SCHEMA
+    assert payload["problems"] == []
+    assert any(entry["id"] == "site_series" for entry in payload["datasets"])

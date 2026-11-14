@@ -98,6 +98,8 @@
     "craters": "data/reference/moon_craters.json",
     "psr_catalogue": "data/reference/psrs.json",
     "site_elevations": "data/reference/site_elevations.json",
+    "site_series_index": "data/scientific/site_series/index.json",
+    "site_terrain": "data/reference/site_terrain.json",
     "demo_horizon_masks": "data/demo/horizon_masks.json",
     "scientific_ephemeris_dir": "data/scientific/ephemeris",
     "scientific_horizon_dir": "data/scientific/horizon_masks",

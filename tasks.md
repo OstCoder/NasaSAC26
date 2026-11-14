@@ -176,16 +176,16 @@ https://pgda.gsfc.nasa.gov/products/78
 
 ## Task 4: Organize and Store the Data
 
-- [ ] Define a consistent data structure for each landing site.
-- [ ] Store the verified site coordinates.
-- [ ] Store Sun and Earth time-series results.
-- [ ] Save dataset source information.
-- [ ] Store terrain files or references separately.
-- [ ] Use consistent units across all datasets.
-- [ ] Use a consistent lunar longitude convention.
-- [ ] Add basic validation for missing or invalid values.
-- [ ] Cache astronomical results to avoid unnecessary requests.
-- [ ] Ensure the data can be accessed by the backend.
+- [x] Define a consistent data structure for each landing site.
+- [x] Store the verified site coordinates.
+- [x] Store Sun and Earth time-series results.
+- [x] Save dataset source information.
+- [x] Store terrain files or references separately.
+- [x] Use consistent units across all datasets.
+- [x] Use a consistent lunar longitude convention.
+- [x] Add basic validation for missing or invalid values.
+- [x] Cache astronomical results to avoid unnecessary requests.
+- [x] Ensure the data can be accessed by the backend.
 
 ### Suggested Project Structure
 
@@ -212,10 +212,14 @@ existing repository.
 Large scientific datasets should not automatically
 be committed to GitHub.
 
-### Deliverable
+### DeliverableAn organized data pipeline that stores lunar landing sites, astronomical
+observations, and terrain references.
 
-An organized data pipeline that stores lunar landing
-sites, astronomical observations, and terrain references.
+Indexed and cross-checked by `backend/app/services/dataset_catalogue.py`, served
+at `GET /api/datasets` and checked by `backend/scripts/check_datasets.py`: nine
+datasets with paths, units, longitude convention, sources and record counts.
+The same site must be the same point in the catalogue, the Task 2 series and the
+Task 3 terrain reference. Details: [docs/DATASETS.md](docs/DATASETS.md).
 
 ---
 

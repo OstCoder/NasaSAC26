@@ -34,6 +34,7 @@ from app.models.schemas import (
 )
 from app.providers.registry import get_bundle
 from app.services.comparison import ScenarioComparisonService, ScenarioService
+from app.services.dataset_catalogue import build_catalogue
 from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
@@ -58,6 +59,16 @@ def config():
 def providers(mode: Mode = Mode.demo):
     b = get_bundle(mode)
     return [b.ephemeris.info(), b.terrain.info()]
+
+
+@router.get("/datasets")
+def datasets():
+    """Every dataset the backend loads: units, conventions, sources and checks.
+
+    ``problems`` is empty when all cross-dataset checks pass. A dataset that is
+    not available yet is listed with the reason instead of being omitted.
+    """
+    return build_catalogue(use_cache=True)
 
 
 @router.get("/sites", response_model=list[Site])
