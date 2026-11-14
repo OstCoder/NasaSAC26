@@ -17,6 +17,7 @@ import {
 import { Phase3Panel } from '@/features/phase3/Phase3Panel'
 import { TerrainHorizonPanel } from '@/features/phase3/TerrainHorizonPanel'
 import { FeasibilityPanel } from '@/features/phase3/FeasibilityPanel'
+import { DelayComparisonPanel } from '@/features/phase3/DelayComparisonPanel'
 import { siteDraftLocation, useApp, type ScenarioDraft } from '@/hooks/useAppContext'
 import { useCraters, useScenario, useSkyNow, useSnapshot } from '@/hooks/useScenario'
 import { fmtLat, fmtLon, fmtUtc } from '@/lib/format'
@@ -376,6 +377,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
       <Phase3Panel />
       <TerrainHorizonPanel />
       <FeasibilityPanel />
+      <DelayComparisonPanel />
     </div>
   )
 }
