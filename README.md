@@ -83,7 +83,8 @@ lunanav/
 │   ├── hooks/           # app state, data fetching
 │   └── config/          # feature-flag resolution, presentation constants
 ├── data/
-│   ├── demo/            # sites.json, horizon_masks.json (synthetic)
+│   ├── demo/            # sites.json, horizon_masks.json (synthetic skylines)
+│   ├── reference/       # PSR catalogue, LOLA site-elevation evidence, IAU crater centres
 │   └── scientific/      # empty until real data is added
 └── docs/
     ├── ARCHITECTURE.md
@@ -110,6 +111,7 @@ lunanav/
 ## Further reading
 
 - [docs/MISSION.md](docs/MISSION.md): the 7-day solar-powered robotic mission and its three candidate sites
+- [docs/SITES.md](docs/SITES.md): the selected sites, their published coordinates, LOLA elevations and PSR context
 - [docs/SITE_REQUIREMENTS.md](docs/SITE_REQUIREMENTS.md): the measurable criteria a site must meet, and what those numbers do not prove
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): layers, data flow, extension points
 - [docs/METHODOLOGY.md](docs/METHODOLOGY.md): the math, conventions, accuracy, what is and isn't modelled

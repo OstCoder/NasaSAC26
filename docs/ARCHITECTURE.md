@@ -65,6 +65,8 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `services/metrics.py` | Metric registry. |
 | `services/visibility.py` | `VisibilityCalculator`: scenario series, snapshot, event refinement. |
 | `services/comparison.py` | `ScenarioService`, `ScenarioComparisonService`. |
+| `services/sites.py` | Site catalogue: candidate resolution against the mission, PSR-proximity enrichment, elevation cross-check. |
+| `services/psr.py` | PSR boundary catalogue: nearest-PSR geometry and within-radius queries. |
 | `services/imagery.py` | Moon Trek tile cache, reprojection to the polar map grid, global texture. |
 | `services/jpl_status.py` | Live reachability of Horizons and Moon Trek. |
 | `core/http.py` | Single outbound HTTP function (mocked in tests). |
