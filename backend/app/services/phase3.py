@@ -63,6 +63,14 @@ def _metric(metrics: list[dict], metric_id: str):
     raise KeyError(metric_id)
 
 
+def _next_start(spans, after: float) -> str | None:
+    """First interval edge strictly after ``after``, or None if there is none."""
+    for start, _ in sorted(spans):
+        if start > after + 1.0:
+            return to_iso(datetime.fromtimestamp(start, tz=timezone.utc))
+    return None
+
+
 def visibility_response(
     *, site_id: str, window: str = "initial", settings: Settings | None = None
 ) -> dict:
@@ -93,10 +101,14 @@ def visibility_response(
     sun_spans = iv.intervals_from_clearance(t, sun.clearance_deg)
     earth_spans = iv.intervals_from_clearance(t, earth.clearance_deg)
     both_spans = iv.intersect(sun_spans, earth_spans)
+    sun_only_spans = iv.intersect(sun_spans, iv.complement(earth_spans, span))
+    earth_only_spans = iv.intersect(earth_spans, iv.complement(sun_spans, span))
     spans = {
         "sun_visible": sun_spans,
         "earth_visible": earth_spans,
         "both_visible": both_spans,
+        "sun_only": sun_only_spans,
+        "earth_only": earth_only_spans,
         "sun_blocked": iv.complement(sun_spans, span),
         "earth_blocked": iv.complement(earth_spans, span),
         "neither_visible": iv.complement(iv.union(sun_spans, earth_spans), span),
@@ -166,8 +178,23 @@ def visibility_response(
             "both_visible_pct": _metric(metrics, "both_visible_pct"),
             "both_visible_hours": _metric(metrics, "both_visible_hours"),
             "longest_no_simultaneous_hours": _metric(metrics, "longest_no_simultaneous_hours"),
+            "sun_only_hours": round(iv.total_seconds(sun_only_spans) / 3600.0, 4),
+            "earth_only_hours": round(iv.total_seconds(earth_only_spans) / 3600.0, 4),
+            "sun_blocked_hours": _metric(metrics, "sun_blocked_hours"),
+            "longest_sun_visible_hours": _metric(metrics, "longest_sun_visible_hours"),
+            "longest_earth_visible_hours": _metric(metrics, "longest_earth_visible_hours"),
         },
         "intervals": {key: _spans(value, span) for key, value in spans.items() if key != "not_both"},
+        "transitions": {
+            "basis": (
+                "First visibility or obstruction edge strictly after the window start, "
+                "interpolated between the stored hourly samples (not a new measurement)."
+            ),
+            "next_sunset_utc": _next_start(spans["sun_blocked"], span[0]),
+            "next_sunrise_utc": _next_start(sun_spans, span[0]),
+            "next_earthset_utc": _next_start(spans["earth_blocked"], span[0]),
+            "next_earthrise_utc": _next_start(earth_spans, span[0]),
+        },
         "metrics": metrics,
         "provenance": {
             "ephemeris": (table.payload.get("source") or "NASA JPL Horizons"),

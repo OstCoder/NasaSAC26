@@ -73,9 +73,74 @@ def test_every_candidate_and_window_is_available_offline():
 def test_api_phase3_and_unknown_inputs(client):
     response = client.get("/api/phase3?site_id=shackleton-rim")
     assert response.status_code == 200
-    assert response.json()["schema"] == SCHEMA
+    body = response.json()
+    assert body["schema"] == SCHEMA
+    assert {"sun_only", "earth_only"} <= set(body["intervals"])
+    assert {"next_sunrise_utc", "next_sunset_utc",
+            "next_earthrise_utc", "next_earthset_utc"} <= set(body["transitions"])
     assert client.get("/api/phase3?site_id=nope").status_code == 404
     assert client.get("/api/phase3?site_id=shackleton-rim&window=nope").status_code == 422
     windows = client.get("/api/phase3/windows")
     assert windows.status_code == 200
     assert len(windows.json()["sites"]) == 3
+
+
+def test_only_sun_and_only_earth_periods_partition_visible_time():
+    report = visibility_response(site_id="de-gerlache-rim", window="alternative")
+    intervals = report["intervals"]
+    summary = report["summary"]
+
+    assert {"sun_only", "earth_only"} <= set(intervals)
+    # Task 6's four cases partition each body's visible time.
+    assert summary["sun_only_hours"] + summary["both_visible_hours"] == pytest.approx(
+        summary["sun_visible_hours"], abs=0.01)
+    assert summary["earth_only_hours"] + summary["both_visible_hours"] == pytest.approx(
+        summary["earth_visible_hours"], abs=0.01)
+
+    def overlaps(a, b):
+        return any(x["start_utc"] < y["end_utc"] and y["start_utc"] < x["end_utc"]
+                   for x in a for y in b)
+
+    assert not overlaps(intervals["sun_only"], intervals["earth_visible"])
+    assert not overlaps(intervals["earth_only"], intervals["sun_visible"])
+
+
+def test_total_darkness_and_next_transitions_are_reported():
+    report = visibility_response(site_id="connecting-ridge", window="alternative")
+    summary = report["summary"]
+
+    assert summary["sun_blocked_hours"] + summary["sun_visible_hours"] == pytest.approx(
+        168.0, abs=0.01)
+    earth_windows = report["intervals"]["earth_visible"]
+    assert summary["longest_earth_visible_hours"] == pytest.approx(
+        max(window["duration_hours"] for window in earth_windows), abs=0.01)
+
+    transitions = report["transitions"]
+    keys = ("next_sunset_utc", "next_sunrise_utc", "next_earthset_utc", "next_earthrise_utc")
+    assert set(keys) <= set(transitions)
+    start, stop = report["window"]["start_utc"], report["window"]["stop_utc"]
+    for key in keys:
+        value = transitions[key]
+        assert value is None or start < value < stop
+
+
+@pytest.mark.parametrize("site_id", ["shackleton-rim", "connecting-ridge", "de-gerlache-rim"])
+@pytest.mark.parametrize("window", ["initial", "alternative"])
+def test_every_window_partitions_sun_and_earth_time(site_id, window):
+    report = visibility_response(site_id=site_id, window=window)
+    summary = report["summary"]
+
+    assert summary["sun_only_hours"] + summary["both_visible_hours"] == pytest.approx(
+        summary["sun_visible_hours"], abs=0.01)
+    assert summary["earth_only_hours"] + summary["both_visible_hours"] == pytest.approx(
+        summary["earth_visible_hours"], abs=0.01)
+    assert summary["sun_blocked_hours"] + summary["sun_visible_hours"] == pytest.approx(
+        168.0, abs=0.01)
+
+
+def test_a_fully_shadowed_window_has_no_transition_inside_it():
+    report = visibility_response(site_id="shackleton-rim", window="initial")
+
+    assert report["summary"]["sun_visible_hours"] == 0.0
+    assert report["summary"]["sun_blocked_hours"] == pytest.approx(168.0, abs=0.01)
+    assert report["transitions"]["next_sunrise_utc"] is None

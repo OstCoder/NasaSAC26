@@ -67,9 +67,10 @@ The three mission candidates have committed two-tier masks in `data/scientific/h
 
 - Samples every `step_minutes` (default 30). The step is coarsened automatically if a window would exceed `max_samples`; the response reports the actual step.
 - Visibility edges are placed by **linear interpolation of clearance** between samples, so edge timing is finer than the step.
-- Interval algebra produces: sun/earth visible, both visible (intersection), blocked (complement), neither (complement of union), and "not both" (complement of both).
+- Interval algebra produces: sun/earth visible, both visible (intersection), sun-only and earth-only (each visible set intersected with the other's complement), blocked (complement), neither (complement of union), and "not both" (complement of both). `sun_only + both = sun_visible` and `earth_only + both = earth_visible` hold by construction.
 - **Censoring:** any longest-interval metric whose interval touches the window edge is flagged `censored` (shown as "≥"). The true value may be longer.
 - **Snapshot events** (time until sunset/Earthset or rise): 30 min forward scan within the lookahead (default 720 h, clipped to the supported range), then bisection to ~30 s.
+- **Next transitions in `/api/phase3`:** `transitions.next_sunrise_utc` / `next_sunset_utc` / `next_earthrise_utc` / `next_earthset_utc` are the first visibility or obstruction edge strictly after the window start, taken from the interpolated interval edges. They are estimates, not measurements; `null` means no such edge falls inside the window.
 
 Metric definitions are in `services/metrics.py`; each has a description shown as a tooltip in the UI.
 

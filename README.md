@@ -34,7 +34,7 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 277 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 306 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, mission config and site-catalogue validation,
                               # site provenance and PSR geometry, requirement checks, comparison,
                               # rescheduler, mode switching, topocentric Horizons site az/el (Task 1),
@@ -48,6 +48,24 @@ cd backend && pytest          # 277 tests: coordinates, time, ephemeris vs Meeus
 cd frontend && npm test       # projection round-trips
 cd frontend && npm run build  # strict TypeScript + production bundle
 ```
+
+### Mid-project acceptance check (Phase 3, no frontend needed)
+
+The terminal comparison the checkpoint asks for reads the committed Horizons series and
+LOLA masks, prints both mission windows against the Phase 1 requirements, and writes
+machine-readable JSON for Phase 4:
+
+```bash
+cd backend
+python scripts/analyze_mission.py --start 2026-12-01 --days 7 --compare-all
+python scripts/analyze_mission.py --start 2026-12-11 --days 7 --compare-all
+```
+
+Each run prints per-site sunlight, Earth line-of-sight, simultaneous visibility, longest
+darkness and longest Earth blackout, the met/not-met verdict with the numerical reason,
+and the delay delta. JSON goes to `backend/outputs/mission_comparison_<window>.json`.
+A start date without a committed series is refused with the list of supported windows —
+never filled with synthetic terrain or extrapolated ephemeris.
 
 ## What it does
 
@@ -133,7 +151,7 @@ lunanav/
 
 ## API
 
-`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/geometric-sun`, `GET /api/phase3`, `GET /api/phase3/windows`, `GET /api/terrain-horizon`, `GET /api/mission-report`, `GET /api/feasibility`, `GET /api/terrain-dem`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/geometric-sun`, `GET /api/geometric-earth`, `GET /api/phase3`, `GET /api/phase3/windows`, `GET /api/terrain-horizon`, `GET /api/mission-report`, `GET /api/feasibility`, `GET /api/terrain-dem`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 

@@ -43,9 +43,11 @@ number, change the module that owns it.
 | `terrain.earth_above_skyline`, `terrain.earth_blocked_by_terrain` | samples | same for Earth |
 | `sunlight.availability_percent` | % | Sun above the skyline over the window |
 | `sunlight.visible_hours` | h | total measured sunlight |
+| `sunlight.darkness_hours` | h | total time the Sun is below the skyline, i.e. window minus sunlight |
+| `sunlight.longest_sunlight_hours` | h | longest single sunlight interval |
 | `sunlight.longest_darkness_hours` | h | longest Sun blackout (window-limited, `null` if none) |
 | `sunlight.windows[]` | ISO-8601 UTC, h | each sunlight interval (`start_utc`, `end_utc`, `duration_hours`) |
-| `earth.visibility_percent`, `.visible_hours`, `.longest_blackout_hours`, `.windows[]` | % / h | direct line of sight past terrain, not a link budget |
+| `earth.visibility_percent`, `.visible_hours`, `.longest_visible_hours`, `.longest_blackout_hours`, `.windows[]` | % / h | direct line of sight past terrain, not a link budget |
 | `simultaneous_visibility.availability_percent`, `.visible_hours`, `.longest_gap_hours`, `.windows[]` | % / h | sunlight and Earth at once |
 | `metrics[]` | per metric | the full metric registry: `id`, `value`, `unit`, `censored`, labels |
 | `requirements.source` | — | `config/lunanav.config.json -> requirements` |

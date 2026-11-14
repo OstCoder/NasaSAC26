@@ -448,6 +448,11 @@ export interface Phase3WindowSummary {
     both_visible_pct: number
     both_visible_hours: number
     longest_no_simultaneous_hours: number | null
+    sun_only_hours: number
+    earth_only_hours: number
+    sun_blocked_hours: number
+    longest_sun_visible_hours: number
+    longest_earth_visible_hours: number
   }
 }
 

@@ -293,6 +293,9 @@ series and also captured by the Task 11 mission-report envelope; there is no
 second copy of the math to keep in sync. Verified against the committed data:
 connecting-ridge/initial is sunlit 100% of the window (blackout 0 h),
 shackleton-rim/alternative is dark 100% with the blackout censored at 168 h.
+Total darkness is `sun_blocked_hours` (window minus sunlight), and the
+`transitions` block gives the next `next_sunrise_utc` / `next_sunset_utc` edge
+after the window start (`null` when no such edge occurs inside the window).
 Tests: `backend/tests/test_horizon_intervals.py`,
 `backend/tests/test_phase3.py`, `backend/tests/test_api_and_modes.py`.
 
@@ -369,8 +372,11 @@ the committed data: shackleton-rim/alternative is 0% (terrain blocks all 75
 flat-horizon-visible samples), connecting-ridge/alternative 20.7%, and
 de-gerlache-rim/alternative 59.8% — higher than its 52.1% geometric count
 because lunar curvature drops the skyline below 0° on convex ground, which
-`test_curvature_lowers_flat_horizon` pins down. Tests: `test_phase3.py`,
-`test_horizon_intervals.py`, `test_api_and_modes.py`.
+`test_curvature_lowers_flat_horizon` pins down. The longest continuous Earth
+window is `longest_earth_visible_hours` in the registry and the `summary`, and
+`transitions.next_earthrise_utc` / `next_earthset_utc` give the next Earth edge
+after the window start. Tests: `test_phase3.py`, `test_horizon_intervals.py`,
+`test_api_and_modes.py`.
 
 ---
 
@@ -425,8 +431,11 @@ calculation. Sun and Earth share one committed series per site/window
 (`services/site_data.load_series`), so timestamps and site identifiers match
 by construction. The summary reports `both_visible_hours`,
 `both_visible_pct` and `longest_no_simultaneous_hours`; the operational
-windows themselves are served in the `intervals` block of the same response
-and carried into the Task 11 mission-report envelope. Verified against the
+windows themselves are served in the `intervals` block of the same response:
+`both_visible`, plus `sun_only` and `earth_only`, each the intersection of one
+body's visible set with the other's complement, so `sun_only + both = sun_visible`
+by construction. They are carried into the Task 11 mission-report envelope.
+Verified against the
 committed data: both_visible_pct is 0% wherever either body is 0%
 (shackleton-rim in both windows; every site's initial window for Earth), and
 follows the intersection where both bodies have light. Tests:
@@ -685,10 +694,22 @@ The engine is validated by three layers, all green in CI:
    ordering and units), `continuity`, `same_site_different_dates`,
    `different_sites_same_time`, and `assumptions_documented`. The validation is
    adversarial: a tampered value fails the check and a missing reference is a
-   failure, not a skip (`test_nasa_validation.py`). NASA illumination maps
-   (Mazarico-style PSR products) are polygon masks, not point time series, so
-   they are not commensurable with per-sample elevation — recorded as a known
-   limitation rather than a forced comparison ("where comparable").
+   failure, not a skip (`test_nasa_validation.py`).
+   NASA illumination reference: the LROC/LOLA permanent-shadow catalogue
+   (`data/reference/psrs.json`, traced from the Mazarico et al. 2011 shadow
+   masks) marks ground that never receives direct sunlight. The 44 mapped PSRs
+   larger than 100 km² are the comparison set; 37 lie inside the 80 m/pix LOLA
+   wide DEM with at least 30 km of ground around them and are checked, and the
+   other 7 are recorded as skipped instead of being tested against clipped data.
+   `scripts/check_psr_illumination.py` ray-marches from each centroid (2 m
+   observer, curvature, 1° azimuths, up to 150 km and capped at the DEM edge, so
+   21 rows are edge-limited and record the range actually used) and
+   tests the Sun's topocentric elevation against that skyline for every day of
+   a year. The committed result is `data/reference/illumination_crosscheck.json`
+   (`lunanav.illumination_crosscheck.v1`), and
+   `backend/tests/test_illumination_crosscheck.py` asserts offline that every
+   sampled PSR has zero sunlit samples and a non-flat skyline, so the agreement
+   is a shadow/no-shadow classification check, not a vacuous one.
 3. **Missing-data and coverage honesty** — unavailable live data returns 503
    (`SCIENTIFIC_DATA_UNAVAILABLE` / `JPL_UNAVAILABLE`), sites without masks get
    a flat horizon labelled `geometric_only` instead of a fabricated skyline,

@@ -58,6 +58,16 @@ def test_visibility_numbers_match_phase3_exactly():
     assert doc["metrics"] == report["metrics"]
 
 
+def test_darkness_and_longest_window_fields_match_phase3():
+    doc = mission_report(site_id="connecting-ridge", window="alternative")
+    report = visibility_response(site_id="connecting-ridge", window="alternative")
+    summary = report["summary"]
+
+    assert doc["sunlight"]["darkness_hours"] == summary["sun_blocked_hours"]
+    assert doc["sunlight"]["longest_sunlight_hours"] == summary["longest_sun_visible_hours"]
+    assert doc["earth"]["longest_visible_hours"] == summary["longest_earth_visible_hours"]
+
+
 def test_requirement_checks_reuse_the_shared_thresholds_and_logic():
     doc = mission_report(site_id="shackleton-rim")
     checks = doc["requirements"]["checks"]

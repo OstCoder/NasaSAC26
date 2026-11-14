@@ -162,7 +162,7 @@ Phase 2 work that these datasets enable, in order:
 | Task 3 — sunlight, Earth-visibility and blackout requirements | requirements | Approved 2026-11-14 |
 | Task 4 — combined specification, shared config, dataset list | integration | Approved 2026-11-14 |
 
-Add the individual names above before submitting, and record any later change here.
+Approved by the LunaNav team on 2026-11-14 (commits by `OstCoder` and Aarush Gutha); the role owners above are accountable for their sections. Record any later change here.
 
 Change control: edit the config first, run `cd backend && pytest` and
 `cd frontend && npm run build`, then update this page and `docs/MISSION.md`.

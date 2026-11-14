@@ -148,3 +148,46 @@ requires the observed pairwise differences to match the model's prediction to
 
 If the live checks fail, the committed values are stale or a convention changed;
 do not use them until the cause is understood.
+
+## Phase 3 Task 10 — NASA illumination cross-check
+
+The tasks list asks the Phase 3 calculations to be checked against NASA
+illumination reference data "where comparable". The comparable product is the
+**LROC/LOLA south-pole permanent-shadow catalogue** (`data/reference/psrs.json`,
+traced from the LOLA shadow masks of Mazarico et al. 2011): a PSR is ground that
+never receives direct sunlight, which is exactly the question the terrain model
+answers.
+
+```bash
+cd backend
+python scripts/check_psr_illumination.py   # needs the cached 189 MB LOLA wide DEM
+```
+
+The script takes the mapped PSRs larger than 100 km² (44 of them). Of those, 37
+lie inside the committed 80 m/pix `LDEM_80S_80MPP_ADJ` wide DEM with at least
+30 km of ground around them and are ray-marched from the recorded centroid (2 m
+observer, lunar curvature, 1° azimuths, up to 150 km and capped at the DEM edge);
+the other 7 are recorded as skipped, never tested against clipped data. The script
+compares the Sun's topocentric
+elevation against that skyline for every day from 2026-12-01 to 2027-11-30. The
+result is committed as `data/reference/illumination_crosscheck.json`
+(`lunanav.illumination_crosscheck.v1`), and
+`backend/tests/test_illumination_crosscheck.py` validates it offline: no sampled
+PSR receives a sunlit sample, every agreement has a non-flat skyline, and the DEM
+checksum matches `wide_dem.json`.
+
+What this proves and does not:
+
+- It is a **shadow / no-shadow classification** comparison, not a time-series
+  illumination percentage. NASA's product is a polygon mask; a per-sample
+  percentage would need an illumination raster the project does not have.
+- Sun positions come from the analytic model (a few hundredths of a degree from
+  Horizons). The agreement margins are degrees, so the classification is not
+  sensitive to that error.
+- A PSR centroid represents a compact region. For elongated PSRs the lit end is
+  outside the sampled point; the check reports the margin rather than claiming a
+  polygon-wide proof.
+- The 80 m/pix DEM resolves rims and massifs, not ridges narrower than ~80 m.
+  The ray-march stops at 150 km or the DEM edge, whichever comes first; 21 of the
+  37 checked rows are edge-limited, so their skyline is a lower bound on
+  obstruction. It remains a limitation rather than a guarantee.
