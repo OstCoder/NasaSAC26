@@ -6,6 +6,7 @@ from app.services.dataset_catalogue import (
     SCHEMA,
     build_catalogue,
     reset_cache,
+    series_file_problems,
     series_site_problems,
     site_record_problems,
 )
@@ -79,6 +80,23 @@ def test_series_must_describe_the_catalogue_point():
     assert series_site_problems({**ok, "elevation_m": 1736.0}, catalogue_site)
     # 204.27 E is the same meridian but the wrong stored convention.
     assert series_site_problems({**ok, "longitude_deg": 204.27}, catalogue_site)
+
+
+def test_series_file_must_be_the_file_the_index_claims():
+    payload = {
+        "schema": "lunanav.site_series.v1",
+        "site": {"site_id": "shackleton-rim"},
+        "window": {"start_utc": "2026-12-01T00:00:00Z", "stop_utc": "2026-12-08T00:00:00Z"},
+    }
+    expected = {"start_utc": "2026-12-01T00:00:00Z", "stop_utc": "2026-12-08T00:00:00Z"}
+    assert series_file_problems(payload, "shackleton-rim", "initial", expected) == []
+    assert series_file_problems({**payload, "site": {"site_id": "connecting-ridge"}},
+                                "shackleton-rim", "initial", expected)
+    shifted = {**payload, "window": {"start_utc": "2026-12-02T00:00:00Z",
+                                     "stop_utc": "2026-12-08T00:00:00Z"}}
+    assert series_file_problems(shifted, "shackleton-rim", "initial", expected)
+    assert series_file_problems({**payload, "schema": "v0"},
+                                "shackleton-rim", "initial", expected)
 
 
 def test_api_serves_the_catalogue(client):

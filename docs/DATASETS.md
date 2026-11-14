@@ -53,12 +53,15 @@ Cross-dataset, not just per-file:
 1. every site has finite coordinates inside the legal ranges and a `source`;
 2. every mission candidate exists and has a recorded elevation;
 3. each series file's `site` block matches the catalogue's latitude, longitude
-   (within 1e-6°) and elevation (within 0.05 m);
-4. each terrain entry matches the same coordinates, its DEM records a checksum
-   and the 1737.4 km frame, and its obstruction angle is physical;
+   (within 1e-6°) and elevation (within 0.05 m), and its `site_id` and window
+   match the entry in `index.json` that lists it;
+4. each terrain entry matches the same coordinates, its DEM records a 5 m pixel
+   size, a checksum and the 1737.4 km frame, its obstruction angle is physical,
+   and its pixel elevation agrees with the LOLA sampling evidence (0.05 m);
 5. the series index total equals the records actually on disk, timestamps are
    chronological, and every value is finite;
-6. the declared longitude convention is east-positive and [−180°, 180°).
+6. the declared longitude convention is east-positive and [−180°, 180°);
+7. the cache is reported unavailable (not "empty") when its directory is absent.
 
 A failing check is reported by `problems[]` in the payload and by exit status 1
 from the script — the API still serves the catalogue so a UI can show what is
@@ -68,6 +71,7 @@ broken rather than a blank page.
 
 ```bash
 curl -s localhost:8000/api/datasets | python -m json.tool | head -40
+curl -s 'localhost:8000/api/datasets?force=true'   # bypass the in-process cache
 ```
 
 ```python

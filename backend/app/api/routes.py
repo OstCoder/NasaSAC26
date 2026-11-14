@@ -62,13 +62,14 @@ def providers(mode: Mode = Mode.demo):
 
 
 @router.get("/datasets")
-def datasets():
+def datasets(force: bool = False):
     """Every dataset the backend loads: units, conventions, sources and checks.
 
     ``problems`` is empty when all cross-dataset checks pass. A dataset that is
     not available yet is listed with the reason instead of being omitted.
+    ``force=true`` re-reads the files instead of using the in-process cache.
     """
-    return build_catalogue(use_cache=True)
+    return build_catalogue(use_cache=not force)
 
 
 @router.get("/sites", response_model=list[Site])

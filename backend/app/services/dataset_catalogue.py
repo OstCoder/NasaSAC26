@@ -84,6 +84,26 @@ def site_record_problems(site: dict) -> list[str]:
     return problems
 
 
+def series_file_problems(payload: dict, site_id: str, window_key: str,
+                         expected_window: dict) -> list[str]:
+    """A series file must be the file index.json claims it is."""
+    problems = []
+    if payload.get("schema") != "lunanav.site_series.v1":
+        problems.append(f"site_series: {site_id} {window_key} schema {payload.get('schema')!r}")
+    if (payload.get("site") or {}).get("site_id") != site_id:
+        problems.append(
+            f"site_series: {site_id} {window_key} file describes site "
+            f"{(payload.get('site') or {}).get('site_id')!r}")
+    window = payload.get("window") or {}
+    if expected_window and (window.get("start_utc") != expected_window.get("start_utc")
+                            or window.get("stop_utc") != expected_window.get("stop_utc")):
+        problems.append(
+            f"site_series: {site_id} {window_key} window {window.get('start_utc')}.."
+            f"{window.get('stop_utc')} does not match index.json "
+            f"{expected_window.get('start_utc')}..{expected_window.get('stop_utc')}")
+    return problems
+
+
 def series_site_problems(payload_site: dict, catalogue_site: dict) -> list[str]:
     """The series must describe the same point the catalogue does."""
     site_id = catalogue_site.get("id")
@@ -206,13 +226,13 @@ def _series(settings, sites_by_id: dict[str, dict], problems: list[str]) -> Data
             site_block = payload.get("site", {})
             if site_id in sites_by_id:
                 problems.extend(series_site_problems(site_block, sites_by_id[site_id]))
+            problems.extend(series_file_problems(
+                payload, site_id, window, (index.get("windows") or {}).get(window) or {}))
             records = payload.get("series", [])
             total += len(records)
             if not records:
                 problems.append(f"site_series: {name} has no records")
                 continue
-            if payload.get("schema") != "lunanav.site_series.v1":
-                problems.append(f"site_series: {name} schema {payload.get('schema')!r}")
             try:
                 times = [parse_utc(r["timestamp_utc"]) for r in records]
             except Exception:  # noqa: BLE001 - reported, not raised, so other files still check
@@ -260,6 +280,8 @@ def _terrain(settings, sites_by_id: dict[str, dict], problems: list[str]) -> Dat
         return dataset
 
     dataset.schema = payload.get("schema")
+    evidence_path = Path(settings.datasets["site_elevations"])
+    evidence = json.loads(evidence_path.read_text()).get("samples", {}) if evidence_path.exists() else {}
     sites = payload.get("sites", {})
     for site_id, entry in sites.items():
         catalogue_site = sites_by_id.get(site_id)
@@ -272,8 +294,16 @@ def _terrain(settings, sites_by_id: dict[str, dict], problems: list[str]) -> Dat
         ):
             problems.append(f"site_terrain: {site_id} coordinates disagree with the catalogue")
         dem = entry.get("dem", {})
-        if dem.get("pixel_m") not in (None, 5.0):
-            problems.append(f"site_terrain: {site_id} pixel size {dem.get('pixel_m')} m")
+        if dem.get("pixel_m") != 5.0:
+            problems.append(f"site_terrain: {site_id} pixel size {dem.get('pixel_m')!r} m (expected 5.0)")
+        center_px = (evidence.get(site_id) or {}).get("products", {}).get("surf", {}).get("center_px")
+        site_pixel = (entry.get("site_pixel") or {}).get("elevation_m")
+        if center_px is not None and not (
+            _finite(site_pixel) and abs(site_pixel - center_px) <= ELEVATION_TOLERANCE_M
+        ):
+            problems.append(
+                f"site_terrain: {site_id} DEM pixel elevation {site_pixel!r} disagrees with "
+                f"the LOLA sampling evidence {center_px} m")
         if not (_finite(dem.get("bytes")) and dem["bytes"] > 0):
             problems.append(f"site_terrain: {site_id} DEM file size not recorded")
         if not (isinstance(dem.get("sha256"), str) and len(dem["sha256"]) == 64):
@@ -305,7 +335,10 @@ def _reference(dataset_id: str, label: str, path: Path, kind: str, problems: lis
     dataset.schema = payload.get("schema") or payload.get("dataset")
     dataset.records = _count(payload)
     dataset.details = {"generated_utc": payload.get("generated_utc")}
-    dataset.sources = [{"label": str(payload.get("source", "")), "url": None}]
+    source = payload.get("source")
+    if isinstance(source, dict):
+        source = source.get("label") or source.get("product") or source.get("provider")
+    dataset.sources = [{"label": str(source), "url": payload.get("url")}] if source else []
     return dataset
 
 
@@ -326,7 +359,10 @@ def _optional_directory(dataset_id: str, label: str, path: Path, reason: str,
 
 def _cache(settings) -> Dataset:
     cache_dir = Path(settings.datasets["cache_dir"])
-    dataset = Dataset("cache", "Astronomical and imagery response cache", "cache", _rel(cache_dir))
+    dataset = Dataset("cache", "Astronomical and imagery response cache", "cache", _rel(cache_dir),
+                      available=cache_dir.exists())
+    if not cache_dir.exists():
+        dataset.unavailable_reason = f"no cache directory at {_rel(cache_dir)} yet"
     horizons = sorted((cache_dir / "horizons").glob("*.json"))
     trek_files = [p for p in (cache_dir / "trek").rglob("*") if p.suffix in (".png", ".jpg")]
     dataset.records = len(horizons)
@@ -396,7 +432,7 @@ def build_catalogue(*, use_cache: bool = False) -> dict:
         },
         "datasets": [d.as_dict() for d in
                      (sites, series, terrain, elevations, psrs, craters, ephemeris, masks, cache)],
-        "problems": problems,
+        "problems": list(dict.fromkeys(problems)),
     }
     _CACHED = payload
     return payload
