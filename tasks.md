@@ -218,16 +218,16 @@ https://pgda.gsfc.nasa.gov/products/78
 
 ## Task 4: Calculate Sunlight Availability
 
-- [ ] Load the Sun visibility timeline.
-- [ ] Identify continuous periods of sunlight.
-- [ ] Identify continuous periods without sunlight.
-- [ ] Calculate total sunlight duration.
-- [ ] Calculate total darkness duration.
-- [ ] Calculate sunlight availability percentage.
-- [ ] Find the longest continuous darkness period.
-- [ ] Estimate the next sunrise or sunset transition.
-- [ ] Refine observation intervals near transitions.
-- [ ] Save calculated sunlight statistics.
+- [x] Load the Sun visibility timeline.
+- [x] Identify continuous periods of sunlight.
+- [x] Identify continuous periods without sunlight.
+- [x] Calculate total sunlight duration.
+- [x] Calculate total darkness duration.
+- [x] Calculate sunlight availability percentage.
+- [x] Find the longest continuous darkness period.
+- [x] Estimate the next sunrise or sunset transition.
+- [x] Refine observation intervals near transitions.
+- [x] Save calculated sunlight statistics.
 
 ### Calculations
 
@@ -272,20 +272,44 @@ A function that calculates sunlight availability,
 sunlight windows, darkness windows, and the longest
 continuous period without direct sunlight.
 
+### Implemented
+
+`backend/app/services/intervals.py` + `backend/app/services/metrics.py`, served
+by `GET /api/phase3` on the terrain-adjusted basis and by the Phase 1 planner on
+the geometric one. Sunlight and darkness come from
+`intervals_from_clearance` (visibility edges are interpolated between samples,
+so interval timing is finer than the stored step); totals and percentages are
+span seconds, i.e. time-weighted rather than sample counts, which stays honest
+if observation intervals are ever unequal. `sun_visible_hours`,
+`sun_visible_pct`, `sun_blocked` and `longest_sun_blackout_hours` all appear in
+`GET /api/phase3`; a longest interval that touches the window edge is flagged
+`censored` and shown as "≥", which is the window-limited labelling the task
+asks for. Next transitions come from `VisibilityCalculator.snapshot`
+(`services/visibility.py`): a 30-minute forward scan within the lookahead,
+then bisection refinement of the flip to sub-minute precision, with
+`transition_beyond_lookahead` set when the window contains no cycle
+(a seven-day polar mission may not). Statistics are served from the committed
+series and also captured by the Task 11 mission-report envelope; there is no
+second copy of the math to keep in sync. Verified against the committed data:
+connecting-ridge/initial is sunlit 100% of the window (blackout 0 h),
+shackleton-rim/alternative is dark 100% with the blackout censored at 168 h.
+Tests: `backend/tests/test_horizon_intervals.py`,
+`backend/tests/test_phase3.py`, `backend/tests/test_api_and_modes.py`.
+
 ---
 
 ## Task 5: Calculate Earth Communication Windows
 
-- [ ] Load the Earth visibility timeline.
-- [ ] Identify continuous periods of Earth visibility.
-- [ ] Identify periods when Earth is obstructed.
-- [ ] Calculate total Earth visibility duration.
-- [ ] Calculate Earth visibility percentage.
-- [ ] Identify the longest Earth visibility window.
-- [ ] Identify the longest communication blackout.
-- [ ] Estimate the next Earthrise or Earthset.
-- [ ] Refine observation intervals near transitions.
-- [ ] Save communication window statistics.
+- [x] Load the Earth visibility timeline.
+- [x] Identify continuous periods of Earth visibility.
+- [x] Identify periods when Earth is obstructed.
+- [x] Calculate total Earth visibility duration.
+- [x] Calculate Earth visibility percentage.
+- [x] Identify the longest Earth visibility window.
+- [x] Identify the longest communication blackout.
+- [x] Estimate the next Earthrise or Earthset.
+- [x] Refine observation intervals near transitions.
+- [x] Save communication window statistics.
 
 ### Calculations
 
@@ -328,19 +352,39 @@ A function that calculates Earth visibility windows,
 visibility percentage, and maximum line-of-sight
 blackout duration.
 
+### Implemented
+
+The same interval and metric machinery as Task 4, run on the Earth track:
+`earth_visible`, `earth_blocked` intervals with interpolated edges,
+`earth_visible_hours`, `earth_visible_pct` and `longest_earth_blackout_hours`
+(with the `censored` flag for window-limited blackouts), all in `GET /api/phase3`
+on the terrain-adjusted basis. Earthrise/Earthset come from
+`VisibilityCalculator.snapshot` with the same 30-minute scan + bisection
+refinement. Every Earth response and note in the project says these are
+direct-to-Earth line-of-sight opportunities and not guarantees of a working
+radio link — antenna pattern, link budget and ground-station scheduling are out
+of scope by design. Earth's apparent disk is carried as a `disk_fraction`
+context field near the horizon; it never changes the boolean. Verified against
+the committed data: shackleton-rim/alternative is 0% (terrain blocks all 75
+flat-horizon-visible samples), connecting-ridge/alternative 20.7%, and
+de-gerlache-rim/alternative 59.8% — higher than its 52.1% geometric count
+because lunar curvature drops the skyline below 0° on convex ground, which
+`test_curvature_lowers_flat_horizon` pins down. Tests: `test_phase3.py`,
+`test_horizon_intervals.py`, `test_api_and_modes.py`.
+
 ---
 
 ## Task 6: Calculate Simultaneous Sun and Earth Visibility
 
-- [ ] Combine Sun and Earth visibility results.
-- [ ] Ensure timestamps and site identifiers match.
-- [ ] Identify periods when both objects are visible.
-- [ ] Identify periods when only the Sun is visible.
-- [ ] Identify periods when only Earth is visible.
-- [ ] Identify periods when neither is visible.
-- [ ] Calculate total simultaneous visibility time.
-- [ ] Calculate simultaneous visibility percentage.
-- [ ] Store the resulting operational windows.
+- [x] Combine Sun and Earth visibility results.
+- [x] Ensure timestamps and site identifiers match.
+- [x] Identify periods when both objects are visible.
+- [x] Identify periods when only the Sun is visible.
+- [x] Identify periods when only Earth is visible.
+- [x] Identify periods when neither is visible.
+- [x] Calculate total simultaneous visibility time.
+- [x] Calculate simultaneous visibility percentage.
+- [x] Store the resulting operational windows.
 
 ### Calculation
 
@@ -369,6 +413,25 @@ at the same time.
 
 A function that identifies simultaneous sunlight
 and Earth communication opportunities.
+
+### Implemented
+
+`GET /api/phase3` builds every combination from one pair of interval lists:
+`both_visible` = `intersect(sun_visible, earth_visible)` from
+`services/intervals.py`, then `not_both`, `sun_blocked`, `earth_blocked` and
+`neither_visible` by interval algebra over the same window span — so sun-only
+and earth-only periods are the complements of the intersections, not a second
+calculation. Sun and Earth share one committed series per site/window
+(`services/site_data.load_series`), so timestamps and site identifiers match
+by construction. The summary reports `both_visible_hours`,
+`both_visible_pct` and `longest_no_simultaneous_hours`; the operational
+windows themselves are served in the `intervals` block of the same response
+and carried into the Task 11 mission-report envelope. Verified against the
+committed data: both_visible_pct is 0% wherever either body is 0%
+(shackleton-rim in both windows; every site's initial window for Earth), and
+follows the intersection where both bodies have light. Tests:
+`test_phase3.py` (`test_summary_matches_the_intervals_it_claims`),
+`test_horizon_intervals.py` (`test_algebra`).
 
 ---
 
