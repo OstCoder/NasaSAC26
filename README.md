@@ -10,7 +10,7 @@ Every result carries a provenance label. Three modes:
 - **Demo data**: built-in approximate ephemeris over **synthetic** terrain skylines. Works offline.
 - **Scientific**: JPL Horizons + LOLA terrain masks, and refuses to compute if either is missing.
 
-For details on the JPL connection, see [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md). To check it: `python scripts/check_jpl.py`.
+For details on the JPL connection, see [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md). To check it: `cd backend && python scripts/check_jpl.py`.
 
 ## Quick start
 
@@ -86,10 +86,15 @@ lunanav/
 ├── data/
 │   ├── demo/            # sites.json, horizon_masks.json (synthetic skylines)
 │   ├── reference/       # PSR catalogue, LOLA site-elevation evidence, IAU crater centres
-│   └── scientific/      # empty until real data is added
+│   └── scientific/      # no datasets yet; see its README for the required files
 └── docs/
+    ├── SPECIFICATIONS.md     # Phase 1 deliverable: mission, sites, requirements, datasets
+    ├── MISSION.md            # the mission scenario and its candidate sites
+    ├── SITES.md              # Task 1 site provenance and PSR context
+    ├── SITE_REQUIREMENTS.md  # Task 3 criteria and worked example
     ├── ARCHITECTURE.md
     ├── METHODOLOGY.md
+    ├── JPL_CONNECTION.md
     └── ADAPTATION_GUIDE.md   # read this when NASA publishes new details
 ```
 
@@ -99,15 +104,15 @@ lunanav/
 | --- | --- |
 | Analytic ephemeris, topocentric geometry, horizon obstruction, interval detection, metrics, comparison, rescheduler | Working, tested |
 | Demo terrain skylines | Working, **synthetic by design** |
-| JPL Horizons live provider (monthly cache, cross-check, status endpoint) | Working against a format-faithful mock; **not yet run against live Horizons** (build environment had no access to JPL). Run `scripts/check_jpl.py`. |
-| Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. Global WAC endpoint confirmed from public docs; **LOLA shaded-relief layer path unverified**, so check with `check_jpl.py`. |
+| JPL Horizons live provider (monthly cache, cross-check, status endpoint) | Working against a format-faithful mock; **not yet run against live Horizons** (build environment had no access to JPL). Run `backend/scripts/check_jpl.py`. |
+| Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. All three layer paths were confirmed against Moon Trek on 2026-10-30 (see the `imagery` comment in the config); live tile fetches were only exercised against a mock here, so run `check_jpl.py` on your network. |
 | LOLA horizon-mask builder (DEM ray-march with curvature) | Algorithm working and tested on synthetic DEMs; GeoTIFF script needs `rasterio` and a real LOLA product |
 | SPICE provider | Implemented, **not validated**: needs `spiceypy` + kernels |
 | 3D terrain, power model, link budget, rankings, AI explanations, report export | Extension points and feature flags only |
 
 ## API
 
-`GET /api/config`, `GET /api/sites`, `GET /api/psrs`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 

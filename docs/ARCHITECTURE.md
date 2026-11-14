@@ -76,7 +76,7 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 
 | Path | Responsibility |
 | --- | --- |
-| `types/api.ts` | Mirror of `schemas.py`. |
+| `types/api.ts` | Mirror of `models/schemas.py`. |
 | `services/api.ts` | The only place that calls `fetch`. Typed `ApiError` with backend `code`. |
 | `hooks/useAppContext.tsx` | Boot (config + sites), mode, feature flags, scenario drafts A/B. |
 | `hooks/useApiResource.ts` | Debounced, abortable fetch keyed by request body. |
@@ -93,7 +93,7 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 
 | Want to add | Where | Notes |
 | --- | --- | --- |
-| New ephemeris source | `providers/` class implementing `EphemerisProvider`, register in `registry.py`, set id in config | Return sub-points + distances in the Moon ME frame. |
+| New ephemeris source | `providers/` class implementing `EphemerisProvider`, register in `providers/registry.py`, set id in config | Return sub-points + distances in the Moon ME frame. |
 | New terrain source | `LunarTerrainProvider` with `horizon_mask()` | Raise `DataUnavailableError` when you can't answer. |
 | New metric | `services/metrics.py` → `register(MetricDef(...))` | Appears in summary, comparison and (if listed in `HEADLINE_METRICS`) rescheduler. |
 | New constraint (slope, hazard, thermal) | New provider method (e.g. `surface_elevation_m`) + a metric or a separate `ConstraintService` | Add a schema field to `ScenarioResult` rather than overloading metrics. |

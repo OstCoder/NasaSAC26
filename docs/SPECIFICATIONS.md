@@ -121,9 +121,9 @@ from this config or from an API response — never from a literal in a component
 
 | Dataset | Provider | What it gives us | Used for | Where it is |
 | --- | --- | --- | --- | --- |
-| JPL Horizons (SSD API) | NASA/JPL Solar System Dynamics | Moon geocentric state, sub-solar and sub-Earth points, Sun/Earth distances | Sun and Earth geometry for every scenario | Live, `providers/ephemeris_horizons.py`; optional frozen tables in `data/scientific/ephemeris/{sun,earth}.json` |
+| JPL Horizons (SSD API) | NASA/JPL Solar System Dynamics | Moon geocentric state, sub-solar and sub-Earth points, Sun/Earth distances | Sun and Earth geometry for every scenario | Live, `providers/ephemeris_horizons_live.py`; optional frozen tables in `data/scientific/ephemeris/{sun,earth}.json` |
 | LOLA 5 m/pix south-pole site DEMs | NASA GSFC PGDA (products/78) | Elevation, slope and terrain per NASA 2020 site | Site elevations, buildable horizon masks | `data/cache/lola_5mpp/` → sampled evidence `data/reference/site_elevations.json` |
-| LROC NAC polar PSR shapefile (south) | LROC / ASU | Permanently shadowed region polygons > 5 km² | PSR proximity metric and map layer | `data/reference/psrs.json` (built by `scripts/build_psr_catalogue.py`) |
+| LROC NAC polar PSR shapefile (south) | LROC / ASU | Permanently shadowed region polygons > 5 km² | PSR proximity metric and map layer | `data/reference/psrs.json` (built by `backend/scripts/build_psr_catalogue.py`) |
 | LROC WAC global mosaic | LROC / ASU via Moon Trek | Optical basemap | Polar map, whole-Moon map, 3D globe texture | Served through the imagery provider from Moon Trek tiles |
 | LOLA shaded relief / elevation tiles | NASA/GSFC LOLA via Moon Trek | Display elevation and relief | Basemap layers, 3D globe shape | `imagery.layers` in the config |
 | IAU Gazetteer of Planetary Nomenclature | USGS | Named crater centres and diameters | Map labels and orientation | `data/reference/moon_craters.json` |
@@ -131,7 +131,7 @@ from this config or from an API response — never from a literal in a component
 
 Phase 2 work that these datasets enable, in order:
 
-1. Build real LOLA horizon masks for each candidate (`scripts/build_horizon_mask.py`),
+1. Build real LOLA horizon masks for each candidate (`backend/scripts/build_horizon_mask.py`),
    which turns Scientific Mode on and replaces the synthetic demo skylines.
 2. Fetch and freeze Horizons tables so the demo runs offline and reproducibly.
 3. Re-derive the PSR catalogue and elevations from the raw products for the

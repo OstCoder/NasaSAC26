@@ -98,4 +98,7 @@ A result's overall level is the **weakest** of its ephemeris and terrain-mask le
 
 - Site elevation: catalogue sites now carry a recorded LOLA elevation (sampled from the PGDA 5 m/pix site DEMs, `data/reference/site_elevations.json`) and the scenario geometry adds it to the observer radius. The parallax effect on Sun/Earth elevation is tiny (~0.0005° per km), but the value keeps the geometry consistent with the terrain surface and is validated at load time against the sampled evidence file. Custom coordinates without an explicit `elevation_m` still sit on the reference sphere.
 - Demo site coordinates are exact published points (Mazarico et al. 2011), but the served horizon masks in Demo Mode remain synthetic — only the Scientific Mode LOLA builder uses real terrain.
-- Map basemap is vector-only (graticule, LROC PSR polygons and IAU Gazetteer crater outlines).
+- Map basemaps are Moon Trek imagery (LROC WAC, LOLA shaded relief, LOLA elevation)
+  and are **display only**: no visibility number is derived from them. When imagery
+  is unavailable the polar map falls back to its vector layers (graticule, LROC PSR
+  polygons, IAU Gazetteer crater outlines).

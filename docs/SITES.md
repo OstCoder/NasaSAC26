@@ -27,9 +27,10 @@ peer-reviewed points** rather than informal map-click coordinates:
    [doi:10.1016/j.icarus.2010.10.030](https://doi.org/10.1016/j.icarus.2010.10.030))
    tabulated LOLA south-pole candidate points for extended illumination.
 2. **Kumari et al. 2022** (*"Detailed Analysis of the Impact of Solar
-   Illumination and Topography on the Lunar South Pole"* / JESA Table 1 in that
-   work, [doi:10.3847/PSJ/ac88c2](https://doi.org/10.3847/PSJ/ac88c2)) documents
-   that NASA's 2020 south-pole crewed candidate sites inherit that numbering:
+   Illumination and Topography on the Lunar South Pole"*, Planetary Science
+   Journal 3:224, [doi:10.3847/PSJ/ac88c2](https://doi.org/10.3847/PSJ/ac88c2))
+   documents that NASA's 2020 south-pole crewed candidate sites inherit that
+   numbering:
    site 001 = Mazarico point 1, site 004 = point 4, site 007 = point 7,
    site 011 = point 11.
 3. **PGDA** publishes a dedicated 5 m/pix LOLA DEM centred on each of those
@@ -80,8 +81,9 @@ cluster, and Kumari et al. 2022 analyse sites 011/007 in detail.
 - **Point:** Mazarico 2011 point 11 — −88.67°, 291.90°E (−68.10°), on the
   Earth-facing side of the pole.
 - **Elevation:** 1,808 m — LOLA 5 m/pix Site11 surf DEM, 125 m window median
-  (std 2.1 m; slope 3.8° median). Kumari et al. 2022 analyse this rim and give
-  ~1,400 m for nearby sub-points with 82.6% maximum mean illumination.
+  (std 2.1 m; slope 3.8° median). Kumari et al. 2022 analyse this rim and report
+  up to 82.6 % mean illumination for points on it, at elevations around 1,400 m;
+  this point sits higher, so its elevation is quoted from the DEM instead.
 - **Nearby PSRs:** the mapped de Gerlache PSR (`SP_883120_2691430`,
   243.4 km², centroid −88.31°, −90.86°E) lies **12.1 km** from the point.
 
@@ -108,7 +110,7 @@ cross-validated in code (`backend/scripts/sample_site_elevation.py`,
 3. **Geometry regression tests.** Haversine distances, the stereographic
    round-trip, PSR point-in-ring/point-to-boundary distances, and the
    propagation of site elevation into the observer radius are all unit-tested
-   (27 new tests; full suite 133 passing).
+   (`backend/tests/test_sites_psr.py`).
 4. **Parallax sanity.** Adding the recorded elevation changes Earth elevation
    by ~0.0005°/km of altitude — verified end-to-end through
    `POST /api/scenario`.
@@ -147,11 +149,11 @@ cross-validated in code (`backend/scripts/sample_site_elevation.py`,
 - Gläser, P., et al. "Illumination conditions at the lunar south pole
   (with PSR/slope/illumination statistics near candidate sites)."
   NASA NTRS 20170007365. https://ntrs.nasa.gov/citations/20170007365
-- Gläser, P., et al. "Illumination conditions at the lunar south pole:
-  $h_{\rm PSR}$ distances and crater analysis." Icarus 243 (2014): 78–87.
+- Gläser, P., et al. "Illumination conditions at the lunar south pole using
+  high-resolution digital terrain models from LOLA." Icarus 243 (2014): 78–87.
   https://doi.org/10.1016/j.icarus.2014.08.013
 - LOLA 5 m/pix south-pole site DEMs (Site01/04/07/11): NASA PGDA.
-  https://pgda.gsfc.nasa.gov/products/78 (data under `data/LOLA_5mpp/`)
+  https://pgda.gsfc.nasa.gov/products/78 (data under `data/cache/lola_5mpp/`)
 - LROC NAC polar PSR shapefile (south), PSRs > 5 km²:
   https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_POLE_PSR_SOUTH
 - IAU Gazetteer, Shackleton: https://planetarynames.wr.usgs.gov/Feature/5450

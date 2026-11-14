@@ -1,4 +1,3 @@
-
 # Phase 1 — Project Planning & Mission Setup
 
 ## Objective
@@ -30,9 +29,9 @@ A table containing three candidate landing sites (full provenance in
 
 | Site | Region | Latitude | Longitude | Elevation | Source |
 |------|--------|----------|-----------|-----------|--------|
-| A | Shackleton Rim | −89.78° | 204.27°E | 1,734 m (LOLA) | Mazarico et al. 2011, point 4 = NASA 2020 site 004 |
+| A | Shackleton Crater Rim | −89.78° | 204.27°E | 1,734 m (LOLA) | Mazarico et al. 2011, point 4 = NASA 2020 site 004 |
 | B | Connecting Ridge | −89.45° | 222.69°E | 1,955 m (LOLA) | Mazarico et al. 2011, point 1 = NASA 2020 site 001 |
-| C | de Gerlache Rim | −88.67° | 291.90°E | 1,808 m (LOLA) | Mazarico et al. 2011, point 11 = NASA 2020 site 011 |
+| C | de Gerlache Crater Rim | −88.67° | 291.90°E | 1,808 m (LOLA) | Mazarico et al. 2011, point 11 = NASA 2020 site 011 |
 
 Resource: https://quickmap.lroc.asu.edu/
 
@@ -144,14 +143,17 @@ mirrored in `frontend/src/types/api.ts`.
 
 ## Phase 2 — Next Steps
 
-Integrate NASA scientific data sources:
+Extend the NASA scientific data integration, in this order:
 
-1. JPL Horizons — Sun and Earth positions.
-2. NASA LOLA — Lunar topography and terrain elevations.
-3. LROC QuickMap — Lunar mapping and site references.
+1. JPL Horizons — Sun and Earth positions (already used live in JPL and Scientific
+   modes; freeze tables so runs work offline).
+2. NASA LOLA — lunar topography and terrain elevations (elevations are sampled;
+   real horizon masks are the missing piece).
+3. LROC QuickMap — lunar mapping and site references (imagery basemaps and site
+   cross-checks).
 
-Use these datasets to calculate and visualize sunlight
-availability and Earth communication windows.
+With real terrain in place, these datasets turn the current synthetic skylines
+into measured sunlight availability and Earth communication windows.
 
 The datasets this build needs and the order to tackle them in are listed in
 [docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md) §5: real LOLA horizon masks for

@@ -1,6 +1,6 @@
 # Adaptation guide: updating LunaNav when NASA publishes more information
 
-Additional challenge details are expected around **November 4–5, 2026**. This guide is a triage checklist: find the kind of change, then follow the steps. Most changes touch one config entry and one module.
+Challenge clarifications arrive during the event window, so this guide is a triage checklist: find the kind of change, then follow the steps. Most changes touch one config entry and one module.
 
 ## 0. First hour after the release
 
@@ -30,7 +30,7 @@ If the window extends past 2030, also reconsider the fixed UTC→TT offset in `c
 | Format | Steps |
 | --- | --- |
 | Horizons access (default plan) | Already live: JPL and Scientific modes fetch from Horizons on demand (see docs/JPL_CONNECTION.md). For a frozen offline table instead, `python scripts/fetch_horizons.py ...` and set `providers.scientific.ephemeris` to `"horizons_table"`. |
-| SPICE kernels | Put kernels in `data/scientific/spice/`, `pip install spiceypy`, adjust `KERNELS` in `providers/ephemeris_spice.py`, set `providers.scientific.ephemeris` to `"spice"` in config. Validate with `validate_ephemeris.py` (swap the provider). |
+| SPICE kernels | Put kernels in `data/scientific/spice/`, `pip install spiceypy`, adjust `KERNELS` in `providers/ephemeris_spice.py`, set `providers.scientific.ephemeris` to `"spice"` in config. Validate with `backend/scripts/validate_ephemeris.py` (swap the provider). |
 | Pre-computed Sun/Earth az/el per site | Write a provider that returns sub-points, or (simpler) a terrain-independent `SiteSkyProvider` and bypass `topocentric_az_el` in `VisibilityCalculator._geometry`. Keep the same `ScenarioResult` output. |
 | Their own CSV/JSON of sub-points | Convert to the `{times_utc, sub_lat_deg, sub_lon_deg, distance_km}` format in `providers/ephemeris_tabulated.py` and drop into `data/scientific/ephemeris/`. |
 
