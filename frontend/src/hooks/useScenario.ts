@@ -1,6 +1,16 @@
 import * as React from 'react'
 import { api } from '@/services/api'
-import type { Crater, Mode, Phase3Windows, ReadinessReport, ScenarioResult, SkyNow, Snapshot } from '@/types/api'
+import type {
+  Crater,
+  Mode,
+  Phase3Windows,
+  ReadinessReport,
+  ScenarioResult,
+  SiteSeries,
+  SkyNow,
+  Snapshot,
+  TerrainHorizon,
+} from '@/types/api'
 import type { ScenarioDraft } from './useAppContext'
 import { useApiResource } from './useApiResource'
 
@@ -37,6 +47,20 @@ export function useReadiness() {
 /** Phase 3 visibility for every candidate and window, computed from the committed data. */
 export function usePhase3Windows() {
   return useApiResource<Phase3Windows>('phase3-windows', (signal) => api.phase3Windows(signal), 0)
+}
+
+/** Phase 4 Task 1: one site's terrain horizon profile, with Sun/Earth compared against it. */
+export function useSiteHorizon(siteId: string, window: string) {
+  return useApiResource<TerrainHorizon>(
+    `terrain-horizon:${siteId}:${window}`,
+    (signal) => api.terrainHorizon({ siteId, window }, signal),
+    0,
+  )
+}
+
+/** The committed Sun/Earth track for the same site and window, for the overlaid points. */
+export function useSiteSeries(siteId: string, window: string) {
+  return useApiResource<SiteSeries>(`series:${siteId}:${window}`, (signal) => api.series({ siteId, window }, signal), 0)
 }
 
 export function useCraters() {

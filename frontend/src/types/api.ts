@@ -459,6 +459,106 @@ export interface Phase3Windows {
   notes: string[]
 }
 
+export interface TerrainProfile {
+  /** 0…359, clockwise from local north, strictly increasing. */
+  azimuth_deg: number[]
+  elevation_deg: number[]
+}
+
+export interface TerrainTier {
+  pixel_m: number | null
+  max_range_m: number | null
+  dem: string | null
+}
+
+export interface TerrainCoverage {
+  near: TerrainTier
+  far: TerrainTier
+  max_sampled_range_km: number | null
+  azimuth_step_deg: number
+  curvature_applied: boolean
+  curvature_radius_m: number
+  curvature_model: string
+  beyond_range_note: string
+}
+
+export interface TerrainUncertainty {
+  observer_height_m: number
+  observer_height_uncertainty_m: number | null
+  near_pixel_m: number | null
+  far_pixel_m: number | null
+  azimuth_step_deg: number
+  max_range_km: number | null
+  unmodelled: string[]
+}
+
+export interface TerrainHorizonSummary {
+  max_obstruction_deg: number
+  min_obstruction_deg: number
+  mean_obstruction_deg: number
+  max_obstruction_azimuth_deg: number | null
+}
+
+/** One body's samples compared with the skyline at their own azimuths. */
+export interface TerrainBodyComparison {
+  samples: number
+  above_skyline: number
+  below_skyline: number
+  above_skyline_pct: number
+  max_clearance_deg: number
+  min_clearance_deg: number
+  skyline_min_deg: number
+  skyline_max_deg: number
+  elevation_max_deg: number
+  elevation_min_deg: number
+  flat_horizon_visible: number
+  blocked_by_terrain: number
+  visible_added_by_terrain: number
+  agrees_with_visibility: boolean
+  rule: string
+}
+
+/** GET /api/terrain-horizon: profile, coverage and Sun/Earth against the skyline. */
+export interface TerrainHorizon {
+  schema: 'lunanav.terrain_horizon.v1'
+  site: {
+    site_id: string | null
+    name: string | null
+    latitude_deg: number | null
+    longitude_deg: number | null
+    elevation_m: number | null
+  }
+  window: { key: string; label?: string; start_utc?: string; stop_utc?: string; step?: string; samples?: number }
+  terrain: {
+    available: boolean
+    basis: 'terrain' | 'geometric'
+    geometric_only: boolean
+    source: string
+    provenance: string
+    observer_height_m: number
+    azimuth_step_deg: number
+    surface_elevation_m: number | null
+    profile: TerrainProfile
+    summary: TerrainHorizonSummary
+    coverage: TerrainCoverage
+    uncertainty: TerrainUncertainty
+    limits: string[]
+  }
+  comparison: { sun: TerrainBodyComparison | null; earth: TerrainBodyComparison | null }
+  visibility: {
+    available: boolean
+    basis: 'terrain' | 'geometric'
+    geometric_only: boolean
+    window: { key: string }
+    reason?: string
+    summary: NonNullable<Phase3WindowSummary['summary']> | null
+    series_endpoint: string | null
+  }
+  checks: Record<string, boolean>
+  provenance: Record<string, string | number | null>
+  notes: string[]
+}
+
 /** GET /api/readiness: what Phase 3 needs, per mission candidate. */
 export interface ReadinessReport {
   schema: 'lunanav.phase3_readiness.v1'

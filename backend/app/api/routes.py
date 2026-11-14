@@ -41,11 +41,15 @@ from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
 from app.services.geometric import sun_visibility_response
+from app.services.feasibility import feasibility_matrix
+from app.services.geometric import sun_visibility_response
 from app.services.geometric_earth import earth_visibility_response
+from app.services.mission_report import mission_report
 from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
 from app.services.sites import get_site_repository
+from app.services.terrain_horizon import terrain_horizon_response
 
 router = APIRouter(prefix="/api")
 
@@ -175,6 +179,40 @@ def phase3(site_id: str, window: str = "initial"):
 def phase3_windows():
     """Every candidate and both mission windows, for the readiness view."""
     return all_windows_summary()
+
+
+@router.get("/terrain-horizon")
+def terrain_horizon(
+    site_id: Optional[str] = Query(None),
+    latitude_deg: Optional[float] = Query(None),
+    longitude_deg: Optional[float] = Query(None),
+    window: str = "initial",
+):
+    """Phase 3 Task 3: the terrain horizon profile, and visibility against it.
+
+    The full 360-point LOLA skyline for a candidate site with its coverage and
+    uncertainty, Sun and Earth elevation compared against it at their own
+    azimuths, and the adjusted visibility delegated unchanged to
+    ``/api/phase3``. A point with no committed mask comes back
+    ``basis: "geometric"`` / ``geometric_only: true`` with a flat 0 degree
+    horizon, never a fabricated profile. Geometry only: terrain does not prove
+    power or a link budget.
+    """
+    return terrain_horizon_response(
+        site_id=site_id, latitude_deg=latitude_deg, longitude_deg=longitude_deg,
+        window=window)
+
+
+@router.get("/mission-report")
+def mission_report_route(site_id: str, window: str = "initial"):
+    """Phase 3 Task 11: one result envelope per site and window, for Phase 4.
+
+    Concatenates the terrain basis and coverage, adjusted visibility, intervals,
+    metrics and the Phase 1 requirement checks into one deterministic document.
+    Every number is copied from ``/api/terrain-horizon`` and ``/api/phase3``;
+    there is no wall clock, so a re-run reproduces it. Geometry only.
+    """
+    return mission_report(site_id=site_id, window=window)
 
 
 @router.get("/sites", response_model=list[Site])

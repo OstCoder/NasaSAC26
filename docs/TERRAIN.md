@@ -155,6 +155,11 @@ LOLA 5 m/pix DEM  (0 → 6–8 km) ─┐
 LOLA 80 m/pix DEM (6–8 → 150 km)┘
 ```
 
+- Phase 3 Task 3 exposes the full per-azimuth skyline at its own observer
+  height, with coverage (5 m near / 80 m far, 150 km), uncertainty and a
+  Sun-vs-skyline and Earth-vs-skyline comparison, and flags points without a
+  mask as geometric-only: `GET /api/terrain-horizon`, documented in
+  [TERRAIN_HORIZON.md](TERRAIN_HORIZON.md).
 - The committed reference gives Phase 3 the DEM path, the site's pixel, the
   radius that cannot run off the raster, and a per-azimuth skyline to validate
   the mask against. `scripts/build_site_horizon_masks.py` rebuilds the masks and

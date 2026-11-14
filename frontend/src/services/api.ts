@@ -22,6 +22,7 @@ import type {
   Site,
   SiteSeries,
   Snapshot,
+  TerrainHorizon,
 } from '@/types/api'
 
 const BASE: string = (import.meta.env.VITE_API_BASE as string | undefined) ?? ''
@@ -88,6 +89,18 @@ export const api = {
   /** Phase 3: terrain-adjusted visibility, both windows, from committed data (offline). */
   phase3Windows: (signal?: AbortSignal) =>
     request<Phase3Windows>('/api/phase3/windows', { signal }),
+  /** Phase 3 Task 3 / Phase 4: the horizon profile and Sun/Earth against it (offline). */
+  terrainHorizon: (
+    opts: { siteId?: string; latitudeDeg?: number; longitudeDeg?: number; window?: string },
+    signal?: AbortSignal,
+  ) => {
+    const q = new URLSearchParams()
+    if (opts.siteId) q.set('site_id', opts.siteId)
+    if (opts.latitudeDeg !== undefined) q.set('latitude_deg', String(opts.latitudeDeg))
+    if (opts.longitudeDeg !== undefined) q.set('longitude_deg', String(opts.longitudeDeg))
+    if (opts.window) q.set('window', opts.window)
+    return request<TerrainHorizon>(`/api/terrain-horizon?${q.toString()}`, { signal })
+  },
   scenario: (input: ScenarioInput, signal?: AbortSignal) => post<ScenarioResult>('/api/scenario', input, signal),
   /** Check one scenario against the Phase 1 requirements served in /api/config. */
   requirements: (input: ScenarioInput, signal?: AbortSignal) =>
