@@ -69,16 +69,16 @@ https://ssd-api.jpl.nasa.gov/doc/horizons.html
 
 ## Task 2: Generate Astronomical Time-Series Data
 
-- [ ] Use the three verified lunar sites from Phase 1.
-- [ ] Generate Sun position data for each site.
-- [ ] Generate Earth position data for each site.
-- [ ] Use December 1–8, 2026, as the initial analysis period.
-- [ ] Use December 11–18, 2026, as the delayed mission period.
-- [ ] Start with 1-hour observation intervals.
-- [ ] Ensure all timestamps use UTC.
-- [ ] Store the observations in chronological order.
-- [ ] Ensure Sun and Earth positions share matching timestamps.
-- [ ] Confirm that missing data is not silently treated as zero.
+- [x] Use the three verified lunar sites from Phase 1.
+- [x] Generate Sun position data for each site.
+- [x] Generate Earth position data for each site.
+- [x] Use December 1–8, 2026, as the initial analysis period.
+- [x] Use December 11–18, 2026, as the delayed mission period.
+- [x] Start with 1-hour observation intervals.
+- [x] Ensure all timestamps use UTC.
+- [x] Store the observations in chronological order.
+- [x] Ensure Sun and Earth positions share matching timestamps.
+- [x] Confirm that missing data is not silently treated as zero.
 
 ### Example Data Structure
 
@@ -103,6 +103,11 @@ Replace null values with actual Horizons results.
 
 Astronomical time-series data for all three landing sites
 across both proposed mission periods.
+
+Generated live from JPL Horizons into `data/scientific/site_series/` by
+`backend/scripts/generate_site_series.py`: 1,014 records (3 sites × 2 windows ×
+169 hourly samples). `--verify-only` re-checks the committed files offline. Each
+file carries its Horizons query URLs, conventions and analytic cross-check.
 
 ### Note
 

@@ -66,12 +66,14 @@ The app's scenario maths starts from Moon-centred sub-points. Surface geometry n
 cd backend
 python scripts/horizons_site.py --site shackleton-rim \
     --start 2026-12-01T00:00Z --stop 2026-12-08T00:00Z --step "1 h" \
-    --out ../data/scientific/site_sky/shackleton-rim.json
+    --out ../data/scientific/site_series/shackleton-rim-sample.json
 ```
 
 It prints the series, compares every sample with LunaNav's independent analytic model, and writes one record per timestamp (`site_id`, `timestamp_utc`, `sun`, `earth`, each with `azimuth_deg` and `elevation_deg`) — the structure Task 2 builds on. Custom coordinates use `--lat`, `--lon` and `--elevation-m`. Against the live service on 14 Nov 2026 the two paths agreed to 0.020° in elevation and 0.017° in azimuth over 24 h, so the frame, longitude sense and units are confirmed rather than assumed.
 
 Azimuth is degrees clockwise from lunar north; elevation is degrees above the local horizontal, airless and terrain-free, so it is comparable with the terrain skyline but does not include it. Unusable responses raise `JplUnavailableError` (the API's `JPL_UNAVAILABLE`) instead of returning a short or filled-in series.
+
+For the whole Phase 2 Task 2 dataset — all three candidates × both 7-day windows at 1 h — run `python scripts/generate_site_series.py`; `--verify-only` re-checks the committed files without the network.
 
 ## 3. What "JPL live" does and doesn't include
 

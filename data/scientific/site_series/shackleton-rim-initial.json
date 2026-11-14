@@ -1,0 +1,2433 @@
+{
+  "schema": "lunanav.site_series.v1",
+  "generated_utc": "2026-11-14T20:10:48Z",
+  "site": {
+    "site_id": "shackleton-rim",
+    "name": "Shackleton Crater Rim (SR1)",
+    "latitude_deg": -89.78,
+    "longitude_deg": -155.73,
+    "elevation_m": 1734.05,
+    "height_m": 2.0,
+    "altitude_km": 1.73605
+  },
+  "request": {
+    "start_utc": "2026-12-01T00:00:00Z",
+    "stop_utc": "2026-12-08T00:00:00Z",
+    "step": "1 h",
+    "bodies": [
+      "sun",
+      "earth"
+    ],
+    "queries": {
+      "sun": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&CENTER=%27coord%40301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%27204.270000%2C-89.780000%2C1.736050%27&START_TIME=%272026-12-01+00%3A00%27&STOP_TIME=%272026-12-08+00%3A00%27&STEP_SIZE=%271+h%27&QUANTITIES=%274%2C20%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27&TIME_DIGITS=%27MINUTES%27&APPARENT=%27AIRLESS%27",
+      "earth": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27399%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&CENTER=%27coord%40301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%27204.270000%2C-89.780000%2C1.736050%27&START_TIME=%272026-12-01+00%3A00%27&STOP_TIME=%272026-12-08+00%3A00%27&STEP_SIZE=%271+h%27&QUANTITIES=%274%2C20%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27&TIME_DIGITS=%27MINUTES%27&APPARENT=%27AIRLESS%27"
+    }
+  },
+  "source": "NASA JPL Horizons API observer table: CENTER='coord@301', COORD_TYPE='GEODETIC', QUANTITIES='4,20' (apparent az/el, airless)",
+  "conventions": {
+    "longitude": "selenographic, east-positive",
+    "azimuth_deg": "degrees clockwise from local lunar north, [0, 360)",
+    "elevation_deg": "degrees above the local horizontal, airless (no refraction), no terrain",
+    "altitude_km": "height above the 1737.4 km IAU mean sphere (site elevation + observer height)",
+    "time": "UTC, ISO-8601 with Z; both bodies share one timestamp"
+  },
+  "crosscheck": {
+    "sun": {
+      "samples": 169,
+      "max_azimuth_difference_deg": 0.0073,
+      "max_elevation_difference_deg": 0.0248,
+      "rms_elevation_difference_deg": 0.014,
+      "tolerance_deg": 0.5,
+      "passed": true
+    },
+    "earth": {
+      "samples": 169,
+      "max_azimuth_difference_deg": 0.0195,
+      "max_elevation_difference_deg": 0.0315,
+      "rms_elevation_difference_deg": 0.0261,
+      "tolerance_deg": 0.5,
+      "passed": true
+    }
+  },
+  "checks": {
+    "chronological": true,
+    "matching_timestamps": true,
+    "no_missing_values": true,
+    "non_empty": true
+  },
+  "series": [
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 75.799377,
+        "elevation_deg": 1.524114,
+        "range_km": 147553095.89
+      },
+      "earth": {
+        "azimuth_deg": 162.397841,
+        "elevation_deg": -1.820125,
+        "range_km": 376568.371
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 75.292744,
+        "elevation_deg": 1.525762,
+        "range_km": 147548689.928
+      },
+      "earth": {
+        "azimuth_deg": 162.41393,
+        "elevation_deg": -1.883999,
+        "range_km": 376780.408
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 74.786098,
+        "elevation_deg": 1.527408,
+        "range_km": 147544283.826
+      },
+      "earth": {
+        "azimuth_deg": 162.429415,
+        "elevation_deg": -1.947665,
+        "range_km": 376992.439
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 74.27944,
+        "elevation_deg": 1.529051,
+        "range_km": 147539877.865
+      },
+      "earth": {
+        "azimuth_deg": 162.444299,
+        "elevation_deg": -2.011119,
+        "range_km": 377204.439
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 73.772769,
+        "elevation_deg": 1.530692,
+        "range_km": 147535472.329
+      },
+      "earth": {
+        "azimuth_deg": 162.458585,
+        "elevation_deg": -2.074354,
+        "range_km": 377416.388
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 73.266085,
+        "elevation_deg": 1.53233,
+        "range_km": 147531067.497
+      },
+      "earth": {
+        "azimuth_deg": 162.472277,
+        "elevation_deg": -2.137366,
+        "range_km": 377628.264
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 72.759389,
+        "elevation_deg": 1.533965,
+        "range_km": 147526663.65
+      },
+      "earth": {
+        "azimuth_deg": 162.485377,
+        "elevation_deg": -2.200149,
+        "range_km": 377840.046
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 72.252681,
+        "elevation_deg": 1.535597,
+        "range_km": 147522261.066
+      },
+      "earth": {
+        "azimuth_deg": 162.49789,
+        "elevation_deg": -2.262697,
+        "range_km": 378051.713
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 71.74596,
+        "elevation_deg": 1.537225,
+        "range_km": 147517860.024
+      },
+      "earth": {
+        "azimuth_deg": 162.509818,
+        "elevation_deg": -2.325006,
+        "range_km": 378263.243
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 71.239227,
+        "elevation_deg": 1.53885,
+        "range_km": 147513460.799
+      },
+      "earth": {
+        "azimuth_deg": 162.521164,
+        "elevation_deg": -2.38707,
+        "range_km": 378474.617
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 70.732481,
+        "elevation_deg": 1.540472,
+        "range_km": 147509063.667
+      },
+      "earth": {
+        "azimuth_deg": 162.531933,
+        "elevation_deg": -2.448884,
+        "range_km": 378685.814
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 70.225723,
+        "elevation_deg": 1.54209,
+        "range_km": 147504668.904
+      },
+      "earth": {
+        "azimuth_deg": 162.542128,
+        "elevation_deg": -2.510442,
+        "range_km": 378896.815
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 69.718952,
+        "elevation_deg": 1.543704,
+        "range_km": 147500276.782
+      },
+      "earth": {
+        "azimuth_deg": 162.551751,
+        "elevation_deg": -2.57174,
+        "range_km": 379107.599
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 69.212169,
+        "elevation_deg": 1.545314,
+        "range_km": 147495887.573
+      },
+      "earth": {
+        "azimuth_deg": 162.560807,
+        "elevation_deg": -2.632773,
+        "range_km": 379318.149
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 68.705374,
+        "elevation_deg": 1.546919,
+        "range_km": 147491501.549
+      },
+      "earth": {
+        "azimuth_deg": 162.569299,
+        "elevation_deg": -2.693536,
+        "range_km": 379528.444
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 68.198566,
+        "elevation_deg": 1.548521,
+        "range_km": 147487118.98
+      },
+      "earth": {
+        "azimuth_deg": 162.577231,
+        "elevation_deg": -2.754023,
+        "range_km": 379738.467
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 67.691746,
+        "elevation_deg": 1.550118,
+        "range_km": 147482740.134
+      },
+      "earth": {
+        "azimuth_deg": 162.584605,
+        "elevation_deg": -2.814231,
+        "range_km": 379948.198
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 67.184913,
+        "elevation_deg": 1.55171,
+        "range_km": 147478365.28
+      },
+      "earth": {
+        "azimuth_deg": 162.591427,
+        "elevation_deg": -2.874154,
+        "range_km": 380157.619
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 66.678069,
+        "elevation_deg": 1.553298,
+        "range_km": 147473994.683
+      },
+      "earth": {
+        "azimuth_deg": 162.597699,
+        "elevation_deg": -2.933787,
+        "range_km": 380366.714
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 66.171212,
+        "elevation_deg": 1.55488,
+        "range_km": 147469628.608
+      },
+      "earth": {
+        "azimuth_deg": 162.603424,
+        "elevation_deg": -2.993126,
+        "range_km": 380575.464
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 65.664343,
+        "elevation_deg": 1.556458,
+        "range_km": 147465267.321
+      },
+      "earth": {
+        "azimuth_deg": 162.608607,
+        "elevation_deg": -3.052167,
+        "range_km": 380783.852
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 65.157461,
+        "elevation_deg": 1.55803,
+        "range_km": 147460911.083
+      },
+      "earth": {
+        "azimuth_deg": 162.613252,
+        "elevation_deg": -3.110904,
+        "range_km": 380991.861
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 64.650568,
+        "elevation_deg": 1.559597,
+        "range_km": 147456560.156
+      },
+      "earth": {
+        "azimuth_deg": 162.617361,
+        "elevation_deg": -3.169333,
+        "range_km": 381199.475
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-01T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 64.143662,
+        "elevation_deg": 1.561158,
+        "range_km": 147452214.8
+      },
+      "earth": {
+        "azimuth_deg": 162.620938,
+        "elevation_deg": -3.22745,
+        "range_km": 381406.678
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 63.636744,
+        "elevation_deg": 1.562714,
+        "range_km": 147447875.275
+      },
+      "earth": {
+        "azimuth_deg": 162.623988,
+        "elevation_deg": -3.285251,
+        "range_km": 381613.453
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 63.129814,
+        "elevation_deg": 1.564263,
+        "range_km": 147443541.837
+      },
+      "earth": {
+        "azimuth_deg": 162.626514,
+        "elevation_deg": -3.34273,
+        "range_km": 381819.784
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 62.622872,
+        "elevation_deg": 1.565807,
+        "range_km": 147439214.743
+      },
+      "earth": {
+        "azimuth_deg": 162.628518,
+        "elevation_deg": -3.399884,
+        "range_km": 382025.657
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 62.115918,
+        "elevation_deg": 1.567344,
+        "range_km": 147434894.249
+      },
+      "earth": {
+        "azimuth_deg": 162.630007,
+        "elevation_deg": -3.456708,
+        "range_km": 382231.055
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 61.608952,
+        "elevation_deg": 1.568876,
+        "range_km": 147430580.607
+      },
+      "earth": {
+        "azimuth_deg": 162.630982,
+        "elevation_deg": -3.513199,
+        "range_km": 382435.965
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 61.101974,
+        "elevation_deg": 1.5704,
+        "range_km": 147426274.07
+      },
+      "earth": {
+        "azimuth_deg": 162.631447,
+        "elevation_deg": -3.569351,
+        "range_km": 382640.372
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 60.594984,
+        "elevation_deg": 1.571918,
+        "range_km": 147421974.89
+      },
+      "earth": {
+        "azimuth_deg": 162.631407,
+        "elevation_deg": -3.625162,
+        "range_km": 382844.261
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 60.087982,
+        "elevation_deg": 1.57343,
+        "range_km": 147417683.316
+      },
+      "earth": {
+        "azimuth_deg": 162.630865,
+        "elevation_deg": -3.680627,
+        "range_km": 383047.618
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 59.580969,
+        "elevation_deg": 1.574934,
+        "range_km": 147413399.595
+      },
+      "earth": {
+        "azimuth_deg": 162.629824,
+        "elevation_deg": -3.735741,
+        "range_km": 383250.43
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 59.073943,
+        "elevation_deg": 1.576431,
+        "range_km": 147409123.976
+      },
+      "earth": {
+        "azimuth_deg": 162.628289,
+        "elevation_deg": -3.790502,
+        "range_km": 383452.683
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 58.566906,
+        "elevation_deg": 1.577921,
+        "range_km": 147404856.703
+      },
+      "earth": {
+        "azimuth_deg": 162.626262,
+        "elevation_deg": -3.844905,
+        "range_km": 383654.364
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 58.059857,
+        "elevation_deg": 1.579404,
+        "range_km": 147400598.021
+      },
+      "earth": {
+        "azimuth_deg": 162.623749,
+        "elevation_deg": -3.898946,
+        "range_km": 383855.46
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 57.552796,
+        "elevation_deg": 1.580879,
+        "range_km": 147396348.173
+      },
+      "earth": {
+        "azimuth_deg": 162.620751,
+        "elevation_deg": -3.952621,
+        "range_km": 384055.96
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 57.045724,
+        "elevation_deg": 1.582346,
+        "range_km": 147392107.399
+      },
+      "earth": {
+        "azimuth_deg": 162.617274,
+        "elevation_deg": -4.005928,
+        "range_km": 384255.849
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 56.53864,
+        "elevation_deg": 1.583806,
+        "range_km": 147387875.94
+      },
+      "earth": {
+        "azimuth_deg": 162.61332,
+        "elevation_deg": -4.058862,
+        "range_km": 384455.117
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 56.031544,
+        "elevation_deg": 1.585257,
+        "range_km": 147383654.034
+      },
+      "earth": {
+        "azimuth_deg": 162.608894,
+        "elevation_deg": -4.111419,
+        "range_km": 384653.751
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 55.524437,
+        "elevation_deg": 1.586701,
+        "range_km": 147379441.918
+      },
+      "earth": {
+        "azimuth_deg": 162.603999,
+        "elevation_deg": -4.163596,
+        "range_km": 384851.741
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 55.017318,
+        "elevation_deg": 1.588136,
+        "range_km": 147375239.827
+      },
+      "earth": {
+        "azimuth_deg": 162.598638,
+        "elevation_deg": -4.215389,
+        "range_km": 385049.075
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 54.510188,
+        "elevation_deg": 1.589562,
+        "range_km": 147371047.997
+      },
+      "earth": {
+        "azimuth_deg": 162.592816,
+        "elevation_deg": -4.266796,
+        "range_km": 385245.741
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 54.003047,
+        "elevation_deg": 1.59098,
+        "range_km": 147366866.658
+      },
+      "earth": {
+        "azimuth_deg": 162.586535,
+        "elevation_deg": -4.317811,
+        "range_km": 385441.73
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 53.495894,
+        "elevation_deg": 1.59239,
+        "range_km": 147362696.044
+      },
+      "earth": {
+        "azimuth_deg": 162.5798,
+        "elevation_deg": -4.368433,
+        "range_km": 385637.031
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 52.98873,
+        "elevation_deg": 1.59379,
+        "range_km": 147358536.383
+      },
+      "earth": {
+        "azimuth_deg": 162.572614,
+        "elevation_deg": -4.418658,
+        "range_km": 385831.633
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 52.481554,
+        "elevation_deg": 1.595181,
+        "range_km": 147354387.904
+      },
+      "earth": {
+        "azimuth_deg": 162.56498,
+        "elevation_deg": -4.468481,
+        "range_km": 386025.528
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-02T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 51.974368,
+        "elevation_deg": 1.596564,
+        "range_km": 147350250.832
+      },
+      "earth": {
+        "azimuth_deg": 162.556902,
+        "elevation_deg": -4.517901,
+        "range_km": 386218.704
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 51.46717,
+        "elevation_deg": 1.597937,
+        "range_km": 147346125.395
+      },
+      "earth": {
+        "azimuth_deg": 162.548384,
+        "elevation_deg": -4.566914,
+        "range_km": 386411.154
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 50.959961,
+        "elevation_deg": 1.5993,
+        "range_km": 147342011.815
+      },
+      "earth": {
+        "azimuth_deg": 162.539429,
+        "elevation_deg": -4.615517,
+        "range_km": 386602.867
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 50.452741,
+        "elevation_deg": 1.600654,
+        "range_km": 147337910.315
+      },
+      "earth": {
+        "azimuth_deg": 162.530041,
+        "elevation_deg": -4.663706,
+        "range_km": 386793.836
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 49.94551,
+        "elevation_deg": 1.601998,
+        "range_km": 147333821.115
+      },
+      "earth": {
+        "azimuth_deg": 162.520223,
+        "elevation_deg": -4.711479,
+        "range_km": 386984.05
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 49.438268,
+        "elevation_deg": 1.603332,
+        "range_km": 147329744.435
+      },
+      "earth": {
+        "azimuth_deg": 162.509978,
+        "elevation_deg": -4.758833,
+        "range_km": 387173.503
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 48.931015,
+        "elevation_deg": 1.604656,
+        "range_km": 147325680.492
+      },
+      "earth": {
+        "azimuth_deg": 162.49931,
+        "elevation_deg": -4.805764,
+        "range_km": 387362.185
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 48.423752,
+        "elevation_deg": 1.60597,
+        "range_km": 147321629.503
+      },
+      "earth": {
+        "azimuth_deg": 162.488223,
+        "elevation_deg": -4.852269,
+        "range_km": 387550.09
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 47.916477,
+        "elevation_deg": 1.607273,
+        "range_km": 147317591.682
+      },
+      "earth": {
+        "azimuth_deg": 162.476719,
+        "elevation_deg": -4.898347,
+        "range_km": 387737.208
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 47.409192,
+        "elevation_deg": 1.608566,
+        "range_km": 147313567.242
+      },
+      "earth": {
+        "azimuth_deg": 162.464802,
+        "elevation_deg": -4.943993,
+        "range_km": 387923.533
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 46.901896,
+        "elevation_deg": 1.609849,
+        "range_km": 147309556.396
+      },
+      "earth": {
+        "azimuth_deg": 162.452476,
+        "elevation_deg": -4.989205,
+        "range_km": 388109.058
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 46.39459,
+        "elevation_deg": 1.61112,
+        "range_km": 147305559.352
+      },
+      "earth": {
+        "azimuth_deg": 162.439744,
+        "elevation_deg": -5.033981,
+        "range_km": 388293.776
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 45.887272,
+        "elevation_deg": 1.612381,
+        "range_km": 147301576.321
+      },
+      "earth": {
+        "azimuth_deg": 162.426608,
+        "elevation_deg": -5.078317,
+        "range_km": 388477.68
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 45.379945,
+        "elevation_deg": 1.613631,
+        "range_km": 147297607.507
+      },
+      "earth": {
+        "azimuth_deg": 162.413073,
+        "elevation_deg": -5.122211,
+        "range_km": 388660.763
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 44.872607,
+        "elevation_deg": 1.614869,
+        "range_km": 147293653.118
+      },
+      "earth": {
+        "azimuth_deg": 162.399141,
+        "elevation_deg": -5.165661,
+        "range_km": 388843.019
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 44.365258,
+        "elevation_deg": 1.616096,
+        "range_km": 147289713.356
+      },
+      "earth": {
+        "azimuth_deg": 162.384816,
+        "elevation_deg": -5.208663,
+        "range_km": 389024.442
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 43.857899,
+        "elevation_deg": 1.617312,
+        "range_km": 147285788.424
+      },
+      "earth": {
+        "azimuth_deg": 162.370101,
+        "elevation_deg": -5.251216,
+        "range_km": 389205.027
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 43.35053,
+        "elevation_deg": 1.618516,
+        "range_km": 147281878.523
+      },
+      "earth": {
+        "azimuth_deg": 162.354998,
+        "elevation_deg": -5.293316,
+        "range_km": 389384.767
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 42.843151,
+        "elevation_deg": 1.619709,
+        "range_km": 147277983.852
+      },
+      "earth": {
+        "azimuth_deg": 162.339512,
+        "elevation_deg": -5.334961,
+        "range_km": 389563.657
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 42.335761,
+        "elevation_deg": 1.620889,
+        "range_km": 147274104.608
+      },
+      "earth": {
+        "azimuth_deg": 162.323645,
+        "elevation_deg": -5.376149,
+        "range_km": 389741.692
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 41.828362,
+        "elevation_deg": 1.622058,
+        "range_km": 147270240.988
+      },
+      "earth": {
+        "azimuth_deg": 162.3074,
+        "elevation_deg": -5.416878,
+        "range_km": 389918.867
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 41.320952,
+        "elevation_deg": 1.623214,
+        "range_km": 147266393.185
+      },
+      "earth": {
+        "azimuth_deg": 162.290781,
+        "elevation_deg": -5.457145,
+        "range_km": 390095.177
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 40.813532,
+        "elevation_deg": 1.624358,
+        "range_km": 147262561.393
+      },
+      "earth": {
+        "azimuth_deg": 162.27379,
+        "elevation_deg": -5.496947,
+        "range_km": 390270.618
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 40.306103,
+        "elevation_deg": 1.62549,
+        "range_km": 147258745.803
+      },
+      "earth": {
+        "azimuth_deg": 162.25643,
+        "elevation_deg": -5.536283,
+        "range_km": 390445.184
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-03T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 39.798664,
+        "elevation_deg": 1.626609,
+        "range_km": 147254946.605
+      },
+      "earth": {
+        "azimuth_deg": 162.238704,
+        "elevation_deg": -5.575151,
+        "range_km": 390618.872
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 39.291214,
+        "elevation_deg": 1.627716,
+        "range_km": 147251163.985
+      },
+      "earth": {
+        "azimuth_deg": 162.220615,
+        "elevation_deg": -5.613547,
+        "range_km": 390791.677
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 38.783756,
+        "elevation_deg": 1.62881,
+        "range_km": 147247398.132
+      },
+      "earth": {
+        "azimuth_deg": 162.202167,
+        "elevation_deg": -5.651471,
+        "range_km": 390963.597
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 38.276287,
+        "elevation_deg": 1.629891,
+        "range_km": 147243649.23
+      },
+      "earth": {
+        "azimuth_deg": 162.183361,
+        "elevation_deg": -5.68892,
+        "range_km": 391134.626
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 37.768809,
+        "elevation_deg": 1.630958,
+        "range_km": 147239917.462
+      },
+      "earth": {
+        "azimuth_deg": 162.1642,
+        "elevation_deg": -5.725891,
+        "range_km": 391304.761
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 37.261321,
+        "elevation_deg": 1.632013,
+        "range_km": 147236203.01
+      },
+      "earth": {
+        "azimuth_deg": 162.144689,
+        "elevation_deg": -5.762384,
+        "range_km": 391474.0
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 36.753824,
+        "elevation_deg": 1.633055,
+        "range_km": 147232506.053
+      },
+      "earth": {
+        "azimuth_deg": 162.124828,
+        "elevation_deg": -5.798395,
+        "range_km": 391642.338
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 36.246318,
+        "elevation_deg": 1.634082,
+        "range_km": 147228826.771
+      },
+      "earth": {
+        "azimuth_deg": 162.104621,
+        "elevation_deg": -5.833923,
+        "range_km": 391809.773
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 35.738802,
+        "elevation_deg": 1.635097,
+        "range_km": 147225165.34
+      },
+      "earth": {
+        "azimuth_deg": 162.084071,
+        "elevation_deg": -5.868967,
+        "range_km": 391976.302
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 35.231277,
+        "elevation_deg": 1.636098,
+        "range_km": 147221521.935
+      },
+      "earth": {
+        "azimuth_deg": 162.063179,
+        "elevation_deg": -5.903524,
+        "range_km": 392141.922
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 34.723743,
+        "elevation_deg": 1.637085,
+        "range_km": 147217896.731
+      },
+      "earth": {
+        "azimuth_deg": 162.04195,
+        "elevation_deg": -5.937592,
+        "range_km": 392306.631
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 34.2162,
+        "elevation_deg": 1.638058,
+        "range_km": 147214289.898
+      },
+      "earth": {
+        "azimuth_deg": 162.020385,
+        "elevation_deg": -5.971171,
+        "range_km": 392470.426
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 33.708647,
+        "elevation_deg": 1.639017,
+        "range_km": 147210701.608
+      },
+      "earth": {
+        "azimuth_deg": 161.998487,
+        "elevation_deg": -6.004257,
+        "range_km": 392633.305
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 33.201086,
+        "elevation_deg": 1.639962,
+        "range_km": 147207132.028
+      },
+      "earth": {
+        "azimuth_deg": 161.976258,
+        "elevation_deg": -6.036849,
+        "range_km": 392795.266
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 32.693516,
+        "elevation_deg": 1.640892,
+        "range_km": 147203581.327
+      },
+      "earth": {
+        "azimuth_deg": 161.953701,
+        "elevation_deg": -6.068947,
+        "range_km": 392956.306
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 32.185937,
+        "elevation_deg": 1.641809,
+        "range_km": 147200049.67
+      },
+      "earth": {
+        "azimuth_deg": 161.930819,
+        "elevation_deg": -6.100547,
+        "range_km": 393116.425
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 31.678349,
+        "elevation_deg": 1.642711,
+        "range_km": 147196537.221
+      },
+      "earth": {
+        "azimuth_deg": 161.907613,
+        "elevation_deg": -6.131649,
+        "range_km": 393275.619
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 31.170753,
+        "elevation_deg": 1.643598,
+        "range_km": 147193044.142
+      },
+      "earth": {
+        "azimuth_deg": 161.884087,
+        "elevation_deg": -6.16225,
+        "range_km": 393433.888
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 30.663148,
+        "elevation_deg": 1.64447,
+        "range_km": 147189570.593
+      },
+      "earth": {
+        "azimuth_deg": 161.860242,
+        "elevation_deg": -6.192351,
+        "range_km": 393591.231
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 30.155534,
+        "elevation_deg": 1.645328,
+        "range_km": 147186116.734
+      },
+      "earth": {
+        "azimuth_deg": 161.83608,
+        "elevation_deg": -6.221948,
+        "range_km": 393747.645
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 29.647912,
+        "elevation_deg": 1.646171,
+        "range_km": 147182682.722
+      },
+      "earth": {
+        "azimuth_deg": 161.811605,
+        "elevation_deg": -6.251041,
+        "range_km": 393903.129
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 29.140282,
+        "elevation_deg": 1.646998,
+        "range_km": 147179268.713
+      },
+      "earth": {
+        "azimuth_deg": 161.786818,
+        "elevation_deg": -6.279628,
+        "range_km": 394057.684
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 28.632643,
+        "elevation_deg": 1.647811,
+        "range_km": 147175874.861
+      },
+      "earth": {
+        "azimuth_deg": 161.761721,
+        "elevation_deg": -6.307708,
+        "range_km": 394211.306
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 28.124997,
+        "elevation_deg": 1.648608,
+        "range_km": 147172501.319
+      },
+      "earth": {
+        "azimuth_deg": 161.736318,
+        "elevation_deg": -6.33528,
+        "range_km": 394363.996
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-04T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 27.617342,
+        "elevation_deg": 1.64939,
+        "range_km": 147169148.237
+      },
+      "earth": {
+        "azimuth_deg": 161.710609,
+        "elevation_deg": -6.362342,
+        "range_km": 394515.753
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 27.109679,
+        "elevation_deg": 1.650156,
+        "range_km": 147165815.765
+      },
+      "earth": {
+        "azimuth_deg": 161.684597,
+        "elevation_deg": -6.388893,
+        "range_km": 394666.576
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 26.602008,
+        "elevation_deg": 1.650907,
+        "range_km": 147162504.05
+      },
+      "earth": {
+        "azimuth_deg": 161.658283,
+        "elevation_deg": -6.414932,
+        "range_km": 394816.465
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 26.094329,
+        "elevation_deg": 1.651643,
+        "range_km": 147159213.238
+      },
+      "earth": {
+        "azimuth_deg": 161.631671,
+        "elevation_deg": -6.440459,
+        "range_km": 394965.419
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 25.586642,
+        "elevation_deg": 1.652362,
+        "range_km": 147155943.474
+      },
+      "earth": {
+        "azimuth_deg": 161.604762,
+        "elevation_deg": -6.46547,
+        "range_km": 395113.437
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 25.078947,
+        "elevation_deg": 1.653065,
+        "range_km": 147152694.9
+      },
+      "earth": {
+        "azimuth_deg": 161.577558,
+        "elevation_deg": -6.489967,
+        "range_km": 395260.519
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 24.571245,
+        "elevation_deg": 1.653753,
+        "range_km": 147149467.658
+      },
+      "earth": {
+        "azimuth_deg": 161.550061,
+        "elevation_deg": -6.513947,
+        "range_km": 395406.666
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 24.063535,
+        "elevation_deg": 1.654425,
+        "range_km": 147146261.886
+      },
+      "earth": {
+        "azimuth_deg": 161.522273,
+        "elevation_deg": -6.53741,
+        "range_km": 395551.876
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 23.555818,
+        "elevation_deg": 1.65508,
+        "range_km": 147143077.723
+      },
+      "earth": {
+        "azimuth_deg": 161.494195,
+        "elevation_deg": -6.560354,
+        "range_km": 395696.151
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 23.048093,
+        "elevation_deg": 1.655719,
+        "range_km": 147139915.305
+      },
+      "earth": {
+        "azimuth_deg": 161.46583,
+        "elevation_deg": -6.582779,
+        "range_km": 395839.489
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 22.540361,
+        "elevation_deg": 1.656342,
+        "range_km": 147136774.766
+      },
+      "earth": {
+        "azimuth_deg": 161.43718,
+        "elevation_deg": -6.604685,
+        "range_km": 395981.891
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 22.032621,
+        "elevation_deg": 1.656948,
+        "range_km": 147133656.24
+      },
+      "earth": {
+        "azimuth_deg": 161.408245,
+        "elevation_deg": -6.626069,
+        "range_km": 396123.357
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 21.524875,
+        "elevation_deg": 1.657538,
+        "range_km": 147130559.856
+      },
+      "earth": {
+        "azimuth_deg": 161.379029,
+        "elevation_deg": -6.646931,
+        "range_km": 396263.887
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 21.017121,
+        "elevation_deg": 1.658111,
+        "range_km": 147127485.746
+      },
+      "earth": {
+        "azimuth_deg": 161.349532,
+        "elevation_deg": -6.667271,
+        "range_km": 396403.482
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 20.50936,
+        "elevation_deg": 1.658667,
+        "range_km": 147124434.036
+      },
+      "earth": {
+        "azimuth_deg": 161.319756,
+        "elevation_deg": -6.687088,
+        "range_km": 396542.142
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 20.001592,
+        "elevation_deg": 1.659207,
+        "range_km": 147121404.854
+      },
+      "earth": {
+        "azimuth_deg": 161.289704,
+        "elevation_deg": -6.706381,
+        "range_km": 396679.866
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 19.493818,
+        "elevation_deg": 1.659729,
+        "range_km": 147118398.324
+      },
+      "earth": {
+        "azimuth_deg": 161.259376,
+        "elevation_deg": -6.725149,
+        "range_km": 396816.656
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 18.986036,
+        "elevation_deg": 1.660235,
+        "range_km": 147115414.569
+      },
+      "earth": {
+        "azimuth_deg": 161.228774,
+        "elevation_deg": -6.743392,
+        "range_km": 396952.513
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 18.478248,
+        "elevation_deg": 1.660724,
+        "range_km": 147112453.71
+      },
+      "earth": {
+        "azimuth_deg": 161.1979,
+        "elevation_deg": -6.76111,
+        "range_km": 397087.435
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 17.970453,
+        "elevation_deg": 1.661195,
+        "range_km": 147109515.867
+      },
+      "earth": {
+        "azimuth_deg": 161.166755,
+        "elevation_deg": -6.778301,
+        "range_km": 397221.425
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 17.462652,
+        "elevation_deg": 1.66165,
+        "range_km": 147106601.158
+      },
+      "earth": {
+        "azimuth_deg": 161.135342,
+        "elevation_deg": -6.794965,
+        "range_km": 397354.482
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 16.954844,
+        "elevation_deg": 1.662087,
+        "range_km": 147103709.7
+      },
+      "earth": {
+        "azimuth_deg": 161.10366,
+        "elevation_deg": -6.811102,
+        "range_km": 397486.608
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 16.44703,
+        "elevation_deg": 1.662507,
+        "range_km": 147100841.607
+      },
+      "earth": {
+        "azimuth_deg": 161.071712,
+        "elevation_deg": -6.826712,
+        "range_km": 397617.802
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 15.93921,
+        "elevation_deg": 1.662909,
+        "range_km": 147097996.993
+      },
+      "earth": {
+        "azimuth_deg": 161.039499,
+        "elevation_deg": -6.841793,
+        "range_km": 397748.066
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-05T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 15.431383,
+        "elevation_deg": 1.663294,
+        "range_km": 147095175.97
+      },
+      "earth": {
+        "azimuth_deg": 161.007023,
+        "elevation_deg": -6.856346,
+        "range_km": 397877.4
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 14.92355,
+        "elevation_deg": 1.663661,
+        "range_km": 147092378.646
+      },
+      "earth": {
+        "azimuth_deg": 160.974285,
+        "elevation_deg": -6.87037,
+        "range_km": 398005.805
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 14.415711,
+        "elevation_deg": 1.66401,
+        "range_km": 147089605.13
+      },
+      "earth": {
+        "azimuth_deg": 160.941286,
+        "elevation_deg": -6.883866,
+        "range_km": 398133.282
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 13.907867,
+        "elevation_deg": 1.664342,
+        "range_km": 147086855.53
+      },
+      "earth": {
+        "azimuth_deg": 160.908028,
+        "elevation_deg": -6.896832,
+        "range_km": 398259.831
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 13.400016,
+        "elevation_deg": 1.664656,
+        "range_km": 147084129.949
+      },
+      "earth": {
+        "azimuth_deg": 160.874512,
+        "elevation_deg": -6.909268,
+        "range_km": 398385.453
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 12.89216,
+        "elevation_deg": 1.664952,
+        "range_km": 147081428.491
+      },
+      "earth": {
+        "azimuth_deg": 160.840739,
+        "elevation_deg": -6.921175,
+        "range_km": 398510.149
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 12.384298,
+        "elevation_deg": 1.66523,
+        "range_km": 147078751.259
+      },
+      "earth": {
+        "azimuth_deg": 160.80671,
+        "elevation_deg": -6.932553,
+        "range_km": 398633.919
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 11.87643,
+        "elevation_deg": 1.665491,
+        "range_km": 147076098.351
+      },
+      "earth": {
+        "azimuth_deg": 160.772427,
+        "elevation_deg": -6.9434,
+        "range_km": 398756.765
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 11.368557,
+        "elevation_deg": 1.665733,
+        "range_km": 147073469.866
+      },
+      "earth": {
+        "azimuth_deg": 160.737891,
+        "elevation_deg": -6.953718,
+        "range_km": 398878.687
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 10.860678,
+        "elevation_deg": 1.665957,
+        "range_km": 147070865.902
+      },
+      "earth": {
+        "azimuth_deg": 160.703103,
+        "elevation_deg": -6.963505,
+        "range_km": 398999.686
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 10.352794,
+        "elevation_deg": 1.666163,
+        "range_km": 147068286.553
+      },
+      "earth": {
+        "azimuth_deg": 160.668064,
+        "elevation_deg": -6.972763,
+        "range_km": 399119.763
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 9.844905,
+        "elevation_deg": 1.66635,
+        "range_km": 147065731.913
+      },
+      "earth": {
+        "azimuth_deg": 160.632775,
+        "elevation_deg": -6.981491,
+        "range_km": 399238.917
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 9.337011,
+        "elevation_deg": 1.66652,
+        "range_km": 147063202.073
+      },
+      "earth": {
+        "azimuth_deg": 160.597238,
+        "elevation_deg": -6.989689,
+        "range_km": 399357.151
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 8.829111,
+        "elevation_deg": 1.666671,
+        "range_km": 147060697.124
+      },
+      "earth": {
+        "azimuth_deg": 160.561453,
+        "elevation_deg": -6.997358,
+        "range_km": 399474.465
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 8.321207,
+        "elevation_deg": 1.666804,
+        "range_km": 147058217.154
+      },
+      "earth": {
+        "azimuth_deg": 160.525422,
+        "elevation_deg": -7.004497,
+        "range_km": 399590.859
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 7.813297,
+        "elevation_deg": 1.666918,
+        "range_km": 147055762.251
+      },
+      "earth": {
+        "azimuth_deg": 160.489146,
+        "elevation_deg": -7.011107,
+        "range_km": 399706.335
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 7.305383,
+        "elevation_deg": 1.667014,
+        "range_km": 147053332.5
+      },
+      "earth": {
+        "azimuth_deg": 160.452625,
+        "elevation_deg": -7.017188,
+        "range_km": 399820.892
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 6.797464,
+        "elevation_deg": 1.667091,
+        "range_km": 147050927.983
+      },
+      "earth": {
+        "azimuth_deg": 160.415861,
+        "elevation_deg": -7.02274,
+        "range_km": 399934.531
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 6.289541,
+        "elevation_deg": 1.66715,
+        "range_km": 147048548.785
+      },
+      "earth": {
+        "azimuth_deg": 160.378855,
+        "elevation_deg": -7.027764,
+        "range_km": 400047.254
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 5.781613,
+        "elevation_deg": 1.66719,
+        "range_km": 147046194.984
+      },
+      "earth": {
+        "azimuth_deg": 160.341607,
+        "elevation_deg": -7.032259,
+        "range_km": 400159.06
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 5.27368,
+        "elevation_deg": 1.667211,
+        "range_km": 147043866.659
+      },
+      "earth": {
+        "azimuth_deg": 160.304119,
+        "elevation_deg": -7.036227,
+        "range_km": 400269.95
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 4.765744,
+        "elevation_deg": 1.667214,
+        "range_km": 147041563.889
+      },
+      "earth": {
+        "azimuth_deg": 160.266392,
+        "elevation_deg": -7.039668,
+        "range_km": 400379.925
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 4.257802,
+        "elevation_deg": 1.667198,
+        "range_km": 147039286.747
+      },
+      "earth": {
+        "azimuth_deg": 160.228426,
+        "elevation_deg": -7.042582,
+        "range_km": 400488.984
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 3.749857,
+        "elevation_deg": 1.667163,
+        "range_km": 147037035.309
+      },
+      "earth": {
+        "azimuth_deg": 160.190223,
+        "elevation_deg": -7.044969,
+        "range_km": 400597.13
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-06T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 3.241908,
+        "elevation_deg": 1.667109,
+        "range_km": 147034809.647
+      },
+      "earth": {
+        "azimuth_deg": 160.151783,
+        "elevation_deg": -7.046831,
+        "range_km": 400704.361
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 2.733954,
+        "elevation_deg": 1.667037,
+        "range_km": 147032609.83
+      },
+      "earth": {
+        "azimuth_deg": 160.113107,
+        "elevation_deg": -7.048167,
+        "range_km": 400810.678
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 2.225997,
+        "elevation_deg": 1.666945,
+        "range_km": 147030435.929
+      },
+      "earth": {
+        "azimuth_deg": 160.074197,
+        "elevation_deg": -7.048979,
+        "range_km": 400916.081
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 1.718036,
+        "elevation_deg": 1.666835,
+        "range_km": 147028288.01
+      },
+      "earth": {
+        "azimuth_deg": 160.035052,
+        "elevation_deg": -7.049266,
+        "range_km": 401020.571
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 1.210071,
+        "elevation_deg": 1.666706,
+        "range_km": 147026166.14
+      },
+      "earth": {
+        "azimuth_deg": 159.995675,
+        "elevation_deg": -7.04903,
+        "range_km": 401124.148
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 0.702102,
+        "elevation_deg": 1.666557,
+        "range_km": 147024070.383
+      },
+      "earth": {
+        "azimuth_deg": 159.956065,
+        "elevation_deg": -7.048272,
+        "range_km": 401226.811
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 0.19413,
+        "elevation_deg": 1.66639,
+        "range_km": 147022000.8
+      },
+      "earth": {
+        "azimuth_deg": 159.916223,
+        "elevation_deg": -7.046991,
+        "range_km": 401328.562
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 359.686154,
+        "elevation_deg": 1.666204,
+        "range_km": 147019957.454
+      },
+      "earth": {
+        "azimuth_deg": 159.876152,
+        "elevation_deg": -7.04519,
+        "range_km": 401429.399
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 359.178175,
+        "elevation_deg": 1.665998,
+        "range_km": 147017940.403
+      },
+      "earth": {
+        "azimuth_deg": 159.83585,
+        "elevation_deg": -7.042868,
+        "range_km": 401529.323
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 358.670193,
+        "elevation_deg": 1.665774,
+        "range_km": 147015949.705
+      },
+      "earth": {
+        "azimuth_deg": 159.795319,
+        "elevation_deg": -7.040026,
+        "range_km": 401628.334
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 358.162208,
+        "elevation_deg": 1.66553,
+        "range_km": 147013985.417
+      },
+      "earth": {
+        "azimuth_deg": 159.75456,
+        "elevation_deg": -7.036666,
+        "range_km": 401726.432
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 357.654219,
+        "elevation_deg": 1.665268,
+        "range_km": 147012047.592
+      },
+      "earth": {
+        "azimuth_deg": 159.713574,
+        "elevation_deg": -7.032787,
+        "range_km": 401823.615
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 357.146228,
+        "elevation_deg": 1.664986,
+        "range_km": 147010136.285
+      },
+      "earth": {
+        "azimuth_deg": 159.672361,
+        "elevation_deg": -7.028392,
+        "range_km": 401919.885
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 356.638233,
+        "elevation_deg": 1.664685,
+        "range_km": 147008251.545
+      },
+      "earth": {
+        "azimuth_deg": 159.630922,
+        "elevation_deg": -7.023482,
+        "range_km": 402015.24
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 356.130236,
+        "elevation_deg": 1.664365,
+        "range_km": 147006393.423
+      },
+      "earth": {
+        "azimuth_deg": 159.589259,
+        "elevation_deg": -7.018056,
+        "range_km": 402109.68
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 355.622236,
+        "elevation_deg": 1.664026,
+        "range_km": 147004561.966
+      },
+      "earth": {
+        "azimuth_deg": 159.547371,
+        "elevation_deg": -7.012116,
+        "range_km": 402203.205
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 355.114233,
+        "elevation_deg": 1.663668,
+        "range_km": 147002757.222
+      },
+      "earth": {
+        "azimuth_deg": 159.50526,
+        "elevation_deg": -7.005664,
+        "range_km": 402295.813
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 354.606228,
+        "elevation_deg": 1.66329,
+        "range_km": 147000979.235
+      },
+      "earth": {
+        "azimuth_deg": 159.462925,
+        "elevation_deg": -6.9987,
+        "range_km": 402387.505
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 354.09822,
+        "elevation_deg": 1.662893,
+        "range_km": 146999228.049
+      },
+      "earth": {
+        "azimuth_deg": 159.42037,
+        "elevation_deg": -6.991226,
+        "range_km": 402478.279
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 353.59021,
+        "elevation_deg": 1.662477,
+        "range_km": 146997503.704
+      },
+      "earth": {
+        "azimuth_deg": 159.377592,
+        "elevation_deg": -6.983242,
+        "range_km": 402568.135
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 353.082198,
+        "elevation_deg": 1.662042,
+        "range_km": 146995806.242
+      },
+      "earth": {
+        "azimuth_deg": 159.334595,
+        "elevation_deg": -6.97475,
+        "range_km": 402657.071
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 352.574183,
+        "elevation_deg": 1.661588,
+        "range_km": 146994135.701
+      },
+      "earth": {
+        "azimuth_deg": 159.291378,
+        "elevation_deg": -6.965751,
+        "range_km": 402745.087
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 352.066167,
+        "elevation_deg": 1.661114,
+        "range_km": 146992492.118
+      },
+      "earth": {
+        "azimuth_deg": 159.247942,
+        "elevation_deg": -6.956247,
+        "range_km": 402832.181
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 351.558148,
+        "elevation_deg": 1.660621,
+        "range_km": 146990875.528
+      },
+      "earth": {
+        "azimuth_deg": 159.204288,
+        "elevation_deg": -6.946238,
+        "range_km": 402918.353
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-07T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 351.050128,
+        "elevation_deg": 1.660109,
+        "range_km": 146989285.965
+      },
+      "earth": {
+        "azimuth_deg": 159.160417,
+        "elevation_deg": -6.935726,
+        "range_km": 403003.6
+      }
+    },
+    {
+      "site_id": "shackleton-rim",
+      "timestamp_utc": "2026-12-08T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 350.542106,
+        "elevation_deg": 1.659578,
+        "range_km": 146987723.461
+      },
+      "earth": {
+        "azimuth_deg": 159.116329,
+        "elevation_deg": -6.924713,
+        "range_km": 403087.922
+      }
+    }
+  ],
+  "incomplete_timestamps_dropped": 0,
+  "window": {
+    "key": "initial",
+    "label": "Initial analysis period (01 Dec - 08 Dec 2026)",
+    "start_utc": "2026-12-01T00:00:00Z",
+    "stop_utc": "2026-12-08T00:00:00Z"
+  }
+}

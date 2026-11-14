@@ -1,0 +1,175 @@
+{
+  "schema": "lunanav.site_series_index.v1",
+  "generated_utc": "2026-11-14T20:10:52Z",
+  "step": "1 h",
+  "partial": false,
+  "windows": {
+    "initial": {
+      "key": "initial",
+      "label": "Initial analysis period (01 Dec - 08 Dec 2026)",
+      "start_utc": "2026-12-01T00:00:00Z",
+      "stop_utc": "2026-12-08T00:00:00Z",
+      "expected_samples": 169
+    },
+    "alternative": {
+      "key": "alternative",
+      "label": "Delayed mission period (11 Dec - 18 Dec 2026)",
+      "start_utc": "2026-12-11T00:00:00Z",
+      "stop_utc": "2026-12-18T00:00:00Z",
+      "expected_samples": 169
+    }
+  },
+  "sites": [
+    {
+      "site_id": "shackleton-rim",
+      "name": "Shackleton Crater Rim (SR1)",
+      "files": {
+        "initial": "shackleton-rim-initial.json",
+        "alternative": "shackleton-rim-alternative.json"
+      },
+      "samples": {
+        "initial": 169,
+        "alternative": 169
+      },
+      "crosscheck": {
+        "initial": {
+          "sun": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0073,
+            "max_elevation_difference_deg": 0.0248,
+            "rms_elevation_difference_deg": 0.014,
+            "tolerance_deg": 0.5,
+            "passed": true
+          },
+          "earth": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0195,
+            "max_elevation_difference_deg": 0.0315,
+            "rms_elevation_difference_deg": 0.0261,
+            "tolerance_deg": 0.5,
+            "passed": true
+          }
+        },
+        "alternative": {
+          "sun": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0089,
+            "max_elevation_difference_deg": 0.0319,
+            "rms_elevation_difference_deg": 0.0246,
+            "tolerance_deg": 0.5,
+            "passed": true
+          },
+          "earth": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0084,
+            "max_elevation_difference_deg": 0.0325,
+            "rms_elevation_difference_deg": 0.03,
+            "tolerance_deg": 0.5,
+            "passed": true
+          }
+        }
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "name": "Shackleton-de Gerlache Connecting Ridge (CR1)",
+      "files": {
+        "initial": "connecting-ridge-initial.json",
+        "alternative": "connecting-ridge-alternative.json"
+      },
+      "samples": {
+        "initial": 169,
+        "alternative": 169
+      },
+      "crosscheck": {
+        "initial": {
+          "sun": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0072,
+            "max_elevation_difference_deg": 0.0248,
+            "rms_elevation_difference_deg": 0.014,
+            "tolerance_deg": 0.5,
+            "passed": true
+          },
+          "earth": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0194,
+            "max_elevation_difference_deg": 0.0315,
+            "rms_elevation_difference_deg": 0.0262,
+            "tolerance_deg": 0.5,
+            "passed": true
+          }
+        },
+        "alternative": {
+          "sun": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0089,
+            "max_elevation_difference_deg": 0.0319,
+            "rms_elevation_difference_deg": 0.0246,
+            "tolerance_deg": 0.5,
+            "passed": true
+          },
+          "earth": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0083,
+            "max_elevation_difference_deg": 0.0325,
+            "rms_elevation_difference_deg": 0.03,
+            "tolerance_deg": 0.5,
+            "passed": true
+          }
+        }
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "name": "de Gerlache Crater Rim (GR1)",
+      "files": {
+        "initial": "de-gerlache-rim-initial.json",
+        "alternative": "de-gerlache-rim-alternative.json"
+      },
+      "samples": {
+        "initial": 169,
+        "alternative": 169
+      },
+      "crosscheck": {
+        "initial": {
+          "sun": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0075,
+            "max_elevation_difference_deg": 0.0249,
+            "rms_elevation_difference_deg": 0.014,
+            "tolerance_deg": 0.5,
+            "passed": true
+          },
+          "earth": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.019,
+            "max_elevation_difference_deg": 0.0317,
+            "rms_elevation_difference_deg": 0.0264,
+            "tolerance_deg": 0.5,
+            "passed": true
+          }
+        },
+        "alternative": {
+          "sun": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0087,
+            "max_elevation_difference_deg": 0.0319,
+            "rms_elevation_difference_deg": 0.0246,
+            "tolerance_deg": 0.5,
+            "passed": true
+          },
+          "earth": {
+            "samples": 169,
+            "max_azimuth_difference_deg": 0.0078,
+            "max_elevation_difference_deg": 0.0324,
+            "rms_elevation_difference_deg": 0.03,
+            "tolerance_deg": 0.5,
+            "passed": true
+          }
+        }
+      }
+    }
+  ],
+  "total_samples": 1014
+}

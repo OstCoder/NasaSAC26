@@ -1,0 +1,2433 @@
+{
+  "schema": "lunanav.site_series.v1",
+  "generated_utc": "2026-11-14T20:10:50Z",
+  "site": {
+    "site_id": "connecting-ridge",
+    "name": "Shackleton-de Gerlache Connecting Ridge (CR1)",
+    "latitude_deg": -89.45,
+    "longitude_deg": -137.31,
+    "elevation_m": 1955.23,
+    "height_m": 2.0,
+    "altitude_km": 1.95723
+  },
+  "request": {
+    "start_utc": "2026-12-11T00:00:00Z",
+    "stop_utc": "2026-12-18T00:00:00Z",
+    "step": "1 h",
+    "bodies": [
+      "sun",
+      "earth"
+    ],
+    "queries": {
+      "sun": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&CENTER=%27coord%40301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%27222.690000%2C-89.450000%2C1.957230%27&START_TIME=%272026-12-11+00%3A00%27&STOP_TIME=%272026-12-18+00%3A00%27&STEP_SIZE=%271+h%27&QUANTITIES=%274%2C20%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27&TIME_DIGITS=%27MINUTES%27&APPARENT=%27AIRLESS%27",
+      "earth": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27399%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&CENTER=%27coord%40301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%27222.690000%2C-89.450000%2C1.957230%27&START_TIME=%272026-12-11+00%3A00%27&STOP_TIME=%272026-12-18+00%3A00%27&STEP_SIZE=%271+h%27&QUANTITIES=%274%2C20%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27&TIME_DIGITS=%27MINUTES%27&APPARENT=%27AIRLESS%27"
+    }
+  },
+  "source": "NASA JPL Horizons API observer table: CENTER='coord@301', COORD_TYPE='GEODETIC', QUANTITIES='4,20' (apparent az/el, airless)",
+  "conventions": {
+    "longitude": "selenographic, east-positive",
+    "azimuth_deg": "degrees clockwise from local lunar north, [0, 360)",
+    "elevation_deg": "degrees above the local horizontal, airless (no refraction), no terrain",
+    "altitude_km": "height above the 1737.4 km IAU mean sphere (site elevation + observer height)",
+    "time": "UTC, ISO-8601 with Z; both bodies share one timestamp"
+  },
+  "crosscheck": {
+    "sun": {
+      "samples": 169,
+      "max_azimuth_difference_deg": 0.0089,
+      "max_elevation_difference_deg": 0.0319,
+      "rms_elevation_difference_deg": 0.0246,
+      "tolerance_deg": 0.5,
+      "passed": true
+    },
+    "earth": {
+      "samples": 169,
+      "max_azimuth_difference_deg": 0.0083,
+      "max_elevation_difference_deg": 0.0325,
+      "rms_elevation_difference_deg": 0.03,
+      "tolerance_deg": 0.5,
+      "passed": true
+    }
+  },
+  "checks": {
+    "chronological": true,
+    "matching_timestamps": true,
+    "no_missing_values": true,
+    "non_empty": true
+  },
+  "series": [
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 295.536444,
+        "elevation_deg": 1.657607,
+        "range_km": 146946561.758
+      },
+      "earth": {
+        "azimuth_deg": 136.99623,
+        "elevation_deg": -5.139132,
+        "range_km": 406527.007
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 295.028532,
+        "elevation_deg": 1.652797,
+        "range_km": 146946959.363
+      },
+      "earth": {
+        "azimuth_deg": 136.939687,
+        "elevation_deg": -5.096783,
+        "range_km": 406533.561
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 294.520626,
+        "elevation_deg": 1.647967,
+        "range_km": 146947382.276
+      },
+      "earth": {
+        "azimuth_deg": 136.88304,
+        "elevation_deg": -5.054105,
+        "range_km": 406538.826
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 294.012726,
+        "elevation_deg": 1.643117,
+        "range_km": 146947830.418
+      },
+      "earth": {
+        "azimuth_deg": 136.826292,
+        "elevation_deg": -5.0111,
+        "range_km": 406542.796
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 293.504831,
+        "elevation_deg": 1.638246,
+        "range_km": 146948303.715
+      },
+      "earth": {
+        "azimuth_deg": 136.769446,
+        "elevation_deg": -4.967774,
+        "range_km": 406545.462
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 292.996943,
+        "elevation_deg": 1.633356,
+        "range_km": 146948802.086
+      },
+      "earth": {
+        "azimuth_deg": 136.712505,
+        "elevation_deg": -4.924127,
+        "range_km": 406546.816
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 292.48906,
+        "elevation_deg": 1.628446,
+        "range_km": 146949325.454
+      },
+      "earth": {
+        "azimuth_deg": 136.65547,
+        "elevation_deg": -4.880164,
+        "range_km": 406546.85
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 291.981183,
+        "elevation_deg": 1.623517,
+        "range_km": 146949873.736
+      },
+      "earth": {
+        "azimuth_deg": 136.598347,
+        "elevation_deg": -4.835888,
+        "range_km": 406545.558
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 291.473313,
+        "elevation_deg": 1.618569,
+        "range_km": 146950446.852
+      },
+      "earth": {
+        "azimuth_deg": 136.541136,
+        "elevation_deg": -4.791301,
+        "range_km": 406542.929
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 290.965449,
+        "elevation_deg": 1.613603,
+        "range_km": 146951044.717
+      },
+      "earth": {
+        "azimuth_deg": 136.483841,
+        "elevation_deg": -4.746407,
+        "range_km": 406538.958
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 290.457591,
+        "elevation_deg": 1.608619,
+        "range_km": 146951667.247
+      },
+      "earth": {
+        "azimuth_deg": 136.426466,
+        "elevation_deg": -4.70121,
+        "range_km": 406533.635
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 289.949739,
+        "elevation_deg": 1.603618,
+        "range_km": 146952314.356
+      },
+      "earth": {
+        "azimuth_deg": 136.369012,
+        "elevation_deg": -4.655711,
+        "range_km": 406526.953
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 289.441894,
+        "elevation_deg": 1.598599,
+        "range_km": 146952985.958
+      },
+      "earth": {
+        "azimuth_deg": 136.311484,
+        "elevation_deg": -4.609915,
+        "range_km": 406518.903
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 288.934055,
+        "elevation_deg": 1.593563,
+        "range_km": 146953681.963
+      },
+      "earth": {
+        "azimuth_deg": 136.253884,
+        "elevation_deg": -4.563825,
+        "range_km": 406509.478
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 288.426223,
+        "elevation_deg": 1.588511,
+        "range_km": 146954402.283
+      },
+      "earth": {
+        "azimuth_deg": 136.196216,
+        "elevation_deg": -4.517443,
+        "range_km": 406498.67
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 287.918397,
+        "elevation_deg": 1.583443,
+        "range_km": 146955146.826
+      },
+      "earth": {
+        "azimuth_deg": 136.138483,
+        "elevation_deg": -4.470774,
+        "range_km": 406486.47
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 287.410578,
+        "elevation_deg": 1.578358,
+        "range_km": 146955915.501
+      },
+      "earth": {
+        "azimuth_deg": 136.080687,
+        "elevation_deg": -4.42382,
+        "range_km": 406472.87
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 286.902766,
+        "elevation_deg": 1.573259,
+        "range_km": 146956708.214
+      },
+      "earth": {
+        "azimuth_deg": 136.022833,
+        "elevation_deg": -4.376584,
+        "range_km": 406457.864
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 286.394961,
+        "elevation_deg": 1.568144,
+        "range_km": 146957524.872
+      },
+      "earth": {
+        "azimuth_deg": 135.964923,
+        "elevation_deg": -4.329071,
+        "range_km": 406441.441
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 285.887163,
+        "elevation_deg": 1.563015,
+        "range_km": 146958365.377
+      },
+      "earth": {
+        "azimuth_deg": 135.906962,
+        "elevation_deg": -4.281282,
+        "range_km": 406423.595
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 285.379371,
+        "elevation_deg": 1.557872,
+        "range_km": 146959229.634
+      },
+      "earth": {
+        "azimuth_deg": 135.848952,
+        "elevation_deg": -4.233222,
+        "range_km": 406404.317
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 284.871587,
+        "elevation_deg": 1.552714,
+        "range_km": 146960117.545
+      },
+      "earth": {
+        "azimuth_deg": 135.790896,
+        "elevation_deg": -4.184893,
+        "range_km": 406383.599
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 284.36381,
+        "elevation_deg": 1.547543,
+        "range_km": 146961029.009
+      },
+      "earth": {
+        "azimuth_deg": 135.7328,
+        "elevation_deg": -4.136299,
+        "range_km": 406361.433
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-11T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 283.85604,
+        "elevation_deg": 1.542359,
+        "range_km": 146961963.928
+      },
+      "earth": {
+        "azimuth_deg": 135.674665,
+        "elevation_deg": -4.087444,
+        "range_km": 406337.811
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 283.348277,
+        "elevation_deg": 1.537162,
+        "range_km": 146962922.198
+      },
+      "earth": {
+        "azimuth_deg": 135.616496,
+        "elevation_deg": -4.03833,
+        "range_km": 406312.726
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 282.840522,
+        "elevation_deg": 1.531953,
+        "range_km": 146963903.718
+      },
+      "earth": {
+        "azimuth_deg": 135.558296,
+        "elevation_deg": -3.98896,
+        "range_km": 406286.168
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 282.332774,
+        "elevation_deg": 1.526732,
+        "range_km": 146964908.384
+      },
+      "earth": {
+        "azimuth_deg": 135.50007,
+        "elevation_deg": -3.939339,
+        "range_km": 406258.131
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 281.825033,
+        "elevation_deg": 1.521499,
+        "range_km": 146965936.089
+      },
+      "earth": {
+        "azimuth_deg": 135.44182,
+        "elevation_deg": -3.88947,
+        "range_km": 406228.605
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 281.3173,
+        "elevation_deg": 1.516255,
+        "range_km": 146966986.728
+      },
+      "earth": {
+        "azimuth_deg": 135.383551,
+        "elevation_deg": -3.839356,
+        "range_km": 406197.584
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 280.809575,
+        "elevation_deg": 1.511,
+        "range_km": 146968060.193
+      },
+      "earth": {
+        "azimuth_deg": 135.325265,
+        "elevation_deg": -3.788999,
+        "range_km": 406165.06
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 280.301857,
+        "elevation_deg": 1.505734,
+        "range_km": 146969156.376
+      },
+      "earth": {
+        "azimuth_deg": 135.266969,
+        "elevation_deg": -3.738405,
+        "range_km": 406131.023
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 279.794147,
+        "elevation_deg": 1.500459,
+        "range_km": 146970275.166
+      },
+      "earth": {
+        "azimuth_deg": 135.208664,
+        "elevation_deg": -3.687575,
+        "range_km": 406095.468
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 279.286445,
+        "elevation_deg": 1.495174,
+        "range_km": 146971416.453
+      },
+      "earth": {
+        "azimuth_deg": 135.150356,
+        "elevation_deg": -3.636514,
+        "range_km": 406058.385
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 278.77875,
+        "elevation_deg": 1.489879,
+        "range_km": 146972580.125
+      },
+      "earth": {
+        "azimuth_deg": 135.092047,
+        "elevation_deg": -3.585224,
+        "range_km": 406019.767
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 278.271064,
+        "elevation_deg": 1.484575,
+        "range_km": 146973766.067
+      },
+      "earth": {
+        "azimuth_deg": 135.033743,
+        "elevation_deg": -3.53371,
+        "range_km": 405979.607
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 277.763385,
+        "elevation_deg": 1.479263,
+        "range_km": 146974974.166
+      },
+      "earth": {
+        "azimuth_deg": 134.975447,
+        "elevation_deg": -3.481974,
+        "range_km": 405937.897
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 277.255715,
+        "elevation_deg": 1.473943,
+        "range_km": 146976204.305
+      },
+      "earth": {
+        "azimuth_deg": 134.917164,
+        "elevation_deg": -3.43002,
+        "range_km": 405894.628
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 276.748052,
+        "elevation_deg": 1.468615,
+        "range_km": 146977456.368
+      },
+      "earth": {
+        "azimuth_deg": 134.858897,
+        "elevation_deg": -3.377852,
+        "range_km": 405849.795
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 276.240398,
+        "elevation_deg": 1.46328,
+        "range_km": 146978730.238
+      },
+      "earth": {
+        "azimuth_deg": 134.800651,
+        "elevation_deg": -3.325472,
+        "range_km": 405803.388
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 275.732752,
+        "elevation_deg": 1.457938,
+        "range_km": 146980025.794
+      },
+      "earth": {
+        "azimuth_deg": 134.74243,
+        "elevation_deg": -3.272885,
+        "range_km": 405755.401
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 275.225114,
+        "elevation_deg": 1.452589,
+        "range_km": 146981342.917
+      },
+      "earth": {
+        "azimuth_deg": 134.684238,
+        "elevation_deg": -3.220094,
+        "range_km": 405705.827
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 274.717485,
+        "elevation_deg": 1.447234,
+        "range_km": 146982681.485
+      },
+      "earth": {
+        "azimuth_deg": 134.626081,
+        "elevation_deg": -3.167101,
+        "range_km": 405654.657
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 274.209864,
+        "elevation_deg": 1.441873,
+        "range_km": 146984041.376
+      },
+      "earth": {
+        "azimuth_deg": 134.567961,
+        "elevation_deg": -3.113912,
+        "range_km": 405601.885
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 273.702251,
+        "elevation_deg": 1.436506,
+        "range_km": 146985422.466
+      },
+      "earth": {
+        "azimuth_deg": 134.509884,
+        "elevation_deg": -3.060528,
+        "range_km": 405547.504
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 273.194647,
+        "elevation_deg": 1.431135,
+        "range_km": 146986824.63
+      },
+      "earth": {
+        "azimuth_deg": 134.451855,
+        "elevation_deg": -3.006955,
+        "range_km": 405491.506
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 272.687052,
+        "elevation_deg": 1.425759,
+        "range_km": 146988247.743
+      },
+      "earth": {
+        "azimuth_deg": 134.393877,
+        "elevation_deg": -2.953194,
+        "range_km": 405433.885
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 272.179465,
+        "elevation_deg": 1.420379,
+        "range_km": 146989691.677
+      },
+      "earth": {
+        "azimuth_deg": 134.335955,
+        "elevation_deg": -2.89925,
+        "range_km": 405374.634
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-12T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 271.671887,
+        "elevation_deg": 1.414995,
+        "range_km": 146991156.305
+      },
+      "earth": {
+        "azimuth_deg": 134.278094,
+        "elevation_deg": -2.845126,
+        "range_km": 405313.745
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 271.164317,
+        "elevation_deg": 1.409607,
+        "range_km": 146992641.496
+      },
+      "earth": {
+        "azimuth_deg": 134.220299,
+        "elevation_deg": -2.790825,
+        "range_km": 405251.213
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 270.656757,
+        "elevation_deg": 1.404216,
+        "range_km": 146994147.121
+      },
+      "earth": {
+        "azimuth_deg": 134.162574,
+        "elevation_deg": -2.736352,
+        "range_km": 405187.03
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 270.149205,
+        "elevation_deg": 1.398823,
+        "range_km": 146995673.048
+      },
+      "earth": {
+        "azimuth_deg": 134.104924,
+        "elevation_deg": -2.68171,
+        "range_km": 405121.189
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 269.641662,
+        "elevation_deg": 1.393427,
+        "range_km": 146997219.144
+      },
+      "earth": {
+        "azimuth_deg": 134.047353,
+        "elevation_deg": -2.626901,
+        "range_km": 405053.685
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 269.134128,
+        "elevation_deg": 1.38803,
+        "range_km": 146998785.276
+      },
+      "earth": {
+        "azimuth_deg": 133.989867,
+        "elevation_deg": -2.571931,
+        "range_km": 404984.512
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 268.626604,
+        "elevation_deg": 1.382631,
+        "range_km": 147000371.309
+      },
+      "earth": {
+        "azimuth_deg": 133.932471,
+        "elevation_deg": -2.516802,
+        "range_km": 404913.661
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 268.119088,
+        "elevation_deg": 1.377231,
+        "range_km": 147001977.107
+      },
+      "earth": {
+        "azimuth_deg": 133.875169,
+        "elevation_deg": -2.461517,
+        "range_km": 404841.129
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 267.611581,
+        "elevation_deg": 1.37183,
+        "range_km": 147003602.534
+      },
+      "earth": {
+        "azimuth_deg": 133.817967,
+        "elevation_deg": -2.406081,
+        "range_km": 404766.908
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 267.104084,
+        "elevation_deg": 1.366429,
+        "range_km": 147005247.45
+      },
+      "earth": {
+        "azimuth_deg": 133.760869,
+        "elevation_deg": -2.350497,
+        "range_km": 404690.993
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 266.596596,
+        "elevation_deg": 1.361028,
+        "range_km": 147006911.716
+      },
+      "earth": {
+        "azimuth_deg": 133.70388,
+        "elevation_deg": -2.294769,
+        "range_km": 404613.378
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 266.089117,
+        "elevation_deg": 1.355627,
+        "range_km": 147008595.193
+      },
+      "earth": {
+        "azimuth_deg": 133.647006,
+        "elevation_deg": -2.2389,
+        "range_km": 404534.058
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 265.581647,
+        "elevation_deg": 1.350227,
+        "range_km": 147010297.739
+      },
+      "earth": {
+        "azimuth_deg": 133.590251,
+        "elevation_deg": -2.182894,
+        "range_km": 404453.026
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 265.074187,
+        "elevation_deg": 1.344828,
+        "range_km": 147012019.212
+      },
+      "earth": {
+        "azimuth_deg": 133.533621,
+        "elevation_deg": -2.126754,
+        "range_km": 404370.277
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 264.566737,
+        "elevation_deg": 1.339431,
+        "range_km": 147013759.467
+      },
+      "earth": {
+        "azimuth_deg": 133.477121,
+        "elevation_deg": -2.070484,
+        "range_km": 404285.806
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 264.059296,
+        "elevation_deg": 1.334036,
+        "range_km": 147015518.36
+      },
+      "earth": {
+        "azimuth_deg": 133.420756,
+        "elevation_deg": -2.014087,
+        "range_km": 404199.608
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 263.551864,
+        "elevation_deg": 1.328644,
+        "range_km": 147017295.746
+      },
+      "earth": {
+        "azimuth_deg": 133.364531,
+        "elevation_deg": -1.957568,
+        "range_km": 404111.679
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 263.044442,
+        "elevation_deg": 1.323254,
+        "range_km": 147019091.477
+      },
+      "earth": {
+        "azimuth_deg": 133.308453,
+        "elevation_deg": -1.90093,
+        "range_km": 404022.012
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 262.53703,
+        "elevation_deg": 1.317868,
+        "range_km": 147020905.405
+      },
+      "earth": {
+        "azimuth_deg": 133.252525,
+        "elevation_deg": -1.844177,
+        "range_km": 403930.603
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 262.029627,
+        "elevation_deg": 1.312485,
+        "range_km": 147022737.382
+      },
+      "earth": {
+        "azimuth_deg": 133.196754,
+        "elevation_deg": -1.787312,
+        "range_km": 403837.448
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 261.522234,
+        "elevation_deg": 1.307105,
+        "range_km": 147024587.257
+      },
+      "earth": {
+        "azimuth_deg": 133.141145,
+        "elevation_deg": -1.730338,
+        "range_km": 403742.543
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 261.014851,
+        "elevation_deg": 1.301731,
+        "range_km": 147026454.879
+      },
+      "earth": {
+        "azimuth_deg": 133.085703,
+        "elevation_deg": -1.67326,
+        "range_km": 403645.882
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 260.507478,
+        "elevation_deg": 1.296361,
+        "range_km": 147028340.097
+      },
+      "earth": {
+        "azimuth_deg": 133.030434,
+        "elevation_deg": -1.616082,
+        "range_km": 403547.463
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 260.000114,
+        "elevation_deg": 1.290996,
+        "range_km": 147030242.755
+      },
+      "earth": {
+        "azimuth_deg": 132.975344,
+        "elevation_deg": -1.558806,
+        "range_km": 403447.28
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-13T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 259.492761,
+        "elevation_deg": 1.285637,
+        "range_km": 147032162.701
+      },
+      "earth": {
+        "azimuth_deg": 132.920438,
+        "elevation_deg": -1.501438,
+        "range_km": 403345.331
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 258.985417,
+        "elevation_deg": 1.280283,
+        "range_km": 147034099.778
+      },
+      "earth": {
+        "azimuth_deg": 132.865721,
+        "elevation_deg": -1.443979,
+        "range_km": 403241.612
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 258.478084,
+        "elevation_deg": 1.274936,
+        "range_km": 147036053.83
+      },
+      "earth": {
+        "azimuth_deg": 132.8112,
+        "elevation_deg": -1.386435,
+        "range_km": 403136.118
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 257.970761,
+        "elevation_deg": 1.269595,
+        "range_km": 147038024.699
+      },
+      "earth": {
+        "azimuth_deg": 132.756879,
+        "elevation_deg": -1.328808,
+        "range_km": 403028.848
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 257.463447,
+        "elevation_deg": 1.264262,
+        "range_km": 147040012.227
+      },
+      "earth": {
+        "azimuth_deg": 132.702765,
+        "elevation_deg": -1.271103,
+        "range_km": 402919.797
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 256.956144,
+        "elevation_deg": 1.258936,
+        "range_km": 147042016.253
+      },
+      "earth": {
+        "azimuth_deg": 132.648864,
+        "elevation_deg": -1.213324,
+        "range_km": 402808.964
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 256.448852,
+        "elevation_deg": 1.253618,
+        "range_km": 147044036.617
+      },
+      "earth": {
+        "azimuth_deg": 132.595181,
+        "elevation_deg": -1.155473,
+        "range_km": 402696.345
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 255.941569,
+        "elevation_deg": 1.248308,
+        "range_km": 147046073.157
+      },
+      "earth": {
+        "azimuth_deg": 132.541722,
+        "elevation_deg": -1.097556,
+        "range_km": 402581.937
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 255.434297,
+        "elevation_deg": 1.243006,
+        "range_km": 147048125.71
+      },
+      "earth": {
+        "azimuth_deg": 132.488492,
+        "elevation_deg": -1.039575,
+        "range_km": 402465.739
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 254.927035,
+        "elevation_deg": 1.237713,
+        "range_km": 147050194.111
+      },
+      "earth": {
+        "azimuth_deg": 132.435499,
+        "elevation_deg": -0.981535,
+        "range_km": 402347.748
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 254.419783,
+        "elevation_deg": 1.23243,
+        "range_km": 147052278.195
+      },
+      "earth": {
+        "azimuth_deg": 132.382747,
+        "elevation_deg": -0.923438,
+        "range_km": 402227.963
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 253.912542,
+        "elevation_deg": 1.227157,
+        "range_km": 147054377.796
+      },
+      "earth": {
+        "azimuth_deg": 132.330243,
+        "elevation_deg": -0.86529,
+        "range_km": 402106.381
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 253.405312,
+        "elevation_deg": 1.221893,
+        "range_km": 147056492.748
+      },
+      "earth": {
+        "azimuth_deg": 132.277992,
+        "elevation_deg": -0.807094,
+        "range_km": 401983.001
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 252.898091,
+        "elevation_deg": 1.21664,
+        "range_km": 147058622.88
+      },
+      "earth": {
+        "azimuth_deg": 132.226002,
+        "elevation_deg": -0.748854,
+        "range_km": 401857.822
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 252.390882,
+        "elevation_deg": 1.211398,
+        "range_km": 147060768.025
+      },
+      "earth": {
+        "azimuth_deg": 132.174276,
+        "elevation_deg": -0.690574,
+        "range_km": 401730.843
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 251.883683,
+        "elevation_deg": 1.206167,
+        "range_km": 147062928.011
+      },
+      "earth": {
+        "azimuth_deg": 132.122823,
+        "elevation_deg": -0.632257,
+        "range_km": 401602.063
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 251.376495,
+        "elevation_deg": 1.200947,
+        "range_km": 147065102.667
+      },
+      "earth": {
+        "azimuth_deg": 132.071647,
+        "elevation_deg": -0.573907,
+        "range_km": 401471.48
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 250.869317,
+        "elevation_deg": 1.19574,
+        "range_km": 147067291.819
+      },
+      "earth": {
+        "azimuth_deg": 132.020755,
+        "elevation_deg": -0.515529,
+        "range_km": 401339.096
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 250.36215,
+        "elevation_deg": 1.190544,
+        "range_km": 147069495.295
+      },
+      "earth": {
+        "azimuth_deg": 131.970153,
+        "elevation_deg": -0.457125,
+        "range_km": 401204.908
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 249.854994,
+        "elevation_deg": 1.185362,
+        "range_km": 147071712.92
+      },
+      "earth": {
+        "azimuth_deg": 131.919848,
+        "elevation_deg": -0.398701,
+        "range_km": 401068.919
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 249.347848,
+        "elevation_deg": 1.180192,
+        "range_km": 147073944.517
+      },
+      "earth": {
+        "azimuth_deg": 131.869845,
+        "elevation_deg": -0.34026,
+        "range_km": 400931.127
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 248.840714,
+        "elevation_deg": 1.175036,
+        "range_km": 147076189.909
+      },
+      "earth": {
+        "azimuth_deg": 131.820151,
+        "elevation_deg": -0.281806,
+        "range_km": 400791.533
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 248.33359,
+        "elevation_deg": 1.169893,
+        "range_km": 147078448.92
+      },
+      "earth": {
+        "azimuth_deg": 131.770771,
+        "elevation_deg": -0.223343,
+        "range_km": 400650.137
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 247.826477,
+        "elevation_deg": 1.164765,
+        "range_km": 147080721.368
+      },
+      "earth": {
+        "azimuth_deg": 131.721713,
+        "elevation_deg": -0.164875,
+        "range_km": 400506.942
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-14T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 247.319376,
+        "elevation_deg": 1.159651,
+        "range_km": 147083007.075
+      },
+      "earth": {
+        "azimuth_deg": 131.672982,
+        "elevation_deg": -0.106406,
+        "range_km": 400361.948
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 246.812285,
+        "elevation_deg": 1.154552,
+        "range_km": 147085305.859
+      },
+      "earth": {
+        "azimuth_deg": 131.624586,
+        "elevation_deg": -0.047939,
+        "range_km": 400215.156
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 246.305205,
+        "elevation_deg": 1.149468,
+        "range_km": 147087617.538
+      },
+      "earth": {
+        "azimuth_deg": 131.576529,
+        "elevation_deg": 0.01052,
+        "range_km": 400066.568
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 245.798136,
+        "elevation_deg": 1.1444,
+        "range_km": 147089941.928
+      },
+      "earth": {
+        "azimuth_deg": 131.528819,
+        "elevation_deg": 0.068969,
+        "range_km": 399916.186
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 245.291078,
+        "elevation_deg": 1.139347,
+        "range_km": 147092278.845
+      },
+      "earth": {
+        "azimuth_deg": 131.481462,
+        "elevation_deg": 0.127402,
+        "range_km": 399764.013
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 244.784032,
+        "elevation_deg": 1.134311,
+        "range_km": 147094628.103
+      },
+      "earth": {
+        "azimuth_deg": 131.434464,
+        "elevation_deg": 0.185817,
+        "range_km": 399610.05
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 244.276996,
+        "elevation_deg": 1.129291,
+        "range_km": 147096989.516
+      },
+      "earth": {
+        "azimuth_deg": 131.387832,
+        "elevation_deg": 0.244208,
+        "range_km": 399454.301
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 243.769972,
+        "elevation_deg": 1.124289,
+        "range_km": 147099362.897
+      },
+      "earth": {
+        "azimuth_deg": 131.341572,
+        "elevation_deg": 0.302573,
+        "range_km": 399296.768
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 243.262959,
+        "elevation_deg": 1.119303,
+        "range_km": 147101748.055
+      },
+      "earth": {
+        "azimuth_deg": 131.295691,
+        "elevation_deg": 0.360905,
+        "range_km": 399137.454
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 242.755957,
+        "elevation_deg": 1.114335,
+        "range_km": 147104144.803
+      },
+      "earth": {
+        "azimuth_deg": 131.250196,
+        "elevation_deg": 0.419203,
+        "range_km": 398976.364
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 242.248967,
+        "elevation_deg": 1.109386,
+        "range_km": 147106552.948
+      },
+      "earth": {
+        "azimuth_deg": 131.205091,
+        "elevation_deg": 0.477461,
+        "range_km": 398813.501
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 241.741987,
+        "elevation_deg": 1.104454,
+        "range_km": 147108972.299
+      },
+      "earth": {
+        "azimuth_deg": 131.160385,
+        "elevation_deg": 0.535675,
+        "range_km": 398648.869
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 241.23502,
+        "elevation_deg": 1.099541,
+        "range_km": 147111402.662
+      },
+      "earth": {
+        "azimuth_deg": 131.116084,
+        "elevation_deg": 0.593841,
+        "range_km": 398482.472
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 240.728063,
+        "elevation_deg": 1.094648,
+        "range_km": 147113843.845
+      },
+      "earth": {
+        "azimuth_deg": 131.072194,
+        "elevation_deg": 0.651955,
+        "range_km": 398314.315
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 240.221118,
+        "elevation_deg": 1.089773,
+        "range_km": 147116295.651
+      },
+      "earth": {
+        "azimuth_deg": 131.028722,
+        "elevation_deg": 0.710013,
+        "range_km": 398144.403
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 239.714184,
+        "elevation_deg": 1.084918,
+        "range_km": 147118757.884
+      },
+      "earth": {
+        "azimuth_deg": 130.985674,
+        "elevation_deg": 0.768011,
+        "range_km": 397972.741
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 239.207262,
+        "elevation_deg": 1.080084,
+        "range_km": 147121230.348
+      },
+      "earth": {
+        "azimuth_deg": 130.943057,
+        "elevation_deg": 0.825943,
+        "range_km": 397799.335
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 238.700352,
+        "elevation_deg": 1.075269,
+        "range_km": 147123712.843
+      },
+      "earth": {
+        "azimuth_deg": 130.900878,
+        "elevation_deg": 0.883807,
+        "range_km": 397624.19
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 238.193453,
+        "elevation_deg": 1.070476,
+        "range_km": 147126205.171
+      },
+      "earth": {
+        "azimuth_deg": 130.859143,
+        "elevation_deg": 0.941597,
+        "range_km": 397447.312
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 237.686565,
+        "elevation_deg": 1.065703,
+        "range_km": 147128707.13
+      },
+      "earth": {
+        "azimuth_deg": 130.817859,
+        "elevation_deg": 0.99931,
+        "range_km": 397268.709
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 237.179689,
+        "elevation_deg": 1.060951,
+        "range_km": 147131218.52
+      },
+      "earth": {
+        "azimuth_deg": 130.777031,
+        "elevation_deg": 1.056941,
+        "range_km": 397088.386
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 236.672825,
+        "elevation_deg": 1.056222,
+        "range_km": 147133739.137
+      },
+      "earth": {
+        "azimuth_deg": 130.736668,
+        "elevation_deg": 1.114485,
+        "range_km": 396906.35
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 236.165972,
+        "elevation_deg": 1.051514,
+        "range_km": 147136268.779
+      },
+      "earth": {
+        "azimuth_deg": 130.696776,
+        "elevation_deg": 1.171939,
+        "range_km": 396722.609
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 235.659131,
+        "elevation_deg": 1.046828,
+        "range_km": 147138807.239
+      },
+      "earth": {
+        "azimuth_deg": 130.657361,
+        "elevation_deg": 1.229298,
+        "range_km": 396537.171
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-15T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 235.152302,
+        "elevation_deg": 1.042165,
+        "range_km": 147141354.313
+      },
+      "earth": {
+        "azimuth_deg": 130.618429,
+        "elevation_deg": 1.286558,
+        "range_km": 396350.043
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 234.645484,
+        "elevation_deg": 1.037525,
+        "range_km": 147143909.793
+      },
+      "earth": {
+        "azimuth_deg": 130.579988,
+        "elevation_deg": 1.343713,
+        "range_km": 396161.233
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 234.138678,
+        "elevation_deg": 1.032908,
+        "range_km": 147146473.472
+      },
+      "earth": {
+        "azimuth_deg": 130.542045,
+        "elevation_deg": 1.400761,
+        "range_km": 395970.75
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 233.631884,
+        "elevation_deg": 1.028315,
+        "range_km": 147149045.14
+      },
+      "earth": {
+        "azimuth_deg": 130.504605,
+        "elevation_deg": 1.457696,
+        "range_km": 395778.604
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 233.125102,
+        "elevation_deg": 1.023746,
+        "range_km": 147151624.588
+      },
+      "earth": {
+        "azimuth_deg": 130.467675,
+        "elevation_deg": 1.514514,
+        "range_km": 395584.802
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 232.618331,
+        "elevation_deg": 1.0192,
+        "range_km": 147154211.604
+      },
+      "earth": {
+        "azimuth_deg": 130.431262,
+        "elevation_deg": 1.57121,
+        "range_km": 395389.355
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 232.111573,
+        "elevation_deg": 1.01468,
+        "range_km": 147156805.976
+      },
+      "earth": {
+        "azimuth_deg": 130.395373,
+        "elevation_deg": 1.62778,
+        "range_km": 395192.272
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 231.604826,
+        "elevation_deg": 1.010183,
+        "range_km": 147159407.49
+      },
+      "earth": {
+        "azimuth_deg": 130.360015,
+        "elevation_deg": 1.68422,
+        "range_km": 394993.564
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 231.098091,
+        "elevation_deg": 1.005712,
+        "range_km": 147162015.933
+      },
+      "earth": {
+        "azimuth_deg": 130.325193,
+        "elevation_deg": 1.740524,
+        "range_km": 394793.241
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 230.591368,
+        "elevation_deg": 1.001267,
+        "range_km": 147164631.089
+      },
+      "earth": {
+        "azimuth_deg": 130.290914,
+        "elevation_deg": 1.796688,
+        "range_km": 394591.313
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 230.084657,
+        "elevation_deg": 0.996847,
+        "range_km": 147167252.741
+      },
+      "earth": {
+        "azimuth_deg": 130.257186,
+        "elevation_deg": 1.852708,
+        "range_km": 394387.793
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 229.577958,
+        "elevation_deg": 0.992453,
+        "range_km": 147169880.672
+      },
+      "earth": {
+        "azimuth_deg": 130.224014,
+        "elevation_deg": 1.908579,
+        "range_km": 394182.691
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 229.07127,
+        "elevation_deg": 0.988085,
+        "range_km": 147172514.664
+      },
+      "earth": {
+        "azimuth_deg": 130.191406,
+        "elevation_deg": 1.964296,
+        "range_km": 393976.019
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 228.564595,
+        "elevation_deg": 0.983743,
+        "range_km": 147175154.497
+      },
+      "earth": {
+        "azimuth_deg": 130.159368,
+        "elevation_deg": 2.019855,
+        "range_km": 393767.789
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 228.057932,
+        "elevation_deg": 0.979429,
+        "range_km": 147177799.949
+      },
+      "earth": {
+        "azimuth_deg": 130.127905,
+        "elevation_deg": 2.075251,
+        "range_km": 393558.015
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 227.551281,
+        "elevation_deg": 0.975141,
+        "range_km": 147180450.8
+      },
+      "earth": {
+        "azimuth_deg": 130.097026,
+        "elevation_deg": 2.130479,
+        "range_km": 393346.708
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 227.044642,
+        "elevation_deg": 0.970881,
+        "range_km": 147183106.827
+      },
+      "earth": {
+        "azimuth_deg": 130.066736,
+        "elevation_deg": 2.185534,
+        "range_km": 393133.881
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 226.538015,
+        "elevation_deg": 0.966649,
+        "range_km": 147185767.805
+      },
+      "earth": {
+        "azimuth_deg": 130.037043,
+        "elevation_deg": 2.240413,
+        "range_km": 392919.55
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 226.0314,
+        "elevation_deg": 0.962444,
+        "range_km": 147188433.51
+      },
+      "earth": {
+        "azimuth_deg": 130.007951,
+        "elevation_deg": 2.295109,
+        "range_km": 392703.726
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 225.524797,
+        "elevation_deg": 0.958267,
+        "range_km": 147191103.716
+      },
+      "earth": {
+        "azimuth_deg": 129.979469,
+        "elevation_deg": 2.349618,
+        "range_km": 392486.425
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 225.018206,
+        "elevation_deg": 0.954119,
+        "range_km": 147193778.197
+      },
+      "earth": {
+        "azimuth_deg": 129.951601,
+        "elevation_deg": 2.403936,
+        "range_km": 392267.66
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 224.511627,
+        "elevation_deg": 0.95,
+        "range_km": 147196456.723
+      },
+      "earth": {
+        "azimuth_deg": 129.924356,
+        "elevation_deg": 2.458057,
+        "range_km": 392047.448
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 224.005061,
+        "elevation_deg": 0.94591,
+        "range_km": 147199139.067
+      },
+      "earth": {
+        "azimuth_deg": 129.897739,
+        "elevation_deg": 2.511977,
+        "range_km": 391825.803
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 223.498506,
+        "elevation_deg": 0.941849,
+        "range_km": 147201824.998
+      },
+      "earth": {
+        "azimuth_deg": 129.871756,
+        "elevation_deg": 2.56569,
+        "range_km": 391602.74
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-16T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 222.991964,
+        "elevation_deg": 0.937817,
+        "range_km": 147204514.285
+      },
+      "earth": {
+        "azimuth_deg": 129.846414,
+        "elevation_deg": 2.619193,
+        "range_km": 391378.277
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 222.485434,
+        "elevation_deg": 0.933816,
+        "range_km": 147207206.695
+      },
+      "earth": {
+        "azimuth_deg": 129.821719,
+        "elevation_deg": 2.672479,
+        "range_km": 391152.428
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 221.978916,
+        "elevation_deg": 0.929844,
+        "range_km": 147209901.997
+      },
+      "earth": {
+        "azimuth_deg": 129.797678,
+        "elevation_deg": 2.725544,
+        "range_km": 390925.211
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 221.472411,
+        "elevation_deg": 0.925902,
+        "range_km": 147212599.956
+      },
+      "earth": {
+        "azimuth_deg": 129.774297,
+        "elevation_deg": 2.778383,
+        "range_km": 390696.642
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 220.965917,
+        "elevation_deg": 0.921991,
+        "range_km": 147215300.336
+      },
+      "earth": {
+        "azimuth_deg": 129.751581,
+        "elevation_deg": 2.83099,
+        "range_km": 390466.74
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 220.459436,
+        "elevation_deg": 0.918111,
+        "range_km": 147218002.902
+      },
+      "earth": {
+        "azimuth_deg": 129.729538,
+        "elevation_deg": 2.883362,
+        "range_km": 390235.522
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 219.952967,
+        "elevation_deg": 0.914262,
+        "range_km": 147220707.416
+      },
+      "earth": {
+        "azimuth_deg": 129.708173,
+        "elevation_deg": 2.935492,
+        "range_km": 390003.006
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 219.44651,
+        "elevation_deg": 0.910444,
+        "range_km": 147223413.641
+      },
+      "earth": {
+        "azimuth_deg": 129.687492,
+        "elevation_deg": 2.987376,
+        "range_km": 389769.21
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 218.940066,
+        "elevation_deg": 0.906657,
+        "range_km": 147226121.337
+      },
+      "earth": {
+        "azimuth_deg": 129.667501,
+        "elevation_deg": 3.039009,
+        "range_km": 389534.154
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 218.433633,
+        "elevation_deg": 0.902902,
+        "range_km": 147228830.264
+      },
+      "earth": {
+        "azimuth_deg": 129.648207,
+        "elevation_deg": 3.090385,
+        "range_km": 389297.856
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 217.927213,
+        "elevation_deg": 0.899179,
+        "range_km": 147231540.182
+      },
+      "earth": {
+        "azimuth_deg": 129.629616,
+        "elevation_deg": 3.141499,
+        "range_km": 389060.336
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 217.420805,
+        "elevation_deg": 0.895488,
+        "range_km": 147234250.848
+      },
+      "earth": {
+        "azimuth_deg": 129.611733,
+        "elevation_deg": 3.192346,
+        "range_km": 388821.615
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 216.91441,
+        "elevation_deg": 0.89183,
+        "range_km": 147236962.019
+      },
+      "earth": {
+        "azimuth_deg": 129.594564,
+        "elevation_deg": 3.242921,
+        "range_km": 388581.711
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 216.408027,
+        "elevation_deg": 0.888204,
+        "range_km": 147239673.451
+      },
+      "earth": {
+        "azimuth_deg": 129.578115,
+        "elevation_deg": 3.293219,
+        "range_km": 388340.647
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 215.901656,
+        "elevation_deg": 0.884611,
+        "range_km": 147242384.9
+      },
+      "earth": {
+        "azimuth_deg": 129.562392,
+        "elevation_deg": 3.343234,
+        "range_km": 388098.442
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 215.395297,
+        "elevation_deg": 0.881051,
+        "range_km": 147245096.12
+      },
+      "earth": {
+        "azimuth_deg": 129.5474,
+        "elevation_deg": 3.392962,
+        "range_km": 387855.119
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 214.888951,
+        "elevation_deg": 0.877525,
+        "range_km": 147247806.864
+      },
+      "earth": {
+        "azimuth_deg": 129.533146,
+        "elevation_deg": 3.442396,
+        "range_km": 387610.699
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 214.382617,
+        "elevation_deg": 0.874032,
+        "range_km": 147250516.884
+      },
+      "earth": {
+        "azimuth_deg": 129.519634,
+        "elevation_deg": 3.491532,
+        "range_km": 387365.204
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 213.876295,
+        "elevation_deg": 0.870572,
+        "range_km": 147253225.932
+      },
+      "earth": {
+        "azimuth_deg": 129.506872,
+        "elevation_deg": 3.540363,
+        "range_km": 387118.656
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 213.369986,
+        "elevation_deg": 0.867146,
+        "range_km": 147255933.758
+      },
+      "earth": {
+        "azimuth_deg": 129.494863,
+        "elevation_deg": 3.588886,
+        "range_km": 386871.079
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 212.863688,
+        "elevation_deg": 0.863755,
+        "range_km": 147258640.112
+      },
+      "earth": {
+        "azimuth_deg": 129.483613,
+        "elevation_deg": 3.637094,
+        "range_km": 386622.496
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 212.357403,
+        "elevation_deg": 0.860398,
+        "range_km": 147261344.743
+      },
+      "earth": {
+        "azimuth_deg": 129.473128,
+        "elevation_deg": 3.684982,
+        "range_km": 386372.929
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 211.851131,
+        "elevation_deg": 0.857075,
+        "range_km": 147264047.398
+      },
+      "earth": {
+        "azimuth_deg": 129.463413,
+        "elevation_deg": 3.732545,
+        "range_km": 386122.404
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 211.344871,
+        "elevation_deg": 0.853787,
+        "range_km": 147266747.825
+      },
+      "earth": {
+        "azimuth_deg": 129.454473,
+        "elevation_deg": 3.779777,
+        "range_km": 385870.944
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-17T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 210.838622,
+        "elevation_deg": 0.850534,
+        "range_km": 147269445.769
+      },
+      "earth": {
+        "azimuth_deg": 129.446314,
+        "elevation_deg": 3.826673,
+        "range_km": 385618.574
+      }
+    },
+    {
+      "site_id": "connecting-ridge",
+      "timestamp_utc": "2026-12-18T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 210.332387,
+        "elevation_deg": 0.847315,
+        "range_km": 147272140.976
+      },
+      "earth": {
+        "azimuth_deg": 129.438941,
+        "elevation_deg": 3.873226,
+        "range_km": 385365.319
+      }
+    }
+  ],
+  "incomplete_timestamps_dropped": 0,
+  "window": {
+    "key": "alternative",
+    "label": "Delayed mission period (11 Dec - 18 Dec 2026)",
+    "start_utc": "2026-12-11T00:00:00Z",
+    "stop_utc": "2026-12-18T00:00:00Z"
+  }
+}

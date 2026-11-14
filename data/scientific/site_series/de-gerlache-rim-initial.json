@@ -1,0 +1,2433 @@
+{
+  "schema": "lunanav.site_series.v1",
+  "generated_utc": "2026-11-14T20:10:51Z",
+  "site": {
+    "site_id": "de-gerlache-rim",
+    "name": "de Gerlache Crater Rim (GR1)",
+    "latitude_deg": -88.67,
+    "longitude_deg": -68.1,
+    "elevation_m": 1808.1,
+    "height_m": 2.0,
+    "altitude_km": 1.8101
+  },
+  "request": {
+    "start_utc": "2026-12-01T00:00:00Z",
+    "stop_utc": "2026-12-08T00:00:00Z",
+    "step": "1 h",
+    "bodies": [
+      "sun",
+      "earth"
+    ],
+    "queries": {
+      "sun": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&CENTER=%27coord%40301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%27291.900000%2C-88.670000%2C1.810100%27&START_TIME=%272026-12-01+00%3A00%27&STOP_TIME=%272026-12-08+00%3A00%27&STEP_SIZE=%271+h%27&QUANTITIES=%274%2C20%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27&TIME_DIGITS=%27MINUTES%27&APPARENT=%27AIRLESS%27",
+      "earth": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27399%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&CENTER=%27coord%40301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%27291.900000%2C-88.670000%2C1.810100%27&START_TIME=%272026-12-01+00%3A00%27&STOP_TIME=%272026-12-08+00%3A00%27&STEP_SIZE=%271+h%27&QUANTITIES=%274%2C20%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27&TIME_DIGITS=%27MINUTES%27&APPARENT=%27AIRLESS%27"
+    }
+  },
+  "source": "NASA JPL Horizons API observer table: CENTER='coord@301', COORD_TYPE='GEODETIC', QUANTITIES='4,20' (apparent az/el, airless)",
+  "conventions": {
+    "longitude": "selenographic, east-positive",
+    "azimuth_deg": "degrees clockwise from local lunar north, [0, 360)",
+    "elevation_deg": "degrees above the local horizontal, airless (no refraction), no terrain",
+    "altitude_km": "height above the 1737.4 km IAU mean sphere (site elevation + observer height)",
+    "time": "UTC, ISO-8601 with Z; both bodies share one timestamp"
+  },
+  "crosscheck": {
+    "sun": {
+      "samples": 169,
+      "max_azimuth_difference_deg": 0.0075,
+      "max_elevation_difference_deg": 0.0249,
+      "rms_elevation_difference_deg": 0.014,
+      "tolerance_deg": 0.5,
+      "passed": true
+    },
+    "earth": {
+      "samples": 169,
+      "max_azimuth_difference_deg": 0.019,
+      "max_elevation_difference_deg": 0.0317,
+      "rms_elevation_difference_deg": 0.0264,
+      "tolerance_deg": 0.5,
+      "passed": true
+    }
+  },
+  "checks": {
+    "chronological": true,
+    "matching_timestamps": true,
+    "no_missing_values": true,
+    "non_empty": true
+  },
+  "series": [
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 348.153689,
+        "elevation_deg": 2.771834,
+        "range_km": 147553058.04
+      },
+      "earth": {
+        "azimuth_deg": 74.743295,
+        "elevation_deg": -1.260803,
+        "range_km": 376551.397
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 347.646647,
+        "elevation_deg": 2.769134,
+        "range_km": 147548652.21
+      },
+      "earth": {
+        "azimuth_deg": 74.758016,
+        "elevation_deg": -1.325006,
+        "range_km": 376763.446
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 347.139595,
+        "elevation_deg": 2.766334,
+        "range_km": 147544246.242
+      },
+      "earth": {
+        "azimuth_deg": 74.772138,
+        "elevation_deg": -1.38899,
+        "range_km": 376975.486
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 346.632532,
+        "elevation_deg": 2.763434,
+        "range_km": 147539840.419
+      },
+      "earth": {
+        "azimuth_deg": 74.785663,
+        "elevation_deg": -1.452748,
+        "range_km": 377187.496
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 346.125459,
+        "elevation_deg": 2.760435,
+        "range_km": 147535435.023
+      },
+      "earth": {
+        "azimuth_deg": 74.798595,
+        "elevation_deg": -1.516275,
+        "range_km": 377399.455
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 345.618375,
+        "elevation_deg": 2.757336,
+        "range_km": 147531030.335
+      },
+      "earth": {
+        "azimuth_deg": 74.810937,
+        "elevation_deg": -1.579567,
+        "range_km": 377611.34
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 345.111281,
+        "elevation_deg": 2.754139,
+        "range_km": 147526626.635
+      },
+      "earth": {
+        "azimuth_deg": 74.822693,
+        "elevation_deg": -1.642616,
+        "range_km": 377823.13
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 344.604178,
+        "elevation_deg": 2.750843,
+        "range_km": 147522224.2
+      },
+      "earth": {
+        "azimuth_deg": 74.833866,
+        "elevation_deg": -1.705419,
+        "range_km": 378034.805
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 344.097064,
+        "elevation_deg": 2.747449,
+        "range_km": 147517823.31
+      },
+      "earth": {
+        "azimuth_deg": 74.844459,
+        "elevation_deg": -1.76797,
+        "range_km": 378246.343
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 343.58994,
+        "elevation_deg": 2.743956,
+        "range_km": 147513424.24
+      },
+      "earth": {
+        "azimuth_deg": 74.854476,
+        "elevation_deg": -1.830263,
+        "range_km": 378457.725
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 343.082807,
+        "elevation_deg": 2.740366,
+        "range_km": 147509027.267
+      },
+      "earth": {
+        "azimuth_deg": 74.863921,
+        "elevation_deg": -1.892294,
+        "range_km": 378668.929
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 342.575663,
+        "elevation_deg": 2.736677,
+        "range_km": 147504632.664
+      },
+      "earth": {
+        "azimuth_deg": 74.872797,
+        "elevation_deg": -1.954058,
+        "range_km": 378879.937
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 342.06851,
+        "elevation_deg": 2.732891,
+        "range_km": 147500240.706
+      },
+      "earth": {
+        "azimuth_deg": 74.881107,
+        "elevation_deg": -2.01555,
+        "range_km": 379090.728
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 341.561348,
+        "elevation_deg": 2.729008,
+        "range_km": 147495851.664
+      },
+      "earth": {
+        "azimuth_deg": 74.888855,
+        "elevation_deg": -2.076764,
+        "range_km": 379301.284
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 341.054175,
+        "elevation_deg": 2.725028,
+        "range_km": 147491465.809
+      },
+      "earth": {
+        "azimuth_deg": 74.896046,
+        "elevation_deg": -2.137696,
+        "range_km": 379511.585
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 340.546994,
+        "elevation_deg": 2.720951,
+        "range_km": 147487083.412
+      },
+      "earth": {
+        "azimuth_deg": 74.902682,
+        "elevation_deg": -2.198341,
+        "range_km": 379721.613
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 340.039802,
+        "elevation_deg": 2.716778,
+        "range_km": 147482704.741
+      },
+      "earth": {
+        "azimuth_deg": 74.908767,
+        "elevation_deg": -2.258694,
+        "range_km": 379931.349
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 339.532602,
+        "elevation_deg": 2.712509,
+        "range_km": 147478330.065
+      },
+      "earth": {
+        "azimuth_deg": 74.914305,
+        "elevation_deg": -2.318751,
+        "range_km": 380140.775
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 339.025392,
+        "elevation_deg": 2.708144,
+        "range_km": 147473959.648
+      },
+      "earth": {
+        "azimuth_deg": 74.919299,
+        "elevation_deg": -2.378507,
+        "range_km": 380349.874
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 338.518173,
+        "elevation_deg": 2.703683,
+        "range_km": 147469593.757
+      },
+      "earth": {
+        "azimuth_deg": 74.923754,
+        "elevation_deg": -2.437957,
+        "range_km": 380558.629
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 338.010945,
+        "elevation_deg": 2.699127,
+        "range_km": 147465232.656
+      },
+      "earth": {
+        "azimuth_deg": 74.927673,
+        "elevation_deg": -2.497096,
+        "range_km": 380767.02
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 337.503708,
+        "elevation_deg": 2.694476,
+        "range_km": 147460876.606
+      },
+      "earth": {
+        "azimuth_deg": 74.931059,
+        "elevation_deg": -2.555921,
+        "range_km": 380975.033
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 336.996462,
+        "elevation_deg": 2.689731,
+        "range_km": 147456525.871
+      },
+      "earth": {
+        "azimuth_deg": 74.933917,
+        "elevation_deg": -2.614427,
+        "range_km": 381182.651
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-01T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 336.489207,
+        "elevation_deg": 2.684891,
+        "range_km": 147452180.709
+      },
+      "earth": {
+        "azimuth_deg": 74.936251,
+        "elevation_deg": -2.67261,
+        "range_km": 381389.856
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 335.981943,
+        "elevation_deg": 2.679958,
+        "range_km": 147447841.38
+      },
+      "earth": {
+        "azimuth_deg": 74.938063,
+        "elevation_deg": -2.730464,
+        "range_km": 381596.633
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 335.47467,
+        "elevation_deg": 2.674931,
+        "range_km": 147443508.142
+      },
+      "earth": {
+        "azimuth_deg": 74.939359,
+        "elevation_deg": -2.787986,
+        "range_km": 381802.967
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 334.967389,
+        "elevation_deg": 2.669811,
+        "range_km": 147439181.25
+      },
+      "earth": {
+        "azimuth_deg": 74.940141,
+        "elevation_deg": -2.845172,
+        "range_km": 382008.841
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 334.460099,
+        "elevation_deg": 2.664598,
+        "range_km": 147434860.96
+      },
+      "earth": {
+        "azimuth_deg": 74.940413,
+        "elevation_deg": -2.902018,
+        "range_km": 382214.241
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 333.952801,
+        "elevation_deg": 2.659293,
+        "range_km": 147430547.526
+      },
+      "earth": {
+        "azimuth_deg": 74.94018,
+        "elevation_deg": -2.958519,
+        "range_km": 382419.152
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 333.445494,
+        "elevation_deg": 2.653896,
+        "range_km": 147426241.199
+      },
+      "earth": {
+        "azimuth_deg": 74.939444,
+        "elevation_deg": -3.014671,
+        "range_km": 382623.56
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 332.938179,
+        "elevation_deg": 2.648407,
+        "range_km": 147421942.232
+      },
+      "earth": {
+        "azimuth_deg": 74.938211,
+        "elevation_deg": -3.07047,
+        "range_km": 382827.449
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 332.430856,
+        "elevation_deg": 2.642826,
+        "range_km": 147417650.872
+      },
+      "earth": {
+        "azimuth_deg": 74.936483,
+        "elevation_deg": -3.125913,
+        "range_km": 383030.807
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 331.923525,
+        "elevation_deg": 2.637155,
+        "range_km": 147413367.369
+      },
+      "earth": {
+        "azimuth_deg": 74.934264,
+        "elevation_deg": -3.180995,
+        "range_km": 383233.619
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 331.416185,
+        "elevation_deg": 2.631394,
+        "range_km": 147409091.97
+      },
+      "earth": {
+        "azimuth_deg": 74.931559,
+        "elevation_deg": -3.235713,
+        "range_km": 383435.871
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 330.908838,
+        "elevation_deg": 2.625542,
+        "range_km": 147404824.92
+      },
+      "earth": {
+        "azimuth_deg": 74.92837,
+        "elevation_deg": -3.290063,
+        "range_km": 383637.552
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 330.401482,
+        "elevation_deg": 2.619601,
+        "range_km": 147400566.463
+      },
+      "earth": {
+        "azimuth_deg": 74.924702,
+        "elevation_deg": -3.344041,
+        "range_km": 383838.647
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 329.894119,
+        "elevation_deg": 2.61357,
+        "range_km": 147396316.842
+      },
+      "earth": {
+        "azimuth_deg": 74.920559,
+        "elevation_deg": -3.397643,
+        "range_km": 384039.145
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 329.386748,
+        "elevation_deg": 2.607451,
+        "range_km": 147392076.298
+      },
+      "earth": {
+        "azimuth_deg": 74.915944,
+        "elevation_deg": -3.450865,
+        "range_km": 384239.033
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 328.879369,
+        "elevation_deg": 2.601243,
+        "range_km": 147387845.072
+      },
+      "earth": {
+        "azimuth_deg": 74.910861,
+        "elevation_deg": -3.503705,
+        "range_km": 384438.299
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 328.371983,
+        "elevation_deg": 2.594948,
+        "range_km": 147383623.401
+      },
+      "earth": {
+        "azimuth_deg": 74.905313,
+        "elevation_deg": -3.556159,
+        "range_km": 384636.932
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 327.864589,
+        "elevation_deg": 2.588565,
+        "range_km": 147379411.522
+      },
+      "earth": {
+        "azimuth_deg": 74.899306,
+        "elevation_deg": -3.608222,
+        "range_km": 384834.919
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 327.357188,
+        "elevation_deg": 2.582095,
+        "range_km": 147375209.671
+      },
+      "earth": {
+        "azimuth_deg": 74.892841,
+        "elevation_deg": -3.659892,
+        "range_km": 385032.25
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 326.849779,
+        "elevation_deg": 2.575539,
+        "range_km": 147371018.083
+      },
+      "earth": {
+        "azimuth_deg": 74.885923,
+        "elevation_deg": -3.711165,
+        "range_km": 385228.913
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 326.342363,
+        "elevation_deg": 2.568896,
+        "range_km": 147366836.989
+      },
+      "earth": {
+        "azimuth_deg": 74.878556,
+        "elevation_deg": -3.762038,
+        "range_km": 385424.899
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 325.83494,
+        "elevation_deg": 2.562168,
+        "range_km": 147362666.621
+      },
+      "earth": {
+        "azimuth_deg": 74.870742,
+        "elevation_deg": -3.812507,
+        "range_km": 385620.196
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 325.32751,
+        "elevation_deg": 2.555355,
+        "range_km": 147358507.209
+      },
+      "earth": {
+        "azimuth_deg": 74.862487,
+        "elevation_deg": -3.862569,
+        "range_km": 385814.795
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 324.820072,
+        "elevation_deg": 2.548458,
+        "range_km": 147354358.981
+      },
+      "earth": {
+        "azimuth_deg": 74.853793,
+        "elevation_deg": -3.912222,
+        "range_km": 386008.685
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-02T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 324.312628,
+        "elevation_deg": 2.541476,
+        "range_km": 147350222.164
+      },
+      "earth": {
+        "azimuth_deg": 74.844665,
+        "elevation_deg": -3.961461,
+        "range_km": 386201.857
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 323.805177,
+        "elevation_deg": 2.534411,
+        "range_km": 147346096.982
+      },
+      "earth": {
+        "azimuth_deg": 74.835105,
+        "elevation_deg": -4.010284,
+        "range_km": 386394.302
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 323.297719,
+        "elevation_deg": 2.527262,
+        "range_km": 147341983.66
+      },
+      "earth": {
+        "azimuth_deg": 74.825117,
+        "elevation_deg": -4.058687,
+        "range_km": 386586.01
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 322.790254,
+        "elevation_deg": 2.520032,
+        "range_km": 147337882.42
+      },
+      "earth": {
+        "azimuth_deg": 74.814706,
+        "elevation_deg": -4.106668,
+        "range_km": 386776.974
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 322.282783,
+        "elevation_deg": 2.512719,
+        "range_km": 147333793.483
+      },
+      "earth": {
+        "azimuth_deg": 74.803874,
+        "elevation_deg": -4.154224,
+        "range_km": 386967.183
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 321.775305,
+        "elevation_deg": 2.505324,
+        "range_km": 147329717.068
+      },
+      "earth": {
+        "azimuth_deg": 74.792624,
+        "elevation_deg": -4.201351,
+        "range_km": 387156.629
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 321.267821,
+        "elevation_deg": 2.497849,
+        "range_km": 147325653.392
+      },
+      "earth": {
+        "azimuth_deg": 74.780961,
+        "elevation_deg": -4.248047,
+        "range_km": 387345.306
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 320.76033,
+        "elevation_deg": 2.490293,
+        "range_km": 147321602.671
+      },
+      "earth": {
+        "azimuth_deg": 74.768888,
+        "elevation_deg": -4.294308,
+        "range_km": 387533.204
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 320.252833,
+        "elevation_deg": 2.482658,
+        "range_km": 147317565.122
+      },
+      "earth": {
+        "azimuth_deg": 74.756409,
+        "elevation_deg": -4.340133,
+        "range_km": 387720.316
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 319.745329,
+        "elevation_deg": 2.474943,
+        "range_km": 147313540.955
+      },
+      "earth": {
+        "azimuth_deg": 74.743526,
+        "elevation_deg": -4.385518,
+        "range_km": 387906.634
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 319.23782,
+        "elevation_deg": 2.46715,
+        "range_km": 147309530.384
+      },
+      "earth": {
+        "azimuth_deg": 74.730243,
+        "elevation_deg": -4.43046,
+        "range_km": 388092.152
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 318.730304,
+        "elevation_deg": 2.459278,
+        "range_km": 147305533.618
+      },
+      "earth": {
+        "azimuth_deg": 74.716564,
+        "elevation_deg": -4.474957,
+        "range_km": 388276.862
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 318.222782,
+        "elevation_deg": 2.451329,
+        "range_km": 147301550.865
+      },
+      "earth": {
+        "azimuth_deg": 74.702492,
+        "elevation_deg": -4.519007,
+        "range_km": 388460.758
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 317.715255,
+        "elevation_deg": 2.443302,
+        "range_km": 147297582.333
+      },
+      "earth": {
+        "azimuth_deg": 74.68803,
+        "elevation_deg": -4.562606,
+        "range_km": 388643.834
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 317.207721,
+        "elevation_deg": 2.4352,
+        "range_km": 147293628.227
+      },
+      "earth": {
+        "azimuth_deg": 74.673181,
+        "elevation_deg": -4.605752,
+        "range_km": 388826.082
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 316.700182,
+        "elevation_deg": 2.427021,
+        "range_km": 147289688.751
+      },
+      "earth": {
+        "azimuth_deg": 74.657949,
+        "elevation_deg": -4.648442,
+        "range_km": 389007.497
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 316.192637,
+        "elevation_deg": 2.418767,
+        "range_km": 147285764.106
+      },
+      "earth": {
+        "azimuth_deg": 74.642337,
+        "elevation_deg": -4.690674,
+        "range_km": 389188.073
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 315.685086,
+        "elevation_deg": 2.410439,
+        "range_km": 147281854.494
+      },
+      "earth": {
+        "azimuth_deg": 74.626349,
+        "elevation_deg": -4.732447,
+        "range_km": 389367.804
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 315.17753,
+        "elevation_deg": 2.402037,
+        "range_km": 147277960.114
+      },
+      "earth": {
+        "azimuth_deg": 74.609986,
+        "elevation_deg": -4.773756,
+        "range_km": 389546.685
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 314.669968,
+        "elevation_deg": 2.393561,
+        "range_km": 147274081.163
+      },
+      "earth": {
+        "azimuth_deg": 74.593254,
+        "elevation_deg": -4.8146,
+        "range_km": 389724.711
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 314.162401,
+        "elevation_deg": 2.385012,
+        "range_km": 147270217.837
+      },
+      "earth": {
+        "azimuth_deg": 74.576153,
+        "elevation_deg": -4.854977,
+        "range_km": 389901.876
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 313.654829,
+        "elevation_deg": 2.376392,
+        "range_km": 147266370.331
+      },
+      "earth": {
+        "azimuth_deg": 74.558689,
+        "elevation_deg": -4.894884,
+        "range_km": 390078.176
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 313.147251,
+        "elevation_deg": 2.3677,
+        "range_km": 147262538.838
+      },
+      "earth": {
+        "azimuth_deg": 74.540863,
+        "elevation_deg": -4.934319,
+        "range_km": 390253.607
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 312.639668,
+        "elevation_deg": 2.358937,
+        "range_km": 147258723.548
+      },
+      "earth": {
+        "azimuth_deg": 74.522679,
+        "elevation_deg": -4.97328,
+        "range_km": 390428.163
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-03T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 312.13208,
+        "elevation_deg": 2.350103,
+        "range_km": 147254924.651
+      },
+      "earth": {
+        "azimuth_deg": 74.50414,
+        "elevation_deg": -5.011764,
+        "range_km": 390601.84
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 311.624487,
+        "elevation_deg": 2.3412,
+        "range_km": 147251142.335
+      },
+      "earth": {
+        "azimuth_deg": 74.485249,
+        "elevation_deg": -5.049771,
+        "range_km": 390774.635
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 311.116889,
+        "elevation_deg": 2.332229,
+        "range_km": 147247376.788
+      },
+      "earth": {
+        "azimuth_deg": 74.466008,
+        "elevation_deg": -5.087297,
+        "range_km": 390946.543
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 310.609287,
+        "elevation_deg": 2.323189,
+        "range_km": 147243628.192
+      },
+      "earth": {
+        "azimuth_deg": 74.44642,
+        "elevation_deg": -5.12434,
+        "range_km": 391117.561
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 310.101679,
+        "elevation_deg": 2.314081,
+        "range_km": 147239896.733
+      },
+      "earth": {
+        "azimuth_deg": 74.42649,
+        "elevation_deg": -5.160899,
+        "range_km": 391287.685
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 309.594066,
+        "elevation_deg": 2.304906,
+        "range_km": 147236182.591
+      },
+      "earth": {
+        "azimuth_deg": 74.406218,
+        "elevation_deg": -5.196972,
+        "range_km": 391456.912
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 309.086449,
+        "elevation_deg": 2.295666,
+        "range_km": 147232485.946
+      },
+      "earth": {
+        "azimuth_deg": 74.385608,
+        "elevation_deg": -5.232556,
+        "range_km": 391625.238
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 308.578828,
+        "elevation_deg": 2.286359,
+        "range_km": 147228806.977
+      },
+      "earth": {
+        "azimuth_deg": 74.364663,
+        "elevation_deg": -5.267651,
+        "range_km": 391792.661
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 308.071201,
+        "elevation_deg": 2.276988,
+        "range_km": 147225145.861
+      },
+      "earth": {
+        "azimuth_deg": 74.343386,
+        "elevation_deg": -5.302253,
+        "range_km": 391959.178
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 307.563571,
+        "elevation_deg": 2.267553,
+        "range_km": 147221502.773
+      },
+      "earth": {
+        "azimuth_deg": 74.321778,
+        "elevation_deg": -5.336362,
+        "range_km": 392124.785
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 307.055936,
+        "elevation_deg": 2.258054,
+        "range_km": 147217877.887
+      },
+      "earth": {
+        "azimuth_deg": 74.299844,
+        "elevation_deg": -5.369975,
+        "range_km": 392289.482
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 306.548296,
+        "elevation_deg": 2.248492,
+        "range_km": 147214271.373
+      },
+      "earth": {
+        "azimuth_deg": 74.277585,
+        "elevation_deg": -5.403091,
+        "range_km": 392453.263
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 306.040653,
+        "elevation_deg": 2.238868,
+        "range_km": 147210683.404
+      },
+      "earth": {
+        "azimuth_deg": 74.255004,
+        "elevation_deg": -5.435708,
+        "range_km": 392616.129
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 305.533005,
+        "elevation_deg": 2.229183,
+        "range_km": 147207114.147
+      },
+      "earth": {
+        "azimuth_deg": 74.232103,
+        "elevation_deg": -5.467825,
+        "range_km": 392778.076
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 305.025353,
+        "elevation_deg": 2.219437,
+        "range_km": 147203563.77
+      },
+      "earth": {
+        "azimuth_deg": 74.208886,
+        "elevation_deg": -5.499439,
+        "range_km": 392939.103
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 304.517697,
+        "elevation_deg": 2.209632,
+        "range_km": 147200032.438
+      },
+      "earth": {
+        "azimuth_deg": 74.185354,
+        "elevation_deg": -5.53055,
+        "range_km": 393099.208
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 304.010037,
+        "elevation_deg": 2.199767,
+        "range_km": 147196520.315
+      },
+      "earth": {
+        "azimuth_deg": 74.16151,
+        "elevation_deg": -5.561156,
+        "range_km": 393258.388
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 303.502373,
+        "elevation_deg": 2.189843,
+        "range_km": 147193027.564
+      },
+      "earth": {
+        "azimuth_deg": 74.137356,
+        "elevation_deg": -5.591255,
+        "range_km": 393416.643
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 302.994705,
+        "elevation_deg": 2.179862,
+        "range_km": 147189554.345
+      },
+      "earth": {
+        "azimuth_deg": 74.112895,
+        "elevation_deg": -5.620846,
+        "range_km": 393573.971
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 302.487034,
+        "elevation_deg": 2.169824,
+        "range_km": 147186100.816
+      },
+      "earth": {
+        "azimuth_deg": 74.08813,
+        "elevation_deg": -5.649928,
+        "range_km": 393730.37
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 301.979359,
+        "elevation_deg": 2.15973,
+        "range_km": 147182667.136
+      },
+      "earth": {
+        "azimuth_deg": 74.063062,
+        "elevation_deg": -5.678499,
+        "range_km": 393885.84
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 301.47168,
+        "elevation_deg": 2.14958,
+        "range_km": 147179253.46
+      },
+      "earth": {
+        "azimuth_deg": 74.037693,
+        "elevation_deg": -5.706558,
+        "range_km": 394040.379
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 300.963997,
+        "elevation_deg": 2.139375,
+        "range_km": 147175859.942
+      },
+      "earth": {
+        "azimuth_deg": 74.012027,
+        "elevation_deg": -5.734103,
+        "range_km": 394193.987
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 300.456311,
+        "elevation_deg": 2.129116,
+        "range_km": 147172486.735
+      },
+      "earth": {
+        "azimuth_deg": 73.986064,
+        "elevation_deg": -5.761134,
+        "range_km": 394346.661
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-04T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 299.948622,
+        "elevation_deg": 2.118805,
+        "range_km": 147169133.99
+      },
+      "earth": {
+        "azimuth_deg": 73.959808,
+        "elevation_deg": -5.787649,
+        "range_km": 394498.403
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 299.440929,
+        "elevation_deg": 2.10844,
+        "range_km": 147165801.855
+      },
+      "earth": {
+        "azimuth_deg": 73.93326,
+        "elevation_deg": -5.813647,
+        "range_km": 394649.21
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 298.933233,
+        "elevation_deg": 2.098024,
+        "range_km": 147162490.479
+      },
+      "earth": {
+        "azimuth_deg": 73.906423,
+        "elevation_deg": -5.839127,
+        "range_km": 394799.082
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 298.425534,
+        "elevation_deg": 2.087557,
+        "range_km": 147159200.007
+      },
+      "earth": {
+        "azimuth_deg": 73.879298,
+        "elevation_deg": -5.864087,
+        "range_km": 394948.02
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 297.917831,
+        "elevation_deg": 2.07704,
+        "range_km": 147155930.584
+      },
+      "earth": {
+        "azimuth_deg": 73.851888,
+        "elevation_deg": -5.888528,
+        "range_km": 395096.022
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 297.410125,
+        "elevation_deg": 2.066474,
+        "range_km": 147152682.352
+      },
+      "earth": {
+        "azimuth_deg": 73.824195,
+        "elevation_deg": -5.912446,
+        "range_km": 395243.087
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 296.902416,
+        "elevation_deg": 2.055859,
+        "range_km": 147149455.452
+      },
+      "earth": {
+        "azimuth_deg": 73.79622,
+        "elevation_deg": -5.935843,
+        "range_km": 395389.217
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 296.394705,
+        "elevation_deg": 2.045196,
+        "range_km": 147146250.025
+      },
+      "earth": {
+        "azimuth_deg": 73.767965,
+        "elevation_deg": -5.958716,
+        "range_km": 395534.411
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 295.88699,
+        "elevation_deg": 2.034487,
+        "range_km": 147143066.206
+      },
+      "earth": {
+        "azimuth_deg": 73.739433,
+        "elevation_deg": -5.981066,
+        "range_km": 395678.668
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 295.379272,
+        "elevation_deg": 2.023731,
+        "range_km": 147139904.134
+      },
+      "earth": {
+        "azimuth_deg": 73.710625,
+        "elevation_deg": -6.00289,
+        "range_km": 395821.988
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 294.871552,
+        "elevation_deg": 2.01293,
+        "range_km": 147136763.942
+      },
+      "earth": {
+        "azimuth_deg": 73.681543,
+        "elevation_deg": -6.024188,
+        "range_km": 395964.373
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 294.363828,
+        "elevation_deg": 2.002084,
+        "range_km": 147133645.762
+      },
+      "earth": {
+        "azimuth_deg": 73.65219,
+        "elevation_deg": -6.04496,
+        "range_km": 396105.821
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 293.856102,
+        "elevation_deg": 1.991194,
+        "range_km": 147130549.727
+      },
+      "earth": {
+        "azimuth_deg": 73.622565,
+        "elevation_deg": -6.065204,
+        "range_km": 396246.333
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 293.348373,
+        "elevation_deg": 1.980262,
+        "range_km": 147127475.966
+      },
+      "earth": {
+        "azimuth_deg": 73.592672,
+        "elevation_deg": -6.08492,
+        "range_km": 396385.91
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 292.840642,
+        "elevation_deg": 1.969287,
+        "range_km": 147124424.606
+      },
+      "earth": {
+        "azimuth_deg": 73.562512,
+        "elevation_deg": -6.104107,
+        "range_km": 396524.551
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 292.332908,
+        "elevation_deg": 1.958271,
+        "range_km": 147121395.775
+      },
+      "earth": {
+        "azimuth_deg": 73.532087,
+        "elevation_deg": -6.122765,
+        "range_km": 396662.257
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 291.825172,
+        "elevation_deg": 1.947215,
+        "range_km": 147118389.596
+      },
+      "earth": {
+        "azimuth_deg": 73.501398,
+        "elevation_deg": -6.140893,
+        "range_km": 396799.029
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 291.317433,
+        "elevation_deg": 1.936119,
+        "range_km": 147115406.192
+      },
+      "earth": {
+        "azimuth_deg": 73.470447,
+        "elevation_deg": -6.15849,
+        "range_km": 396934.866
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 290.809692,
+        "elevation_deg": 1.924984,
+        "range_km": 147112445.686
+      },
+      "earth": {
+        "azimuth_deg": 73.439236,
+        "elevation_deg": -6.175556,
+        "range_km": 397069.77
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 290.301948,
+        "elevation_deg": 1.913811,
+        "range_km": 147109508.196
+      },
+      "earth": {
+        "azimuth_deg": 73.407766,
+        "elevation_deg": -6.19209,
+        "range_km": 397203.74
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 289.794202,
+        "elevation_deg": 1.902601,
+        "range_km": 147106593.842
+      },
+      "earth": {
+        "azimuth_deg": 73.376038,
+        "elevation_deg": -6.208092,
+        "range_km": 397336.778
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 289.286454,
+        "elevation_deg": 1.891355,
+        "range_km": 147103702.738
+      },
+      "earth": {
+        "azimuth_deg": 73.344054,
+        "elevation_deg": -6.223562,
+        "range_km": 397468.884
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 288.778704,
+        "elevation_deg": 1.880073,
+        "range_km": 147100835.0
+      },
+      "earth": {
+        "azimuth_deg": 73.311816,
+        "elevation_deg": -6.238498,
+        "range_km": 397600.059
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 288.270952,
+        "elevation_deg": 1.868756,
+        "range_km": 147097990.742
+      },
+      "earth": {
+        "azimuth_deg": 73.279325,
+        "elevation_deg": -6.252902,
+        "range_km": 397730.303
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-05T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 287.763197,
+        "elevation_deg": 1.857406,
+        "range_km": 147095170.074
+      },
+      "earth": {
+        "azimuth_deg": 73.246582,
+        "elevation_deg": -6.266771,
+        "range_km": 397859.617
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 287.255441,
+        "elevation_deg": 1.846023,
+        "range_km": 147092373.107
+      },
+      "earth": {
+        "azimuth_deg": 73.213589,
+        "elevation_deg": -6.280107,
+        "range_km": 397988.001
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 286.747683,
+        "elevation_deg": 1.834608,
+        "range_km": 147089599.948
+      },
+      "earth": {
+        "azimuth_deg": 73.180347,
+        "elevation_deg": -6.292908,
+        "range_km": 398115.458
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 286.239922,
+        "elevation_deg": 1.823161,
+        "range_km": 147086850.705
+      },
+      "earth": {
+        "azimuth_deg": 73.146858,
+        "elevation_deg": -6.305175,
+        "range_km": 398241.986
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 285.73216,
+        "elevation_deg": 1.811684,
+        "range_km": 147084125.482
+      },
+      "earth": {
+        "azimuth_deg": 73.113122,
+        "elevation_deg": -6.316908,
+        "range_km": 398367.587
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 285.224396,
+        "elevation_deg": 1.800178,
+        "range_km": 147081424.382
+      },
+      "earth": {
+        "azimuth_deg": 73.079141,
+        "elevation_deg": -6.328106,
+        "range_km": 398492.262
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 284.716631,
+        "elevation_deg": 1.788643,
+        "range_km": 147078747.508
+      },
+      "earth": {
+        "azimuth_deg": 73.044917,
+        "elevation_deg": -6.338769,
+        "range_km": 398616.011
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 284.208863,
+        "elevation_deg": 1.77708,
+        "range_km": 147076094.959
+      },
+      "earth": {
+        "azimuth_deg": 73.010449,
+        "elevation_deg": -6.348897,
+        "range_km": 398738.836
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 283.701094,
+        "elevation_deg": 1.765491,
+        "range_km": 147073466.833
+      },
+      "earth": {
+        "azimuth_deg": 72.975741,
+        "elevation_deg": -6.358491,
+        "range_km": 398860.737
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 283.193324,
+        "elevation_deg": 1.753875,
+        "range_km": 147070863.228
+      },
+      "earth": {
+        "azimuth_deg": 72.940792,
+        "elevation_deg": -6.367549,
+        "range_km": 398981.714
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 282.685552,
+        "elevation_deg": 1.742234,
+        "range_km": 147068284.239
+      },
+      "earth": {
+        "azimuth_deg": 72.905604,
+        "elevation_deg": -6.376073,
+        "range_km": 399101.768
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 282.177778,
+        "elevation_deg": 1.730569,
+        "range_km": 147065729.958
+      },
+      "earth": {
+        "azimuth_deg": 72.870178,
+        "elevation_deg": -6.384062,
+        "range_km": 399220.901
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 281.670003,
+        "elevation_deg": 1.718881,
+        "range_km": 147063200.478
+      },
+      "earth": {
+        "azimuth_deg": 72.834516,
+        "elevation_deg": -6.391516,
+        "range_km": 399339.113
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 281.162226,
+        "elevation_deg": 1.70717,
+        "range_km": 147060695.889
+      },
+      "earth": {
+        "azimuth_deg": 72.798617,
+        "elevation_deg": -6.398436,
+        "range_km": 399456.405
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 280.654449,
+        "elevation_deg": 1.695437,
+        "range_km": 147058216.279
+      },
+      "earth": {
+        "azimuth_deg": 72.762484,
+        "elevation_deg": -6.404822,
+        "range_km": 399572.776
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 280.14667,
+        "elevation_deg": 1.683684,
+        "range_km": 147055761.736
+      },
+      "earth": {
+        "azimuth_deg": 72.726117,
+        "elevation_deg": -6.410674,
+        "range_km": 399688.229
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 279.638889,
+        "elevation_deg": 1.67191,
+        "range_km": 147053332.345
+      },
+      "earth": {
+        "azimuth_deg": 72.689518,
+        "elevation_deg": -6.415992,
+        "range_km": 399802.763
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 279.131108,
+        "elevation_deg": 1.660118,
+        "range_km": 147050928.189
+      },
+      "earth": {
+        "azimuth_deg": 72.652687,
+        "elevation_deg": -6.420776,
+        "range_km": 399916.38
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 278.623325,
+        "elevation_deg": 1.648308,
+        "range_km": 147048549.35
+      },
+      "earth": {
+        "azimuth_deg": 72.615626,
+        "elevation_deg": -6.425028,
+        "range_km": 400029.079
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 278.115541,
+        "elevation_deg": 1.63648,
+        "range_km": 147046195.909
+      },
+      "earth": {
+        "azimuth_deg": 72.578334,
+        "elevation_deg": -6.428746,
+        "range_km": 400140.862
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 277.607756,
+        "elevation_deg": 1.624636,
+        "range_km": 147043867.945
+      },
+      "earth": {
+        "azimuth_deg": 72.540814,
+        "elevation_deg": -6.431932,
+        "range_km": 400251.729
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 277.09997,
+        "elevation_deg": 1.612777,
+        "range_km": 147041565.534
+      },
+      "earth": {
+        "azimuth_deg": 72.503066,
+        "elevation_deg": -6.434586,
+        "range_km": 400361.68
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 276.592183,
+        "elevation_deg": 1.600903,
+        "range_km": 147039288.753
+      },
+      "earth": {
+        "azimuth_deg": 72.465092,
+        "elevation_deg": -6.436709,
+        "range_km": 400470.716
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 276.084395,
+        "elevation_deg": 1.589016,
+        "range_km": 147037037.674
+      },
+      "earth": {
+        "azimuth_deg": 72.426891,
+        "elevation_deg": -6.438301,
+        "range_km": 400578.837
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-06T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 275.576606,
+        "elevation_deg": 1.577116,
+        "range_km": 147034812.371
+      },
+      "earth": {
+        "azimuth_deg": 72.388465,
+        "elevation_deg": -6.439363,
+        "range_km": 400686.044
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 275.068817,
+        "elevation_deg": 1.565203,
+        "range_km": 147032612.914
+      },
+      "earth": {
+        "azimuth_deg": 72.349815,
+        "elevation_deg": -6.439894,
+        "range_km": 400792.337
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T01:00:00Z",
+      "sun": {
+        "azimuth_deg": 274.561026,
+        "elevation_deg": 1.55328,
+        "range_km": 147030439.372
+      },
+      "earth": {
+        "azimuth_deg": 72.310942,
+        "elevation_deg": -6.439897,
+        "range_km": 400897.716
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T02:00:00Z",
+      "sun": {
+        "azimuth_deg": 274.053235,
+        "elevation_deg": 1.541347,
+        "range_km": 147028291.812
+      },
+      "earth": {
+        "azimuth_deg": 72.271846,
+        "elevation_deg": -6.439371,
+        "range_km": 401002.181
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T03:00:00Z",
+      "sun": {
+        "azimuth_deg": 273.545443,
+        "elevation_deg": 1.529405,
+        "range_km": 147026170.3
+      },
+      "earth": {
+        "azimuth_deg": 72.232528,
+        "elevation_deg": -6.438317,
+        "range_km": 401105.733
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T04:00:00Z",
+      "sun": {
+        "azimuth_deg": 273.037651,
+        "elevation_deg": 1.517455,
+        "range_km": 147024074.901
+      },
+      "earth": {
+        "azimuth_deg": 72.19299,
+        "elevation_deg": -6.436735,
+        "range_km": 401208.372
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T05:00:00Z",
+      "sun": {
+        "azimuth_deg": 272.529858,
+        "elevation_deg": 1.505497,
+        "range_km": 147022005.676
+      },
+      "earth": {
+        "azimuth_deg": 72.153231,
+        "elevation_deg": -6.434628,
+        "range_km": 401310.097
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T06:00:00Z",
+      "sun": {
+        "azimuth_deg": 272.022064,
+        "elevation_deg": 1.493533,
+        "range_km": 147019962.687
+      },
+      "earth": {
+        "azimuth_deg": 72.113253,
+        "elevation_deg": -6.431995,
+        "range_km": 401410.91
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T07:00:00Z",
+      "sun": {
+        "azimuth_deg": 271.51427,
+        "elevation_deg": 1.481563,
+        "range_km": 147017945.993
+      },
+      "earth": {
+        "azimuth_deg": 72.073057,
+        "elevation_deg": -6.428837,
+        "range_km": 401510.809
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T08:00:00Z",
+      "sun": {
+        "azimuth_deg": 271.006475,
+        "elevation_deg": 1.469589,
+        "range_km": 147015955.652
+      },
+      "earth": {
+        "azimuth_deg": 72.032643,
+        "elevation_deg": -6.425155,
+        "range_km": 401609.794
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T09:00:00Z",
+      "sun": {
+        "azimuth_deg": 270.49868,
+        "elevation_deg": 1.457611,
+        "range_km": 147013991.72
+      },
+      "earth": {
+        "azimuth_deg": 71.992012,
+        "elevation_deg": -6.42095,
+        "range_km": 401707.866
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T10:00:00Z",
+      "sun": {
+        "azimuth_deg": 269.990884,
+        "elevation_deg": 1.44563,
+        "range_km": 147012054.251
+      },
+      "earth": {
+        "azimuth_deg": 71.951165,
+        "elevation_deg": -6.416223,
+        "range_km": 401805.024
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T11:00:00Z",
+      "sun": {
+        "azimuth_deg": 269.483088,
+        "elevation_deg": 1.433647,
+        "range_km": 147010143.298
+      },
+      "earth": {
+        "azimuth_deg": 71.910103,
+        "elevation_deg": -6.410975,
+        "range_km": 401901.268
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T12:00:00Z",
+      "sun": {
+        "azimuth_deg": 268.975292,
+        "elevation_deg": 1.421664,
+        "range_km": 147008258.913
+      },
+      "earth": {
+        "azimuth_deg": 71.868826,
+        "elevation_deg": -6.405207,
+        "range_km": 401996.597
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T13:00:00Z",
+      "sun": {
+        "azimuth_deg": 268.467495,
+        "elevation_deg": 1.40968,
+        "range_km": 147006401.145
+      },
+      "earth": {
+        "azimuth_deg": 71.827335,
+        "elevation_deg": -6.39892,
+        "range_km": 402091.011
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T14:00:00Z",
+      "sun": {
+        "azimuth_deg": 267.959699,
+        "elevation_deg": 1.397697,
+        "range_km": 147004570.042
+      },
+      "earth": {
+        "azimuth_deg": 71.785631,
+        "elevation_deg": -6.392115,
+        "range_km": 402184.509
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T15:00:00Z",
+      "sun": {
+        "azimuth_deg": 267.451902,
+        "elevation_deg": 1.385716,
+        "range_km": 147002765.65
+      },
+      "earth": {
+        "azimuth_deg": 71.743714,
+        "elevation_deg": -6.384792,
+        "range_km": 402277.091
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T16:00:00Z",
+      "sun": {
+        "azimuth_deg": 266.944104,
+        "elevation_deg": 1.373737,
+        "range_km": 147000988.015
+      },
+      "earth": {
+        "azimuth_deg": 71.701586,
+        "elevation_deg": -6.376954,
+        "range_km": 402368.756
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T17:00:00Z",
+      "sun": {
+        "azimuth_deg": 266.436307,
+        "elevation_deg": 1.361762,
+        "range_km": 146999237.18
+      },
+      "earth": {
+        "azimuth_deg": 71.659247,
+        "elevation_deg": -6.368601,
+        "range_km": 402459.503
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T18:00:00Z",
+      "sun": {
+        "azimuth_deg": 265.92851,
+        "elevation_deg": 1.349791,
+        "range_km": 146997513.187
+      },
+      "earth": {
+        "azimuth_deg": 71.616697,
+        "elevation_deg": -6.359735,
+        "range_km": 402549.332
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T19:00:00Z",
+      "sun": {
+        "azimuth_deg": 265.420712,
+        "elevation_deg": 1.337826,
+        "range_km": 146995816.075
+      },
+      "earth": {
+        "azimuth_deg": 71.573938,
+        "elevation_deg": -6.350357,
+        "range_km": 402638.241
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T20:00:00Z",
+      "sun": {
+        "azimuth_deg": 264.912915,
+        "elevation_deg": 1.325867,
+        "range_km": 146994145.883
+      },
+      "earth": {
+        "azimuth_deg": 71.530971,
+        "elevation_deg": -6.340467,
+        "range_km": 402726.23
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T21:00:00Z",
+      "sun": {
+        "azimuth_deg": 264.405118,
+        "elevation_deg": 1.313915,
+        "range_km": 146992502.648
+      },
+      "earth": {
+        "azimuth_deg": 71.487795,
+        "elevation_deg": -6.330068,
+        "range_km": 402813.297
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T22:00:00Z",
+      "sun": {
+        "azimuth_deg": 263.897321,
+        "elevation_deg": 1.301971,
+        "range_km": 146990886.405
+      },
+      "earth": {
+        "azimuth_deg": 71.444412,
+        "elevation_deg": -6.31916,
+        "range_km": 402899.44
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-07T23:00:00Z",
+      "sun": {
+        "azimuth_deg": 263.389524,
+        "elevation_deg": 1.290036,
+        "range_km": 146989297.189
+      },
+      "earth": {
+        "azimuth_deg": 71.400823,
+        "elevation_deg": -6.307746,
+        "range_km": 402984.66
+      }
+    },
+    {
+      "site_id": "de-gerlache-rim",
+      "timestamp_utc": "2026-12-08T00:00:00Z",
+      "sun": {
+        "azimuth_deg": 262.881727,
+        "elevation_deg": 1.278111,
+        "range_km": 146987735.031
+      },
+      "earth": {
+        "azimuth_deg": 71.357027,
+        "elevation_deg": -6.295825,
+        "range_km": 403068.955
+      }
+    }
+  ],
+  "incomplete_timestamps_dropped": 0,
+  "window": {
+    "key": "initial",
+    "label": "Initial analysis period (01 Dec - 08 Dec 2026)",
+    "start_utc": "2026-12-01T00:00:00Z",
+    "stop_utc": "2026-12-08T00:00:00Z"
+  }
+}
