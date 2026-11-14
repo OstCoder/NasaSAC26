@@ -71,6 +71,7 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `services/psr.py` | PSR boundary catalogue: nearest-PSR geometry and within-radius queries. |
 | `services/requirements.py` | Requirement check: one scenario measured against the config thresholds, three-state verdict, PSR preference reported but never scored. |
 | `services/site_series.py` | Phase 2 Task 2 series: tracks to chronological per-timestamp records, coverage checks and the on-disk payload. |
+| `services/terrain_inventory.py` | Phase 2 Task 3 terrain inventory: DEM georeferencing, site coverage, relief/obstruction summary and the on-disk payload. |
 | `services/imagery.py` | Moon Trek tile cache, reprojection to the polar map grid, global texture. |
 | `services/jpl_status.py` | Live reachability of Horizons and Moon Trek. |
 | `core/http.py` | Single outbound HTTP function (mocked in tests). |

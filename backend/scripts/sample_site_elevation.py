@@ -35,18 +35,10 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # so "import app" works
 
 from app.core.coords import polar_stereographic_xy  # noqa: E402
+from app.services.terrain_inventory import PGDA_BASE_URL as BASE_URL  # noqa: E402
+from app.services.terrain_inventory import PGDA_SITE_CODES as SITE_CODES  # noqa: E402
 
-BASE_URL = "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp"
 CACHE = ROOT / "data" / "cache" / "lola_5mpp"
-
-# site_id -> PGDA site code (Mazarico et al. 2011 numbering). Sites not listed
-# here have no 5 m/pix PGDA DEM yet.
-SITE_CODES = {
-    "connecting-ridge": "Site01",
-    "shackleton-rim": "Site04",
-    "peak-near-shackleton": "Site07",
-    "de-gerlache-rim": "Site11",
-}
 
 # products: (suffix, description)
 PRODUCTS = {"surf": "surface height Z (m, relative to the 1737.4 km sphere)",

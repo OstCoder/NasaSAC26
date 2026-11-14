@@ -1,0 +1,334 @@
+{
+ "schema": "lunanav.site_terrain.v1",
+ "dataset": "LOLA terrain at the three Phase 1 mission candidates",
+ "generated_utc": "2026-11-14T20:24:00+00:00",
+ "generator": "backend/scripts/inspect_site_terrain.py",
+ "conventions": {
+  "frame": "Moon Mean Earth / Polar Axis, IAU selenographic planetocentric, longitude east-positive in [-180, 180)",
+  "projection": "south polar stereographic (latitude of origin -90, central meridian 0, sphere radius 1737.4 km), metres; north-up raster, row 0 at the top",
+  "height_datum": "metres above the 1737.4 km reference sphere (LOLA Z)",
+  "units": "metres for heights and grid coordinates, kilometres for distances and extents",
+  "azimuth": "degrees clockwise from local lunar north, 0 <= az < 360",
+  "obstruction_deg": "angle from the local horizontal to the skyline, lunar curvature included"
+ },
+ "sources": [
+  {
+   "id": "pgda-lola-5mpp",
+   "label": "LOLA 5 m/pix south-pole site DEMs (surface height)",
+   "provider": "NASA GSFC Planetary Geodynamics Laboratory (PGDA)",
+   "url": "https://pgda.gsfc.nasa.gov/products/78",
+   "data": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp",
+   "resolution": "5 m/pixel, 16 km x 16 km per site",
+   "papers": [
+    "Barker et al. 2021, Planet. Space Sci. 203, 105119",
+    "Mazarico et al. 2011, Icarus 211, 1066-1081 (site numbering)"
+   ]
+  },
+  {
+   "id": "moon-trek-lola",
+   "label": "Moon Trek LRO LOLA shaded relief / DEM layer",
+   "provider": "NASA/JPL Moon Trek",
+   "url": "https://trek.nasa.gov/moon/",
+   "resolution": "128 pixels/degree global (~237 m at the equator), 8-bit display tiles",
+   "usage": "layer coverage check only; never used for heights or angles"
+  },
+  {
+   "id": "lroc-quickmap",
+   "label": "LROC QuickMap (visual terrain inspection)",
+   "provider": "NASA / Arizona State University LROC",
+   "url": "https://quickmap.lroc.asu.edu/",
+   "usage": "visual context for the same coordinates; no numeric values taken from it"
+  },
+  {
+   "id": "lola-polar-20m",
+   "label": "LOLA 20 m/pix polar DEM (wider-area follow-up)",
+   "provider": "NASA PDS Geosciences Node",
+   "url": "https://pds-geosciences.wustl.edu/missions/lro/lola.htm",
+   "resolution": "20 m/pixel, south of 87.5 S",
+   "usage": "referenced for horizons beyond the 16 km site DEMs; not yet ingested"
+  }
+ ],
+ "resources_checked": [
+  {
+   "name": "NASA LROC QuickMap",
+   "url": "https://quickmap.lroc.asu.edu/",
+   "checked_utc": "2026-11-14T20:23:58+00:00",
+   "http_status": 200
+  },
+  {
+   "name": "NASA Moon Trek",
+   "url": "https://trek.nasa.gov/moon/",
+   "checked_utc": "2026-11-14T20:23:58+00:00",
+   "http_status": 200
+  },
+  {
+   "name": "NASA PGDA LOLA 5 m/pix south-pole DEMs",
+   "url": "https://pgda.gsfc.nasa.gov/products/78",
+   "checked_utc": "2026-11-14T20:23:58+00:00",
+   "http_status": 200
+  }
+ ],
+ "sites": {
+  "shackleton-rim": {
+   "name": "Shackleton Crater Rim (SR1)",
+   "pgda_site": "Site04",
+   "latitude_deg": -89.78,
+   "longitude_deg": -155.73,
+   "xy_km": [
+    -2.742,
+    -6.082
+   ],
+   "dem": {
+    "file": "Site04_final_adj_5mpp_surf.tif",
+    "driver": "GTiff",
+    "width": 3200,
+    "height": 3200,
+    "dtype": "float32",
+    "pixel_m": 5.0,
+    "extent_km": [
+     16.0,
+     16.0
+    ],
+    "crs_wkt": "PROJCS[\"unnamed\",GEOGCS[\"unnamed ellipse\",DATUM[\"unknown\",SPHEROID[\"unnamed\",1737400,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]",
+    "bounds_m": {
+     "left": -9000.0,
+     "bottom": -15000.0,
+     "right": 7000.0,
+     "top": 1000.0
+    },
+    "nodata": "nan",
+    "elevation_range_m": [
+     -2847.88,
+     1805.07
+    ],
+    "bytes": 40980806,
+    "sha256": "38ff70dbdf2f066c2cfa94a646c3a59d653ce7f6b4528b15fc1b43ee397ce758",
+    "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif",
+    "product": "surface height Z (m above the 1737.4 km sphere)",
+    "products_available": {
+     "surf": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif",
+     "slp": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_slp.tif",
+     "toterr": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_toterr.tif"
+    }
+   },
+   "coverage": {
+    "site_inside": true,
+    "radius_km": 6.258,
+    "edge_distance_km": {
+     "west": 6.258,
+     "east": 9.742,
+     "south": 8.918,
+     "north": 7.082
+    }
+   },
+   "site_pixel": {
+    "row": 1416,
+    "col": 1251,
+    "elevation_m": 1728.34
+   },
+   "terrain": {
+    "radius_km": 6.258,
+    "azimuth_step_deg": 1.0,
+    "pixel_m": 5.0,
+    "site_elevation_m": 1728.34,
+    "elevation_min_m": -2001.45,
+    "elevation_max_m": 1739.12,
+    "elevation_median_m": 910.06,
+    "max_obstruction_deg": 12.6602,
+    "max_obstruction_azimuth_deg": 229.0,
+    "min_obstruction_deg": 3.0811,
+    "pixels_in_radius": 4921307,
+    "data_gaps": {
+     "nan_pixels": 0,
+     "nan_fraction": 0.0
+    }
+   },
+   "moon_trek": {
+    "layer": "lola_dem",
+    "path": "Moon/EQ/LRO_LOLA_DEM_Global_128ppd_v04",
+    "zoom": 5,
+    "row": 31,
+    "col": 4,
+    "available": true,
+    "credit": "Elevation: NASA/GSFC LRO LOLA team. Tiles: NASA/JPL Moon Trek."
+   }
+  },
+  "connecting-ridge": {
+   "name": "Shackleton-de Gerlache Connecting Ridge (CR1)",
+   "pgda_site": "Site01",
+   "latitude_deg": -89.45,
+   "longitude_deg": -137.31,
+   "xy_km": [
+    -11.308,
+    -12.259
+   ],
+   "dem": {
+    "file": "Site01_final_adj_5mpp_surf.tif",
+    "driver": "GTiff",
+    "width": 3200,
+    "height": 3200,
+    "dtype": "float32",
+    "pixel_m": 5.0,
+    "extent_km": [
+     16.0,
+     16.0
+    ],
+    "crs_wkt": "PROJCS[\"unnamed\",GEOGCS[\"unnamed ellipse\",DATUM[\"unknown\",SPHEROID[\"unnamed\",1737400,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]",
+    "bounds_m": {
+     "left": -19000.0,
+     "bottom": -20000.0,
+     "right": -3000.0,
+     "top": -4000.0
+    },
+    "nodata": "nan",
+    "elevation_range_m": [
+     -523.18,
+     1959.5
+    ],
+    "bytes": 40980810,
+    "sha256": "3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e",
+    "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif",
+    "product": "surface height Z (m above the 1737.4 km sphere)",
+    "products_available": {
+     "surf": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif",
+     "slp": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_slp.tif",
+     "toterr": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_toterr.tif"
+    }
+   },
+   "coverage": {
+    "site_inside": true,
+    "radius_km": 7.692,
+    "edge_distance_km": {
+     "west": 7.692,
+     "east": 8.308,
+     "south": 7.741,
+     "north": 8.259
+    }
+   },
+   "site_pixel": {
+    "row": 1651,
+    "col": 1538,
+    "elevation_m": 1954.85
+   },
+   "terrain": {
+    "radius_km": 7.692,
+    "azimuth_step_deg": 1.0,
+    "pixel_m": 5.0,
+    "site_elevation_m": 1954.85,
+    "elevation_min_m": 154.68,
+    "elevation_max_m": 1959.5,
+    "elevation_median_m": 1271.06,
+    "max_obstruction_deg": 10.6311,
+    "max_obstruction_azimuth_deg": 160.0,
+    "min_obstruction_deg": -1.7226,
+    "pixels_in_radius": 7435155,
+    "data_gaps": {
+     "nan_pixels": 0,
+     "nan_fraction": 0.0
+    }
+   },
+   "moon_trek": {
+    "layer": "lola_dem",
+    "path": "Moon/EQ/LRO_LOLA_DEM_Global_128ppd_v04",
+    "zoom": 5,
+    "row": 31,
+    "col": 7,
+    "available": true,
+    "credit": "Elevation: NASA/GSFC LRO LOLA team. Tiles: NASA/JPL Moon Trek."
+   }
+  },
+  "de-gerlache-rim": {
+   "name": "de Gerlache Crater Rim (GR1)",
+   "pgda_site": "Site11",
+   "latitude_deg": -88.67,
+   "longitude_deg": -68.1,
+   "xy_km": [
+    -37.421,
+    15.043
+   ],
+   "dem": {
+    "file": "Site11_final_adj_5mpp_surf.tif",
+    "driver": "GTiff",
+    "width": 3200,
+    "height": 3200,
+    "dtype": "float32",
+    "pixel_m": 5.0,
+    "extent_km": [
+     16.0,
+     16.0
+    ],
+    "crs_wkt": "PROJCS[\"unnamed\",GEOGCS[\"unnamed ellipse\",DATUM[\"unknown\",SPHEROID[\"unnamed\",1737400,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]",
+    "bounds_m": {
+     "left": -45000.0,
+     "bottom": 7000.0,
+     "right": -29000.0,
+     "top": 23000.0
+    },
+    "nodata": "nan",
+    "elevation_range_m": [
+     -805.16,
+     1815.99
+    ],
+    "bytes": 40980806,
+    "sha256": "58f3372c35bbd6baf38ffd5633c1c96b59bd89dbd252150581d12893a43136e5",
+    "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_surf.tif",
+    "product": "surface height Z (m above the 1737.4 km sphere)",
+    "products_available": {
+     "surf": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_surf.tif",
+     "slp": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_slp.tif",
+     "toterr": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_toterr.tif"
+    }
+   },
+   "coverage": {
+    "site_inside": true,
+    "radius_km": 7.579,
+    "edge_distance_km": {
+     "west": 7.579,
+     "east": 8.421,
+     "south": 8.043,
+     "north": 7.957
+    }
+   },
+   "site_pixel": {
+    "row": 1591,
+    "col": 1515,
+    "elevation_m": 1808.37
+   },
+   "terrain": {
+    "radius_km": 7.579,
+    "azimuth_step_deg": 1.0,
+    "pixel_m": 5.0,
+    "site_elevation_m": 1808.37,
+    "elevation_min_m": -511.15,
+    "elevation_max_m": 1815.99,
+    "elevation_median_m": 835.18,
+    "max_obstruction_deg": 5.9523,
+    "max_obstruction_azimuth_deg": 265.0,
+    "min_obstruction_deg": -2.5296,
+    "pixels_in_radius": 7218250,
+    "data_gaps": {
+     "nan_pixels": 0,
+     "nan_fraction": 0.0
+    }
+   },
+   "moon_trek": {
+    "layer": "lola_dem",
+    "path": "Moon/EQ/LRO_LOLA_DEM_Global_128ppd_v04",
+    "zoom": 5,
+    "row": 31,
+    "col": 19,
+    "available": true,
+    "credit": "Elevation: NASA/GSFC LRO LOLA team. Tiles: NASA/JPL Moon Trek."
+   }
+  }
+ },
+ "limitations": {
+  "extent": "Each 5 m/pix site DEM is 16 km x 16 km, so the ray-march radius is limited to the distance from the site to the nearest edge (6-9 km). Terrain beyond that - including the massifs and crater walls that matter at 20-100 km - is NOT in these files.",
+  "resolution": "5 m/pixel horizontal, ~0.3 m RMS height uncertainty (Barker et al. 2021).",
+  "wider_context": "For horizons beyond ~9 km use a wider LOLA polar product in the same stereographic frame, e.g. LDEM_875S_20M (20 m/pix, south of 87.5 S) from the PDS Geosciences Node, and record it here before quoting angles from it.",
+  "singularities": "Heights are relative to the 1737.4 km sphere, not to a geoid (the Moon has none). Slope and horizon angles assume local north points away from the pole; the pole itself is excluded (azimuth undefined).",
+  "gaps": "NaN marks no-data cells at the raster edges; they are counted, never filled with zero.",
+  "display_layers": "Moon Trek LOLA tiles are 8-bit display imagery: they confirm layer coverage at the site and are never used for heights or angles.",
+  "scope": "Terrain gives geometric obstruction only. It does not model lander height beyond the recorded observer, rocks, thermal conditions or landing hazards, and a clear skyline is not a landing certification."
+ }
+}

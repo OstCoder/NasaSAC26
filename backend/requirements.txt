@@ -8,4 +8,5 @@ pytest>=8
 httpx>=0.27
 # optional scientific integrations (install when needed)
 # spiceypy>=6     # NAIF SPICE provider
-# rasterio>=1.3   # scripts/build_horizon_mask.py (LOLA GeoTIFF input)
+# rasterio>=1.3   # GeoTIFF DEM input: scripts/inspect_site_terrain.py,
+#                 # scripts/sample_site_elevation.py, scripts/build_horizon_mask.py

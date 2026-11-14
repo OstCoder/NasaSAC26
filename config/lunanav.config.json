@@ -148,7 +148,7 @@
           "png",
           "jpg"
         ],
-        "max_zoom": 6,
+        "max_zoom": 5,
         "credit": "Elevation: NASA/GSFC LRO LOLA team. Tiles: NASA/JPL Moon Trek."
       },
       "wac": {
@@ -167,10 +167,10 @@
         "extensions": [
           "png"
         ],
-        "max_zoom": 6,
+        "max_zoom": 5,
         "credit": "Elevation: NASA/GSFC LRO LOLA team. Tiles: NASA/JPL Moon Trek."
       }
     },
-    "$comment": "All layer paths were confirmed against Moon Trek on 2026-10-30. If Trek renames one, LunaNav reports it instead of showing a blank Moon. 'relief_layer' supplies the 3D Moon's shape; its 8-bit tiles are for display only, never for calculations."
+    "$comment": "All layer paths were confirmed against Moon Trek on 2026-10-30; max zooms were re-checked on 2026-11-14 (the LOLA DEM and shaded-relief layers stop at zoom 5, LROC WAC reaches 8). If Trek renames or trims a layer, LunaNav reports it instead of showing a blank Moon. 'relief_layer' supplies the 3D Moon's shape; its 8-bit tiles are for display only, never for calculations."
   }
 }

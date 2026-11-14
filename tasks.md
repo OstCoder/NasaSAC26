@@ -121,16 +121,16 @@ sunrise, Earthset, and Earthrise estimates.
 
 ## Task 3: Obtain Lunar Terrain Data
 
-- [ ] Open NASA LROC QuickMap.
-- [ ] Locate the three selected landing coordinates.
-- [ ] Inspect the terrain surrounding each location.
-- [ ] Identify relevant elevation and topography datasets.
-- [ ] Explore the same regions using NASA Moon Trek.
-- [ ] Record the available terrain data resolution.
-- [ ] Obtain downloadable elevation data where available.
-- [ ] Document the coordinate reference system and height datum.
-- [ ] Record the source and coverage of each terrain dataset.
-- [ ] Identify any missing terrain coverage or limitations.
+- [x] Open NASA LROC QuickMap.
+- [x] Locate the three selected landing coordinates.
+- [x] Inspect the terrain surrounding each location.
+- [x] Identify relevant elevation and topography datasets.
+- [x] Explore the same regions using NASA Moon Trek.
+- [x] Record the available terrain data resolution.
+- [x] Obtain downloadable elevation data where available.
+- [x] Document the coordinate reference system and height datum.
+- [x] Record the source and coverage of each terrain dataset.
+- [x] Identify any missing terrain coverage or limitations.
 
 ### Important Terrain Information
 
@@ -153,6 +153,13 @@ or Earth.
 A documented collection of lunar terrain data for
 the three landing sites, including at least one
 usable digital elevation model for Phase 3.
+
+Retrieved and measured in code by
+`backend/scripts/inspect_site_terrain.py`: three 5 m/pixel LOLA site DEMs
+(16 km × 16 km each) covering the candidate coordinates, with CRS, height
+datum, checksums, coverage and skyline obstruction angles in
+`data/reference/site_terrain.json`. The full deliverable, including the Moon
+Trek coverage checks and the coverage limits, is [docs/TERRAIN.md](docs/TERRAIN.md).
 
 ### Resources
 
