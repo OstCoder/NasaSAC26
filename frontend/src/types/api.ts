@@ -567,3 +567,50 @@ export interface ReadinessReport {
   summary: { sites: number; ready: number; with_mask: number; missing: string[] }
   notes: string[]
 }
+
+/** Phase 4: the feasibility matrix — GET /api/feasibility. */
+export interface FeasibilityGeometricBaseline {
+  basis: 'geometric'
+  horizon_rule: string
+  sun: { visible_sample_pct: number; grazing_samples: number }
+  earth: { visible_sample_pct: number; grazing_samples: number }
+  notes: string[]
+}
+
+export interface FeasibilityRow {
+  site_id: string
+  name?: string
+  latitude_deg?: number | null
+  longitude_deg?: number | null
+  window: { key: string; label?: string; start_utc?: string; stop_utc?: string; samples?: number }
+  available?: boolean
+  reason?: string
+  basis?: 'terrain' | null
+  mask?: { provenance: string; source: string | null; max_range_km: number | null }
+  summary?: {
+    sun_visible_pct: number | null
+    earth_visible_pct: number | null
+    both_visible_pct: number | null
+    longest_sun_blackout_hours: number | null
+    longest_earth_blackout_hours: number | null
+    longest_no_simultaneous_hours: number | null
+  }
+  checks: RequirementCheck[]
+  satisfied: boolean | null
+  geometric_baseline?: FeasibilityGeometricBaseline
+  context?: { nearest_psr: PsrProximity | null; psrs_within_10_km: number | null }
+}
+
+export interface FeasibilityThresholds {
+  min_sun_visible_pct: number
+  min_earth_visible_pct: number
+  max_earth_blackout_hours: number
+}
+
+export interface FeasibilityMatrix {
+  schema: 'lunanav.feasibility_matrix.v1'
+  requirements_source: string
+  thresholds: FeasibilityThresholds
+  rows: FeasibilityRow[]
+  notes: string[]
+}

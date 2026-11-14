@@ -2,6 +2,7 @@ import * as React from 'react'
 import { api } from '@/services/api'
 import type {
   Crater,
+  FeasibilityMatrix,
   Mode,
   Phase3Windows,
   ReadinessReport,
@@ -61,6 +62,11 @@ export function useSiteHorizon(siteId: string, window: string) {
 /** The committed Sun/Earth track for the same site and window, for the overlaid points. */
 export function useSiteSeries(siteId: string, window: string) {
   return useApiResource<SiteSeries>(`series:${siteId}:${window}`, (signal) => api.series({ siteId, window }, signal), 0)
+}
+
+/** Phase 4: the feasibility matrix — every candidate x both windows vs the requirements. */
+export function useFeasibilityMatrix() {
+  return useApiResource<FeasibilityMatrix>('feasibility-matrix', (signal) => api.feasibilityMatrix(signal), 0)
 }
 
 export function useCraters() {
