@@ -331,7 +331,12 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
           <Card>
             <CardHeader
               title="Mission summary"
-              description={<span className="num">{fmtUtc(result.landing_utc)} to {fmtUtc(result.end_utc)} UTC, sampled every {result.step_minutes} min with interpolated edges.</span>}
+              description={
+                <span className="num">
+                  {config.mission.label}. {fmtUtc(result.landing_utc)} to {fmtUtc(result.end_utc)} UTC, sampled every{' '}
+                  {result.step_minutes} min with interpolated edges.
+                </span>
+              }
             />
             <CardContent className="space-y-4">
               <MetricsTable metrics={result.metrics} />

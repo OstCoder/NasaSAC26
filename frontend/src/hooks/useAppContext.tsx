@@ -70,9 +70,10 @@ function ReadyProvider({ config, sites, children }: { config: AppConfig; sites: 
     duration_hours: config.simulation.default_duration_hours,
   }
   const [draftA, setDraftA] = React.useState<ScenarioDraft>({ ...base, ...siteDraftLocation(sites[0]) })
+  // Default to the third mission candidate when the catalogue provides it.
   const [draftB, setDraftB] = React.useState<ScenarioDraft>({
     ...base,
-    ...siteDraftLocation(sites[Math.min(3, sites.length - 1)]),
+    ...siteDraftLocation(sites[Math.min(2, sites.length - 1)]),
   })
   const value = { config, sites, features, mode, setMode, draftA, setDraftA, draftB, setDraftB }
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>

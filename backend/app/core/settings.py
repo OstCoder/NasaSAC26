@@ -79,6 +79,7 @@ class Settings:
         raw = self.raw
         return {
             "app": raw["app"],
+            "mission": raw["mission"],
             "mode": {"default": self.default_mode, "allowed": list(self.allowed_modes)},
             "simulation": raw["simulation"],
             "coordinates": raw["coordinates"],

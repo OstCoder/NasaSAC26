@@ -222,6 +222,14 @@ export interface RescheduleResult {
 
 export interface AppConfig {
   app: { name: string; version: string }
+  mission: {
+    name: string
+    label: string
+    profile: string
+    objective: string
+    duration_days: number
+    candidate_sites: string[]
+  }
   mode: { default: Mode; allowed: Mode[] }
   simulation: {
     supported_start_utc: string

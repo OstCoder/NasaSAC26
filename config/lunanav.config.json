@@ -12,11 +12,24 @@
       "scientific"
     ]
   },
+  "mission": {
+    "$comment": "The mission this build is scoped to. See docs/MISSION.md. Hypothetical, not a flown mission.",
+    "name": "Lunar Polar Recon",
+    "label": "7-day solar-powered robotic mission",
+    "profile": "solar_powered_robotic",
+    "objective": "Investigate lunar south-polar terrain from the candidate sites.",
+    "duration_days": 7,
+    "candidate_sites": [
+      "peak-near-shackleton",
+      "connecting-ridge",
+      "de-gerlache-rim"
+    ]
+  },
   "simulation": {
     "supported_start_utc": "2026-01-01T00:00:00Z",
     "supported_end_utc": "2030-12-31T23:59:59Z",
     "default_landing_utc": "2027-01-15T12:00:00Z",
-    "default_duration_hours": 336,
+    "default_duration_hours": 168,
     "min_duration_hours": 1,
     "max_duration_hours": 1440,
     "default_step_minutes": 30,

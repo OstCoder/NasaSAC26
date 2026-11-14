@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "coordinate_frame": "Selenographic planetocentric, Mean Earth/Polar Axis, longitude east-positive",
   "disclaimer": "Points are illustrative locations on or near named south-polar features. Coordinates are approximate and are NOT official Artemis landing-region definitions. Verify against the IAU Gazetteer of Planetary Nomenclature and LOLA products before scientific use.",
+  "mission_candidates": [
+    "peak-near-shackleton",
+    "connecting-ridge",
+    "de-gerlache-rim"
+  ],
   "sites": [
     {
       "id": "connecting-ridge",
@@ -12,7 +17,7 @@
       "region": "South Polar Region",
       "description": "Elevated ridge between Shackleton and de Gerlache craters, frequently discussed in the literature for its long periods of illumination.",
       "coordinate_note": "Approximate point on the ridge crest (~222.7°E), taken from published illumination studies; verify before use.",
-      "tags": ["ridge", "near-pole"],
+      "tags": ["ridge", "near-pole", "mission-candidate"],
       "source": "Approximate literature value"
     },
     {
@@ -23,7 +28,7 @@
       "region": "South Polar Region",
       "description": "Massif on the far side of Shackleton crater as seen from Earth; an example of a high-standing site with a low local horizon.",
       "coordinate_note": "Approximate summit area; verify before use.",
-      "tags": ["massif", "far-side-facing"],
+      "tags": ["massif", "far-side-facing", "mission-candidate"],
       "source": "Approximate literature value"
     },
     {
@@ -34,7 +39,7 @@
       "region": "South Polar Region",
       "description": "Point on the rim of de Gerlache crater, on the Earth-facing side of the pole.",
       "coordinate_note": "Approximate rim location; de Gerlache crater centre is near 88.5°S, 87°W.",
-      "tags": ["crater-rim", "near-side-facing"],
+      "tags": ["crater-rim", "near-side-facing", "mission-candidate"],
       "source": "Approximate"
     },
     {
