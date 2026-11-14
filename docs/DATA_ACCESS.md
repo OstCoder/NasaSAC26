@@ -94,6 +94,14 @@ two tiers. `/api/phase3/windows` summarises all three candidates over both
 windows for the Mission Planner panel. Both are offline and mode-independent:
 they never re-query Horizons and never substitute demo data.
 
+`/api/geometric-sun` is the Phase 3 Task 1 baseline and is deliberately NOT the
+same question: it applies the point-source rule `sun.elevation_deg > 0` with no
+terrain, preserving each Task 2 azimuth and elevation, storing a boolean per
+timestamp, and flagging samples within the solar radius as `grazing` (disk
+fraction is reported for context, not folded into the boolean). A positive
+elevation there does not mean the site can see the Sun past its rim - use
+`/api/phase3` for that.
+
 `/api/series` returns the **on-disk record shape**, so a client parses one
 format whether it reads the JSON file or the API:
 

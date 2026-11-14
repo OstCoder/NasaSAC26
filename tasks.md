@@ -21,16 +21,16 @@ astronomical data and clearly documented assumptions.
 
 ## Task 1: Calculate Geometric Sun Visibility
 
-- [ ] Load Sun position data generated in Phase 2.
-- [ ] Read the Sun's elevation at each timestamp.
-- [ ] Determine whether the Sun is above or below
+- [x] Load Sun position data generated in Phase 2.
+- [x] Read the Sun's elevation at each timestamp.
+- [x] Determine whether the Sun is above or below
       the local geometric horizon.
-- [ ] Calculate geometric Sun visibility for every
+- [x] Calculate geometric Sun visibility for every
       observation in the mission timeline.
-- [ ] Store visibility results as Boolean values.
-- [ ] Preserve Sun azimuth and elevation measurements.
-- [ ] Handle observations near the horizon carefully.
-- [ ] Test calculations with positive, negative,
+- [x] Store visibility results as Boolean values.
+- [x] Preserve Sun azimuth and elevation measurements.
+- [x] Handle observations near the horizon carefully.
+- [x] Test calculations with positive, negative,
       and zero elevation angles.
 
 ### Calculation
@@ -59,6 +59,14 @@ Example values are illustrative, not NASA measurements.
 
 A Python function that determines geometric Sun
 visibility at each timestamp.
+
+Implemented in `backend/app/services/geometric.py`
+(`geometric_visibility`, `sun_visibility_response`) and served at
+`GET /api/geometric-sun?site_id=..&window=initial|alternative`. It reads the
+committed Phase 2 series, keeps each azimuth and elevation, stores a boolean per
+timestamp, and flags samples within the Sun's 0.2666 deg radius as grazing
+without changing the `> 0` rule. Terrain is separate (`GET /api/phase3`); the
+two results are labelled differently on purpose.
 
 ---
 

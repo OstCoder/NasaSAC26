@@ -40,6 +40,7 @@ from app.services.nasa_validation import build_report as build_validation_report
 from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
+from app.services.geometric import sun_visibility_response
 from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
@@ -130,6 +131,18 @@ def site_series(
     """
     return series_response(site_id=site_id, window=window, start=start, stop=stop,
                            step_minutes=step_minutes)
+
+
+@router.get("/geometric-sun")
+def geometric_sun(site_id: str, window: str = "initial"):
+    """Phase 3 Task 1: geometric Sun visibility, point source, no terrain.
+
+    The rule is exactly ``sun.elevation_deg > 0``. Every timestamp keeps its
+    Task 2 azimuth and elevation, gains a boolean, a grazing flag (within the
+    Sun's apparent radius) and the solar disk fraction for context. For a
+    terrain-adjusted answer use ``/api/phase3``.
+    """
+    return sun_visibility_response(site_id=site_id, window=window)
 
 
 @router.get("/phase3")
