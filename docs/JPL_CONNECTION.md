@@ -58,6 +58,21 @@ Live sunlight moves the day/night boundary and the lighting. It can't move shado
 
 Crater names, centres and diameters come from the IAU Gazetteer of Planetary Nomenclature (`data/reference/moon_craters.json`). Rebuild them with `python scripts/fetch_craters.py`.
 
+### Sun and Earth from a surface site (Phase 2, Task 1)
+
+The app's scenario maths starts from Moon-centred sub-points. Surface geometry needs a different Horizons query: an **observer table for someone standing on the Moon** (`CENTER='coord@301'`, `COORD_TYPE='GEODETIC'`, `QUANTITIES='4,20'`, airless), which returns apparent azimuth and elevation directly.
+
+```bash
+cd backend
+python scripts/horizons_site.py --site shackleton-rim \
+    --start 2026-12-01T00:00Z --stop 2026-12-08T00:00Z --step "1 h" \
+    --out ../data/scientific/site_sky/shackleton-rim.json
+```
+
+It prints the series, compares every sample with LunaNav's independent analytic model, and writes one record per timestamp (`site_id`, `timestamp_utc`, `sun`, `earth`, each with `azimuth_deg` and `elevation_deg`) — the structure Task 2 builds on. Custom coordinates use `--lat`, `--lon` and `--elevation-m`. Against the live service on 14 Nov 2026 the two paths agreed to 0.020° in elevation and 0.017° in azimuth over 24 h, so the frame, longitude sense and units are confirmed rather than assumed.
+
+Azimuth is degrees clockwise from lunar north; elevation is degrees above the local horizontal, airless and terrain-free, so it is comparable with the terrain skyline but does not include it. Unusable responses raise `JplUnavailableError` (the API's `JPL_UNAVAILABLE`) instead of returning a short or filled-in series.
+
 ## 3. What "JPL live" does and doesn't include
 
 - **Included:** Sun/Earth geometry from JPL Horizons (with physical libration and light-time), real LRO imagery for orientation, and a 3D shape from LOLA elevation.
@@ -80,6 +95,7 @@ Crater names, centres and diameters come from the IAU Gazetteer of Planetary Nom
 | `CERTIFICATE_VERIFY_FAILED` | Corporate/school network inspecting TLS. Point Python at your organisation's CA bundle: `export SSL_CERT_FILE=/path/to/ca.pem` (Windows: `set SSL_CERT_FILE=...`) and restart. On macOS python.org installs, run *Install Certificates.command* once. |
 | `Tunnel connection failed: 403` / proxy errors | A proxy is blocking JPL. Ask for `ssd.jpl.nasa.gov` and `trek.nasa.gov` to be allowed, or run from another network. Python honours `HTTPS_PROXY`. |
 | `JPL Horizons answered HTTP 503` | Horizons is busy or in maintenance. Wait a few minutes; cached months keep working. |
+| `API ERROR: ... query parameter was not recognized` | A hand-built Horizons URL is missing a parameter. Use `scripts/horizons_site.py` or `build_site_query()`, which send the verified parameter set. |
 | `disagree with the independent cross-check ... set jpl.horizons_lon_sign to -1` | Change that value in `config/lunanav.config.json`, restart, and delete `data/cache/horizons/` if anything was cached. |
 | Imagery shows "Imagery unavailable" | Run `check_jpl.py`. If only Moon Trek fails, JPL mode calculations still work; pick "Imagery: None". |
 | 3D Moon says "needs WebGL" | Your browser has hardware acceleration off (Chrome: Settings, System, "Use graphics acceleration when available"), or a managed laptop/VM blocks WebGL. The polar map works without it. Test at https://get.webgl.org. |
@@ -93,7 +109,9 @@ Crater names, centres and diameters come from the IAU Gazetteer of Planetary Nom
 | File | Role |
 | --- | --- |
 | `backend/app/providers/ephemeris_horizons_live.py` | Horizons fetch, monthly cache, cross-check |
-| `backend/app/providers/horizons_format.py` | Horizons query builder and CSV parser |
+| `backend/app/providers/horizons_format.py` | Horizons query builder and CSV parser (Moon-centred sub-points) |
+| `backend/app/providers/horizons_site.py` | Topocentric Sun/Earth azimuth and elevation for a lunar site (Phase 2) |
+| `backend/scripts/horizons_site.py` | Fetches a site's series and writes the Task 2 JSON records |
 | `backend/scripts/fetch_craters.py` | Rebuilds the IAU crater catalogue |
 | `backend/app/services/imagery.py` | Moon Trek tile cache, polar reprojection, global texture, relief maps |
 | `backend/app/services/jpl_status.py` | `/api/jpl/status` |

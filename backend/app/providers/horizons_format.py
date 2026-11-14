@@ -46,7 +46,7 @@ _MONTHS = {m: i for i, m in enumerate(
     ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
 
 
-def _parse_time(s: str) -> datetime:
+def parse_horizons_time(s: str) -> datetime:
     m = re.match(r"\s*(\d{4})-([A-Za-z]{3})-(\d{2})\s+(\d{2}):(\d{2})(?::(\d{2}))?", s)
     if not m:
         raise ValueError(f"Unrecognised Horizons timestamp {s!r}")
@@ -91,7 +91,7 @@ def parse_observer_csv(text: str, lon_sign: int = 1) -> dict[str, dict]:
         for i in (i_obs_lon, i_obs_lat, i_sun_lon, i_sun_lat, i_r, i_delta):
             if r[i].strip().lower() in ("n.a.", "", "nan"):
                 raise ValueError(f"Horizons returned 'n.a.' values at {r[0].strip()}")
-    times = [_parse_time(r[0]).strftime("%Y-%m-%dT%H:%M:%SZ") for r in rows]
+    times = [parse_horizons_time(r[0]).strftime("%Y-%m-%dT%H:%M:%SZ") for r in rows]
 
     def lon(v):
         x = lon_sign * float(v)

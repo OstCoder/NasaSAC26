@@ -6,6 +6,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from urllib.parse import parse_qs, urlparse
 
+from app.core.coords import topocentric_az_el
 from app.core.http import HttpError, HttpResult
 from app.core.timeutil import time_grid
 from app.providers.ephemeris_analytic import AnalyticMeeusEphemeris
@@ -93,3 +94,70 @@ class FakeTrek:
         if int(col) in self.missing_cols:
             return HttpResult(404, b"")
         return HttpResult(200, _encoded_tile(z, row, int(col)), "image/png")
+
+
+# ------------------------------------- JPL Horizons topocentric observer table --
+
+SITE_HEADER = (
+    " Date__(UT)__HR:MN, , ,Azi_(a-app), Elev_(a-app),             delta,     deldot,"
+)
+
+
+def _step_minutes(step: str) -> float:
+    value, unit = step.split()
+    return float(value) * {"m": 1.0, "h": 60.0, "d": 1440.0}[unit.lower()]
+
+
+def horizons_site_text(times, body: str, az_deg, el_deg, range_km, center, na_row=None) -> str:
+    """Render an OBSERVER table with QUANTITIES='4,20' in Horizons' CSV layout."""
+    target = "Sun (10)" if body == "sun" else "Earth (399)"
+    rows = []
+    for i, t in enumerate(times):
+        az = "        n.a." if na_row is not None and i == na_row else f"{az_deg[i]:12.6f}"
+        rows.append(
+            f" {t:%Y-%b-%d %H:%M},*,i,{az},{el_deg[i]:12.6f},"
+            f" {range_km[i] / AU:.11f}, -1.0000000,"
+        )
+    return "\n".join([
+        " API VERSION: 1.3",
+        " API SOURCE: NASA/JPL Horizons API",
+        "",
+        "*******************************************************************************",
+        " Ephemeris / API_USER  (FAKE, generated for tests)",
+        f" Target body name: {target}",
+        " Center-site name: (user defined site below)",
+        f" Center geodetic : {center[0]}, {center[1]}, {center[2]}"
+        "           {E-lon(deg),Lat(deg),Alt(km)}",
+        " Center pole/equ : MEAN_ME (high precision)        {East-longitude positive}",
+        SITE_HEADER,
+        "$$SOE", *rows, "$$EOE", "",
+    ])
+
+
+class FakeHorizonsSite:
+    """Fake topocentric Horizons: analytic geometry, real layout, recorded calls."""
+
+    def __init__(self, fail: str | None = None, na_row: int | None = None):
+        self.fail = fail
+        self.na_row = na_row
+        self.calls: list[str] = []
+
+    def __call__(self, url: str, timeout: float) -> HttpResult:
+        self.calls.append(url)
+        if self.fail == "network":
+            raise HttpError("URLError: [Errno 111] Connection refused")
+        if self.fail == "http500":
+            return HttpResult(500, b"Internal error")
+        if self.fail == "api_error":
+            return HttpResult(200, b"API ERROR: one or more query parameter was not recognized")
+        q = parse_qs(urlparse(url).query)
+        lon, lat, alt = (float(v) for v in q["SITE_COORD"][0].strip("'").split(","))
+        body = "sun" if "10" in q["COMMAND"][0] else "earth"
+        start = datetime.strptime(q["START_TIME"][0].strip("'"), "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc)
+        stop = datetime.strptime(q["STOP_TIME"][0].strip("'"), "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc)
+        times = time_grid(start, (stop - start).total_seconds() / 3600.0, _step_minutes(q["STEP_SIZE"][0].strip("'")))
+        vec = _EPH.body_vectors_km(body, times)
+        az, el = topocentric_az_el(lat, ((lon + 180.0) % 360.0) - 180.0, vec, 1737.4, alt)
+        text = horizons_site_text(times, body, az, el, _EPH.sub_points(body, times).distance_km,
+                                  (lon, lat, alt), na_row=self.na_row)
+        return HttpResult(200, text.encode())

@@ -34,10 +34,10 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 133 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 158 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, mission config and site-catalogue validation,
                               # site provenance and PSR geometry, requirement checks, comparison,
-                              # rescheduler, mode switching,
+                              # rescheduler, mode switching, topocentric Horizons site az/el (Task 1),
                               # JPL Horizons live provider and Moon Trek imagery (mocked network)
 cd frontend && npm test       # projection round-trips
 cd frontend && npm run build  # strict TypeScript + production bundle
@@ -74,7 +74,7 @@ lunanav/
 │   │   ├── providers/   # EphemerisProvider + LunarTerrainProvider implementations, registry
 │   │   ├── services/    # HorizonCalculator, VisibilityCalculator, intervals, metrics, comparison
 │   │   └── api/         # FastAPI routes (thin)
-│   ├── scripts/         # generate demo data, fetch Horizons, validate ephemeris, build LOLA masks
+│   ├── scripts/         # generate demo data, fetch Horizons (sub-points and site az/el), validate ephemeris, build LOLA masks
 │   └── tests/
 ├── frontend/src/
 │   ├── features/        # lunar-map, mission-planner, visibility, comparison, rescheduler, methodology
@@ -104,7 +104,7 @@ lunanav/
 | --- | --- |
 | Analytic ephemeris, topocentric geometry, horizon obstruction, interval detection, metrics, comparison, rescheduler | Working, tested |
 | Demo terrain skylines | Working, **synthetic by design** |
-| JPL Horizons live provider (monthly cache, cross-check, status endpoint) | Working against a format-faithful mock; **not yet run against live Horizons** (build environment had no access to JPL). Run `backend/scripts/check_jpl.py`. |
+| JPL Horizons live provider (monthly cache, cross-check, status endpoint) and topocentric site az/el (Phase 2, Task 1) | Verified live on 2026-11-14: `check_jpl.py` passed (Horizons table, all three Moon Trek layers, monthly fetch + cross-check), and `scripts/horizons_site.py` agreed with the analytic model to 0.020° in elevation and 0.017° in azimuth. |
 | Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. All three layer paths were confirmed against Moon Trek on 2026-10-30 (see the `imagery` comment in the config); live tile fetches were only exercised against a mock here, so run `check_jpl.py` on your network. |
 | LOLA horizon-mask builder (DEM ray-march with curvature) | Algorithm working and tested on synthetic DEMs; GeoTIFF script needs `rasterio` and a real LOLA product |
 | SPICE provider | Implemented, **not validated**: needs `spiceypy` + kernels |

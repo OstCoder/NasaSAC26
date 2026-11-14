@@ -19,16 +19,16 @@ structured format.
 
 ## Task 1: Integrate JPL Horizons
 
-- [ ] Read the JPL Horizons documentation.
-- [ ] Set up Python access using the Horizons API or Astroquery.
-- [ ] Configure an observer at a specific lunar surface location.
-- [ ] Use one verified landing site from Phase 1.
-- [ ] Request the Sun's apparent position at the site.
-- [ ] Request Earth's apparent position at the same site.
-- [ ] Extract azimuth and elevation angles for both objects.
-- [ ] Confirm the coordinate conventions and measurement units.
-- [ ] Test requests with multiple dates and times.
-- [ ] Handle API errors and invalid inputs.
+- [x] Read the JPL Horizons documentation.
+- [x] Set up Python access using the Horizons API or Astroquery.
+- [x] Configure an observer at a specific lunar surface location.
+- [x] Use one verified landing site from Phase 1.
+- [x] Request the Sun's apparent position at the site.
+- [x] Request Earth's apparent position at the same site.
+- [x] Extract azimuth and elevation angles for both objects.
+- [x] Confirm the coordinate conventions and measurement units.
+- [x] Test requests with multiple dates and times.
+- [x] Handle API errors and invalid inputs.
 
 ### Required Inputs
 
@@ -52,6 +52,10 @@ structured format.
 A working Python module that retrieves Sun and Earth
 positions from JPL Horizons for a selected lunar site
 and time interval.
+
+Implemented in `backend/app/providers/horizons_site.py`, with
+`backend/scripts/horizons_site.py` to fetch a site and write the series. The
+command and the verified conventions are in [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md) §2.
 
 ### Resources
 

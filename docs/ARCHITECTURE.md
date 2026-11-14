@@ -57,7 +57,8 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `providers/ephemeris_tabulated.py` | Static Horizons tables + shared interpolation. |
 | `providers/ephemeris_horizons_live.py` | Live Horizons: monthly fetch, disk cache, cross-check against the analytic model. |
 | `providers/ephemeris_spice.py` | NAIF SPICE (integration point, unvalidated). |
-| `providers/horizons_format.py` | Horizons query builder and CSV parser. |
+| `providers/horizons_format.py` | Horizons query builder and CSV parser for Moon-centred sub-points. |
+| `providers/horizons_site.py` | Topocentric Horizons observer tables: Sun/Earth azimuth and elevation at a lunar site, with an analytic cross-check (Phase 2, Task 1). |
 | `providers/terrain.py` | Synthetic, LOLA-mask and flat horizon providers. |
 | `providers/registry.py` | Config id → provider factory; per-mode bundles. |
 | `services/horizon.py` | `HorizonCalculator`, solar-disk fraction, DEM → horizon-mask ray-march. |
