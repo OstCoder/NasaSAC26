@@ -888,11 +888,11 @@ before you start.
 
 ## Task 4: Landing-delay comparison
 
-- [ ] Surface the reschedule comparison as a
+- [x] Surface the reschedule comparison as a
       before/after panel, not only an API.
-- [ ] Show both windows, not only the initial
+- [x] Show both windows, not only the initial
       one.
-- [ ] Make the change in the metrics explicit
+- [x] Make the change in the metrics explicit
       when the landing date moves.
 
 ## Task 5: States and accessibility
