@@ -8,6 +8,7 @@ import type {
   ApiErrorBody,
   AppConfig,
   ComparisonResult,
+  FeasibilityMatrix,
   JplStatus,
   LocationInput,
   Mode,
@@ -140,6 +141,8 @@ export const api = {
     }
   },
   compare: (a: ScenarioInput, b: ScenarioInput) => post<ComparisonResult>('/api/compare', { a, b }),
+  /** Phase 4: every candidate x both windows against the Phase 1 requirements (offline). */
+  feasibilityMatrix: (signal?: AbortSignal) => request<FeasibilityMatrix>('/api/feasibility', { signal }),
   reschedule: (body: {
     location: LocationInput
     original_landing_utc: string
