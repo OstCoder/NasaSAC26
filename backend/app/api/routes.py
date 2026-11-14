@@ -45,6 +45,7 @@ from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
 from app.services.sites import get_site_repository
+from app.services.terrain_horizon import terrain_horizon_response
 
 router = APIRouter(prefix="/api")
 
@@ -161,6 +162,28 @@ def phase3(site_id: str, window: str = "initial"):
 def phase3_windows():
     """Every candidate and both mission windows, for the readiness view."""
     return all_windows_summary()
+
+
+@router.get("/terrain-horizon")
+def terrain_horizon(
+    site_id: Optional[str] = Query(None),
+    latitude_deg: Optional[float] = Query(None),
+    longitude_deg: Optional[float] = Query(None),
+    window: str = "initial",
+):
+    """Phase 3 Task 3: the terrain horizon profile, and visibility against it.
+
+    The full 360-point LOLA skyline for a candidate site with its coverage and
+    uncertainty, Sun and Earth elevation compared against it at their own
+    azimuths, and the adjusted visibility delegated unchanged to
+    ``/api/phase3``. A point with no committed mask comes back
+    ``basis: "geometric"`` / ``geometric_only: true`` with a flat 0 degree
+    horizon, never a fabricated profile. Geometry only: terrain does not prove
+    power or a link budget.
+    """
+    return terrain_horizon_response(
+        site_id=site_id, latitude_deg=latitude_deg, longitude_deg=longitude_deg,
+        window=window)
 
 
 @router.get("/sites", response_model=list[Site])

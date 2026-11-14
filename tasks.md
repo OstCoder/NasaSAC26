@@ -114,20 +114,20 @@ Earth visibility at each timestamp.
 
 ## Task 3: Calculate Terrain Horizon Obstructions
 
-- [ ] Load lunar elevation data obtained in Phase 2.
-- [ ] Identify each landing site's surface elevation.
-- [ ] Define an observer height above the lunar surface.
-- [ ] Extract surrounding terrain elevations.
-- [ ] Account for lunar surface curvature.
-- [ ] Calculate terrain obstruction angles at
+- [x] Load lunar elevation data obtained in Phase 2.
+- [x] Identify each landing site's surface elevation.
+- [x] Define an observer height above the lunar surface.
+- [x] Extract surrounding terrain elevations.
+- [x] Account for lunar surface curvature.
+- [x] Calculate terrain obstruction angles at
       different azimuth directions.
-- [ ] Generate a terrain horizon profile for
+- [x] Generate a terrain horizon profile for
       at least one landing site.
-- [ ] Compare Sun elevation against the terrain horizon.
-- [ ] Compare Earth elevation against the terrain horizon.
-- [ ] Store terrain-adjusted visibility results.
-- [ ] Document terrain resolution and uncertainties.
-- [ ] Mark sites without terrain profiles as
+- [x] Compare Sun elevation against the terrain horizon.
+- [x] Compare Earth elevation against the terrain horizon.
+- [x] Store terrain-adjusted visibility results.
+- [x] Document terrain resolution and uncertainties.
+- [x] Mark sites without terrain profiles as
       geometric-only rather than terrain-verified.
 
 ### Calculation
@@ -156,6 +156,22 @@ Earth elevation > terrain horizon angle
 | Earth | +1° | +6° | No |
 
 Example values are illustrative.
+
+### Implemented
+
+`backend/app/services/terrain_horizon.py` exposes `GET /api/terrain-horizon`:
+the committed 360-point two-tier LOLA skyline per site (5 m/pixel near,
+80 m/pixel to 150 km, 1 degree step, 2 m observer, curvature applied at build
+time), the site's surface elevation and observer height, per-body samples above
+and below the skyline with clearances, and how many flat-horizon "visible"
+samples the terrain blocks. The adjusted visibility, intervals and metrics are
+delegated unchanged to `services/phase3.py::visibility_response`, so there is
+one visibility rule in the project. Points without a committed mask (custom
+coordinates, or a site with no mask) return a flat 0 degree horizon marked
+`basis: "geometric"` / `geometric_only: true` — never a fabricated profile.
+Resolution, curvature, the 150 km range and the 1 degree sampling are documented
+in [docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md); tests are in
+`backend/tests/test_terrain_horizon.py`.
 
 ### Important Considerations
 
@@ -625,20 +641,83 @@ for the frontend.
 Build the interactive Lunar Landing Site Navigator
 website using the scientific results from Phase 3.
 
-Planned frontend features:
-
-1. Interactive lunar landing-site selection.
-2. Landing date and mission duration controls.
-3. Sun and Earth position visualizations.
-4. Sunlight and communication timelines.
-5. Landing-site comparison dashboard.
-6. Mission feasibility indicators.
-7. Before-and-after mission delay comparison.
-8. Optional 3D lunar terrain visualization.
-
 The website should help users understand
 why different locations and dates produce
 different mission conditions.
+
+Phase 4 is tracked as concrete, independently
+claimable tasks. A task is done when it has an
+endpoint or component, tests or a build check,
+and a doc line; claim it in
+[docs/PHASE3_COORDINATION.md](docs/PHASE3_COORDINATION.md)
+before you start.
+
+## Task 1: Horizon profile view
+
+- [ ] Draw the site's terrain horizon profile
+      from `GET /api/terrain-horizon` in the
+      Mission Planner.
+- [ ] Overlay the Sun and Earth elevation
+      tracks, with their azimuths.
+- [ ] Label the profile `terrain` or
+      `geometric only` from the payload, never
+      inferred from the site name.
+- [ ] Show the observer height, the 5 m/80 m
+      tiers, the 150 km range and the maximum
+      obstruction with its azimuth.
+- [ ] Explain in one sentence why a skyline
+      above the Sun's maximum elevation means
+      no sunlight in that window.
+
+## Task 2: Feasibility matrix
+
+- [ ] One row per candidate, both mission
+      windows against every Phase 1
+      requirement.
+- [ ] Each cell is met, not met or unknown,
+      with the measured value and threshold.
+- [ ] Link each cell to the metric that
+      produced it; no hand-entered values.
+- [ ] State that `unknown` is not a pass.
+
+## Task 3: Phase 3 result envelope
+
+- [ ] One JSON document per site and window
+      combining the series, adjusted
+      visibility, intervals, metrics,
+      requirements and provenance.
+- [ ] Deterministic ordering and rounding,
+      one schema string, a version field.
+- [ ] Documented in `docs/` and covered by a
+      test that a re-run reproduces it byte
+      for byte.
+
+## Task 4: Landing-delay comparison
+
+- [ ] Surface the reschedule comparison as a
+      before/after panel, not only an API.
+- [ ] Show both windows, not only the initial
+      one.
+- [ ] Make the change in the metrics explicit
+      when the landing date moves.
+
+## Task 5: States and accessibility
+
+- [ ] Empty, loading, error and
+      geometric-only states for every new
+      panel.
+- [ ] Keyboard reachable controls, labelled
+      charts, sufficient contrast.
+- [ ] No chart is the only copy of a number.
+
+## Task 6: 3D terrain (optional, feature-flagged)
+
+- [ ] Render the LOLA DEM around a candidate
+      with the skyline and Sun/Earth directions.
+- [ ] Off by default; the 2D profile stays the
+      source of truth.
+- [ ] Document the frame, datum and
+      exaggeration factor.
 
 ---
 
