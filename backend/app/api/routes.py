@@ -41,6 +41,7 @@ from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
 from app.services.geometric import sun_visibility_response
+from app.services.geometric_earth import earth_visibility_response
 from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
@@ -143,6 +144,19 @@ def geometric_sun(site_id: str, window: str = "initial"):
     terrain-adjusted answer use ``/api/phase3``.
     """
     return sun_visibility_response(site_id=site_id, window=window)
+
+
+@router.get("/geometric-earth")
+def geometric_earth(site_id: str, window: str = "initial"):
+    """Phase 3 Task 2: geometric Earth visibility, point source, no terrain.
+
+    The rule is exactly ``earth.elevation_deg > 0``. Every timestamp keeps its
+    Phase 2 azimuth and elevation, gains a boolean, a grazing flag (within
+    Earth's apparent angular radius, 0.95 deg) and the Earth disk fraction for
+    context. Geometric visibility is not a communication link. For a
+    terrain-adjusted answer use ``/api/phase3``.
+    """
+    return earth_visibility_response(site_id=site_id, window=window)
 
 
 @router.get("/phase3")

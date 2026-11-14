@@ -60,6 +60,9 @@ The three mission candidates have committed two-tier masks in `data/scientific/h
 ### Demo skylines
 `data/demo/horizon_masks.json` is produced by `scripts/generate_demo_data.py` from seeded random harmonics plus Gaussian "massifs". **They are invented.** Custom coordinates in Demo Mode get a flat (0°) mask and are labelled `geometric_only`, which overestimates visibility near the poles.
 
+### Phase 3 geometric baselines (Tasks 1–2)
+`services/geometric.py` (Sun) and `services/geometric_earth.py` (Earth) implement the Phase 3 point-source rule: **visible exactly when the body's elevation is strictly above 0°** — `elevation > 0`, no epsilon, and 0° is not visible. These answers use the flat geometric horizon; they are `basis: "geometric"`, deliberately *not* terrain-adjusted (that is `/api/phase3`, §4 above). Samples within the body's apparent angular radius of the horizon (Sun 0.2666°, Earth 0.95° — from the Moon, Earth's disk spans about four Sun diameters) are flagged `grazing` with a `disk_fraction` for context; the disk never changes the boolean. Both responses copy azimuth/elevation unchanged from the Phase 2 Horizons series, so one source of truth feeds every later Phase 3 task.
+
 ## 5. Intervals and metrics
 
 - Samples every `step_minutes` (default 30). The step is coarsened automatically if a window would exceed `max_samples`; the response reports the actual step.

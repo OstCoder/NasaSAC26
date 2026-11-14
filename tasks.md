@@ -72,17 +72,17 @@ two results are labelled differently on purpose.
 
 ## Task 2: Calculate Geometric Earth Visibility
 
-- [ ] Load Earth position data generated in Phase 2.
-- [ ] Read Earth's elevation at each timestamp.
-- [ ] Determine whether Earth is above or below
+- [x] Load Earth position data generated in Phase 2.
+- [x] Read Earth's elevation at each timestamp.
+- [x] Determine whether Earth is above or below
       the local geometric horizon.
-- [ ] Calculate geometric Earth visibility throughout
+- [x] Calculate geometric Earth visibility throughout
       the mission timeline.
-- [ ] Store Earth visibility as Boolean values.
-- [ ] Preserve Earth azimuth and elevation measurements.
-- [ ] Account for changing Earth positions over time
+- [x] Store Earth visibility as Boolean values.
+- [x] Preserve Earth azimuth and elevation measurements.
+- [x] Account for changing Earth positions over time
       using the Horizons ephemeris.
-- [ ] Test calculations with different locations
+- [x] Test calculations with different locations
       and observation times.
 
 ### Calculation
@@ -109,6 +109,17 @@ ground-station availability, and other constraints.
 
 A Python function that calculates geometric
 Earth visibility at each timestamp.
+
+Implemented in `backend/app/services/geometric_earth.py`
+(`geometric_earth_visibility`, `earth_visibility_response`) and served at
+`GET /api/geometric-earth?site_id=..&window=initial|alternative`. It reuses
+Task 1's rule implementation unchanged (one `> 0` rule for both bodies), reads
+the committed Phase 2 series, keeps each azimuth and elevation, stores a
+boolean per timestamp, and flags samples within Earth's 0.95 deg apparent
+radius as grazing without changing the rule. The response carries the task's
+warning that geometric visibility is not a working communication link. Tested
+at all three sites in both mission windows (11 tests in
+`backend/tests/test_geometric_earth.py`).
 
 ---
 
