@@ -21,6 +21,7 @@ from app.models.schemas import (
     Mode,
     ProviderInfo,
     PsrOut,
+    RequirementEvaluation,
     RescheduleRequest,
     RescheduleResult,
     ScenarioInput,
@@ -36,6 +37,7 @@ from app.services.comparison import ScenarioComparisonService, ScenarioService
 from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
+from app.services.requirements import RequirementService
 from app.services.sites import get_site_repository
 
 router = APIRouter(prefix="/api")
@@ -123,6 +125,17 @@ def horizon_mask(
 @router.post("/scenario", response_model=ScenarioResult)
 def scenario(req: ScenarioInput):
     return ScenarioService().run(req)
+
+
+@router.post("/requirements", response_model=RequirementEvaluation)
+def requirements(req: ScenarioInput):
+    """Check one scenario against the mission requirements in the shared config.
+
+    Thresholds are read from ``config/lunanav.config.json -> requirements`` (never
+    hardcoded). The response says which of them this scenario meets; it is not a
+    site ranking or recommendation.
+    """
+    return RequirementService().evaluate(ScenarioService().run(req))
 
 
 @router.post("/snapshot", response_model=Snapshot)

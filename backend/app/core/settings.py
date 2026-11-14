@@ -34,6 +34,30 @@ def rel(path) -> str:
 
 
 @dataclass(frozen=True)
+class LandingPreset:
+    """A named landing date from ``simulation.landing_presets`` (primary, alternate, ...)."""
+
+    key: str
+    label: str
+    utc: datetime
+
+
+@dataclass(frozen=True)
+class RequirementThresholds:
+    """Phase 1 mission requirements (``requirements`` in the config).
+
+    Thresholds live in the config, never in code, so a change of target is a
+    one-line edit that backend, frontend and docs all pick up.
+    """
+
+    min_sun_visible_pct: float
+    min_earth_visible_pct: float
+    max_earth_blackout_hours: float
+    psr_proximity: str
+    basis: str
+
+
+@dataclass(frozen=True)
 class SimulationSettings:
     supported_start: datetime
     supported_end: datetime
@@ -65,6 +89,8 @@ class Settings:
     default_mode: str
     allowed_modes: tuple[str, ...]
     simulation: SimulationSettings
+    landing_presets: tuple[LandingPreset, ...]
+    requirements: RequirementThresholds
     reference_radius_km: float
     providers: dict[str, dict[str, str]]
     datasets: dict[str, Path]
@@ -82,6 +108,7 @@ class Settings:
             "mission": raw["mission"],
             "mode": {"default": self.default_mode, "allowed": list(self.allowed_modes)},
             "simulation": raw["simulation"],
+            "requirements": {k: v for k, v in raw["requirements"].items() if not k.startswith("$")},
             "coordinates": raw["coordinates"],
             "providers": self.providers,
             "visibility": raw["visibility"],
@@ -105,18 +132,39 @@ def load_settings(path: Path | None = None) -> Settings:
     raw = json.loads(cfg_path.read_text())
     sim = raw["simulation"]
     jpl = raw["jpl"]
+    req = raw["requirements"]
     allowed = tuple(raw["mode"]["allowed"])
     default_mode = os.environ.get("LUNANAV_MODE", raw["mode"]["default"])
     if default_mode not in allowed:
         raise ValueError(f"LUNANAV_MODE={default_mode!r} not in allowed modes {allowed}")
+
+    supported_start = parse_utc(sim["supported_start_utc"])
+    supported_end = parse_utc(sim["supported_end_utc"])
+    default_landing = parse_utc(sim["default_landing_utc"])
+    if not supported_start <= default_landing <= supported_end:
+        raise ValueError(
+            f"simulation.default_landing_utc {sim['default_landing_utc']} is outside the supported "
+            f"window {sim['supported_start_utc']} .. {sim['supported_end_utc']}"
+        )
+    presets = tuple(
+        LandingPreset(key=str(p["key"]), label=str(p["label"]), utc=parse_utc(p["utc"]))
+        for p in sim.get("landing_presets", [])
+    )
+    for preset in presets:
+        if not supported_start <= preset.utc <= supported_end:
+            raise ValueError(
+                f"simulation.landing_presets[{preset.key!r}] = {preset.utc.isoformat()} is outside the "
+                f"supported window {sim['supported_start_utc']} .. {sim['supported_end_utc']}"
+            )
+
     return Settings(
         raw=raw,
         default_mode=default_mode,
         allowed_modes=allowed,
         simulation=SimulationSettings(
-            supported_start=parse_utc(sim["supported_start_utc"]),
-            supported_end=parse_utc(sim["supported_end_utc"]),
-            default_landing=parse_utc(sim["default_landing_utc"]),
+            supported_start=supported_start,
+            supported_end=supported_end,
+            default_landing=default_landing,
             default_duration_hours=float(sim["default_duration_hours"]),
             min_duration_hours=float(sim["min_duration_hours"]),
             max_duration_hours=float(sim["max_duration_hours"]),
@@ -124,6 +172,14 @@ def load_settings(path: Path | None = None) -> Settings:
             min_step_minutes=float(sim["min_step_minutes"]),
             max_samples=int(sim["max_samples"]),
             lookahead_hours_for_events=float(sim["lookahead_hours_for_events"]),
+        ),
+        landing_presets=presets,
+        requirements=RequirementThresholds(
+            min_sun_visible_pct=float(req["min_sun_visible_pct"]),
+            min_earth_visible_pct=float(req["min_earth_visible_pct"]),
+            max_earth_blackout_hours=float(req["max_earth_blackout_hours"]),
+            psr_proximity=str(req.get("psr_proximity", "optional")),
+            basis=str(req.get("basis", "")),
         ),
         reference_radius_km=float(raw["coordinates"]["reference_radius_km"]),
         providers=raw["providers"],

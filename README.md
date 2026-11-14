@@ -34,7 +34,7 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 81 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 129 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, comparison, rescheduler, mode switching,
                               # JPL Horizons live provider and Moon Trek imagery (mocked network)
 cd frontend && npm test       # projection round-trips
@@ -108,7 +108,9 @@ lunanav/
 
 ## Further reading
 
+- [docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md): the finalized Phase 1 specification — sites, requirements, Phase 2 datasets, sign-off
 - [docs/MISSION.md](docs/MISSION.md): the 7-day solar-powered robotic mission and its three candidate sites
+- [docs/SITES.md](docs/SITES.md): the selected sites with full provenance and verification
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): layers, data flow, extension points
 - [docs/METHODOLOGY.md](docs/METHODOLOGY.md): the math, conventions, accuracy, what is and isn't modelled
 - [docs/ADAPTATION_GUIDE.md](docs/ADAPTATION_GUIDE.md): how to respond when NASA releases more information

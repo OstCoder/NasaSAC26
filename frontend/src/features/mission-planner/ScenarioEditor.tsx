@@ -138,6 +138,24 @@ export function ScenarioEditor({
         </Field>
       )}
 
+      {showDate && (sim.landing_presets ?? []).length > 0 && (
+        <div className={cn('flex flex-wrap items-center gap-1.5 self-end', dense ? '' : 'sm:col-span-2')}>
+          <span className="text-[13px] text-muted">Mission dates</span>
+          {(sim.landing_presets ?? []).map((p) => (
+            <button
+              key={p.key}
+              onClick={() => onChange({ ...draft, landing_utc: p.utc })}
+              className={cn(
+                'h-9 whitespace-nowrap rounded-md px-1.5 text-xs transition-colors',
+                draft.landing_utc === p.utc ? 'bg-raised text-ink' : 'text-muted hover:text-ink',
+              )}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      )}
+
       {showDuration && (
         <Field label="Mission duration" hint={fmtHours(draft.duration_hours)}>
           <div className="flex flex-wrap items-center gap-1.5">

@@ -102,15 +102,19 @@ landing sites.
 
 ## Task 4: Finalize Project Specifications
 
-- [ ] Combine site coordinates and mission requirements.
-- [ ] Create a shared mission configuration file.
-- [ ] Ensure frontend and backend developers use the same data.
-- [ ] Identify the NASA datasets needed for Phase 2.
-- [ ] Review and approve the Phase 1 specifications.
+- [x] Combine site coordinates and mission requirements.
+- [x] Create a shared mission configuration file.
+- [x] Ensure frontend and backend developers use the same data.
+- [x] Identify the NASA datasets needed for Phase 2.
+- [x] Review and approve the Phase 1 specifications.
 
 ### Deliverable
 
-A finalized mission specification shared with the team.
+A finalized mission specification shared with the team:
+[docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md). The machine-readable version is
+`config/lunanav.config.json` (`mission`, `simulation.landing_presets`,
+`requirements`, `datasets`), served by the backend at `GET /api/config` and
+mirrored in `frontend/src/types/api.ts`.
 
 ---
 

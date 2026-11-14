@@ -255,6 +255,47 @@ export interface RescheduleResult {
   headline_changes: MetricDelta[]
 }
 
+export interface LandingPreset {
+  key: string
+  label: string
+  /** ISO-8601 UTC landing time. */
+  utc: string
+}
+
+/** Phase 1 mission requirements, served from config → GET /api/config. */
+export interface MissionRequirements {
+  min_sun_visible_pct: number
+  min_earth_visible_pct: number
+  max_earth_blackout_hours: number
+  psr_proximity: string
+  basis: string
+}
+
+export type RequirementStatus = 'met' | 'not_met' | 'unknown'
+
+export interface RequirementCheck {
+  id: string
+  label: string
+  unit: string
+  comparison: 'at_least' | 'at_most'
+  threshold: number
+  value: number | null
+  status: RequirementStatus
+  detail: string
+}
+
+export interface RequirementEvaluation {
+  location: ResolvedLocation
+  landing_utc: string
+  duration_hours: number
+  requirements_source: string
+  checks: RequirementCheck[]
+  satisfied: boolean | null
+  nearest_psr?: PsrProximity | null
+  psr_preference: string
+  notes: string[]
+}
+
 export interface AppConfig {
   app: { name: string; version: string }
   mission: {
@@ -262,6 +303,8 @@ export interface AppConfig {
     label: string
     profile: string
     objective: string
+    power: string
+    communication: string
     duration_days: number
     candidate_sites: string[]
   }
@@ -270,6 +313,7 @@ export interface AppConfig {
     supported_start_utc: string
     supported_end_utc: string
     default_landing_utc: string
+    landing_presets: LandingPreset[]
     default_duration_hours: number
     min_duration_hours: number
     max_duration_hours: number
@@ -278,6 +322,8 @@ export interface AppConfig {
     max_samples: number
     lookahead_hours_for_events: number
   }
+  /** Phase 1 Task 3 thresholds; mirrored in backend settings.RequirementThresholds. */
+  requirements: MissionRequirements
   coordinates: Record<string, string | number>
   providers: Record<Mode, { ephemeris: string; terrain: string }>
   visibility: Record<string, string | number>

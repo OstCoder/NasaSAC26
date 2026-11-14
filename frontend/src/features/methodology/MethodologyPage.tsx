@@ -117,6 +117,34 @@ export function MethodologyPage() {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader
+          title="Mission requirements"
+          description="Phase 1 thresholds from config/lunanav.config.json. The same values are served at GET /api/config and checked by POST /api/requirements; nothing is hardcoded in the UI."
+        />
+        <CardContent>
+          <dl className="grid gap-2 text-sm sm:grid-cols-2">
+            {[
+              ['Minimum sunlight availability', `\u2265 ${config.requirements.min_sun_visible_pct}% of the mission window`],
+              ['Minimum Earth visibility', `\u2265 ${config.requirements.min_earth_visible_pct}% of the mission window`],
+              ['Maximum Earth blackout', `\u2264 ${config.requirements.max_earth_blackout_hours} h without direct Earth line of sight`],
+              [
+                'PSR proximity',
+                config.requirements.psr_proximity === 'preferred'
+                  ? 'Optional scientific preference, not a pass/fail threshold'
+                  : 'Optional factor',
+              ],
+            ].map(([k, v]) => (
+              <div key={k} className="grid grid-cols-[170px_1fr] gap-3 border-t border-rule-soft pt-2 first:border-t-0 first:pt-0">
+                <dt className="text-muted">{k}</dt>
+                <dd className="text-ink">{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-2 text-xs text-faint">{config.requirements.basis}</p>
+        </CardContent>
+      </Card>
+
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader title="Conventions" />
