@@ -153,6 +153,12 @@ Integrate NASA scientific data sources:
 Use these datasets to calculate and visualize sunlight
 availability and Earth communication windows.
 
+The datasets this build needs and the order to tackle them in are listed in
+[docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md) §5: real LOLA horizon masks for
+each candidate (which turns Scientific Mode on), frozen Horizons tables for
+offline reproducibility, and a re-derived PSR catalogue with the product
+versions recorded.
+
 ## Resources
 
 - NASA Space Apps Challenge:

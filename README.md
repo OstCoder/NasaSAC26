@@ -107,7 +107,7 @@ lunanav/
 
 ## API
 
-`GET /api/config`, `GET /api/sites`, `GET /api/psrs`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/sites`, `GET /api/psrs`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 

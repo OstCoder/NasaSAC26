@@ -67,6 +67,7 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `services/comparison.py` | `ScenarioService`, `ScenarioComparisonService`. |
 | `services/sites.py` | Site catalogue: candidate resolution against the mission, PSR-proximity enrichment, elevation cross-check. |
 | `services/psr.py` | PSR boundary catalogue: nearest-PSR geometry and within-radius queries. |
+| `services/requirements.py` | Requirement check: one scenario measured against the config thresholds, three-state verdict, PSR preference reported but never scored. |
 | `services/imagery.py` | Moon Trek tile cache, reprojection to the polar map grid, global texture. |
 | `services/jpl_status.py` | Live reachability of Horizons and Moon Trek. |
 | `core/http.py` | Single outbound HTTP function (mocked in tests). |

@@ -95,7 +95,7 @@ contract.
 
 | Config section | What it fixes | Consumed by |
 | --- | --- | --- |
-| `mission` | name, objective, power, communication, duration, candidate site ids | `/api/config`, planner header, docs |
+| `mission` | name, profile, objective, `spacecraft` (power and communication), duration, landing dates, candidate site ids | `/api/config`, planner header, docs |
 | `simulation` | supported window, `default_landing_utc`, `landing_presets`, duration/step limits | planner, comparison, rescheduler, date presets |
 | `requirements` | R1–R3 thresholds, PSR preference, basis text | `/api/config`, `POST /api/requirements`, methodology page |
 | `coordinates` | frame, longitude convention, reference radius, map latitude bounds | every coordinate calculation, map projection |
