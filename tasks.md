@@ -1,176 +1,342 @@
-# Phase 1 — Project Planning & Mission Setup
+
+# Phase 2 — NASA Data Integration
 
 ## Objective
 
-Define the lunar landing sites, mission scenario, and engineering
-requirements for our NASA Space Apps Challenge 2026 project.
+Integrate official NASA scientific resources to retrieve
+accurate Sun and Earth positions for our selected lunar
+south-pole landing sites.
 
-Our website will help mission planners compare lunar south-pole
-landing sites based on sunlight availability, Earth communication
-visibility, and proximity to permanently shadowed regions (PSRs).
+Prepare lunar terrain data for the visibility calculations
+and mission-planning features in later phases.
 
-## Task 1: Select Three Lunar Landing Sites
-
-- [x] Research lunar south-pole landing regions using NASA LROC QuickMap.
-- [x] Investigate the following candidate regions:
-  - Shackleton Crater Rim
-  - Connecting Ridge
-  - de Gerlache Crater Rim
-- [x] Select one exact coordinate within each region.
-- [x] Record the latitude and longitude of each site.
-- [x] Record surface elevation, if available.
-- [x] Record the source of each site's coordinates.
-- [x] Identify nearby permanently shadowed regions (PSRs).
-
-### Deliverable
-
-A table containing three candidate landing sites (full provenance in
-[docs/SITES.md](docs/SITES.md)):
-
-| Site | Region | Latitude | Longitude | Elevation | Source |
-|------|--------|----------|-----------|-----------|--------|
-| A | Shackleton Crater Rim | −89.78° | 204.27°E | 1,734 m (LOLA) | Mazarico et al. 2011, point 4 = NASA 2020 site 004 |
-| B | Connecting Ridge | −89.45° | 222.69°E | 1,955 m (LOLA) | Mazarico et al. 2011, point 1 = NASA 2020 site 001 |
-| C | de Gerlache Crater Rim | −88.67° | 291.90°E | 1,808 m (LOLA) | Mazarico et al. 2011, point 11 = NASA 2020 site 011 |
-
-Resource: https://quickmap.lroc.asu.edu/
+By the end of Phase 2, our backend should be able to accept
+a landing site's coordinates and a date range, retrieve
+astronomical position data, and save the results in a
+structured format.
 
 ---
 
-## Task 2: Define the Hypothetical Lunar Mission
+## Task 1: Integrate JPL Horizons
 
-- [x] Define the mission objective.
-- [x] Set the mission duration to 7 Earth days.
-- [x] Set the initial landing date to December 1, 2026.
-- [x] Set an alternative landing date to December 11, 2026.
-- [x] Assume a solar-powered robotic lander.
-- [x] Assume the lander has battery storage.
-- [x] Assume direct-to-Earth communication capability.
+- [ ] Read the JPL Horizons documentation.
+- [ ] Set up Python access using the Horizons API or Astroquery.
+- [ ] Configure an observer at a specific lunar surface location.
+- [ ] Use one verified landing site from Phase 1.
+- [ ] Request the Sun's apparent position at the site.
+- [ ] Request Earth's apparent position at the same site.
+- [ ] Extract azimuth and elevation angles for both objects.
+- [ ] Confirm the coordinate conventions and measurement units.
+- [ ] Test requests with multiple dates and times.
+- [ ] Handle API errors and invalid inputs.
 
-Implemented in `config/lunanav.config.json` → `mission` (served at `GET /api/config`),
-with the reasoning in `docs/MISSION.md`. Task 2 names the three candidates and
-their A/B/C order; Task 1 fills in their coordinates, elevation, source and nearby
-PSRs in `data/demo/sites.json`, and the backend rejects a candidate the catalogue
-cannot supply.
+### Required Inputs
 
-### Proposed Mission
+- Lunar latitude
+- Lunar longitude
+- Observer height/elevation
+- Start date and time (UTC)
+- End date and time (UTC)
+- Time interval between observations
 
-**Mission Name:** Polar Ice Scout
+### Required Outputs
 
-**Objective:** Investigate the lunar south-pole environment
-and support scientific exploration of potential water ice
-near permanently shadowed regions.
-
-**Mission Duration:** 7 Earth days
-
-**Initial Landing Date:** December 1, 2026
-
-**Alternative Landing Date:** December 11, 2026
-
-**Power Source:** Solar panels with battery storage
-
-**Communication:** Direct-to-Earth
+- Timestamp (UTC)
+- Sun azimuth (degrees)
+- Sun elevation (degrees)
+- Earth azimuth (degrees)
+- Earth elevation (degrees)
 
 ### Deliverable
 
-A finalized mission description with objectives, dates,
-duration, and spacecraft assumptions.
+A working Python module that retrieves Sun and Earth
+positions from JPL Horizons for a selected lunar site
+and time interval.
+
+### Resources
+
+JPL Horizons:
+https://ssd.jpl.nasa.gov/horizons/
+
+Horizons API Documentation:
+https://ssd-api.jpl.nasa.gov/doc/horizons.html
 
 ---
 
-## Task 3: Define Landing Site Requirements
+## Task 2: Generate Astronomical Time-Series Data
 
-- [x] Define minimum sunlight availability.
-- [x] Define minimum Earth visibility.
-- [x] Define maximum acceptable communication blackout.
-- [x] Include proximity to PSRs as an optional scientific factor.
-- [x] Document assumptions and limitations.
+- [ ] Use the three verified lunar sites from Phase 1.
+- [ ] Generate Sun position data for each site.
+- [ ] Generate Earth position data for each site.
+- [ ] Use December 1–8, 2026, as the initial analysis period.
+- [ ] Use December 11–18, 2026, as the delayed mission period.
+- [ ] Start with 1-hour observation intervals.
+- [ ] Ensure all timestamps use UTC.
+- [ ] Store the observations in chronological order.
+- [ ] Ensure Sun and Earth positions share matching timestamps.
+- [ ] Confirm that missing data is not silently treated as zero.
 
-Documented in `docs/SITE_REQUIREMENTS.md`. Each threshold is tied to a metric the
-app already computes (`sun_visible_pct`, `earth_visible_pct`,
-`longest_earth_blackout_hours`), so the criteria are measurable without new code:
-a site is judged over both landing dates, censored blackouts are reported as lower
-bounds rather than passes, and PSR proximity is a measured distance from the LROC
-catalogue but stays a preference, because nothing is ranked without stated
-weights. The three candidates are evaluated against the thresholds there, using
-Task 1's coordinates.
+### Example Data Structure
 
-### Proposed Requirements
+```json
+{
+  "site_id": "A",
+  "timestamp_utc": "2026-12-01T00:00:00Z",
+  "sun": {
+    "azimuth_deg": null,
+    "elevation_deg": null
+  },
+  "earth": {
+    "azimuth_deg": null,
+    "elevation_deg": null
+  }
+}
+```
 
-| Requirement | Target |
-|-------------|--------|
-| Minimum sunlight availability | 60% |
-| Minimum Earth visibility | 50% |
-| Maximum communication blackout | 12 hours |
-| Proximity to PSRs | Optional preference |
-
-**Note:** These are hypothetical demonstration requirements,
-not official NASA mission specifications.
+Replace null values with actual Horizons results.
 
 ### Deliverable
 
-A list of measurable criteria used to evaluate and compare
-landing sites.
+Astronomical time-series data for all three landing sites
+across both proposed mission periods.
+
+### Note
+
+Hourly sampling is suitable for initial analysis.
+
+Phase 3 should refine observations near visibility
+transitions to improve the accuracy of sunset,
+sunrise, Earthset, and Earthrise estimates.
 
 ---
 
-## Task 4: Finalize Project Specifications
+## Task 3: Obtain Lunar Terrain Data
 
-- [x] Combine site coordinates and mission requirements.
-- [x] Create a shared mission configuration file.
-- [x] Ensure frontend and backend developers use the same data.
-- [x] Identify the NASA datasets needed for Phase 2.
-- [x] Review and approve the Phase 1 specifications.
+- [ ] Open NASA LROC QuickMap.
+- [ ] Locate the three selected landing coordinates.
+- [ ] Inspect the terrain surrounding each location.
+- [ ] Identify relevant elevation and topography datasets.
+- [ ] Explore the same regions using NASA Moon Trek.
+- [ ] Record the available terrain data resolution.
+- [ ] Obtain downloadable elevation data where available.
+- [ ] Document the coordinate reference system and height datum.
+- [ ] Record the source and coverage of each terrain dataset.
+- [ ] Identify any missing terrain coverage or limitations.
+
+### Important Terrain Information
+
+For each landing site, collect:
+
+- Latitude and longitude
+- Surface elevation
+- Terrain elevation data
+- Dataset resolution
+- Coordinate reference system
+- Data source
+- Data coverage
+
+Terrain information will later help determine whether
+nearby hills, crater walls, or ridges obstruct the Sun
+or Earth.
 
 ### Deliverable
 
-A finalized mission specification shared with the team:
-[docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md). The machine-readable version is
-`config/lunanav.config.json` (`mission`, `simulation.landing_presets`,
-`requirements`, `datasets`), served by the backend at `GET /api/config` and
-mirrored in `frontend/src/types/api.ts`.
+A documented collection of lunar terrain data for
+the three landing sites, including at least one
+usable digital elevation model for Phase 3.
+
+### Resources
+
+NASA LROC QuickMap:
+https://quickmap.lroc.asu.edu/
+
+NASA Moon Trek:
+https://trek.nasa.gov/moon/
+
+NASA LOLA South-Pole Topography:
+https://pgda.gsfc.nasa.gov/products/78
 
 ---
 
-## Phase 1 Completion Checklist
+## Task 4: Organize and Store the Data
 
-- [x] Three exact lunar coordinates selected and verified.
-- [x] Coordinate sources documented.
-- [x] Mission objective defined.
-- [x] Mission duration and landing dates finalized.
-- [x] Sunlight and communication requirements finalized.
-- [x] Mission specifications shared with the team: [docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md).
+- [ ] Define a consistent data structure for each landing site.
+- [ ] Store the verified site coordinates.
+- [ ] Store Sun and Earth time-series results.
+- [ ] Save dataset source information.
+- [ ] Store terrain files or references separately.
+- [ ] Use consistent units across all datasets.
+- [ ] Use a consistent lunar longitude convention.
+- [ ] Add basic validation for missing or invalid values.
+- [ ] Cache astronomical results to avoid unnecessary requests.
+- [ ] Ensure the data can be accessed by the backend.
 
-## Phase 2 — Next Steps
+### Suggested Project Structure
 
-Extend the NASA scientific data integration, in this order:
+```text
+backend/
+├── data/
+│   ├── sites.json
+│   ├── ephemeris/
+│   │   ├── site_a.json
+│   │   ├── site_b.json
+│   │   └── site_c.json
+│   └── terrain/
+│
+├── services/
+│   └── horizons.py
+│
+└── tests/
+    └── test_horizons.py
+```
 
-1. JPL Horizons — Sun and Earth positions (already used live in JPL and Scientific
-   modes; freeze tables so runs work offline).
-2. NASA LOLA — lunar topography and terrain elevations (elevations are sampled;
-   real horizon masks are the missing piece).
-3. LROC QuickMap — lunar mapping and site references (imagery basemaps and site
-   cross-checks).
+The exact structure can be adjusted to match the team's
+existing repository.
 
-With real terrain in place, these datasets turn the current synthetic skylines
-into measured sunlight availability and Earth communication windows.
+Large scientific datasets should not automatically
+be committed to GitHub.
 
-The datasets this build needs and the order to tackle them in are listed in
-[docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md) §5: real LOLA horizon masks for
-each candidate (which turns Scientific Mode on), frozen Horizons tables for
-offline reproducibility, and a re-derived PSR catalogue with the product
-versions recorded.
+### Deliverable
 
-## Resources
+An organized data pipeline that stores lunar landing
+sites, astronomical observations, and terrain references.
 
-- NASA Space Apps Challenge:
-  https://www.spaceappschallenge.org/
+---
 
-- NASA LROC QuickMap:
-  https://quickmap.lroc.asu.edu/
+## Task 5: Validate NASA Data
 
-- JPL Horizons API:
-  https://ssd-api.jpl.nasa.gov/doc/horizons.html
+- [ ] Confirm that all three site coordinates are valid.
+- [ ] Verify the Horizons observer location is on the Moon.
+- [ ] Check Sun and Earth position results.
+- [ ] Compare selected results against Horizons reference output.
+- [ ] Verify azimuth and elevation units.
+- [ ] Confirm UTC date and time handling.
+- [ ] Check data continuity across the mission interval.
+- [ ] Test the same site on different dates.
+- [ ] Test different sites at the same date and time.
+- [ ] Document any assumptions or known limitations.
 
-- NASA South Pole Topography:
-  https://pgda.gsfc.nasa.gov/products/78
+### Important Validation Checks
+
+1. Sun and Earth positions must come from actual
+   astronomical calculations.
+
+2. The observer must be configured at the correct
+   lunar location, not at Earth's surface or
+   the Moon's center.
+
+3. Elevation angles must be interpreted relative
+   to the correct local reference plane.
+
+4. Geometric visibility must not be confused with
+   terrain-obstructed visibility.
+
+5. Unknown or missing results must not be presented
+   as verified measurements.
+
+### Deliverable
+
+Validated astronomical datasets and documented
+limitations for all three landing sites.
+
+---
+
+## Task 6: Prepare Data for Phase 3
+
+- [ ] Make the astronomical data accessible to calculation modules.
+- [ ] Ensure all time-series records have consistent fields.
+- [ ] Make the selected sites available through a shared data file.
+- [ ] Prepare terrain data for future horizon calculations.
+- [ ] Document how to load and query the datasets.
+- [ ] Confirm that frontend and backend developers agree on formats.
+- [ ] Test retrieving data for at least one site and date range.
+
+### Deliverable
+
+A verified dataset and functioning data-access layer
+ready for Sun visibility, Earth visibility, and
+terrain-obstruction calculations.
+
+---
+
+## Phase 2 Completion Checklist
+
+- [ ] JPL Horizons successfully integrated.
+- [ ] Sun positions retrieved using real NASA data.
+- [ ] Earth positions retrieved using real NASA data.
+- [ ] Three lunar landing sites supported.
+- [ ] Initial mission date range processed.
+- [ ] Alternative mission date range processed.
+- [ ] Astronomical time-series data saved.
+- [ ] Lunar terrain sources identified.
+- [ ] At least one usable terrain dataset obtained.
+- [ ] Data formats standardized.
+- [ ] Astronomical results validated.
+- [ ] Backend data pipeline tested.
+- [ ] Data ready for Phase 3.
+
+---
+
+## Phase 3 — Next Steps
+
+Use the data collected in Phase 2 to calculate
+actual mission visibility conditions.
+
+Planned calculations:
+
+1. Sun visibility above the geometric horizon.
+2. Earth visibility above the geometric horizon.
+3. Terrain obstruction of Sun and Earth.
+4. Direct sunlight availability over time.
+5. Direct-to-Earth communication visibility windows.
+6. Longest continuous darkness period.
+7. Longest Earth communication blackout.
+8. Simultaneous Sun and Earth visibility.
+
+These calculations will form the scientific foundation
+of our lunar mission-planning website.
+
+---
+
+## Official NASA Space Apps Resources
+
+### NASA LROC QuickMap
+https://quickmap.lroc.asu.edu/
+
+Used for lunar imagery, surface terrain exploration,
+and landing site inspection.
+
+### NASA Moon Trek
+https://trek.nasa.gov/moon/
+
+Used for 3D lunar exploration and understanding
+the geography surrounding potential landing sites.
+
+### NASA JPL Horizons
+https://ssd.jpl.nasa.gov/horizons/
+
+Used for calculating the positions of the Sun
+and Earth from selected lunar surface locations.
+
+### Canadian Space Agency — Moon Exploration
+https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/
+
+Used for lunar exploration background and
+scientific mission context.
+
+---
+
+## Expected Final Outcome
+
+By completing Phase 2, our team should have:
+
+1. A working NASA ephemeris data integration.
+2. Real Sun and Earth positions for three lunar sites.
+3. Astronomical data covering two mission date ranges.
+4. Lunar terrain datasets or documented references.
+5. Validated and organized scientific data.
+6. A backend data pipeline ready for Phase 3.
+
+Phase 2 is complete when our team can reliably
+retrieve the astronomical data needed to evaluate
+lunar landing sites without inventing measurements.
