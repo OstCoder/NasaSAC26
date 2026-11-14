@@ -48,6 +48,7 @@ from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
 from app.services.sites import get_site_repository
+from app.services.site_dem import terrain_dem_response
 from app.services.terrain_horizon import terrain_horizon_response
 
 router = APIRouter(prefix="/api")
@@ -211,6 +212,17 @@ def terrain_horizon(
     return terrain_horizon_response(
         site_id=site_id, latitude_deg=latitude_deg, longitude_deg=longitude_deg,
         window=window)
+
+
+@router.get("/terrain-dem")
+def terrain_dem(site_id: str):
+    """Phase 4 Task 6 (experimental): one candidate's pooled LOLA DEM grid.
+
+    A committed 128x128 average-pooled height sample of the 5 m/pix PGDA site
+    model, for the feature-flagged 3D terrain view. Display only - the 2D
+    terrain horizon profile and its numbers stay the source of truth.
+    """
+    return terrain_dem_response(site_id=site_id)
 
 
 @router.get("/mission-report")

@@ -932,11 +932,11 @@ Verified with typecheck, the vitest suite and the production build.
 
 ## Task 6: 3D terrain (optional, feature-flagged)
 
-- [ ] Render the LOLA DEM around a candidate
+- [x] Render the LOLA DEM around a candidate
       with the skyline and Sun/Earth directions.
-- [ ] Off by default; the 2D profile stays the
+- [x] Off by default; the 2D profile stays the
       source of truth.
-- [ ] Document the frame, datum and
+- [x] Document the frame, datum and
       exaggeration factor.
 
 ---

@@ -614,3 +614,24 @@ export interface FeasibilityMatrix {
   rows: FeasibilityRow[]
   notes: string[]
 }
+
+/** Phase 4 Task 6 (experimental): pooled site DEM grid — GET /api/terrain-dem. */
+export interface TerrainDem {
+  schema: 'lunanav.terrain_dem.v1'
+  site: { site_id: string; name: string; latitude_deg: number; longitude_deg: number }
+  grid: {
+    size: number
+    cell_m: number
+    extent_m: { east_west: number; north_south: number }
+    bounds_m: { left: number; bottom: number; right: number; top: number }
+    site_cell: { col: number; row: number }
+    nodata_fill_cells: number
+  }
+  heights_m: number[][]
+  site_height_m: number
+  height_convention: string
+  crs: string
+  source: { label: string; provider: string; file: string; sha256: string; citation: string }
+  provenance: string
+  notes: string[]
+}
