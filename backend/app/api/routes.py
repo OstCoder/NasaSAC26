@@ -20,6 +20,7 @@ from app.models.schemas import (
     LocationInput,
     Mode,
     ProviderInfo,
+    PsrOut,
     RescheduleRequest,
     RescheduleResult,
     ScenarioInput,
@@ -34,6 +35,7 @@ from app.providers.registry import get_bundle
 from app.services.comparison import ScenarioComparisonService, ScenarioService
 from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
+from app.services.psr import get_psr_catalogue
 from app.services.sites import get_site_repository
 
 router = APIRouter(prefix="/api")
@@ -68,6 +70,42 @@ def sites():
 @router.get("/sites/{site_id}", response_model=Site)
 def site(site_id: str):
     return get_site_repository().get(site_id)
+
+
+@router.get("/psrs", response_model=list[PsrOut])
+def psrs(
+    min_area_km2: float = Query(1.0, ge=0),
+    max_latitude_deg: float = Query(-80.0, le=0, gt=-90),
+    near_site_id: Optional[str] = None,
+    radius_km: float = Query(30.0, ge=0, le=200),
+):
+    """PSR polygons (LROC/LOLA, > 5 km2 by default product; min_area_km2 filters further).
+
+    Rings are in the south polar stereographic km frame (x = rho*sin(lon),
+    y = rho*cos(lon)); draw with Leaflet [y, x]. ``near_site_id`` + ``radius_km``
+    restricts to PSRs within that distance of a catalogue site.
+    """
+    catalogue = get_psr_catalogue()
+    if near_site_id is not None:
+        loc = get_site_repository().resolve(LocationInput(site_id=near_site_id))
+        close = catalogue.within_km(loc.latitude_deg, loc.longitude_deg, radius_km)
+        selected = {p.psr_id: d for p, d in close}
+    else:
+        selected = None
+    out = []
+    for p in catalogue.all():
+        if p.area_km2 < min_area_km2 or p.centroid_latitude_deg > max_latitude_deg:
+            continue
+        if selected is not None and p.psr_id not in selected:
+            continue
+        out.append(PsrOut(
+            psr_id=p.psr_id, area_km2=p.area_km2, perimeter_km=p.perimeter_km,
+            centroid_latitude_deg=p.centroid_latitude_deg,
+            centroid_longitude_deg=p.centroid_longitude_deg,
+            near_crater=p.near_crater,
+            rings=[[list(pt) for pt in ring] for ring in p.rings],
+        ))
+    return out
 
 
 @router.get("/horizon-mask", response_model=HorizonMaskOut)

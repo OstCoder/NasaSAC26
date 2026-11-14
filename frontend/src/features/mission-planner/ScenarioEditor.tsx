@@ -36,6 +36,7 @@ export function ScenarioEditor({
   const { sites, config, features } = useApp()
   const sim = config.simulation
   const isCustom = !draft.location.site_id
+  const selectedSite = !isCustom ? sites.find((s) => s.id === draft.location.site_id) : undefined
   const [lat, setLat] = React.useState(String(draft.location.latitude_deg ?? -87.0))
   const [lon, setLon] = React.useState(String(draft.location.longitude_deg ?? 0))
 
@@ -107,6 +108,14 @@ export function ScenarioEditor({
           )}
           {features.custom_coordinates && <option value={CUSTOM}>Custom coordinates…</option>}
         </Select>
+        {selectedSite?.elevation_m != null && (
+          <p className="text-xs text-muted">
+            LOLA elevation {Math.round(selectedSite.elevation_m)} m
+            {selectedSite.slope_deg != null && <> · slope {selectedSite.slope_deg.toFixed(1)}°</>}
+            {selectedSite.nearest_psr &&
+              <> · nearest mapped PSR {selectedSite.nearest_psr.distance_km.toFixed(1)} km ({selectedSite.nearest_psr.label})</>}
+          </p>
+        )}
       </Field>
 
       {isCustom && (

@@ -20,8 +20,8 @@ If the window extends past 2030, also reconsider the fixed UTC→TT offset in `c
 
 ## 2. New or official landing sites / regions
 
-- **Points:** edit `data/demo/sites.json` (id, name, lat, lon east-positive, region, description, `coordinate_note`, `source`, `elevation_m`, `nearby_psrs`). Then `python scripts/generate_demo_data.py` to give each a synthetic skyline, or add real masks (section 4).
-- **Mission candidates:** the three ids and their A/B/C order live in `config/lunanav.config.json` → `mission.candidate_sites`, not in the site file. `SiteRepository` refuses to load a catalogue whose candidate id is unknown or has no `source`, and `GET /api/sites` returns candidates first in that order. `elevation_m: null` / `nearby_psrs: []` mean "not recorded yet" — keep them null rather than guessing.
+- **Points:** edit `data/demo/sites.json` (id, name, lat, lon east-positive, region, description, `coordinate_note`, `source`, `elevation_m`). Each site is enriched at load time with its nearest mapped PSR, so you do not write PSR fields by hand. Then `python scripts/generate_demo_data.py` to give each a synthetic skyline, or add real masks (section 4).
+- **Mission candidates:** the three ids and their A/B/C order live in `config/lunanav.config.json` → `mission.candidate_sites`. The site file declares the same ids in `mission_candidates`, and `SiteRepository` refuses to load if the two lists disagree, if a candidate id is unknown, if it repeats, or if it has no `source`. `GET /api/sites` returns candidates first in that order. `elevation_m: null` means "not recorded yet" — keep it null rather than guessing.
 - **Regions (polygons):** add a `regions.json` alongside, a `Region` schema in `models/schemas.py`, a `GET /api/regions` route, and draw polygons in `features/lunar-map/LunarMap.tsx` using `toLeaflet()` for every vertex. Do not draw lat/lon directly; the map is stereographic.
 - Analyses already accept arbitrary coordinates, so no service changes are needed.
 

@@ -47,6 +47,20 @@ export interface Provenance {
   caveats: string[]
 }
 
+export interface SourceRef {
+  label: string
+  url?: string | null
+}
+
+export interface PsrProximity {
+  psr_id: string
+  label: string
+  distance_km: number
+  area_km2: number
+  centroid_latitude_deg: number
+  centroid_longitude_deg: number
+}
+
 export interface Site {
   id: string
   name: string
@@ -57,9 +71,14 @@ export interface Site {
   coordinate_note: string
   tags: string[]
   source: string
-  /** Task 1 columns; null/[] means not recorded yet, not zero. */
-  elevation_m: number | null
-  nearby_psrs: string[]
+  /** Task 1 site-selection columns; null means not recorded, never zero. */
+  nasa_site_id?: string | null
+  elevation_m?: number | null
+  elevation_note?: string | null
+  slope_deg?: number | null
+  nearest_psr?: PsrProximity | null
+  psrs_within_10_km?: number | null
+  sources?: SourceRef[]
 }
 
 export interface LocationInput {
@@ -68,6 +87,7 @@ export interface LocationInput {
   longitude_deg?: number | null
   label?: string | null
   height_m?: number
+  elevation_m?: number | null
 }
 
 export interface ResolvedLocation {
@@ -77,6 +97,18 @@ export interface ResolvedLocation {
   longitude_deg: number
   is_custom: boolean
   height_m: number
+  elevation_m?: number | null
+}
+
+export interface PsrOut {
+  psr_id: string
+  area_km2: number
+  perimeter_km: number
+  centroid_latitude_deg: number
+  centroid_longitude_deg: number
+  near_crater: string
+  /** Rings in south polar stereographic km; draw with Leaflet [y, x]. */
+  rings: number[][][]
 }
 
 export interface ScenarioInput {
