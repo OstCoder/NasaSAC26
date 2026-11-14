@@ -17,6 +17,7 @@ import type {
   PsrOut,
   ReadinessReport,
   RequirementEvaluation,
+  RequirementThresholdsInput,
   RescheduleResult,
   ScenarioInput,
   ScenarioResult,
@@ -107,9 +108,9 @@ export const api = {
     return request<TerrainHorizon>(`/api/terrain-horizon?${q.toString()}`, { signal })
   },
   scenario: (input: ScenarioInput, signal?: AbortSignal) => post<ScenarioResult>('/api/scenario', input, signal),
-  /** Check one scenario against the Phase 1 requirements served in /api/config. */
-  requirements: (input: ScenarioInput, signal?: AbortSignal) =>
-    post<RequirementEvaluation>('/api/requirements', input, signal),
+  /** Check one scenario against optional user-adjusted thresholds (defaults from /api/config). */
+  requirements: (input: ScenarioInput, thresholds?: RequirementThresholdsInput, signal?: AbortSignal) =>
+    post<RequirementEvaluation>('/api/requirements', thresholds ? { ...input, thresholds } : input, signal),
   snapshot: (
     body: { location: LocationInput; time_utc: string; mode?: Mode; lookahead_hours?: number },
     signal?: AbortSignal,

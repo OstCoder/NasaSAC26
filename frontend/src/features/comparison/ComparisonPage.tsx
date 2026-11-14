@@ -4,6 +4,7 @@ import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScenarioEditor, rangeProblem } from '@/features/mission-planner/ScenarioEditor'
+import { FeasibilityPanel } from '@/features/phase3/FeasibilityPanel'
 import { ReschedulerPanel } from '@/features/rescheduler'
 import { useApiResource } from '@/hooks/useApiResource'
 import { useApp } from '@/hooks/useAppContext'
@@ -84,9 +85,11 @@ export function ComparisonPage() {
     <Tabs defaultValue="pair" className="space-y-4">
       <TabsList aria-label="Comparison type">
         <TabsTrigger value="pair"><GitCompare /> Two scenarios</TabsTrigger>
+        <TabsTrigger value="candidates">All candidates</TabsTrigger>
         {features.rescheduler && <TabsTrigger value="reschedule"><CalendarClock /> Reschedule a mission</TabsTrigger>}
       </TabsList>
       <TabsContent value="pair"><TwoScenarios /></TabsContent>
+      <TabsContent value="candidates"><FeasibilityPanel /></TabsContent>
       {features.rescheduler && <TabsContent value="reschedule"><ReschedulerPanel /></TabsContent>}
     </Tabs>
   )

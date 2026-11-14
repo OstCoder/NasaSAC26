@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
@@ -23,6 +24,7 @@ from app.models.schemas import (
     ProviderInfo,
     PsrOut,
     RequirementEvaluation,
+    RequirementRequest,
     RescheduleRequest,
     RescheduleResult,
     ScenarioInput,
@@ -309,14 +311,33 @@ def scenario(req: ScenarioInput):
 
 
 @router.post("/requirements", response_model=RequirementEvaluation)
-def requirements(req: ScenarioInput):
-    """Check one scenario against the mission requirements in the shared config.
+def requirements(req: RequirementRequest):
+    """Check one scenario against mission requirements.
 
-    Thresholds are read from ``config/lunanav.config.json -> requirements`` (never
-    hardcoded). The response says which of them this scenario meets; it is not a
-    site ranking or recommendation.
+    Thresholds default to ``config/lunanav.config.json -> requirements`` (never
+    hardcoded); optional ``thresholds`` override them for this check only. The
+    response says which targets this scenario meets; it is not a site ranking or
+    recommendation.
     """
-    return RequirementService().evaluate(ScenarioService().run(req))
+    service = RequirementService()
+    thresholds = service.settings.requirements
+    overrides = req.thresholds.model_dump(exclude_none=True) if req.thresholds else {}
+    if overrides:
+        thresholds = replace(thresholds, **overrides)
+
+    scenario = ScenarioInput(**req.model_dump(exclude={"thresholds"}))
+    evaluation = service.evaluate(ScenarioService().run(scenario), thresholds)
+    if overrides:
+        evaluation.requirements_source = (
+            "user-adjusted demonstration targets; defaults: "
+            "config/lunanav.config.json -> requirements"
+        )
+        evaluation.notes.insert(
+            0,
+            "Thresholds were adjusted for this check only. They are demonstration "
+            "targets, not NASA flight requirements.",
+        )
+    return evaluation
 
 
 @router.post("/snapshot", response_model=Snapshot)

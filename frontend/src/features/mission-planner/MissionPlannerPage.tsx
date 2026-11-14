@@ -17,6 +17,7 @@ import {
 import { Phase3Panel } from '@/features/phase3/Phase3Panel'
 import { TerrainHorizonPanel } from '@/features/phase3/TerrainHorizonPanel'
 import { FeasibilityPanel } from '@/features/phase3/FeasibilityPanel'
+import { RequirementTuner } from '@/features/phase3/RequirementTuner'
 import { DelayComparisonPanel } from '@/features/phase3/DelayComparisonPanel'
 import { SiteTerrain3DPanel } from '@/features/phase3/SiteTerrain3DPanel'
 import { siteDraftLocation, useApp, type ScenarioDraft } from '@/hooks/useAppContext'
@@ -378,6 +379,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
       <Phase3Panel />
       <TerrainHorizonPanel />
       <FeasibilityPanel />
+      <RequirementTuner />
       <DelayComparisonPanel />
       <SiteTerrain3DPanel />
     </div>

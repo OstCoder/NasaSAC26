@@ -284,6 +284,12 @@ export interface RequirementCheck {
   detail: string
 }
 
+export interface RequirementThresholdsInput {
+  min_sun_visible_pct?: number
+  min_earth_visible_pct?: number
+  max_earth_blackout_hours?: number
+}
+
 export interface RequirementEvaluation {
   location: ResolvedLocation
   landing_utc: string

@@ -141,6 +141,38 @@ class TestRequirementChecks:
         assert any("preference, not a threshold" in n for n in body["notes"])
         assert all(c["id"] != "psr_proximity" for c in body["checks"])
 
+    def test_caller_can_override_thresholds(self, client):
+        payload = {
+            **SCENARIO,
+            "thresholds": {
+                "min_sun_visible_pct": 100,
+                "min_earth_visible_pct": 100,
+                "max_earth_blackout_hours": 0,
+            },
+        }
+        body = client.post("/api/requirements", json=payload).json()
+        assert [c["threshold"] for c in body["checks"]] == [100.0, 100.0, 0.0]
+        assert "user-adjusted" in body["requirements_source"]
+        assert body["satisfied"] is False
+        assert any("not NASA flight requirements" in n for n in body["notes"])
+
+    def test_partial_override_keeps_configured_defaults(self, client, settings):
+        body = client.post(
+            "/api/requirements",
+            json={**SCENARIO, "thresholds": {"max_earth_blackout_hours": 0}},
+        ).json()
+        by_id = {c["id"]: c for c in body["checks"]}
+        assert by_id["max_earth_blackout_hours"]["threshold"] == 0
+        assert by_id["min_sun_visible_pct"]["threshold"] == settings.requirements.min_sun_visible_pct
+        assert by_id["min_earth_visible_pct"]["threshold"] == settings.requirements.min_earth_visible_pct
+
+    def test_invalid_thresholds_are_rejected(self, client):
+        r = client.post(
+            "/api/requirements",
+            json={**SCENARIO, "thresholds": {"min_sun_visible_pct": 150}},
+        )
+        assert r.status_code == 422
+
     def test_demo_mode_verdict_is_labelled(self, client):
         notes = client.post("/api/requirements", json=SCENARIO).json()["notes"]
         assert any("synthetic" in n and "not verified mission conditions" in n for n in notes)

@@ -402,6 +402,24 @@ class RequirementEvaluation(BaseModel):
     notes: list[str] = Field(default_factory=list)
 
 
+class RequirementThresholdsInput(BaseModel):
+    """Optional user-adjusted targets for one requirement check.
+
+    Missing fields keep the configured Phase 1 default. These are demonstration
+    constraints selected in the UI, not NASA flight requirements.
+    """
+
+    min_sun_visible_pct: Optional[float] = Field(None, ge=0, le=100)
+    min_earth_visible_pct: Optional[float] = Field(None, ge=0, le=100)
+    max_earth_blackout_hours: Optional[float] = Field(None, ge=0, le=8760)
+
+
+class RequirementRequest(ScenarioInput):
+    """A scenario plus optional threshold overrides (defaults from the config)."""
+
+    thresholds: Optional[RequirementThresholdsInput] = None
+
+
 class ApiError(BaseModel):
     code: str
     message: str
