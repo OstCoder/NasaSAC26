@@ -1,7 +1,7 @@
 {
  "schema": "lunanav.site_terrain.v1",
  "dataset": "LOLA terrain at the three Phase 1 mission candidates",
- "generated_utc": "2026-11-14T20:24:00+00:00",
+ "generated_utc": "2026-11-14T21:10:15+00:00",
  "generator": "backend/scripts/inspect_site_terrain.py",
  "conventions": {
   "frame": "Moon Mean Earth / Polar Axis, IAU selenographic planetocentric, longitude east-positive in [-180, 180)",
@@ -9,7 +9,7 @@
   "height_datum": "metres above the 1737.4 km reference sphere (LOLA Z)",
   "units": "metres for heights and grid coordinates, kilometres for distances and extents",
   "azimuth": "degrees clockwise from local lunar north, 0 <= az < 360",
-  "obstruction_deg": "angle from the local horizontal to the skyline, lunar curvature included"
+  "obstruction_deg": "angle from the local horizontal to the skyline for a ground-level (0 m) observer, lunar curvature included; the Phase 3 horizon masks use the same skyline sampled from the 2 m observer the Sun/Earth track uses"
  },
  "sources": [
   {
@@ -52,19 +52,19 @@
   {
    "name": "NASA LROC QuickMap",
    "url": "https://quickmap.lroc.asu.edu/",
-   "checked_utc": "2026-11-14T20:23:58+00:00",
+   "checked_utc": "2026-11-14T21:10:14+00:00",
    "http_status": 200
   },
   {
    "name": "NASA Moon Trek",
    "url": "https://trek.nasa.gov/moon/",
-   "checked_utc": "2026-11-14T20:23:58+00:00",
+   "checked_utc": "2026-11-14T21:10:14+00:00",
    "http_status": 200
   },
   {
    "name": "NASA PGDA LOLA 5 m/pix south-pole DEMs",
    "url": "https://pgda.gsfc.nasa.gov/products/78",
-   "checked_utc": "2026-11-14T20:23:58+00:00",
+   "checked_utc": "2026-11-14T21:10:14+00:00",
    "http_status": 200
   }
  ],
@@ -325,6 +325,7 @@
  "limitations": {
   "extent": "Each 5 m/pix site DEM is 16 km x 16 km, so the ray-march radius is limited to the distance from the site to the nearest edge (6-9 km). Terrain beyond that - including the massifs and crater walls that matter at 20-100 km - is NOT in these files.",
   "resolution": "5 m/pixel horizontal, ~0.3 m RMS height uncertainty (Barker et al. 2021).",
+  "observer_height": "The obstruction angles here use a ground-level (0 m) observer. The Phase 3 horizon masks sample the same skyline from the 2 m eye used for the Sun/Earth track, which lowers near-field angles by atan(2 m / distance) - up to ~8 deg for a rim 15 m away. Use the masks, not these summary angles, for visibility.",
   "wider_context": "For horizons beyond ~9 km use a wider LOLA polar product in the same stereographic frame, e.g. LDEM_875S_20M (20 m/pix, south of 87.5 S) from the PDS Geosciences Node, and record it here before quoting angles from it.",
   "singularities": "Heights are relative to the 1737.4 km sphere, not to a geoid (the Moon has none). Slope and horizon angles assume local north points away from the pole; the pole itself is excluded (azimuth undefined).",
   "gaps": "NaN marks no-data cells at the raster edges; they are counted, never filled with zero.",

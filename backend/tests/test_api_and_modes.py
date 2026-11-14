@@ -215,7 +215,11 @@ class TestModes:
         sci = client.get("/api/providers?mode=scientific").json()
         assert all(p["available"] for p in demo)
         assert sci[0]["id"] == "horizons_live"
-        assert not sci[1]["available"] and "LOLA" in sci[1]["unavailable_reason"]
+        # Task 6 built the LOLA masks, so Scientific Mode terrain is now available.
+        assert sci[1]["id"] == "lola_horizon_mask"
+        assert sci[1]["available"] is True
+        assert sci[1]["effects"]["terrain_topography"] is True
+        assert sci[1]["effects"]["lunar_curvature_in_horizon"] is True
 
     def test_scientific_mode_with_data(self, tmp_path, settings, write_json):
         """With (fixture) Horizons tables + LOLA-format masks, scientific mode computes and labels results."""

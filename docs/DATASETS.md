@@ -26,7 +26,7 @@ python scripts/check_datasets.py --json   # the full payload
 | `horizons_reference` | Independent 12 h Horizons sample the Task 5 checks compare against | `data/reference/horizons_reference.json` | 180 rows in 6 requests | `services/nasa_validation.py` |
 | `nasa_validation` | Task 5 report: ten checks, assumptions, limitations, last live evidence | `data/reference/nasa_validation.json` | 10 checks | `services/nasa_validation.py` |
 | `ephemeris` | Optional tabulated Horizons sub-points | `data/scientific/ephemeris/` | **absent by design** | `scripts/fetch_horizons.py` |
-| `horizon_masks` | LOLA-derived skyline masks | `data/scientific/horizon_masks/` | **absent — Task 6** | `scripts/build_horizon_mask.py` |
+| `horizon_masks` | LOLA-derived skyline masks (Task 6) | `data/scientific/horizon_masks/` | 3 masks, 360 points each | `scripts/build_site_horizon_masks.py` |
 | `cache` | Horizons monthly tables + Moon Trek tiles | `data/cache/` | months + tiles on this machine | providers |
 
 Absent datasets are listed with `available: false` and a reason; they are never
@@ -127,7 +127,7 @@ checksums and WGS-style descriptions, and both record when they were generated.
   hackathon repository — a reviewer can read every value.
 - Terrain rasters are ~41 MB each and stay in `data/cache/`, referenced by
   checksum; the repository stores the description, not the raster.
-- `ephemeris` and `horizon_masks` are empty until Phase 2 Task 6 fills them.
+- `ephemeris` is empty until a tabulated table is committed (Scientific Mode uses the live Horizons provider); `horizon_masks` holds the three candidate masks, built at a 2 m observer out to each DEM edge.
 - `nasa_validation` describes the last run, including its live Horizons evidence.
   Re-run `scripts/validate_nasa_data.py --live` to refresh it; offline runs keep
   the recorded live block and say when it was taken.

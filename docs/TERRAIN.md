@@ -7,11 +7,12 @@ measured from the files themselves. The deliverable is:
   16 km each), downloaded from NASA PGDA and verified by checksum;
 - a committed description of what each file contains and what it can answer —
   `data/reference/site_terrain.json` (`schema: lunanav.site_terrain.v1`);
-- the skyline obstruction angle per azimuth out to the edge of each DEM, ready
-  for Phase 3's horizon masks.
+- the skyline obstruction angle per azimuth out to the edge of each DEM, and
+  the 360-point horizon masks built from those angles (Phase 2 Task 6).
 
-This is the data layer only. No horizon mask has been generated yet (that is
-Phase 2 Task 6), and nothing here certifies a landing site.
+This is the data layer. The masks built from these DEMs are in
+`data/scientific/horizon_masks/` and described in
+[docs/DATA_ACCESS.md](DATA_ACCESS.md); nothing here certifies a landing site.
 
 ## Per-site result
 
@@ -20,14 +21,17 @@ Site coordinates and elevations are the Phase 1 records in
 containing the coordinate; the catalogue elevation is the median of the
 125 m × 125 m window around it, so the two differ slightly by design.
 
-| Site | DEM | Catalogue elevation | DEM pixel | Terrain within radius | Skyline min … max | Max obstruction | Usable radius |
+| Site | DEM | Catalogue elevation | DEM pixel | Terrain within radius | Skyline min … max (0 m eye) | Max obstruction (0 m eye) | Usable radius |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `shackleton-rim` (−89.78°, −155.73°) | Site04 | 1,734.05 m | 1,728.34 m | −2,001.5 … +1,739.1 m | +3.08° … +12.66° | **12.66° at 229° az** | **6.258 km** |
 | `connecting-ridge` (−89.45°, −137.31°) | Site01 | 1,955.23 m | 1,954.85 m | +154.7 … +1,959.5 m | −1.72° … +10.63° | **10.63° at 160° az** | **7.692 km** |
 | `de-gerlache-rim` (−88.67°, −68.10°) | Site11 | 1,808.10 m | 1,808.37 m | −511.1 … +1,816.0 m | −2.53° … +5.95° | **5.95° at 265° az** | **7.579 km** |
 
 Read the obstruction column as a fact about the 6–8 km of ground in the file,
-not about the whole skyline. At Shackleton the crest of the rim itself stands
+measured from a ground-level observer, not about the whole skyline. The Phase 3
+masks sample the same terrain from the 2 m eye the Sun/Earth track uses, which
+lowers near-field angles (by `atan(2 m / distance)`); their maxima are 9.43°,
+2.85° and 1.28°. At Shackleton the crest of the rim itself stands
 12.7° above the landing point to the south-west; the connecting ridge is blocked
 to 10.6° toward 160° (the ridge falls away north, so the horizon there is
 negative, i.e. below the tangent plane). For comparison, the Sun never rises
@@ -116,12 +120,14 @@ now 5 for both LOLA layers (LROC WAC still reaches 8).
    site. Massifs and crater walls at 20–100 km are not in these files, so the
    angles above are a *lower bound* on obstruction in some directions and say
    nothing at all about more distant terrain.
-2. **No horizon mask exists yet.** These DEMs are the input; `data/scientific/
-   horizon_masks/` is still empty (Phase 2 Task 6). Until masks exist, Scientific
-   Mode refuses to compute rather than pretending terrain was applied.
-3. **Ground-level observer.** The recorded angles use a 0 m observer; Phase 3
-   defaults to +2 m, which lowers every obstruction slightly. Both are stated
-   wherever they appear.
+2. **The mask only reaches 6.3–7.7 km.** The three masks exist and are committed,
+   but they stop at the DEM edge, so terrain beyond that is unknown and the mask
+   is a lower bound on obstruction. Phase 3 can clear a skyline that a massif
+   20 km away would still block.
+3. **Observer height changes the answer.** These summary angles use a 0 m
+   observer; the masks use the 2 m eye of the Sun/Earth track. At
+   `connecting-ridge`, azimuth 160°, the ground-level maximum (10.63°) comes from
+   terrain 5 m away and falls to 2.83° at 2 m. Never mix the two sets of angles.
 4. **Display imagery is not data.** Moon Trek's 8-bit LOLA tiles are used only to
    confirm coverage; no height or angle in this document comes from them.
 5. **Slope and roughness.** Slope (medians 3.8°–8.8° over 125 m) is already in
@@ -133,13 +139,14 @@ now 5 for both LOLA layers (LROC WAC still reaches 8).
 ## Use in Phase 3
 
 ```text
-LOLA 5 m/pix DEM ──► build_horizon_mask_from_dem(max_range = usable radius)
-                  └─► horizon mask per site ──► visibility vs terrain
+LOLA 5 m/pix DEM ──► build_horizon_mask_from_dem(max_range = usable radius, 2 m eye)
+                  └─► data/scientific/horizon_masks/<site>.json ──► apply_mask → clearance
 ```
 
 - The committed reference gives Phase 3 the DEM path, the site's pixel, the
   radius that cannot run off the raster, and a per-azimuth skyline to validate
-  the mask against.
+  the mask against. `scripts/build_site_horizon_masks.py` rebuilds the masks and
+  `--verify-only` checks them against this reference without the network.
 - For horizons beyond the site DEMs, ingest `LDEM_875S_20M` (or a site-centred
   cut-out) in the same frame and add it as another source here before quoting
   angles from it.

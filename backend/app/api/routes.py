@@ -40,6 +40,7 @@ from app.services.nasa_validation import build_report as build_validation_report
 from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
+from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
 from app.services.sites import get_site_repository
 
@@ -97,6 +98,37 @@ def validation(force: bool = False):
     if force:
         _validation_report.cache_clear()
     return _validation_report()
+
+
+@router.get("/readiness")
+def readiness():
+    """Phase 2 Task 6: which candidates have both mission windows and a LOLA skyline.
+
+    ``ready`` means the data a Phase 3 visibility calculation needs is present;
+    it is not a landing recommendation and terrain still has to be applied.
+    """
+    return build_readiness()
+
+
+@router.get("/series")
+def site_series(
+    site_id: str,
+    window: Optional[str] = None,
+    start: Optional[str] = None,
+    stop: Optional[str] = None,
+    step_minutes: float = 60.0,
+):
+    """The committed Sun/Earth track for one site and window, optionally resampled.
+
+    Records keep the on-disk shape (``site_id``, ``timestamp_utc``, ``sun`` and
+    ``earth`` with ``azimuth_deg``/``elevation_deg``/``range_km``) so a client
+    reads the same fields as the JSON files. Omitting ``start``/``stop`` returns
+    the stored hourly records; giving both interpolates onto that grid and
+    refuses to extrapolate outside the window. Omitting ``window`` selects the
+    window that contains the requested range (or the initial window).
+    """
+    return series_response(site_id=site_id, window=window, start=start, stop=stop,
+                           step_minutes=step_minutes)
 
 
 @router.get("/sites", response_model=list[Site])

@@ -13,11 +13,13 @@ import type {
   Mode,
   ProviderInfo,
   PsrOut,
+  ReadinessReport,
   RequirementEvaluation,
   RescheduleResult,
   ScenarioInput,
   ScenarioResult,
   Site,
+  SiteSeries,
   Snapshot,
 } from '@/types/api'
 
@@ -68,6 +70,20 @@ export const api = {
   config: () => request<AppConfig>('/api/config'),
   providers: (mode: Mode) => request<ProviderInfo[]>(`/api/providers?mode=${mode}`),
   sites: () => request<Site[]>('/api/sites'),
+  /** Phase 2 Task 6: committed Sun/Earth track, optionally resampled (never extrapolated). */
+  series: (
+    opts: { siteId: string; window?: string; start?: string; stop?: string; stepMinutes?: number },
+    signal?: AbortSignal,
+  ) => {
+    const q = new URLSearchParams({ site_id: opts.siteId })
+    if (opts.window) q.set('window', opts.window)
+    if (opts.start) q.set('start', opts.start)
+    if (opts.stop) q.set('stop', opts.stop)
+    if (opts.stepMinutes !== undefined) q.set('step_minutes', String(opts.stepMinutes))
+    return request<SiteSeries>(`/api/series?${q.toString()}`, { signal })
+  },
+  /** Which candidates have both mission windows and a LOLA skyline. */
+  readiness: (signal?: AbortSignal) => request<ReadinessReport>('/api/readiness', { signal }),
   scenario: (input: ScenarioInput, signal?: AbortSignal) => post<ScenarioResult>('/api/scenario', input, signal),
   /** Check one scenario against the Phase 1 requirements served in /api/config. */
   requirements: (input: ScenarioInput, signal?: AbortSignal) =>

@@ -79,7 +79,7 @@ For the whole Phase 2 Task 2 dataset — all three candidates × both 7-day wind
 
 - **Included:** Sun/Earth geometry from JPL Horizons (with physical libration and light-time), real LRO imagery for orientation, and a 3D shape from LOLA elevation.
 - **The 3D shape is for display.** It comes from 8-bit map tiles, smoothed and exaggerated 3x, and assumes those tiles span LOLA's ~19.9 km range. Terrain does not cast shadows on the globe. Don't measure from it.
-- **Not included yet:** terrain. Without LOLA horizon masks, visibility uses the flat geometric horizon. Every result says "Geometric only: terrain obstruction not applied", which **overestimates** visibility near the pole. Add masks with `scripts/build_horizon_mask.py` (see ADAPTATION_GUIDE.md §4) and the same mode starts applying them automatically.
+- **Terrain:** the three mission candidates have committed LOLA horizon masks (`data/scientific/horizon_masks/`, built by `scripts/build_site_horizon_masks.py`), so their visibility is terrain-adjusted. Any other location still gets "Geometric only: terrain obstruction not applied", which **overestimates** visibility near the pole; build a mask with `scripts/build_horizon_mask.py` (see ADAPTATION_GUIDE.md §4) and the same mode applies it automatically.
 - **Scientific** mode uses the same Horizons data but refuses to compute without a LOLA mask.
 - The imagery and 3D shape are for orientation. Visibility numbers never come from them.
 
@@ -115,6 +115,7 @@ For the whole Phase 2 Task 2 dataset — all three candidates × both 7-day wind
 | `backend/app/providers/horizons_site.py` | Topocentric Sun/Earth azimuth and elevation for a lunar site (Phase 2) |
 | `backend/scripts/horizons_site.py` | Fetches a site's series and writes the Task 2 JSON records |
 | `backend/scripts/fetch_craters.py` | Rebuilds the IAU crater catalogue |
+| `backend/app/services/site_data.py` | Phase 2 Task 6 data access: one record contract, interpolation inside a stored window, LOLA mask loading and clearance |
 | `backend/app/services/imagery.py` | Moon Trek tile cache, polar reprojection, global texture, relief maps |
 | `backend/app/services/jpl_status.py` | `/api/jpl/status` |
 | `backend/app/core/http.py` | The only place that makes outbound requests |

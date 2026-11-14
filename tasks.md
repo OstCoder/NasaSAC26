@@ -272,13 +272,13 @@ reference rows reproduce exactly. Assumptions and the ten known limitations are 
 
 ## Task 6: Prepare Data for Phase 3
 
-- [ ] Make the astronomical data accessible to calculation modules.
-- [ ] Ensure all time-series records have consistent fields.
-- [ ] Make the selected sites available through a shared data file.
-- [ ] Prepare terrain data for future horizon calculations.
-- [ ] Document how to load and query the datasets.
-- [ ] Confirm that frontend and backend developers agree on formats.
-- [ ] Test retrieving data for at least one site and date range.
+- [x] Make the astronomical data accessible to calculation modules.
+- [x] Ensure all time-series records have consistent fields.
+- [x] Make the selected sites available through a shared data file.
+- [x] Prepare terrain data for future horizon calculations.
+- [x] Document how to load and query the datasets.
+- [x] Confirm that frontend and backend developers agree on formats.
+- [x] Test retrieving data for at least one site and date range.
 
 ### Deliverable
 
@@ -286,23 +286,33 @@ A verified dataset and functioning data-access layer
 ready for Sun visibility, Earth visibility, and
 terrain-obstruction calculations.
 
+`services/site_data.py` is that layer: it loads the Task 2 records under one
+field contract, resamples them onto any grid inside a stored window without
+extrapolating, and loads the LOLA skyline so `apply_mask` yields clearance per
+body. `GET /api/series` and `GET /api/readiness` expose the same data, mirrored
+in `frontend/src/types/api.ts` so the frontend reads the exact file fields.
+Task 6 also built the three horizon masks (`scripts/build_site_horizon_masks.py`,
+360 azimuths each, 6.3-7.7 km range, 2 m observer) and committed them, so
+Scientific Mode now applies real terrain. How to load and query everything is in
+[docs/DATA_ACCESS.md](docs/DATA_ACCESS.md).
+
 ---
 
 ## Phase 2 Completion Checklist
 
-- [ ] JPL Horizons successfully integrated.
-- [ ] Sun positions retrieved using real NASA data.
-- [ ] Earth positions retrieved using real NASA data.
-- [ ] Three lunar landing sites supported.
-- [ ] Initial mission date range processed.
-- [ ] Alternative mission date range processed.
-- [ ] Astronomical time-series data saved.
-- [ ] Lunar terrain sources identified.
-- [ ] At least one usable terrain dataset obtained.
-- [ ] Data formats standardized.
+- [x] JPL Horizons successfully integrated.
+- [x] Sun positions retrieved using real NASA data.
+- [x] Earth positions retrieved using real NASA data.
+- [x] Three lunar landing sites supported.
+- [x] Initial mission date range processed.
+- [x] Alternative mission date range processed.
+- [x] Astronomical time-series data saved.
+- [x] Lunar terrain sources identified.
+- [x] At least one usable terrain dataset obtained.
+- [x] Data formats standardized.
 - [x] Astronomical results validated.
-- [ ] Backend data pipeline tested.
-- [ ] Data ready for Phase 3.
+- [x] Backend data pipeline tested.
+- [x] Data ready for Phase 3.
 
 ---
 

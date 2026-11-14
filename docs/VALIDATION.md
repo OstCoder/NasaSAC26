@@ -112,10 +112,10 @@ requires the observed pairwise differences to match the model's prediction to
 - **Model accuracy.** Meeus' truncated series omits physical libration, light-time
   and aberration; agreement of a few hundredths of a degree is expected and
   observed. Sub-arcsecond agreement is not claimed.
-- **Geometric, not terrain-obstructed.** Every elevation is above the flat local
-  horizon. The LOLA skylines in `data/reference/site_terrain.json` reach 6.0°–12.7°,
-  so a body at +0.5° can still be hidden; that is Phase 3's calculation, not this
-  validation's.
+- **Geometric, not terrain-obstructed.** Every elevation here is above the flat
+  local horizon. The committed LOLA masks (`data/scientific/horizon_masks/`) reach
+  9.43°, 2.85° and 1.28° at the 2 m observer, so a body at +0.5° can still be
+  hidden; applying terrain is Phase 3's calculation, not this validation's.
 - **Sampling.** The series is hourly and the reference is 12-hourly. Minutes in
   between are not validated by either; interpolation must be labelled as such.
 - **Observer height.** 2 m is assumed. A real lander's camera or antenna sits at a

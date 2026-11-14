@@ -38,13 +38,13 @@ If the window extends past 2030, also reconsider the fixed UTC→TT offset in `c
 
 | Format | Steps |
 | --- | --- |
-| LOLA DEM GeoTIFF (polar stereographic) | `pip install rasterio`; `python scripts/build_horizon_mask.py --dem <file> --site-id <id> --lat .. --lon ..` for each site. Check the CRS printout and height units (`--scale 1000` if km). |
+| LOLA DEM GeoTIFF (polar stereographic) | `pip install rasterio`; for the mission candidates `python scripts/build_site_horizon_masks.py` builds all three from the cached PGDA DEMs (`--verify-only` checks them offline). For any other DEM use `python scripts/build_horizon_mask.py --dem <file> --site-id <id> --lat .. --lon ..`. Check the CRS printout and height units (`--scale 1000` if km). |
 | Pre-computed horizon masks | Write JSON `{site_id, latitude_deg, longitude_deg, source, azimuth_deg[], elevation_deg[]}` into `data/scientific/horizon_masks/`. Azimuth 0–<360 clockwise from north, elevation in degrees. |
 | Illumination/visibility rasters (% time lit, etc.) | New `LunarTerrainProvider` method or a separate provider; expose as a new metric category or map layer. These are summaries; they don't replace time-resolved masks. |
 | New Moon Trek layer | Add an entry under `imagery.layers` in the config (Trek path, extensions, max zoom, credit). It appears in the map's Imagery picker and the 3D globe. |
 | Imagery / hillshade tiles from elsewhere | Tile them on the same south-polar-stereographic km grid (origin at the pole, y up, 0° at top) and set `VITE_LUNAR_TILE_URL` (+ `VITE_LUNAR_TILE_ATTRIBUTION`). For other projections, use Proj4Leaflet and update `features/lunar-map/projection.ts`. |
 
-Scientific Mode terrain turns on when at least one mask exists. Custom coordinates without a mask stay unavailable in Scientific Mode by design (within 0.25 km match tolerance, `MATCH_TOLERANCE_KM`).
+Scientific Mode terrain turns on when at least one mask exists; the three mission candidates already have masks. Custom coordinates without a mask stay unavailable in Scientific Mode by design (within 0.25 km match tolerance, `MATCH_TOLERANCE_KM`).
 
 ## 5. New metric or evaluation criterion
 

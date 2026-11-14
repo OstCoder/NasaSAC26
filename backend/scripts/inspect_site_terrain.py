@@ -60,6 +60,12 @@ LIMITATIONS = {
         "the massifs and crater walls that matter at 20-100 km - is NOT in these files."
     ),
     "resolution": "5 m/pixel horizontal, ~0.3 m RMS height uncertainty (Barker et al. 2021).",
+    "observer_height": (
+        "The obstruction angles here use a ground-level (0 m) observer. The Phase 3 horizon "
+        "masks sample the same skyline from the 2 m eye used for the Sun/Earth track, which "
+        "lowers near-field angles by atan(2 m / distance) - up to ~8 deg for a rim 15 m away. "
+        "Use the masks, not these summary angles, for visibility."
+    ),
     "wider_context": (
         "For horizons beyond ~9 km use a wider LOLA polar product in the same stereographic "
         "frame, e.g. LDEM_875S_20M (20 m/pix, south of 87.5 S) from the PDS Geosciences Node, "

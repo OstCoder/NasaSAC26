@@ -73,6 +73,7 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `services/site_series.py` | Phase 2 Task 2 series: tracks to chronological per-timestamp records, coverage checks and the on-disk payload. |
 | `services/terrain_inventory.py` | Phase 2 Task 3 terrain inventory: DEM georeferencing, site coverage, relief/obstruction summary and the on-disk payload. |
 | `services/dataset_catalogue.py` | Phase 2 Task 4 data catalogue: per-dataset paths, units, conventions, sources and cross-dataset consistency checks, served at `GET /api/datasets`. |
+| `services/site_data.py` | Phase 2 Task 6 data access: one record contract, interpolation inside a stored window, LOLA mask loading, clearance per body and per-candidate readiness, served at `GET /api/series` and `GET /api/readiness`. |
 | `services/imagery.py` | Moon Trek tile cache, reprojection to the polar map grid, global texture. |
 | `services/jpl_status.py` | Live reachability of Horizons and Moon Trek. |
 | `core/http.py` | Single outbound HTTP function (mocked in tests). |

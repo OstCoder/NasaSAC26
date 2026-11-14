@@ -351,3 +351,82 @@ export interface ApiErrorBody {
   message: string
   details: Record<string, unknown>
 }
+
+/** Phase 2 Task 6: one body's angles in the on-disk record shape. */
+export interface BodySample {
+  azimuth_deg: number
+  elevation_deg: number
+  /** Observer-target range; omitted when Horizons did not return one. */
+  range_km?: number
+}
+
+/** The Task 2 record, unchanged over HTTP: same fields as site_series/*.json. */
+export interface SeriesRecord {
+  site_id: string
+  /** ISO-8601 UTC. */
+  timestamp_utc: string
+  sun: BodySample
+  earth: BodySample
+}
+
+export interface SeriesMaskSummary {
+  site_id: string
+  source: string
+  azimuth_step_deg: number
+  max_range_km: number
+  max_obstruction_deg: number
+  max_obstruction_azimuth_deg: number
+  observer_height_m: number
+  dem: string
+  available: true
+}
+
+/** GET /api/series. Geometry only: clearance is not a visibility verdict. */
+export interface SiteSeries {
+  schema: 'lunanav.series_access.v1'
+  records_schema: 'lunanav.site_series.v1'
+  site: {
+    site_id: string
+    name: string
+    latitude_deg: number
+    longitude_deg: number
+    elevation_m: number
+    height_m: number
+    altitude_km: number
+  }
+  window: { key: string; label: string; start_utc: string; stop_utc: string }
+  request: {
+    start_utc: string
+    stop_utc: string
+    step_minutes: number
+    native_step: string
+    interpolated: boolean
+    samples: number
+  }
+  mask: SeriesMaskSummary | null
+  provenance: Record<string, string>
+  fields: string[]
+  checks: Record<string, boolean>
+  series: SeriesRecord[]
+}
+
+export interface SiteReadiness {
+  site_id: string
+  name: string
+  latitude_deg: number
+  longitude_deg: number
+  elevation_m: number | null
+  windows: Record<string, { start_utc: string; stop_utc: string; records: number; step: string }>
+  mask: SeriesMaskSummary | null
+  ready: boolean
+  problems: string[]
+}
+
+/** GET /api/readiness: what Phase 3 needs, per mission candidate. */
+export interface ReadinessReport {
+  schema: 'lunanav.phase3_readiness.v1'
+  generated_utc: string
+  sites: SiteReadiness[]
+  summary: { sites: number; ready: number; with_mask: number; missing: string[] }
+  notes: string[]
+}

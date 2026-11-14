@@ -34,13 +34,13 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 194 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 211 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, mission config and site-catalogue validation,
                               # site provenance and PSR geometry, requirement checks, comparison,
                               # rescheduler, mode switching, topocentric Horizons site az/el (Task 1),
                               # Task 2 series assembly, terrain inventory (Task 3), Task 5 data
-                              # validation, JPL Horizons live provider and Moon Trek imagery
-                              # (mocked network)
+                              # validation, Task 6 data access and horizon masks, JPL Horizons live
+                              # provider and Moon Trek imagery (mocked network)
 cd frontend && npm test       # projection round-trips
 cd frontend && npm run build  # strict TypeScript + production bundle
 ```
@@ -63,7 +63,7 @@ cd frontend && npm run build  # strict TypeScript + production bundle
 - Sun visibility is never presented as power; Earth visibility is never presented as a comms link.
 - Comparisons describe differences. They do not rank or recommend sites.
 - Candidate sites use exact published coordinates (Mazarico et al. 2011 / NASA 2020 site numbering) with LOLA elevations — see [docs/SITES.md](docs/SITES.md). Demo Mode horizon skylines are still synthetic.
-- **Terrain** (Phase 2 Task 3) is one 5 m/pixel LOLA DEM per candidate, 16 km on a side; only 6.3–7.7 km of that can feed a horizon, and no horizon mask exists yet, so results keep saying "terrain not applied" until Task 6 fills `data/scientific/horizon_masks/`.
+- **Terrain** (Phase 2 Tasks 3 and 6) is one 5 m/pixel LOLA DEM per candidate, 16 km on a side; only 6.3–7.7 km of that can feed a horizon. The three candidates now have committed horizon masks, so Scientific Mode applies real terrain; any other coordinate still says "terrain not applied".
 
 ## Repository layout
 
@@ -89,7 +89,7 @@ lunanav/
 ├── data/
 │   ├── demo/            # sites.json, horizon_masks.json (synthetic skylines)
 │   ├── reference/       # PSR catalogue, elevation evidence, terrain inventory, crater centres
-│   └── scientific/      # site_series/ (Phase 2 Task 2); ephemeris and LOLA masks added later
+│   └── scientific/      # site_series/ (Task 2) and horizon_masks/ (Task 6); ephemeris added later
 └── docs/
     ├── SPECIFICATIONS.md     # Phase 1 deliverable: mission, sites, requirements, datasets
     ├── MISSION.md            # the mission scenario and its candidate sites
@@ -98,6 +98,7 @@ lunanav/
     ├── ARCHITECTURE.md
     ├── METHODOLOGY.md
     ├── VALIDATION.md         # Task 5 data validation, assumptions and known limitations
+    ├── DATA_ACCESS.md        # Task 6 data access: how to load and query, and its limits
     ├── JPL_CONNECTION.md
     └── ADAPTATION_GUIDE.md   # read this when NASA publishes new details
 ```
@@ -113,14 +114,15 @@ lunanav/
 | Phase 2 terrain data (LOLA 5 m/pix DEM per candidate, measured in code) | Retrieved from NASA PGDA on 2026-11-14 and verified by checksum: three 16 km × 16 km DEMs at 5 m/pix, 6.3–7.7 km of usable ray-march radius, skyline obstruction 6.0°–12.7° max; recorded in `data/reference/site_terrain.json`, documented in [docs/TERRAIN.md](docs/TERRAIN.md). |
 | Phase 2 data pipeline (one catalogue, cross-dataset checks, API access, cache visibility) | `GET /api/datasets` and `scripts/check_datasets.py` list all eleven datasets with units, longitude convention, sources and record counts, and fail if a site is a different point in the catalogue, the Task 2 series and the Task 3 terrain reference. Currently passes with no problems; see [docs/DATASETS.md](docs/DATASETS.md). |
 | Phase 2 validation (Task 5: independent model, Horizons reference, units, UTC, continuity) | `scripts/validate_nasa_data.py` checks the 1,014 records ten ways offline and can re-query Horizons (`--live`): coordinates, lunar observer, Sun/Earth positions (≤ 0.032° from an independent model), 180 reference rows reproduced exactly, units, UTC, continuity, same site/different dates and different sites/same time. `GET /api/validation` serves the report; [docs/VALIDATION.md](docs/VALIDATION.md) records the assumptions and ten known limitations. |
+| Phase 3 hand-off (Task 6: horizon masks, data access, format contract) | `scripts/build_site_horizon_masks.py` built 360-point LOLA skylines for all three candidates (6.3–7.7 km, 2 m observer, max 9.43°/2.85°/1.28°) and they are committed. `services/site_data.py` loads the Task 2 records under one field contract, resamples inside a stored window, and pairs them with the skyline (`apply_mask` → clearance). `GET /api/series` and `GET /api/readiness` expose it; [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md) documents loading and limits. |
 | Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. All three layer paths were confirmed on 2026-10-30, and live LOLA tiles were fetched for all three candidate sites on 2026-11-14 — which exposed a wrong max zoom: the two LOLA layers stop at zoom 5, now corrected in the config. |
-| LOLA horizon-mask builder (DEM ray-march with curvature) | Algorithm tested on synthetic DEMs and on the real Task 3 LOLA DEMs; building the masks themselves is Phase 2 Task 6 |
+| LOLA horizon masks (DEM ray-march with curvature) | Built for all three candidates on 2026-11-14 and verified offline: 360 azimuths each over 6.3–7.7 km at a 2 m observer, max skyline 9.43°/2.85°/1.28°; committed in `data/scientific/horizon_masks/`. |
 | SPICE provider | Implemented, **not validated**: needs `spiceypy` + kernels |
 | 3D terrain, power model, link budget, rankings, AI explanations, report export | Extension points and feature flags only |
 
 ## API
 
-`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 
@@ -130,6 +132,7 @@ lunanav/
 - [docs/TERRAIN.md](docs/TERRAIN.md): the LOLA terrain data obtained for each candidate — resolution, extent, CRS, datum, skyline angles and coverage limits
 - [docs/DATASETS.md](docs/DATASETS.md): every dataset, its units, longitude convention, sources and validation, plus how to load and query it
 - [docs/VALIDATION.md](docs/VALIDATION.md): how the Phase 2 data was validated, what each check proves, and its known limitations
+- [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md): loading the time-series and terrain data from Python or HTTP, the field contract, and the limits Phase 3 must carry
 - [docs/SITE_REQUIREMENTS.md](docs/SITE_REQUIREMENTS.md): the measurable criteria a site must meet, and what those numbers do not prove
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): layers, data flow, extension points
 - [docs/METHODOLOGY.md](docs/METHODOLOGY.md): the math, conventions, accuracy, what is and isn't modelled

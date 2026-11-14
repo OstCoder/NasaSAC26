@@ -205,7 +205,11 @@ def terrain_payload(
             "height_datum": HEIGHT_DATUM,
             "units": "metres for heights and grid coordinates, kilometres for distances and extents",
             "azimuth": "degrees clockwise from local lunar north, 0 <= az < 360",
-            "obstruction_deg": "angle from the local horizontal to the skyline, lunar curvature included",
+            "obstruction_deg": (
+                "angle from the local horizontal to the skyline for a ground-level (0 m) "
+                "observer, lunar curvature included; the Phase 3 horizon masks use the same "
+                "skyline sampled from the 2 m observer the Sun/Earth track uses"
+            ),
         },
         "sources": sources,
         "resources_checked": resources_checked,

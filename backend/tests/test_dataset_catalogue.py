@@ -45,11 +45,15 @@ def test_cross_dataset_checks_pass_and_counts_match_the_files(catalogue):
 
 def test_datasets_that_do_not_exist_say_so_instead_of_vanishing(catalogue):
     by_id = {entry["id"]: entry for entry in catalogue["datasets"]}
-    for dataset_id in ("ephemeris", "horizon_masks"):
-        entry = by_id[dataset_id]
-        assert entry["available"] is False
-        assert entry["unavailable_reason"]
-    assert "Task 6" in by_id["horizon_masks"]["unavailable_reason"]
+    ephemeris = by_id["ephemeris"]
+    assert ephemeris["available"] is False
+    assert ephemeris["unavailable_reason"]
+    # Task 6 built the masks, so this dataset is now present rather than absent.
+    masks = by_id["horizon_masks"]
+    assert masks["available"] is True
+    assert masks["records"] == 3
+    assert len(masks["details"]["files"]) == 3
+    assert by_id["site_series"]["details"]["step"] == "1 h"
 
 
 def test_cache_is_described_without_inventing_content(catalogue):
