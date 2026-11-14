@@ -99,6 +99,7 @@
     "psr_catalogue": "data/reference/psrs.json",
     "site_elevations": "data/reference/site_elevations.json",
     "site_series_index": "data/scientific/site_series/index.json",
+    "site_dem_dir": "data/scientific/site_dems",
     "site_terrain": "data/reference/site_terrain.json",
     "wide_terrain": "data/reference/wide_dem.json",
     "horizons_reference": "data/reference/horizons_reference.json",

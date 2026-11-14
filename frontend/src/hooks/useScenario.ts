@@ -10,6 +10,7 @@ import type {
   SiteSeries,
   SkyNow,
   Snapshot,
+  TerrainDem,
   TerrainHorizon,
 } from '@/types/api'
 import type { ScenarioDraft } from './useAppContext'
@@ -67,6 +68,11 @@ export function useSiteSeries(siteId: string, window: string) {
 /** Phase 4: the feasibility matrix — every candidate x both windows vs the requirements. */
 export function useFeasibilityMatrix() {
   return useApiResource<FeasibilityMatrix>('feasibility-matrix', (signal) => api.feasibilityMatrix(signal), 0)
+}
+
+/** Phase 4 Task 6 (experimental): one candidate's pooled LOLA DEM grid, display only. */
+export function useSiteDem(siteId: string) {
+  return useApiResource<TerrainDem>(`site-dem:${siteId}`, (signal) => api.terrainDem({ siteId }, signal), 0)
 }
 
 export function useCraters() {

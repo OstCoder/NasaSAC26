@@ -23,6 +23,7 @@ import type {
   Site,
   SiteSeries,
   Snapshot,
+  TerrainDem,
   TerrainHorizon,
 } from '@/types/api'
 
@@ -90,6 +91,9 @@ export const api = {
   /** Phase 3: terrain-adjusted visibility, both windows, from committed data (offline). */
   phase3Windows: (signal?: AbortSignal) =>
     request<Phase3Windows>('/api/phase3/windows', { signal }),
+  /** Phase 4 Task 6 (experimental): one candidate's pooled LOLA DEM grid (display only). */
+  terrainDem: (opts: { siteId: string }, signal?: AbortSignal) =>
+    request<TerrainDem>(`/api/terrain-dem?site_id=${encodeURIComponent(opts.siteId)}`, { signal }),
   /** Phase 3 Task 3 / Phase 4: the horizon profile and Sun/Earth against it (offline). */
   terrainHorizon: (
     opts: { siteId?: string; latitudeDeg?: number; longitudeDeg?: number; window?: string },
