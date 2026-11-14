@@ -34,14 +34,16 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 229 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 277 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, mission config and site-catalogue validation,
                               # site provenance and PSR geometry, requirement checks, comparison,
                               # rescheduler, mode switching, topocentric Horizons site az/el (Task 1),
                               # Task 2 series assembly, terrain inventory (Task 3), Task 5 data
                               # validation, Task 6 data access, two-tier horizon masks and the wide
                               # 80 m DEM, Phase 3 geometric Sun visibility and terrain-adjusted
-                              # visibility from the committed data, JPL Horizons
+                              # visibility from the committed data, the terrain horizon profile
+                              # and the reproducible mission-report envelope, the Phase 4
+                              # feasibility matrix, pooled site DEM previews, JPL Horizons
                               # live provider and Moon Trek imagery
 cd frontend && npm test       # projection round-trips
 cd frontend && npm run build  # strict TypeScript + production bundle
@@ -101,6 +103,8 @@ lunanav/
     ├── METHODOLOGY.md
     ├── VALIDATION.md         # Task 5 data validation, assumptions and known limitations
     ├── DATA_ACCESS.md        # Task 6 data access: how to load and query, and its limits
+    ├── TERRAIN_HORIZON.md    # Task 3 skyline, the horizon panel and the feature-flagged 3D view
+    ├── MISSION_REPORT.md     # Task 11 result envelope: every field, its unit, reproducibility
     ├── JPL_CONNECTION.md
     └── ADAPTATION_GUIDE.md   # read this when NASA publishes new details
 ```
@@ -122,11 +126,14 @@ lunanav/
 | Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. All three layer paths were confirmed on 2026-10-30, and live LOLA tiles were fetched for all three candidate sites on 2026-11-14 — which exposed a wrong max zoom: the two LOLA layers stop at zoom 5, now corrected in the config. |
 | LOLA horizon masks (DEM ray-march with curvature) | Built for all three candidates on 2026-11-14 and verified offline: 360 azimuths each, 5 m/pix to the site DEM edge and 80 m/pix to 150 km at a 2 m observer, max skyline 9.43°/2.85°/1.28° (far tier only 1.06°/−0.85°/−0.22°); committed in `data/scientific/horizon_masks/`. |
 | SPICE provider | Implemented, **not validated**: needs `spiceypy` + kernels |
-| 3D terrain, power model, link budget, rankings, AI explanations, report export | Extension points and feature flags only |
+| Phase 4 Mission Planner panels (horizon profile, feasibility matrix, landing delay) | Working and typechecked: the horizon profile draws the committed skyline with Sun/Earth tracks from `GET /api/terrain-horizon` and `GET /api/series` ([docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md)); the feasibility matrix reads every candidate × both windows against the Phase 1 requirements from `GET /api/feasibility`; the landing-delay panel shows before/after metrics from `POST /api/reschedule`. |
+| Phase 3 result envelope (Task 11) | `GET /api/mission-report` returns one deterministic document per site and window — terrain basis and coverage, sunlight/Earth/simultaneous windows, the metric list and the Phase 1 requirement checks; [docs/MISSION_REPORT.md](docs/MISSION_REPORT.md) lists every field and unit. |
+| Experimental site 3D terrain (Phase 4 Task 6, feature-flagged) | Working and off by default: `GET /api/terrain-dem` serves committed 128 × 128 pooled LOLA height grids with SHA-256 provenance (503 `DEM_UNAVAILABLE` rather than a fabricated mesh), and `SiteTerrain3DPanel` renders them with three.js behind `experimental_3d_terrain` and an in-panel enable button. The 2D profile stays the source of truth. |
+| Power model, link budget, rankings, AI explanations, report export | Extension points only |
 
 ## API
 
-`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/geometric-sun`, `GET /api/phase3`, `GET /api/phase3/windows`, `GET /api/terrain-horizon`, `GET /api/mission-report`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/geometric-sun`, `GET /api/phase3`, `GET /api/phase3/windows`, `GET /api/terrain-horizon`, `GET /api/mission-report`, `GET /api/feasibility`, `GET /api/terrain-dem`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 
@@ -134,7 +141,7 @@ lunanav/
 - [docs/MISSION.md](docs/MISSION.md): the 7-day solar-powered robotic mission and its three candidate sites
 - [docs/SITES.md](docs/SITES.md): the selected sites, their published coordinates, LOLA elevations and PSR context
 - [docs/TERRAIN.md](docs/TERRAIN.md): the LOLA terrain data obtained for each candidate — resolution, extent, CRS, datum, skyline angles and coverage limits
-- [docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md): the terrain horizon profile per site, Sun/Earth against the skyline, observer height, curvature, uncertainty and the geometric-only flag
+- [docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md): the terrain horizon profile per site, Sun/Earth against the skyline, observer height, curvature, uncertainty, the geometric-only flag, and the feature-flagged 3D site view
 - [docs/MISSION_REPORT.md](docs/MISSION_REPORT.md): the Phase 3 result envelope — every field, its unit and meaning, and why it is reproducible
 - [docs/DATASETS.md](docs/DATASETS.md): every dataset, its units, longitude convention, sources and validation, plus how to load and query it
 - [docs/VALIDATION.md](docs/VALIDATION.md): how the Phase 2 data was validated, what each check proves, and its known limitations
