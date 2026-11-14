@@ -34,13 +34,14 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 214 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 220 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, mission config and site-catalogue validation,
                               # site provenance and PSR geometry, requirement checks, comparison,
                               # rescheduler, mode switching, topocentric Horizons site az/el (Task 1),
                               # Task 2 series assembly, terrain inventory (Task 3), Task 5 data
                               # validation, Task 6 data access, two-tier horizon masks and the wide
-                              # 80 m DEM, JPL Horizons live provider and Moon Trek imagery
+                              # 80 m DEM, Phase 3 visibility from the committed data, JPL Horizons
+                              # live provider and Moon Trek imagery
 cd frontend && npm test       # projection round-trips
 cd frontend && npm run build  # strict TypeScript + production bundle
 ```
@@ -115,6 +116,7 @@ lunanav/
 | Phase 2 data pipeline (one catalogue, cross-dataset checks, API access, cache visibility) | `GET /api/datasets` and `scripts/check_datasets.py` list all eleven datasets with units, longitude convention, sources and record counts, and fail if a site is a different point in the catalogue, the Task 2 series and the Task 3 terrain reference. Currently passes with no problems; see [docs/DATASETS.md](docs/DATASETS.md). |
 | Phase 2 validation (Task 5: independent model, Horizons reference, units, UTC, continuity) | `scripts/validate_nasa_data.py` checks the 1,014 records ten ways offline and can re-query Horizons (`--live`): coordinates, lunar observer, Sun/Earth positions (≤ 0.032° from an independent model), 180 reference rows reproduced exactly, units, UTC, continuity, same site/different dates and different sites/same time. `GET /api/validation` serves the report; [docs/VALIDATION.md](docs/VALIDATION.md) records the assumptions and ten known limitations. |
 | Phase 3 hand-off (Task 6: horizon masks, data access, format contract) | `scripts/build_site_horizon_masks.py` built 360-point LOLA skylines for all three candidates (5 m/pix to the DEM edge, then 80 m/pix to 150 km; 2 m observer; max 9.43°/2.85°/1.28°) and they are committed. `services/site_data.py` loads the Task 2 records under one field contract, resamples inside a stored window, and pairs them with the skyline (`apply_mask` → clearance). `GET /api/series` and `GET /api/readiness` expose it; [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md) documents loading and limits. |
+| Phase 3 visibility (terrain-adjusted Sun/Earth over both windows) | `GET /api/phase3` applies each candidate's two-tier LOLA skyline to the committed hourly series and returns elevation, skyline, clearance, a boolean, disk fraction, intervals and metrics; `GET /api/phase3/windows` summarises all six site/windows. No network call, no substituted data. The Mission Planner's *Phase 3 · Wider horizons and readiness* panel shows readiness, skyline coverage and both windows; see [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md). |
 | Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. All three layer paths were confirmed on 2026-10-30, and live LOLA tiles were fetched for all three candidate sites on 2026-11-14 — which exposed a wrong max zoom: the two LOLA layers stop at zoom 5, now corrected in the config. |
 | LOLA horizon masks (DEM ray-march with curvature) | Built for all three candidates on 2026-11-14 and verified offline: 360 azimuths each, 5 m/pix to the site DEM edge and 80 m/pix to 150 km at a 2 m observer, max skyline 9.43°/2.85°/1.28° (far tier only 1.06°/−0.85°/−0.22°); committed in `data/scientific/horizon_masks/`. |
 | SPICE provider | Implemented, **not validated**: needs `spiceypy` + kernels |
@@ -122,7 +124,7 @@ lunanav/
 
 ## API
 
-`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/phase3`, `GET /api/phase3/windows`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 

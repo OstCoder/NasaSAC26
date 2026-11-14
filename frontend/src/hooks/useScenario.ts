@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { api } from '@/services/api'
-import type { Crater, Mode, ScenarioResult, SkyNow, Snapshot } from '@/types/api'
+import type { Crater, Mode, Phase3Windows, ReadinessReport, ScenarioResult, SkyNow, Snapshot } from '@/types/api'
 import type { ScenarioDraft } from './useAppContext'
 import { useApiResource } from './useApiResource'
 
@@ -28,6 +28,15 @@ export function useSkyNow(mode: Mode) {
     return () => window.clearInterval(id)
   }, [])
   return useApiResource<SkyNow>(`${mode}:${tick}`, (signal) => api.skyNow(mode, signal), 0)
+}
+
+export function useReadiness() {
+  return useApiResource<ReadinessReport>('readiness', (signal) => api.readiness(signal), 0)
+}
+
+/** Phase 3 visibility for every candidate and window, computed from the committed data. */
+export function usePhase3Windows() {
+  return useApiResource<Phase3Windows>('phase3-windows', (signal) => api.phase3Windows(signal), 0)
 }
 
 export function useCraters() {

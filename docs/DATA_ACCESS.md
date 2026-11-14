@@ -82,7 +82,17 @@ report["summary"]   # {'sites': 3, 'ready': 3, 'with_mask': 3, 'missing': []}
 curl -s 'localhost:8000/api/series?site_id=shackleton-rim' | python -m json.tool | head -30
 curl -s 'localhost:8000/api/series?site_id=connecting-ridge&start=2026-12-11T00:00:00Z&stop=2026-12-11T06:00:00Z&step_minutes=30'
 curl -s localhost:8000/api/readiness | python -m json.tool
+curl -s 'localhost:8000/api/phase3?site_id=shackleton-rim' | python -m json.tool | head -30
+curl -s localhost:8000/api/phase3/windows | python -m json.tool
 ```
+
+`/api/phase3` is the Phase 3 calculation itself: it applies the site's skyline
+to the committed track and returns, per hour, elevation, skyline, clearance,
+`visible` and the solar `disk_fraction`, plus intervals (`sun_visible`,
+`earth_visible`, `both_visible`, blackouts), the shared metrics and the mask's
+two tiers. `/api/phase3/windows` summarises all three candidates over both
+windows for the Mission Planner panel. Both are offline and mode-independent:
+they never re-query Horizons and never substitute demo data.
 
 `/api/series` returns the **on-disk record shape**, so a client parses one
 format whether it reads the JSON file or the API:

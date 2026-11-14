@@ -317,24 +317,28 @@ Scientific Mode now applies real terrain. How to load and query everything is in
 
 ---
 
-## Phase 3 — Next Steps
+## Phase 3 — Visibility calculations
 
 Use the data collected in Phase 2 to calculate
 actual mission visibility conditions.
 
-Planned calculations:
+- [x] Sun visibility above the geometric horizon.
+- [x] Earth visibility above the geometric horizon.
+- [x] Terrain obstruction of Sun and Earth (two-tier LOLA skyline, 150 km).
+- [x] Direct sunlight availability over time.
+- [x] Direct-to-Earth line-of-sight windows.
+- [x] Longest continuous darkness period.
+- [x] Longest Earth line-of-sight blackout.
+- [x] Simultaneous Sun and Earth visibility.
 
-1. Sun visibility above the geometric horizon.
-2. Earth visibility above the geometric horizon.
-3. Terrain obstruction of Sun and Earth.
-4. Direct sunlight availability over time.
-5. Direct-to-Earth communication visibility windows.
-6. Longest continuous darkness period.
-7. Longest Earth communication blackout.
-8. Simultaneous Sun and Earth visibility.
-
-These calculations will form the scientific foundation
-of our lunar mission-planning website.
+Delivered by `backend/app/services/phase3.py` and `GET /api/phase3`:
+per-sample elevation, skyline, clearance, visibility and solar disk fraction;
+intervals for Sun, Earth and both; longest blackouts; and the same metrics the
+scenario pipeline uses. `GET /api/phase3/windows` covers all three candidates and
+both mission windows. It reads only the committed Task 2 series and Task 6
+masks, so it works offline. The Mission Planner shows it in the *Phase 3 · Wider
+horizons and readiness* panel. Sun above terrain is a precondition for power,
+not a power estimate; Earth above terrain is line of sight, not a link budget.
 
 ---
 

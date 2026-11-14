@@ -12,6 +12,7 @@ import type {
   LocationInput,
   Mode,
   ProviderInfo,
+  Phase3Windows,
   PsrOut,
   ReadinessReport,
   RequirementEvaluation,
@@ -84,6 +85,9 @@ export const api = {
   },
   /** Which candidates have both mission windows and a LOLA skyline. */
   readiness: (signal?: AbortSignal) => request<ReadinessReport>('/api/readiness', { signal }),
+  /** Phase 3: terrain-adjusted visibility, both windows, from committed data (offline). */
+  phase3Windows: (signal?: AbortSignal) =>
+    request<Phase3Windows>('/api/phase3/windows', { signal }),
   scenario: (input: ScenarioInput, signal?: AbortSignal) => post<ScenarioResult>('/api/scenario', input, signal),
   /** Check one scenario against the Phase 1 requirements served in /api/config. */
   requirements: (input: ScenarioInput, signal?: AbortSignal) =>

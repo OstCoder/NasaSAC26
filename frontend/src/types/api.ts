@@ -369,6 +369,15 @@ export interface SeriesRecord {
   earth: BodySample
 }
 
+export interface MaskTier {
+  dem: string
+  pixel_m: number
+  min_range_m: number
+  max_range_m: number
+  max_obstruction_deg: number
+  max_obstruction_azimuth_deg: number
+}
+
 export interface SeriesMaskSummary {
   site_id: string
   source: string
@@ -378,6 +387,8 @@ export interface SeriesMaskSummary {
   max_obstruction_azimuth_deg: number
   observer_height_m: number
   dem: string
+  /** Near (5 m) and far (80 m) tiers; null only for older single-tier masks. */
+  tiers?: { near: MaskTier; far: MaskTier | null } | null
   available: true
 }
 
@@ -420,6 +431,32 @@ export interface SiteReadiness {
   mask: SeriesMaskSummary | null
   ready: boolean
   problems: string[]
+}
+
+export interface Phase3WindowSummary {
+  available: boolean
+  reason?: string
+  samples?: number
+  mask_max_range_km?: number
+  summary?: {
+    sun_visible_pct: number
+    sun_visible_hours: number
+    longest_sun_blackout_hours: number | null
+    earth_visible_pct: number
+    earth_visible_hours: number
+    longest_earth_blackout_hours: number | null
+    both_visible_pct: number
+    both_visible_hours: number
+    longest_no_simultaneous_hours: number | null
+  }
+}
+
+/** GET /api/phase3/windows: both mission windows per candidate, offline. */
+export interface Phase3Windows {
+  schema: 'lunanav.phase3_windows.v1'
+  step: string
+  sites: { site_id: string; windows: Record<string, Phase3WindowSummary> }[]
+  notes: string[]
 }
 
 /** GET /api/readiness: what Phase 3 needs, per mission candidate. */

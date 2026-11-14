@@ -14,6 +14,7 @@ import {
   SnapshotPanel,
   VisibilityTimeline,
 } from '@/features/visibility'
+import { Phase3Panel } from '@/features/phase3/Phase3Panel'
 import { siteDraftLocation, useApp, type ScenarioDraft } from '@/hooks/useAppContext'
 import { useCraters, useScenario, useSkyNow, useSnapshot } from '@/hooks/useScenario'
 import { fmtLat, fmtLon, fmtUtc } from '@/lib/format'
@@ -369,6 +370,8 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
           </Card>
         </>
       )}
+
+      <Phase3Panel />
     </div>
   )
 }

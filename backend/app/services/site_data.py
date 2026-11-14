@@ -329,6 +329,9 @@ def mask_summary(payload: dict) -> dict:
         "max_obstruction_azimuth_deg": (payload.get("summary") or {}).get("max_obstruction_azimuth_deg"),
         "observer_height_m": payload.get("observer_height_m"),
         "dem": (payload.get("dem") or {}).get("file"),
+        # Near tier (5 m) and far tier (80 m) ranges/resolutions, so a client can
+        # show what the skyline actually covers without loading the mask.
+        "tiers": payload.get("tiers"),
         "available": True,
     }
 

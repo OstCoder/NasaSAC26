@@ -40,6 +40,7 @@ from app.services.nasa_validation import build_report as build_validation_report
 from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
+from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
 from app.services.sites import get_site_repository
@@ -129,6 +130,24 @@ def site_series(
     """
     return series_response(site_id=site_id, window=window, start=start, stop=stop,
                            step_minutes=step_minutes)
+
+
+@router.get("/phase3")
+def phase3(site_id: str, window: str = "initial"):
+    """Phase 3: terrain-adjusted Sun/Earth visibility from the committed data.
+
+    Offline: the hourly track is the Phase 2 Task 2 series, the skyline is the
+    Phase 2 Task 6 two-tier LOLA mask. Records carry elevation, skyline,
+    clearance and a boolean, plus intervals and summary metrics. Geometry only:
+    Sun above terrain is not power, Earth above terrain is not a link budget.
+    """
+    return visibility_response(site_id=site_id, window=window)
+
+
+@router.get("/phase3/windows")
+def phase3_windows():
+    """Every candidate and both mission windows, for the readiness view."""
+    return all_windows_summary()
 
 
 @router.get("/sites", response_model=list[Site])
