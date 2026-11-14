@@ -53,6 +53,7 @@ export function VisibilityTimeline({
 }) {
   const [view, setView] = React.useState<View>('clearance')
   const [playing, setPlaying] = React.useState(false)
+  const [zoomHours, setZoomHours] = React.useState<number | null>(null)
   const s = result.series
   const n = s.times_utc.length
   const t0 = Date.parse(s.times_utc[0])
@@ -85,22 +86,35 @@ export function VisibilityTimeline({
 
   const cursorT = Date.parse(s.times_utc[index])
   const pickFrac = (f: number) => onIndex(Math.max(0, Math.min(n - 1, Math.round(f * (n - 1)))))
-  const days = (t1 - t0) / 86_400_000
-  // Ticks on whole UTC days (or 6-hour marks for short missions), at most ~10.
+
+  // Zoom is a view-only window centred on the inspected sample. The interval bands
+  // below stay at full-mission scale, so zooming never hides a blackout.
+  const domain = React.useMemo<[number, number]>(() => {
+    const span = zoomHours === null ? 0 : zoomHours * 3_600_000
+    if (span <= 0 || span >= t1 - t0) return [t0, t1]
+    let start = Math.max(t0, cursorT - span / 2)
+    let end = Math.min(t1, start + span)
+    start = Math.max(t0, end - span)
+    return [start, end]
+  }, [zoomHours, cursorT, t0, t1])
+
   const ticks = React.useMemo(() => {
-    const unit = days > 4 ? 86_400_000 : 21_600_000
-    const count = (t1 - t0) / unit
-    const stride = Math.max(1, Math.ceil(count / 10))
-    const first = Math.ceil(t0 / unit) * unit
+    const spanDays = (domain[1] - domain[0]) / 86_400_000
+    const unit = spanDays > 4 ? 86_400_000 : spanDays > 1 ? 21_600_000 : 3_600_000
+    const first = Math.ceil(domain[0] / unit) * unit
     const out: number[] = []
-    for (let t = first; t <= t1; t += unit * stride) out.push(t)
-    return out
-  }, [t0, t1, days])
+    for (let t = first; t <= domain[1]; t += unit) out.push(t)
+    const stride = Math.max(1, Math.ceil(out.length / 10))
+    return out.filter((_, i) => i % stride === 0)
+  }, [domain])
   const tickFmt = (v: number) => {
     const d = new Date(v)
-    return days > 4
-      ? `${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`
-      : `${String(d.getUTCDate()).padStart(2, '0')} ${String(d.getUTCHours()).padStart(2, '0')}h`
+    const spanDays = (domain[1] - domain[0]) / 86_400_000
+    if (spanDays > 4)
+      return `${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`
+    if (spanDays > 1)
+      return `${String(d.getUTCDate()).padStart(2, '0')} ${String(d.getUTCHours()).padStart(2, '0')}h`
+    return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`
   }
 
   return (
@@ -119,6 +133,29 @@ export function VisibilityTimeline({
         </p>
       </div>
 
+      {t1 - t0 > 6 * 3_600_000 && (
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Timeline zoom">
+          <span className="text-[13px] text-muted">Time range</span>
+          {([
+            [null, 'Full mission'],
+            [72, '3 d'],
+            [24, '24 h'],
+            [6, '6 h'],
+          ] as const).map(([hours, label]) => (
+            <Button
+              key={label}
+              size="sm"
+              variant={zoomHours === hours ? 'secondary' : 'ghost'}
+              aria-pressed={zoomHours === hours}
+              onClick={() => setZoomHours(hours)}
+            >
+              {label}
+            </Button>
+          ))}
+          {zoomHours !== null && <span className="text-xs text-faint">centred on the selected time</span>}
+        </div>
+      )}
+
       <div className="h-[200px] w-full">
         <ResponsiveContainer>
           <LineChart
@@ -126,12 +163,14 @@ export function VisibilityTimeline({
             margin={{ top: 6, right: 12, bottom: 0, left: -8 }}
             onClick={(state: unknown) => {
               const label = (state as { activeLabel?: number | string } | null)?.activeLabel
-              if (label !== undefined) pickFrac((Number(label) - t0) / (t1 - t0))
+              if (label === undefined) return
+              const frac = (Number(label) - domain[0]) / (domain[1] - domain[0])
+              pickFrac(Math.max(0, Math.min(1, frac)))
             }}
           >
             <CartesianGrid stroke={CHART_COLORS.grid} strokeDasharray="2 4" />
-            <XAxis dataKey="t" type="number" domain={[t0, t1]} scale="time" tickFormatter={tickFmt} ticks={ticks}
-              stroke={CHART_COLORS.axis} tick={{ fontSize: 11 }} />
+            <XAxis dataKey="t" type="number" domain={domain} allowDataOverflow scale="time"
+              tickFormatter={tickFmt} ticks={ticks} stroke={CHART_COLORS.axis} tick={{ fontSize: 11 }} />
             <YAxis stroke={CHART_COLORS.axis} tick={{ fontSize: 11 }} width={44} tickFormatter={(v: number) => `${v}°`} />
             <ReferenceLine y={0} stroke={CHART_COLORS.terrainEdge} strokeWidth={1.2} />
             <ReferenceLine x={cursorT} stroke={CHART_COLORS.cursor} strokeWidth={1.5} />
