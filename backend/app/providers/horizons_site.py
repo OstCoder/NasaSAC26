@@ -38,6 +38,7 @@ Values are never interpolated, filled in or guessed.
 
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -154,6 +155,10 @@ def step_minutes(step: str) -> float:
     value = float(m.group(1)) * _UNIT_MINUTES[m.group(2).lower()]
     if value <= 0:
         raise InvalidInputError("step must be positive")
+    if value < 1.0:
+        raise InvalidInputError(
+            f"step {step!r} is finer than 1 minute; JPL Horizons cannot sample that quickly"
+        )
     return value
 
 
@@ -390,7 +395,10 @@ def parse_site_csv(
         if i_rng is not None and i_rng < len(row):
             raw = row[i_rng].strip()
             if raw.lower() not in ("n.a.", "nan", ""):
-                distance.append(float(raw) * AU_KM)
+                value_km = float(raw) * AU_KM
+                if not math.isfinite(value_km):
+                    raise ValueError(f"Horizons returned a non-finite range at {when}")
+                distance.append(value_km)
 
     az = np.asarray(azimuth, dtype=float)
     el = np.asarray(elevation, dtype=float)

@@ -19,6 +19,7 @@ A timestamp where only one body has a value is dropped and counted in
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 
@@ -104,12 +105,16 @@ def merged_samples(tracks: dict[str, SkyTrack], site_id: str | None) -> tuple[li
 def series_checks(records: list[dict]) -> dict[str, bool]:
     """The Task 2 guarantees, re-derivable from the stored records alone."""
     times = [parse_utc(record["timestamp_utc"]) for record in records]
+
+    def finite(value) -> bool:
+        # isinstance(nan, float) is True, so a NaN would otherwise pass as "present".
+        return isinstance(value, (int, float)) and math.isfinite(value)
+
     return {
         "chronological": all(later > earlier for earlier, later in zip(times, times[1:])),
         "matching_timestamps": all(all(body in record for body in BODIES) for record in records),
         "no_missing_values": all(
-            isinstance(record[body].get("azimuth_deg"), (int, float))
-            and isinstance(record[body].get("elevation_deg"), (int, float))
+            finite(record[body].get("azimuth_deg")) and finite(record[body].get("elevation_deg"))
             for record in records
             for body in BODIES
         ),

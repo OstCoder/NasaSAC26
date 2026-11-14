@@ -41,6 +41,8 @@ from app.providers.horizons_site import (  # noqa: E402
     step_minutes,
 )
 from app.services.site_series import (  # noqa: E402
+    BODIES,
+    SCHEMA,
     expected_samples,
     mission_windows,
     series_checks,
@@ -79,28 +81,67 @@ def parse_args(argv=None) -> argparse.Namespace:
 
 
 def verify(out_dir: Path) -> int:
+    """Re-check every file listed in index.json. Reads files only, never the network."""
     index_path = out_dir / "index.json"
     if not index_path.exists():
         print(f"FAILED: {index_path} does not exist; run without --verify-only first", file=sys.stderr)
         return 1
     index = json.loads(index_path.read_text())
-    problems = 0
+    windows = index.get("windows", {})
+    partial = bool(index.get("partial"))
+    candidates = list(get_settings().raw["mission"]["candidate_sites"])
+    problems: list[str] = []
+    total = 0
     print(f"{'site':22s} {'window':11s} {'samples':>7s}  checks")
     for entry in index.get("sites", []):
         for key, name in entry.get("files", {}).items():
+            issues: list[str] = []
             path = out_dir / name
-            if not path.exists():
-                print(f"{entry['site_id']:22s} {key:11s} {'-':>7s}  MISSING {name}")
-                problems += 1
-                continue
-            records = json.loads(path.read_text()).get("series", [])
+            if path.exists():
+                payload = json.loads(path.read_text())
+                records = payload.get("series", [])
+            else:
+                payload, records = {}, []
+                issues.append(f"missing {name}")
+            window = windows.get(key) or {}
+            want = window.get("expected_samples")
             checks = series_checks(records)
-            want = index.get("windows", {}).get(key, {}).get("expected_samples")
-            ok = all(checks.values()) and len(records) == want
-            problems += not ok
-            print(f"{entry['site_id']:22s} {key:11s} {len(records):7d}  "
-                  f"{'ok' if ok else 'FAILED ' + str(checks)}")
-    print("all series verified" if not problems else f"{problems} problem(s) found")
+            if payload.get("schema") != SCHEMA:
+                issues.append(f"schema {payload.get('schema')!r}")
+            if want is not None and len(records) != want:
+                issues.append(f"{len(records)} samples, expected {want}")
+            if not all(checks.values()):
+                issues.append(f"checks failed: {[k for k, v in checks.items() if not v]}")
+            if payload.get("incomplete_timestamps_dropped"):
+                issues.append(f"{payload['incomplete_timestamps_dropped']} dropped timestamps")
+            body_checks = payload.get("crosscheck") or {}
+            if set(body_checks) != set(BODIES) or not all(c.get("passed") for c in body_checks.values()):
+                issues.append("cross-check not recorded as passed")
+            if records:
+                if window.get("start_utc") and records[0]["timestamp_utc"] != window["start_utc"]:
+                    issues.append("first timestamp is not the window start")
+                if window.get("stop_utc") and records[-1]["timestamp_utc"] != window["stop_utc"]:
+                    issues.append("last timestamp is not the window stop")
+            total += len(records)
+            problems.extend(f"{entry.get('site_id')} {key}: {issue}" for issue in issues)
+            print(f"{str(entry.get('site_id')):22s} {key:11s} {len(records):7d}  "
+                  f"{'ok' if not issues else 'FAILED: ' + '; '.join(issues)}")
+
+    if index.get("total_samples") != total:
+        problems.append(f"index total_samples {index.get('total_samples')} but {total} records on disk")
+    if not partial:
+        listed = {entry.get("site_id") for entry in index.get("sites", [])}
+        if listed != set(candidates):
+            problems.append(f"index lists {sorted(listed)}, mission candidates are {sorted(candidates)}")
+        for entry in index.get("sites", []):
+            if set(entry.get("files", {})) != set(windows):
+                problems.append(
+                    f"{entry.get('site_id')}: files {sorted(entry.get('files', {}))} "
+                    f"do not cover windows {sorted(windows)}")
+
+    print("all series verified" if not problems else f"{len(problems)} problem(s) found")
+    for problem in problems:
+        print(f"  FAILED: {problem}", file=sys.stderr)
     return 0 if not problems else 1
 
 

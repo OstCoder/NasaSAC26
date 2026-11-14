@@ -1,6 +1,10 @@
 """Phase 2 Task 2: series assembly, mission windows and the stored guarantees."""
 
+import importlib.util
+import json
+import shutil
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -95,3 +99,34 @@ def test_payload_is_self_describing_and_carries_the_window():
     assert payload["incomplete_timestamps_dropped"] == 0
     assert len(payload["series"]) == 2
     assert payload["series"][0]["sun"]["azimuth_deg"] == pytest.approx(10.0)
+
+
+ROOT = Path(__file__).resolve().parents[2]
+GENERATOR = ROOT / "backend" / "scripts" / "generate_site_series.py"
+
+
+def test_checks_reject_non_finite_values():
+    record = {"timestamp_utc": to_iso(T0),
+              "sun": {"azimuth_deg": 1.0, "elevation_deg": 2.0},
+              "earth": {"azimuth_deg": 3.0, "elevation_deg": 4.0}}
+    for bad in (float("nan"), float("inf"), None):
+        tampered = json.loads(json.dumps(record))
+        tampered["sun"]["elevation_deg"] = bad
+        assert series_checks([tampered])["no_missing_values"] is False, bad
+
+
+def test_committed_dataset_verifies_and_tampering_is_detected(tmp_path):
+    source = ROOT / "data" / "scientific" / "site_series"
+    for path in source.glob("*.json"):
+        shutil.copy(path, tmp_path / path.name)
+    spec = importlib.util.spec_from_file_location("generate_site_series", GENERATOR)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    assert module.verify(tmp_path) == 0
+
+    target = tmp_path / "shackleton-rim-initial.json"
+    payload = json.loads(target.read_text())
+    payload["series"][10]["earth"]["azimuth_deg"] = None
+    target.write_text(json.dumps(payload))
+    assert module.verify(tmp_path) == 1

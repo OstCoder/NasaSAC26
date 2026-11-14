@@ -61,7 +61,7 @@ def test_step_minutes(text, expected):
     assert step_minutes(text) == expected
 
 
-@pytest.mark.parametrize("bad", ["", "30", "half hour", "0 m", "-5 m"])
+@pytest.mark.parametrize("bad", ["", "30", "half hour", "0 m", "-5 m", "0.5 m"])
 def test_step_rejects_unusable_intervals(bad):
     with pytest.raises(InvalidInputError):
         step_minutes(bad)

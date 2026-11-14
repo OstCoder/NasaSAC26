@@ -93,7 +93,7 @@ ignored), then reads each GeoTIFF with `rasterio` and records:
 7. whether Moon Trek's LOLA layer actually has a tile at the site (zoom 5).
 
 Checks that passed on 2026-11-14 (`--verify-only` re-derives 2–6 from the cached
-DEMs and matches the committed file, excluding timestamps and network results):
+DEMs with no network access at all and matches the committed file):
 
 - the site pixel elevations equal the independently committed
   `data/reference/site_elevations.json` `center_px` values to 0.01 m — the DEM

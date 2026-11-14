@@ -134,9 +134,11 @@ def build(args) -> dict:
     wanted = args.sites or candidates
 
     sites, resources = {}, []
-    resources.append(_check_url("NASA LROC QuickMap", QUICKMAP_URL, args.timeout))
-    resources.append(_check_url("NASA Moon Trek", TREK_URL, args.timeout))
-    resources.append(_check_url("NASA PGDA LOLA 5 m/pix south-pole DEMs", PGDA_PAGE, args.timeout))
+    # --verify-only is a filesystem check and must not depend on the network.
+    if not args.verify_only:
+        resources.append(_check_url("NASA LROC QuickMap", QUICKMAP_URL, args.timeout))
+        resources.append(_check_url("NASA Moon Trek", TREK_URL, args.timeout))
+        resources.append(_check_url("NASA PGDA LOLA 5 m/pix south-pole DEMs", PGDA_PAGE, args.timeout))
 
     for site_id in wanted:
         if site_id not in PGDA_SITE_CODES:
@@ -175,7 +177,7 @@ def build(args) -> dict:
             "coverage": cov,
             "site_pixel": {"row": row, "col": col, "elevation_m": summary["site_elevation_m"]},
             "terrain": summary,
-            "moon_trek": {"skipped": True} if args.skip_trek else _trek_check(site),
+            "moon_trek": {"skipped": True} if (args.skip_trek or args.verify_only) else _trek_check(site),
         }
         sites[site_id] = entry
         print(f"  {info['file']}: {info['width']}x{info['height']} px, {info['pixel_m']} m/px, "

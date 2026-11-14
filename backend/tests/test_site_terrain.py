@@ -1,7 +1,10 @@
 """The committed terrain inventory must agree with the site catalogue, the LOLA
 elevation evidence and the DEM geometry it describes."""
 
+import argparse
+import importlib.util
 import json
+import socket
 from pathlib import Path
 
 import numpy as np
@@ -21,6 +24,8 @@ TERRAIN = json.loads((ROOT / "data" / "reference" / "site_terrain.json").read_te
 SITES = {s["id"]: s for s in json.loads((ROOT / "data" / "demo" / "sites.json").read_text())["sites"]}
 EVIDENCE = json.loads((ROOT / "data" / "reference" / "site_elevations.json").read_text())["samples"]
 CANDIDATES = json.loads((ROOT / "config" / "lunanav.config.json").read_text())["mission"]["candidate_sites"]
+CACHE = ROOT / "data" / "cache" / "lola_5mpp"
+DEM_SCRIPT = ROOT / "backend" / "scripts" / "inspect_site_terrain.py"
 
 
 def test_schema_and_candidate_coverage():
@@ -124,3 +129,51 @@ def test_sources_and_limitations_are_documented():
     for resource in TERRAIN["resources_checked"]:
         assert resource["url"].startswith("https://")
     assert TERRAIN["conventions"]["height_datum"].startswith("metres above the 1737.4 km")
+
+
+@pytest.mark.skipif(not any(CACHE.glob("Site*_surf.tif")), reason="LOLA DEM cache is not present")
+def test_recorded_skyline_is_reproducible_from_the_cached_dem():
+    """The committed angles must come from the same file the reference describes."""
+    from app.services.horizon import build_horizon_mask_from_dem
+    from app.services.terrain_inventory import read_dem
+
+    for site_id in CANDIDATES:
+        entry = TERRAIN["sites"][site_id]
+        path = CACHE / entry["dem"]["file"]
+        if not path.exists():
+            continue
+        info, heights = read_dem(path)
+        assert info["sha256"] == entry["dem"]["sha256"]
+        assert info["pixel_m"] == entry["dem"]["pixel_m"]
+        assert info["bounds_m"] == entry["dem"]["bounds_m"]
+
+        x_m, y_m = site_xy_m(entry["latitude_deg"], entry["longitude_deg"])
+        bounds = info["bounds_m"]
+        mask = build_horizon_mask_from_dem(
+            heights, bounds["left"], bounds["top"], info["pixel_m"], x_m, y_m,
+            obs_height_m=0.0, max_range_m=entry["coverage"]["radius_km"] * 1000.0,
+        )
+        assert len(mask.azimuth_deg) == 360
+        assert float(np.nanmax(mask.elevation_deg)) == pytest.approx(
+            entry["terrain"]["max_obstruction_deg"], abs=0.01)
+
+
+@pytest.mark.skipif(not any(CACHE.glob("Site*_surf.tif")), reason="LOLA DEM cache is not present")
+def test_verify_only_runs_without_the_network(monkeypatch):
+    """--verify-only is documented as offline, so any socket use must fail the test."""
+    def offline(*args, **kwargs):
+        raise OSError("network access attempted during --verify-only")
+
+    monkeypatch.setattr(socket, "getaddrinfo", offline)
+    monkeypatch.setattr(socket, "create_connection", offline)
+
+    spec = importlib.util.spec_from_file_location("inspect_site_terrain", DEM_SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    payload = module.build(argparse.Namespace(
+        verify_only=True, sites=None, download=False,
+        out=ROOT / "data" / "reference" / "site_terrain.json",
+        azimuth_step=1.0, timeout=1.0, skip_trek=False,
+    ))
+    assert set(payload["sites"]) == set(CANDIDATES)
+    assert payload["resources_checked"] == []
