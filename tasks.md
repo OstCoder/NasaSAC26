@@ -1,165 +1,172 @@
 
-# Phase 2 — NASA Data Integration
+# Phase 3 — Lunar Visibility & Mission Calculations
 
 ## Objective
 
-Integrate official NASA scientific resources to retrieve
-accurate Sun and Earth positions for our selected lunar
-south-pole landing sites.
+Develop the scientific calculation engine for our NASA
+Space Apps Challenge 2026 Lunar Landing Site Navigator.
 
-Prepare lunar terrain data for the visibility calculations
-and mission-planning features in later phases.
+Using the astronomical and terrain data collected in
+Phase 2, calculate when the Sun and Earth are visible
+from each selected lunar landing site.
 
-By the end of Phase 2, our backend should be able to accept
-a landing site's coordinates and a date range, retrieve
-astronomical position data, and save the results in a
-structured format.
+Analyze sunlight availability, Earth communication
+windows, terrain obstructions, and mission feasibility.
 
----
-
-## Task 1: Integrate JPL Horizons
-
-- [x] Read the JPL Horizons documentation.
-- [x] Set up Python access using the Horizons API or Astroquery.
-- [x] Configure an observer at a specific lunar surface location.
-- [x] Use one verified landing site from Phase 1.
-- [x] Request the Sun's apparent position at the site.
-- [x] Request Earth's apparent position at the same site.
-- [x] Extract azimuth and elevation angles for both objects.
-- [x] Confirm the coordinate conventions and measurement units.
-- [x] Test requests with multiple dates and times.
-- [x] Handle API errors and invalid inputs.
-
-### Required Inputs
-
-- Lunar latitude
-- Lunar longitude
-- Observer height/elevation
-- Start date and time (UTC)
-- End date and time (UTC)
-- Time interval between observations
-
-### Required Outputs
-
-- Timestamp (UTC)
-- Sun azimuth (degrees)
-- Sun elevation (degrees)
-- Earth azimuth (degrees)
-- Earth elevation (degrees)
-
-### Deliverable
-
-A working Python module that retrieves Sun and Earth
-positions from JPL Horizons for a selected lunar site
-and time interval.
-
-Implemented in `backend/app/providers/horizons_site.py`, with
-`backend/scripts/horizons_site.py` to fetch a site and write the series. The
-command and the verified conventions are in [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md) §2.
-
-### Resources
-
-JPL Horizons:
-https://ssd.jpl.nasa.gov/horizons/
-
-Horizons API Documentation:
-https://ssd-api.jpl.nasa.gov/doc/horizons.html
+By the end of Phase 3, our backend should be able to
+evaluate and compare lunar landing sites using actual
+astronomical data and clearly documented assumptions.
 
 ---
 
-## Task 2: Generate Astronomical Time-Series Data
+## Task 1: Calculate Geometric Sun Visibility
 
-- [x] Use the three verified lunar sites from Phase 1.
-- [x] Generate Sun position data for each site.
-- [x] Generate Earth position data for each site.
-- [x] Use December 1–8, 2026, as the initial analysis period.
-- [x] Use December 11–18, 2026, as the delayed mission period.
-- [x] Start with 1-hour observation intervals.
-- [x] Ensure all timestamps use UTC.
-- [x] Store the observations in chronological order.
-- [x] Ensure Sun and Earth positions share matching timestamps.
-- [x] Confirm that missing data is not silently treated as zero.
+- [ ] Load Sun position data generated in Phase 2.
+- [ ] Read the Sun's elevation at each timestamp.
+- [ ] Determine whether the Sun is above or below
+      the local geometric horizon.
+- [ ] Calculate geometric Sun visibility for every
+      observation in the mission timeline.
+- [ ] Store visibility results as Boolean values.
+- [ ] Preserve Sun azimuth and elevation measurements.
+- [ ] Handle observations near the horizon carefully.
+- [ ] Test calculations with positive, negative,
+      and zero elevation angles.
 
-### Example Data Structure
+### Calculation
 
-```json
-{
-  "site_id": "A",
-  "timestamp_utc": "2026-12-01T00:00:00Z",
-  "sun": {
-    "azimuth_deg": null,
-    "elevation_deg": null
-  },
-  "earth": {
-    "azimuth_deg": null,
-    "elevation_deg": null
-  }
-}
-```
+For a point-source geometric approximation:
 
-Replace null values with actual Horizons results.
+Sun visible = Sun elevation > 0°
+
+Sun not visible = Sun elevation <= 0°
+
+This initially ignores terrain and the Sun's
+apparent angular diameter.
+
+### Example
+
+| Time (UTC) | Sun Elevation | Visible |
+|------------|---------------|---------|
+| 00:00 | +3.2° | Yes |
+| 01:00 | +1.5° | Yes |
+| 02:00 | -0.8° | No |
+| 03:00 | -2.1° | No |
+
+Example values are illustrative, not NASA measurements.
 
 ### Deliverable
 
-Astronomical time-series data for all three landing sites
-across both proposed mission periods.
-
-Generated live from JPL Horizons into `data/scientific/site_series/` by
-`backend/scripts/generate_site_series.py`: 1,014 records (3 sites × 2 windows ×
-169 hourly samples). `--verify-only` re-checks the committed files offline. Each
-file carries its Horizons query URLs, conventions and analytic cross-check.
-
-### Note
-
-Hourly sampling is suitable for initial analysis.
-
-Phase 3 should refine observations near visibility
-transitions to improve the accuracy of sunset,
-sunrise, Earthset, and Earthrise estimates.
+A Python function that determines geometric Sun
+visibility at each timestamp.
 
 ---
 
-## Task 3: Obtain Lunar Terrain Data
+## Task 2: Calculate Geometric Earth Visibility
 
-- [x] Open NASA LROC QuickMap.
-- [x] Locate the three selected landing coordinates.
-- [x] Inspect the terrain surrounding each location.
-- [x] Identify relevant elevation and topography datasets.
-- [x] Explore the same regions using NASA Moon Trek.
-- [x] Record the available terrain data resolution.
-- [x] Obtain downloadable elevation data where available.
-- [x] Document the coordinate reference system and height datum.
-- [x] Record the source and coverage of each terrain dataset.
-- [x] Identify any missing terrain coverage or limitations.
+- [ ] Load Earth position data generated in Phase 2.
+- [ ] Read Earth's elevation at each timestamp.
+- [ ] Determine whether Earth is above or below
+      the local geometric horizon.
+- [ ] Calculate geometric Earth visibility throughout
+      the mission timeline.
+- [ ] Store Earth visibility as Boolean values.
+- [ ] Preserve Earth azimuth and elevation measurements.
+- [ ] Account for changing Earth positions over time
+      using the Horizons ephemeris.
+- [ ] Test calculations with different locations
+      and observation times.
 
-### Important Terrain Information
+### Calculation
 
-For each landing site, collect:
+For a point-source geometric approximation:
 
-- Latitude and longitude
-- Surface elevation
-- Terrain elevation data
-- Dataset resolution
-- Coordinate reference system
-- Data source
-- Data coverage
+Earth visible = Earth elevation > 0°
 
-Terrain information will later help determine whether
-nearby hills, crater walls, or ridges obstruct the Sun
-or Earth.
+Earth not visible = Earth elevation <= 0°
+
+This initially ignores terrain and Earth's
+apparent angular diameter.
+
+### Important
+
+Geometric Earth visibility does not guarantee
+a successful communication link.
+
+Actual communication also depends on antenna
+orientation, signal strength, spacecraft hardware,
+ground-station availability, and other constraints.
 
 ### Deliverable
 
-A documented collection of lunar terrain data for
-the three landing sites, including at least one
-usable digital elevation model for Phase 3.
+A Python function that calculates geometric
+Earth visibility at each timestamp.
 
-Retrieved and measured in code by
-`backend/scripts/inspect_site_terrain.py`: three 5 m/pixel LOLA site DEMs
-(16 km × 16 km each) covering the candidate coordinates, with CRS, height
-datum, checksums, coverage and skyline obstruction angles in
-`data/reference/site_terrain.json`. The full deliverable, including the Moon
-Trek coverage checks and the coverage limits, is [docs/TERRAIN.md](docs/TERRAIN.md).
+---
+
+## Task 3: Calculate Terrain Horizon Obstructions
+
+- [ ] Load lunar elevation data obtained in Phase 2.
+- [ ] Identify each landing site's surface elevation.
+- [ ] Define an observer height above the lunar surface.
+- [ ] Extract surrounding terrain elevations.
+- [ ] Account for lunar surface curvature.
+- [ ] Calculate terrain obstruction angles at
+      different azimuth directions.
+- [ ] Generate a terrain horizon profile for
+      at least one landing site.
+- [ ] Compare Sun elevation against the terrain horizon.
+- [ ] Compare Earth elevation against the terrain horizon.
+- [ ] Store terrain-adjusted visibility results.
+- [ ] Document terrain resolution and uncertainties.
+- [ ] Mark sites without terrain profiles as
+      geometric-only rather than terrain-verified.
+
+### Calculation
+
+For each azimuth:
+
+Terrain horizon angle =
+Maximum angular elevation of obstructing terrain
+in that direction.
+
+For simplified center-point visibility:
+
+Sun visible if:
+Sun elevation > terrain horizon angle
+
+Earth visible if:
+Earth elevation > terrain horizon angle
+
+### Example
+
+| Object | Elevation | Terrain Horizon | Visible |
+|--------|-----------|-----------------|---------|
+| Sun | +3° | +5° | No |
+| Sun | +7° | +5° | Yes |
+| Earth | +4° | +2° | Yes |
+| Earth | +1° | +6° | No |
+
+Example values are illustrative.
+
+### Important Considerations
+
+- Use consistent lunar coordinate and height systems.
+- Account for the Moon's curvature.
+- Use the observer's actual position and height.
+- Avoid treating the terrain as a flat plane.
+- Specify the distance covered by the terrain dataset.
+- A limited terrain dataset can miss distant obstructions.
+
+For more advanced accuracy, account for the apparent
+angular sizes of the Sun and Earth when calculating
+partial and complete obstruction.
+
+### Deliverable
+
+A terrain horizon calculation module that produces
+terrain-aware Sun and Earth visibility for at least
+one verified landing site.
 
 ### Resources
 
@@ -174,213 +181,514 @@ https://pgda.gsfc.nasa.gov/products/78
 
 ---
 
-## Task 4: Organize and Store the Data
+## Task 4: Calculate Sunlight Availability
 
-- [x] Define a consistent data structure for each landing site.
-- [x] Store the verified site coordinates.
-- [x] Store Sun and Earth time-series results.
-- [x] Save dataset source information.
-- [x] Store terrain files or references separately.
-- [x] Use consistent units across all datasets.
-- [x] Use a consistent lunar longitude convention.
-- [x] Add basic validation for missing or invalid values.
-- [x] Cache astronomical results to avoid unnecessary requests.
-- [x] Ensure the data can be accessed by the backend.
+- [ ] Load the Sun visibility timeline.
+- [ ] Identify continuous periods of sunlight.
+- [ ] Identify continuous periods without sunlight.
+- [ ] Calculate total sunlight duration.
+- [ ] Calculate total darkness duration.
+- [ ] Calculate sunlight availability percentage.
+- [ ] Find the longest continuous darkness period.
+- [ ] Estimate the next sunrise or sunset transition.
+- [ ] Refine observation intervals near transitions.
+- [ ] Save calculated sunlight statistics.
 
-### Suggested Project Structure
+### Calculations
+
+Sunlight availability percentage:
+
+Sunlight Availability (%) =
+(Total Sunlit Duration / Total Mission Duration) * 100
+
+Darkness duration:
+
+Darkness Duration =
+Total Mission Duration - Total Sunlit Duration
+
+### Example
+
+Mission duration: 168 hours
+
+Sunlight duration: 120 hours
+
+Darkness duration: 48 hours
+
+Sunlight availability:
+
+120 / 168 * 100 = 71.43%
+
+These are hypothetical values.
+
+### Important
+
+Use time-weighted intervals rather than counting
+samples if observation intervals are unequal.
+
+A full seven-day mission may not contain a complete
+sunrise/sunset cycle.
+
+If a visibility interval extends beyond the selected
+analysis period, label the result as window-limited.
+
+### Deliverable
+
+A function that calculates sunlight availability,
+sunlight windows, darkness windows, and the longest
+continuous period without direct sunlight.
+
+---
+
+## Task 5: Calculate Earth Communication Windows
+
+- [ ] Load the Earth visibility timeline.
+- [ ] Identify continuous periods of Earth visibility.
+- [ ] Identify periods when Earth is obstructed.
+- [ ] Calculate total Earth visibility duration.
+- [ ] Calculate Earth visibility percentage.
+- [ ] Identify the longest Earth visibility window.
+- [ ] Identify the longest communication blackout.
+- [ ] Estimate the next Earthrise or Earthset.
+- [ ] Refine observation intervals near transitions.
+- [ ] Save communication window statistics.
+
+### Calculations
+
+Earth visibility percentage:
+
+Earth Visibility (%) =
+(Total Earth-Visible Duration / Mission Duration) * 100
+
+Maximum geometric communication blackout:
+
+Longest continuous interval when Earth
+is not visible from the landing site.
+
+### Example
+
+Mission duration: 168 hours
+
+Earth visible: 105 hours
+
+Earth obstructed: 63 hours
+
+Earth visibility:
+
+105 / 168 * 100 = 62.5%
+
+### Important
+
+The application should describe these as
+direct-to-Earth line-of-sight opportunities.
+
+They are not guarantees of a working radio link.
+
+Earth's partial visibility near the horizon and
+antenna clearance requirements may change actual
+communication availability.
+
+### Deliverable
+
+A function that calculates Earth visibility windows,
+visibility percentage, and maximum line-of-sight
+blackout duration.
+
+---
+
+## Task 6: Calculate Simultaneous Sun and Earth Visibility
+
+- [ ] Combine Sun and Earth visibility results.
+- [ ] Ensure timestamps and site identifiers match.
+- [ ] Identify periods when both objects are visible.
+- [ ] Identify periods when only the Sun is visible.
+- [ ] Identify periods when only Earth is visible.
+- [ ] Identify periods when neither is visible.
+- [ ] Calculate total simultaneous visibility time.
+- [ ] Calculate simultaneous visibility percentage.
+- [ ] Store the resulting operational windows.
+
+### Calculation
+
+Simultaneous Visibility =
+Sun Visible AND Earth Visible
+
+### Example
+
+| Time | Sun Visible | Earth Visible | Both |
+|------|-------------|---------------|------|
+| 00:00 | Yes | Yes | Yes |
+| 01:00 | Yes | No | No |
+| 02:00 | No | Yes | No |
+| 03:00 | No | No | No |
+
+### Why This Matters
+
+Some mission operations may benefit from having
+sunlight and direct communication simultaneously.
+
+However, spacecraft with batteries and onboard data
+storage may operate without both being available
+at the same time.
+
+### Deliverable
+
+A function that identifies simultaneous sunlight
+and Earth communication opportunities.
+
+---
+
+## Task 7: Compare Landing Sites
+
+- [ ] Load calculated results for all three sites.
+- [ ] Compare sites over the same mission date range.
+- [ ] Compare sunlight availability percentages.
+- [ ] Compare Earth visibility percentages.
+- [ ] Compare longest darkness periods.
+- [ ] Compare longest communication blackouts.
+- [ ] Compare simultaneous visibility percentages.
+- [ ] Identify advantages and disadvantages
+      of each landing site.
+- [ ] Generate structured comparison results.
+
+### Example Comparison
+
+| Metric | Site A | Site B | Site C |
+|--------|--------|--------|--------|
+| Sunlight | 75% | 62% | 84% |
+| Earth Visibility | 55% | 88% | 70% |
+| Max Darkness | 10 h | 16 h | 7 h |
+| Max Earth Blackout | 18 h | 5 h | 11 h |
+
+All numbers are hypothetical.
+
+### Deliverable
+
+A function that compares multiple lunar sites
+and returns measurable mission-planning trade-offs.
+
+---
+
+## Task 8: Evaluate Mission Requirements
+
+- [ ] Load mission requirements defined in Phase 1.
+- [ ] Compare calculated results against each requirement.
+- [ ] Determine whether each site meets the minimum
+      sunlight availability threshold.
+- [ ] Determine whether each site meets the minimum
+      Earth visibility threshold.
+- [ ] Determine whether each site's longest communication
+      blackout is within the permitted limit.
+- [ ] Identify which requirements each site fails.
+- [ ] Generate explanations for the results.
+- [ ] Avoid declaring a site fully mission-safe
+      based only on these simplified conditions.
+
+### Proposed Requirements
+
+| Requirement | Target |
+|-------------|--------|
+| Minimum Sunlight | 60% |
+| Minimum Earth Visibility | 50% |
+| Maximum Earth Blackout | 12 hours |
+
+These are hypothetical demo thresholds.
+
+### Example Output
+
+Site A:
+- Sunlight requirement: PASS
+- Earth visibility requirement: PASS
+- Maximum blackout requirement: FAIL
+
+Overall:
+Does not meet all selected demonstration constraints.
+
+### Deliverable
+
+A mission constraint evaluator that checks each
+landing site against the defined requirements
+and explains why it passes or fails.
+
+---
+
+## Task 9: Compare Original and Delayed Landing Dates
+
+- [ ] Load the initial mission period.
+- [ ] Load the delayed mission period.
+- [ ] Calculate visibility metrics for both periods.
+- [ ] Compare sunlight availability changes.
+- [ ] Compare Earth visibility changes.
+- [ ] Compare maximum darkness duration changes.
+- [ ] Compare communication blackout changes.
+- [ ] Identify sites that become less favorable.
+- [ ] Identify sites that become more favorable.
+- [ ] Generate a before-and-after comparison.
+
+### Mission Scenarios
+
+Original mission:
+December 1–8, 2026
+
+Delayed mission:
+December 11–18, 2026
+
+Each interval should represent exactly 168 hours,
+using explicit UTC start and end timestamps.
+
+### Example Question
+
+If the mission is delayed by ten days, which
+landing site best satisfies the same sunlight
+and communication requirements?
+
+### Deliverable
+
+A scenario comparison function that highlights
+the operational consequences of changing
+a mission's landing date.
+
+---
+
+## Task 10: Validate Scientific Calculations
+
+- [ ] Write unit tests for geometric Sun visibility.
+- [ ] Write unit tests for geometric Earth visibility.
+- [ ] Test terrain obstruction calculations.
+- [ ] Test zero-degree and near-horizon conditions.
+- [ ] Test visibility interval detection.
+- [ ] Test maximum blackout calculations.
+- [ ] Test simultaneous visibility calculations.
+- [ ] Test site comparison calculations.
+- [ ] Test mission requirement evaluation.
+- [ ] Compare selected results with Horizons output.
+- [ ] Check calculations against NASA illumination
+      reference data where comparable.
+- [ ] Verify timestamp ordering and units.
+- [ ] Check behavior when data is missing.
+- [ ] Ensure incomplete observations are not
+      incorrectly reported as continuous coverage.
+
+### Example Test Cases
+
+Test 1:
+Sun elevation = +5°
+Geometric Sun visibility = True
+
+Test 2:
+Sun elevation = -3°
+Geometric Sun visibility = False
+
+Test 3:
+Sun elevation = +4°
+Terrain horizon = +8°
+Terrain-adjusted Sun visibility = False
+
+Test 4:
+Sun visible = True
+Earth visible = False
+Simultaneous visibility = False
+
+Test 5:
+Longest Earth visibility gap = 15 hours
+Allowed maximum blackout = 12 hours
+Communication requirement = FAIL
+
+### Deliverable
+
+A tested scientific calculation engine with
+documented assumptions, known limitations,
+and reproducible results.
+
+---
+
+## Task 11: Prepare Results for Phase 4
+
+- [ ] Standardize calculated results into JSON.
+- [ ] Include the site identifier and coordinates.
+- [ ] Include mission start and end timestamps.
+- [ ] Include sunlight and Earth visibility metrics.
+- [ ] Include continuous visibility windows.
+- [ ] Include simultaneous visibility statistics.
+- [ ] Include mission requirement results.
+- [ ] Include data source and model quality labels.
+- [ ] Provide structured results for frontend charts.
+- [ ] Test the calculation output for at least one site.
+- [ ] Confirm that frontend developers understand
+      all output fields and units.
+
+### Example Output Structure
+
+```json
+{
+  "site_id": "A",
+  "mission_duration_hours": 168,
+  "sunlight": {
+    "availability_percent": null,
+    "longest_darkness_hours": null,
+    "windows": []
+  },
+  "earth": {
+    "visibility_percent": null,
+    "longest_blackout_hours": null,
+    "windows": []
+  },
+  "simultaneous_visibility": {
+    "availability_percent": null,
+    "windows": []
+  },
+  "model": {
+    "visibility_type": "geometric",
+    "status": "not_calculated"
+  }
+}
+```
+
+Replace null values with actual calculations.
+
+The example is a schema template, not a
+completed scientific result.
+
+### Suggested Backend Structure
 
 ```text
 backend/
 ├── data/
 │   ├── sites.json
 │   ├── ephemeris/
-│   │   ├── site_a.json
-│   │   ├── site_b.json
-│   │   └── site_c.json
 │   └── terrain/
 │
 ├── services/
-│   └── horizons.py
+│   ├── horizons.py
+│   ├── solar_visibility.py
+│   ├── earth_visibility.py
+│   ├── terrain_horizon.py
+│   ├── visibility_windows.py
+│   ├── site_comparison.py
+│   └── mission_constraints.py
 │
-└── tests/
-    └── test_horizons.py
+├── tests/
+│   ├── test_solar_visibility.py
+│   ├── test_earth_visibility.py
+│   ├── test_terrain_horizon.py
+│   ├── test_visibility_windows.py
+│   └── test_site_comparison.py
+│
+└── outputs/
+    └── comparison_results.json
 ```
 
-The exact structure can be adjusted to match the team's
-existing repository.
-
-Large scientific datasets should not automatically
-be committed to GitHub.
-
-### DeliverableAn organized data pipeline that stores lunar landing sites, astronomical
-observations, and terrain references.
-
-Indexed and cross-checked by `backend/app/services/dataset_catalogue.py`, served
-at `GET /api/datasets` and checked by `backend/scripts/check_datasets.py`: nine
-datasets with paths, units, longitude convention, sources and record counts.
-The same site must be the same point in the catalogue, the Task 2 series and the
-Task 3 terrain reference. Details: [docs/DATASETS.md](docs/DATASETS.md).
-
----
-
-## Task 5: Validate NASA Data
-
-- [x] Confirm that all three site coordinates are valid.
-- [x] Verify the Horizons observer location is on the Moon.
-- [x] Check Sun and Earth position results.
-- [x] Compare selected results against Horizons reference output.
-- [x] Verify azimuth and elevation units.
-- [x] Confirm UTC date and time handling.
-- [x] Check data continuity across the mission interval.
-- [x] Test the same site on different dates.
-- [x] Test different sites at the same date and time.
-- [x] Document any assumptions or known limitations.
-
-### Important Validation Checks
-
-1. Sun and Earth positions must come from actual
-   astronomical calculations.
-
-2. The observer must be configured at the correct
-   lunar location, not at Earth's surface or
-   the Moon's center.
-
-3. Elevation angles must be interpreted relative
-   to the correct local reference plane.
-
-4. Geometric visibility must not be confused with
-   terrain-obstructed visibility.
-
-5. Unknown or missing results must not be presented
-   as verified measurements.
-
 ### Deliverable
 
-Validated astronomical datasets and documented
-limitations for all three landing sites.
-
-Automated by `backend/scripts/validate_nasa_data.py` (offline by default;
-`--live` re-queries Horizons) and served at `GET /api/validation`: ten checks —
-coordinates, lunar observer, Sun/Earth positions against an independent model, a
-separate Horizons reference table, units, UTC handling, continuity, the same site
-across dates and different sites at one instant. All 1,014 records agree with the
-independent model to 0.032° in elevation and 0.020° in azimuth; 180 Horizons
-reference rows reproduce exactly. Assumptions and the ten known limitations are in
-[docs/VALIDATION.md](docs/VALIDATION.md).
+A validated backend calculation engine that
+outputs structured mission analysis results
+for the frontend.
 
 ---
 
-## Task 6: Prepare Data for Phase 3
+## Phase 3 Completion Checklist
 
-- [x] Make the astronomical data accessible to calculation modules.
-- [x] Ensure all time-series records have consistent fields.
-- [x] Make the selected sites available through a shared data file.
-- [x] Prepare terrain data for future horizon calculations.
-- [x] Document how to load and query the datasets.
-- [x] Confirm that frontend and backend developers agree on formats.
-- [x] Test retrieving data for at least one site and date range.
+- [ ] Geometric Sun visibility implemented.
+- [ ] Geometric Earth visibility implemented.
+- [ ] Sunlight and darkness windows calculated.
+- [ ] Earth visibility and blackout windows calculated.
+- [ ] Simultaneous visibility calculated.
+- [ ] Sunlight availability percentages calculated.
+- [ ] Earth visibility percentages calculated.
+- [ ] Longest darkness and blackout periods calculated.
+- [ ] Three landing sites compared.
+- [ ] Mission constraints evaluated.
+- [ ] Original and delayed mission dates compared.
+- [ ] Scientific calculations tested.
+- [ ] Structured JSON output generated.
+- [ ] Results prepared for frontend integration.
 
-### Deliverable
+### Advanced Completion Criteria
 
-A verified dataset and functioning data-access layer
-ready for Sun visibility, Earth visibility, and
-terrain-obstruction calculations.
-
-`services/site_data.py` is that layer: it loads the Task 2 records under one
-field contract, resamples them onto any grid inside a stored window without
-extrapolating, and loads the LOLA skyline so `apply_mask` yields clearance per
-body. `GET /api/series` and `GET /api/readiness` expose the same data, mirrored
-in `frontend/src/types/api.ts` so the frontend reads the exact file fields.
-Task 6 also built the three horizon masks (`scripts/build_site_horizon_masks.py`,
-360 azimuths each, two tiers: 5 m/pix to the DEM edge and 80 m/pix to 150 km,
-2 m observer) and committed them, so
-Scientific Mode now applies real terrain. How to load and query everything is in
-[docs/DATA_ACCESS.md](docs/DATA_ACCESS.md).
+- [ ] Terrain horizon profile calculated.
+- [ ] Terrain-adjusted visibility implemented.
+- [ ] Terrain calculation validated.
+- [ ] Uncertainty and coverage limitations documented.
+- [ ] Geometric and terrain-adjusted results distinguished.
 
 ---
 
-## Phase 2 Completion Checklist
+## Phase 4 — Next Steps
 
-- [x] JPL Horizons successfully integrated.
-- [x] Sun positions retrieved using real NASA data.
-- [x] Earth positions retrieved using real NASA data.
-- [x] Three lunar landing sites supported.
-- [x] Initial mission date range processed.
-- [x] Alternative mission date range processed.
-- [x] Astronomical time-series data saved.
-- [x] Lunar terrain sources identified.
-- [x] At least one usable terrain dataset obtained.
-- [x] Data formats standardized.
-- [x] Astronomical results validated.
-- [x] Backend data pipeline tested.
-- [x] Data ready for Phase 3.
+Build the interactive Lunar Landing Site Navigator
+website using the scientific results from Phase 3.
 
----
+Planned frontend features:
 
-## Phase 3 — Visibility calculations
+1. Interactive lunar landing-site selection.
+2. Landing date and mission duration controls.
+3. Sun and Earth position visualizations.
+4. Sunlight and communication timelines.
+5. Landing-site comparison dashboard.
+6. Mission feasibility indicators.
+7. Before-and-after mission delay comparison.
+8. Optional 3D lunar terrain visualization.
 
-Use the data collected in Phase 2 to calculate
-actual mission visibility conditions.
-
-- [x] Sun visibility above the geometric horizon.
-- [x] Earth visibility above the geometric horizon.
-- [x] Terrain obstruction of Sun and Earth (two-tier LOLA skyline, 150 km).
-- [x] Direct sunlight availability over time.
-- [x] Direct-to-Earth line-of-sight windows.
-- [x] Longest continuous darkness period.
-- [x] Longest Earth line-of-sight blackout.
-- [x] Simultaneous Sun and Earth visibility.
-
-Delivered by `backend/app/services/phase3.py` and `GET /api/phase3`:
-per-sample elevation, skyline, clearance, visibility and solar disk fraction;
-intervals for Sun, Earth and both; longest blackouts; and the same metrics the
-scenario pipeline uses. `GET /api/phase3/windows` covers all three candidates and
-both mission windows. It reads only the committed Task 2 series and Task 6
-masks, so it works offline. The Mission Planner shows it in the *Phase 3 · Wider
-horizons and readiness* panel. Sun above terrain is a precondition for power,
-not a power estimate; Earth above terrain is line of sight, not a link budget.
+The website should help users understand
+why different locations and dates produce
+different mission conditions.
 
 ---
 
 ## Official NASA Space Apps Resources
 
+### NASA JPL Horizons
+https://ssd.jpl.nasa.gov/horizons/
+
+Used to obtain Sun and Earth positions for
+selected lunar observer locations.
+
 ### NASA LROC QuickMap
 https://quickmap.lroc.asu.edu/
 
-Used for lunar imagery, surface terrain exploration,
-and landing site inspection.
+Used for site coordinates, lunar imagery,
+and terrain exploration.
 
 ### NASA Moon Trek
 https://trek.nasa.gov/moon/
 
-Used for 3D lunar exploration and understanding
-the geography surrounding potential landing sites.
+Used to examine 3D lunar terrain and
+understand geographic features.
 
-### NASA JPL Horizons
-https://ssd.jpl.nasa.gov/horizons/
+### NASA LOLA South-Pole Topography
+https://pgda.gsfc.nasa.gov/products/78
 
-Used for calculating the positions of the Sun
-and Earth from selected lunar surface locations.
+Used for terrain elevation data and
+terrain horizon calculations.
 
 ### Canadian Space Agency — Moon Exploration
 https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/
 
-Used for lunar exploration background and
-scientific mission context.
+Used for scientific background and
+lunar exploration context.
 
 ---
 
 ## Expected Final Outcome
 
-By completing Phase 2, our team should have:
+By completing Phase 3, our team should have:
 
-1. A working NASA ephemeris data integration.
-2. Real Sun and Earth positions for three lunar sites.
-3. Astronomical data covering two mission date ranges.
-4. Lunar terrain datasets or documented references.
-5. Validated and organized scientific data.
-6. A backend data pipeline ready for Phase 3.
+1. A functional Sun visibility calculation engine.
+2. A functional Earth visibility calculation engine.
+3. Calculated sunlight and communication windows.
+4. Maximum darkness and blackout measurements.
+5. Simultaneous Sun/Earth visibility analysis.
+6. Landing-site comparison functionality.
+7. Mission requirement evaluation.
+8. Mission-delay comparison functionality.
+9. Tested and documented scientific calculations.
+10. Structured data ready for the website.
 
-Phase 2 is complete when our team can reliably
-retrieve the astronomical data needed to evaluate
-lunar landing sites without inventing measurements.
+Phase 3 is complete when our backend can
+take verified lunar coordinates, a date range,
+and mission requirements, then return
+scientifically grounded visibility metrics
+and explain the trade-offs between sites.
+
+Terrain-aware analysis is an advanced milestone.
+If it is incomplete, the application must clearly
+label its results as geometric-only estimates.
