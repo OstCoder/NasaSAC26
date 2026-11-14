@@ -81,11 +81,20 @@ duration, and spacecraft assumptions.
 
 ## Task 3: Define Landing Site Requirements
 
-- [ ] Define minimum sunlight availability.
-- [ ] Define minimum Earth visibility.
-- [ ] Define maximum acceptable communication blackout.
-- [ ] Include proximity to PSRs as an optional scientific factor.
-- [ ] Document assumptions and limitations.
+- [x] Define minimum sunlight availability.
+- [x] Define minimum Earth visibility.
+- [x] Define maximum acceptable communication blackout.
+- [x] Include proximity to PSRs as an optional scientific factor.
+- [x] Document assumptions and limitations.
+
+Documented in `docs/SITE_REQUIREMENTS.md`. Each threshold is tied to a metric the
+app already computes (`sun_visible_pct`, `earth_visible_pct`,
+`longest_earth_blackout_hours`), so the criteria are measurable without new code:
+a site is judged over both landing dates, censored blackouts are reported as lower
+bounds rather than passes, and PSR proximity is a measured distance from the LROC
+catalogue but stays a preference, because nothing is ranked without stated
+weights. The three candidates are evaluated against the thresholds there, using
+Task 1's coordinates.
 
 ### Proposed Requirements
 
@@ -126,7 +135,7 @@ A finalized mission specification shared with the team.
 - [x] Coordinate sources documented.
 - [x] Mission objective defined.
 - [x] Mission duration and landing dates finalized.
-- [ ] Sunlight and communication requirements finalized.
+- [x] Sunlight and communication requirements finalized.
 - [ ] Mission specifications shared with the team.
 
 ## Phase 2 — Next Steps
