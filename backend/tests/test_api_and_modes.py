@@ -1,11 +1,13 @@
 """API contract, scenario comparison, rescheduler, and demo/scientific mode switching."""
 
+import copy
 from datetime import datetime, timedelta, timezone
 
 import numpy as np
 import pytest
 
 from app.core.errors import DataUnavailableError
+from app.core.settings import load_settings
 from app.core.timeutil import time_grid
 from app.models.schemas import Mode, ProvenanceLevel, ResolvedLocation
 from app.providers.ephemeris_analytic import AnalyticMeeusEphemeris
@@ -29,6 +31,35 @@ class TestBasics:
         assert cfg["simulation"]["supported_start_utc"].startswith("2026")
         sites = client.get("/api/sites").json()
         assert len(sites) >= 3 and {"id", "latitude_deg", "longitude_deg"} <= sites[0].keys()
+
+    def test_mission_scenario_is_the_default(self, client):
+        cfg = client.get("/api/config").json()
+        mission, sim = cfg["mission"], cfg["simulation"]
+        assert mission["name"] and mission["objective"]
+        assert mission["duration_days"] * 24 == sim["default_duration_hours"]
+        assert mission["landing_dates"]["initial"] == sim["default_landing_utc"]
+        assert mission["landing_dates"]["alternative"] != mission["landing_dates"]["initial"]
+        assert mission["spacecraft"] == {
+            "power": "solar_panels_with_battery_storage",
+            "communication": "direct_to_earth",
+            "crewed": False,
+        }
+        site_ids = {s["id"] for s in client.get("/api/sites").json()}
+        assert set(mission["candidate_sites"]) <= site_ids
+
+    def test_mission_config_cannot_drift_from_defaults(self, settings, write_json, tmp_path):
+        for mutate in (
+            lambda m, s: m.update(duration_days=14),
+            lambda m, s: m["landing_dates"].update(initial="2027-01-15T12:00:00Z"),
+            lambda m, s: m["landing_dates"].update(alternative=m["landing_dates"]["initial"]),
+            lambda m, s: m.update(candidate_sites=[]),
+            lambda m, s: m["spacecraft"].pop("power"),
+        ):
+            raw = copy.deepcopy(settings.raw)
+            mutate(raw["mission"], raw["simulation"])
+            path = write_json(tmp_path / "bad_config.json", raw)
+            with pytest.raises(ValueError):
+                load_settings(path)
 
     def test_unknown_site_404(self, client):
         r = client.post("/api/scenario", json=scenario(site="atlantis"))

@@ -47,6 +47,13 @@ export function fmtSigned(value: number | null, unit: string): string {
   return `${sign}${a.toFixed(2)}`
 }
 
+/** "2026-12-01T12:00:00Z" -> "1 Dec" (UTC, no year). */
+export function fmtDayMonth(iso: string): string {
+  const d = new Date(iso)
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  return `${d.getUTCDate()} ${months[d.getUTCMonth()]}`
+}
+
 /** "2027-01-15T12:00:00Z" <-> value for <input type="datetime-local"> treated as UTC. */
 export function isoToInput(iso: string): string {
   return iso.slice(0, 16)

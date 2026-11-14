@@ -100,10 +100,49 @@ def _resolve(path: str) -> Path:
     return p if p.is_absolute() else REPO_ROOT / p
 
 
+_MISSION_FIELDS = ("name", "label", "objective", "duration_days", "landing_dates", "spacecraft", "candidate_sites")
+
+
+def _validate_mission(mission: dict[str, Any], sim: dict[str, Any]) -> None:
+    """Refuse to start when the mission block contradicts the simulation defaults.
+
+    The mission is the deliverable, so a half-edited config should fail loudly here
+    instead of serving a default scenario that is not the mission.
+    """
+    missing = [key for key in _MISSION_FIELDS if key not in mission]
+    if missing:
+        raise ValueError(f"config mission is missing {missing}")
+    for key in ("power", "communication", "crewed"):
+        if key not in mission["spacecraft"]:
+            raise ValueError(f"config mission.spacecraft is missing {key!r}")
+    if not mission["candidate_sites"]:
+        raise ValueError("config mission.candidate_sites must list at least one site id")
+
+    days = float(mission["duration_days"])
+    default_days = float(sim["default_duration_hours"]) / 24
+    if days != default_days:
+        raise ValueError(
+            f"mission.duration_days ({days:g}) must equal simulation.default_duration_hours/24 ({default_days:g})"
+        )
+
+    initial = parse_utc(mission["landing_dates"]["initial"])
+    alternative = parse_utc(mission["landing_dates"]["alternative"])
+    if initial != parse_utc(sim["default_landing_utc"]):
+        raise ValueError("mission.landing_dates.initial must equal simulation.default_landing_utc")
+    if alternative <= initial:
+        raise ValueError("mission.landing_dates.alternative must be later than the initial date")
+    window_start = parse_utc(sim["supported_start_utc"])
+    window_end = parse_utc(sim["supported_end_utc"])
+    for label, when in (("initial", initial), ("alternative", alternative)):
+        if not window_start <= when <= window_end:
+            raise ValueError(f"mission.landing_dates.{label} ({when.isoformat()}) is outside the supported window")
+
+
 def load_settings(path: Path | None = None) -> Settings:
     cfg_path = Path(os.environ.get("LUNANAV_CONFIG", path or DEFAULT_CONFIG_PATH))
     raw = json.loads(cfg_path.read_text())
     sim = raw["simulation"]
+    _validate_mission(raw["mission"], sim)
     jpl = raw["jpl"]
     allowed = tuple(raw["mode"]["allowed"])
     default_mode = os.environ.get("LUNANAV_MODE", raw["mode"]["default"])

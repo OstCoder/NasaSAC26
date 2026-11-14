@@ -14,11 +14,19 @@
   },
   "mission": {
     "$comment": "The mission this build is scoped to. See docs/MISSION.md. Hypothetical, not a flown mission.",
-    "name": "Lunar Polar Recon",
+    "name": "Polar Ice Scout",
     "label": "7-day solar-powered robotic mission",
-    "profile": "solar_powered_robotic",
-    "objective": "Investigate lunar south-polar terrain from the candidate sites.",
+    "objective": "Investigate the lunar south-pole environment and support scientific exploration of potential water ice near permanently shadowed regions.",
     "duration_days": 7,
+    "landing_dates": {
+      "initial": "2026-12-01T12:00:00Z",
+      "alternative": "2026-12-11T12:00:00Z"
+    },
+    "spacecraft": {
+      "power": "solar_panels_with_battery_storage",
+      "communication": "direct_to_earth",
+      "crewed": false
+    },
     "candidate_sites": [
       "peak-near-shackleton",
       "connecting-ridge",
@@ -28,7 +36,7 @@
   "simulation": {
     "supported_start_utc": "2026-01-01T00:00:00Z",
     "supported_end_utc": "2030-12-31T23:59:59Z",
-    "default_landing_utc": "2027-01-15T12:00:00Z",
+    "default_landing_utc": "2026-12-01T12:00:00Z",
     "default_duration_hours": 168,
     "min_duration_hours": 1,
     "max_duration_hours": 1440,

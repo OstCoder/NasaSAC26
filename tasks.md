@@ -39,13 +39,16 @@ Resource: https://quickmap.lroc.asu.edu/
 
 ## Task 2: Define the Hypothetical Lunar Mission
 
-- [ ] Define the mission objective.
-- [ ] Set the mission duration to 7 Earth days.
-- [ ] Set the initial landing date to December 1, 2026.
-- [ ] Set an alternative landing date to December 11, 2026.
-- [ ] Assume a solar-powered robotic lander.
-- [ ] Assume the lander has battery storage.
-- [ ] Assume direct-to-Earth communication capability.
+- [x] Define the mission objective.
+- [x] Set the mission duration to 7 Earth days.
+- [x] Set the initial landing date to December 1, 2026.
+- [x] Set an alternative landing date to December 11, 2026.
+- [x] Assume a solar-powered robotic lander.
+- [x] Assume the lander has battery storage.
+- [x] Assume direct-to-Earth communication capability.
+
+Implemented in `config/lunanav.config.json` → `mission` (served at `GET /api/config`),
+with the reasoning in `docs/MISSION.md`.
 
 ### Proposed Mission
 
@@ -117,8 +120,8 @@ A finalized mission specification shared with the team.
 
 - [ ] Three exact lunar coordinates selected and verified.
 - [ ] Coordinate sources documented.
-- [ ] Mission objective defined.
-- [ ] Mission duration and landing dates finalized.
+- [x] Mission objective defined.
+- [x] Mission duration and landing dates finalized.
 - [ ] Sunlight and communication requirements finalized.
 - [ ] Mission specifications shared with the team.
 

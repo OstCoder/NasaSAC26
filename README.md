@@ -34,9 +34,10 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 81 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
-                              # intervals, API contract, comparison, rescheduler, mode switching,
-                              # JPL Horizons live provider and Moon Trek imagery (mocked network)
+cd backend && pytest          # 83 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+                              # intervals, API contract, mission config validation, comparison,
+                              # rescheduler, mode switching, JPL Horizons live provider and
+                              # Moon Trek imagery (mocked network)
 cd frontend && npm test       # projection round-trips
 cd frontend && npm run build  # strict TypeScript + production bundle
 ```
@@ -45,7 +46,7 @@ cd frontend && npm run build  # strict TypeScript + production bundle
 
 | View | What you can do |
 | --- | --- |
-| **Mission planner** | Polar map with 5 example sites and click-to-pick custom coordinates; landing time (UTC) and duration; saved candidate dates; Sun/Earth elevation, azimuth, terrain skyline, clearance, time to sunset/Earthset; 360° horizon panorama; scrubbable visibility timeline; mission summary metrics. |
+| **Mission planner** | Polar map with 5 example sites and click-to-pick custom coordinates; landing time (UTC) with the mission's initial/alternative date presets, and duration; saved candidate dates; Sun/Earth elevation, azimuth, terrain skyline, clearance, time to sunset/Earthset; 360° horizon panorama; scrubbable visibility timeline; mission summary metrics. |
 | **Compare scenarios** | Two site/date/duration scenarios side by side with every metric, change highlighting, aligned visibility bands, and data-derived trade-off statements. |
 | **Reschedule a mission** | Same site and duration, original vs proposed date: changes in sunlight, Earth visibility, simultaneous visibility and longest blackouts. |
 | **Lunar viewer** | Moon Trek imagery (LROC WAC, LOLA shaded relief or LOLA elevation) on three views: south polar map; zoomable whole-Moon 2D map with the night side and the Sun and Earth sub-points; 3D Moon shaped by LOLA elevation. All are lit by the Sun's position right now, or at the inspected mission time, and label craters from the IAU gazetteer. |

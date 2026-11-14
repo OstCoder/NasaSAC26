@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Field, Input, Select } from '@/components/ui/field'
 import { DURATION_PRESETS_HOURS } from '@/config/app'
 import { siteDraftLocation, useApp, type ScenarioDraft } from '@/hooks/useAppContext'
-import { fmtHours, fmtUtc, inputToIso, isoToInput } from '@/lib/format'
+import { fmtDayMonth, fmtHours, fmtUtc, inputToIso, isoToInput } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 const CUSTOM = '__custom__'
@@ -126,6 +126,26 @@ export function ScenarioEditor({
             max={isoToInput(sim.supported_end_utc)}
             onChange={(e) => e.target.value && onChange({ ...draft, landing_utc: inputToIso(e.target.value) })}
           />
+          <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {(
+              [
+                ['Initial', config.mission.landing_dates.initial],
+                ['Alternative', config.mission.landing_dates.alternative],
+              ] as const
+            ).map(([label, iso]) => (
+              <button
+                key={label}
+                onClick={() => onChange({ ...draft, landing_utc: iso })}
+                title={`${label} landing window: ${fmtUtc(iso)} UTC`}
+                className={cn(
+                  'h-8 whitespace-nowrap rounded-md border border-rule px-2 text-xs transition-colors',
+                  draft.landing_utc === iso ? 'bg-raised text-ink' : 'text-muted hover:text-ink',
+                )}
+              >
+                {label} · {fmtDayMonth(iso)}
+              </button>
+            ))}
+          </div>
         </Field>
       )}
 

@@ -14,6 +14,8 @@ Additional challenge details are expected around **November 4–5, 2026**. This 
 
 Edit `config/lunanav.config.json` → `simulation.supported_start_utc` / `supported_end_utc` (and `default_landing_utc`). Both backend and frontend read it. Tabulated providers also enforce their own table range; the API reports the intersection.
 
+If you move `default_landing_utc` or `default_duration_hours`, update `mission.landing_dates.initial` and `mission.duration_days` to match: the loader rejects a config where they disagree, so the default scenario can never drift from the defined mission.
+
 If the window extends past 2030, also reconsider the fixed UTC→TT offset in `core/timeutil.py` (fine unless a leap second is announced).
 
 ## 2. New or official landing sites / regions

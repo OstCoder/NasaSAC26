@@ -333,7 +333,8 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
               title="Mission summary"
               description={
                 <span className="num">
-                  {config.mission.label}. {fmtUtc(result.landing_utc)} to {fmtUtc(result.end_utc)} UTC, sampled every{' '}
+                  {config.mission.name} · {config.mission.label}. {fmtUtc(result.landing_utc)} to{' '}
+                  {fmtUtc(result.end_utc)} UTC, sampled every{' '}
                   {result.step_minutes} min with interpolated edges.
                 </span>
               }

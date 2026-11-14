@@ -225,9 +225,10 @@ export interface AppConfig {
   mission: {
     name: string
     label: string
-    profile: string
     objective: string
     duration_days: number
+    landing_dates: { initial: string; alternative: string }
+    spacecraft: { power: string; communication: string; crewed: boolean }
     candidate_sites: string[]
   }
   mode: { default: Mode; allowed: Mode[] }
