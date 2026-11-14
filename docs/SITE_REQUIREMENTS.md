@@ -53,26 +53,30 @@ The thresholds, ids and definitions are the ones the app already computes
 
 ### Worked example: the three candidates as measured today
 
-Demo Mode, 168 h from each landing date, 30 min step, Task 1's coordinates and
-**synthetic** skylines (`horizon_mask.source` says so on every response). This
-shows the criteria are computable from what the API already returns; it is not
-evidence about the real sites.
+Demo Mode, 168 h from each landing preset (00:00 UTC landings), 30 min step,
+Task 1's coordinates and **synthetic** skylines (`horizon_mask.source` says so
+on every response). The verdicts come from the app's own check,
+`POST /api/requirements`, with the thresholds read from the config — the same
+numbers a planner would see. This shows the criteria are computable from what
+the API already returns; it is not evidence about the real sites.
 
 | Site | Date | Sun ≥ 60 % | Earth ≥ 50 % | Blackout ≤ 12 h | `both_visible_pct` |
 | --- | --- | --- | --- | --- | --- |
-| `shackleton-rim` | 2026-12-01 | 100.0 % pass | 0.0 % fail | ≥ 168.0 h censored | 0.0 % |
-| `shackleton-rim` | 2026-12-11 | 100.0 % pass | 52.1 % pass | ≥ 80.4 h censored | 52.1 % |
-| `connecting-ridge` | 2026-12-01 | 100.0 % pass | 0.0 % fail | ≥ 168.0 h censored | 0.0 % |
-| `connecting-ridge` | 2026-12-11 | 36.2 % fail | 45.6 % fail | ≥ 91.5 h censored | 0.0 % |
-| `de-gerlache-rim` | 2026-12-01 | 84.6 % pass | 0.0 % fail | ≥ 168.0 h censored | 0.0 % |
-| `de-gerlache-rim` | 2026-12-11 | 0.0 % fail | 49.9 % fail | ≥ 84.2 h censored | 0.0 % |
+| `shackleton-rim` | 2026-12-01 | 100.0 % pass | 0.0 % fail | 168.0 h not met (≥, limited by the window) | 0.0 % |
+| `shackleton-rim` | 2026-12-11 | 100.0 % pass | 45.0 % fail | 92.4 h not met (≥, limited by the window) | 45.0 % |
+| `connecting-ridge` | 2026-12-01 | 100.0 % pass | 0.0 % fail | 168.0 h not met (≥, limited by the window) | 0.0 % |
+| `connecting-ridge` | 2026-12-11 | 43.4 % fail | 38.4 % fail | 103.5 h not met | 0.0 % |
+| `de-gerlache-rim` | 2026-12-01 | 91.7 % pass | 0.0 % fail | 168.0 h not met (≥, limited by the window) | 0.0 % |
+| `de-gerlache-rim` | 2026-12-11 | 0.0 % fail | 42.7 % fail | 96.2 h not met | 0.0 % |
 
 Read it as a demonstration of the procedure, not a ranking: no candidate clears
-all three gates on both dates, and the deciding factor is Earth sitting below
-invented terrain rather than a property of the site. Every blackout figure is
-censored by the window, so none of them can be shown to meet the 12 h limit.
-Repeating the same calls in Scientific Mode, where the horizon masks come from
-LOLA terrain, is what would turn this table into an actual qualification.
+all three gates on either preset date, and the deciding factor is Earth sitting
+below invented terrain rather than a property of the site. Against the synthetic
+skyline every Earth outage lasts the window or tens of hours, so the blackout
+limit fails outright; on a real LOLA mask some of those outages would shrink, but
+none of that is claimed here. Repeating the same calls in Scientific Mode, where
+the horizon masks come from LOLA terrain, is what would turn this table into an
+actual qualification.
 
 ## 3. Sunlight is not power, and Earth visibility is not a link
 
@@ -143,10 +147,11 @@ preference with no stated weights is read by a planner, not applied by the build
 
 ## 7. Where the thresholds live
 
-These criteria are documented here, on purpose: Phase 1 is a planning
-deliverable and the app does not yet evaluate pass/fail against thresholds.
-When that check is implemented, the thresholds belong in
-`config/lunanav.config.json` (a `requirements` block next to `mission`, served
-through `GET /api/config`) so the frontend and backend read the same numbers,
-and every verdict must be displayed with its provenance. Task 4 collects the
-shared specification that carries them.
+The thresholds live in `config/lunanav.config.json` → `requirements`, served
+through `GET /api/config` and evaluated by `POST /api/requirements`, which
+checks one scenario against all three gates and reports `met` / `not_met` /
+`unknown` per threshold plus a three-state overall verdict. The frontend
+mirrors the contract in `frontend/src/types/api.ts` and shows the thresholds on
+the methodology page. Every verdict carries the run's provenance level.
+The combined specification — sites, requirements, Phase 2 datasets and
+sign-off — is collected in [SPECIFICATIONS.md](SPECIFICATIONS.md).

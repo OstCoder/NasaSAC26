@@ -13,6 +13,7 @@ import type {
   Mode,
   ProviderInfo,
   PsrOut,
+  RequirementEvaluation,
   RescheduleResult,
   ScenarioInput,
   ScenarioResult,
@@ -68,6 +69,9 @@ export const api = {
   providers: (mode: Mode) => request<ProviderInfo[]>(`/api/providers?mode=${mode}`),
   sites: () => request<Site[]>('/api/sites'),
   scenario: (input: ScenarioInput, signal?: AbortSignal) => post<ScenarioResult>('/api/scenario', input, signal),
+  /** Check one scenario against the Phase 1 requirements served in /api/config. */
+  requirements: (input: ScenarioInput, signal?: AbortSignal) =>
+    post<RequirementEvaluation>('/api/requirements', input, signal),
   snapshot: (
     body: { location: LocationInput; time_utc: string; mode?: Mode; lookahead_hours?: number },
     signal?: AbortSignal,

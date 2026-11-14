@@ -108,7 +108,7 @@ cross-validated in code (`backend/scripts/sample_site_elevation.py`,
 3. **Geometry regression tests.** Haversine distances, the stereographic
    round-trip, PSR point-in-ring/point-to-boundary distances, and the
    propagation of site elevation into the observer radius are all unit-tested
-   (27 new tests; full suite 112 passing).
+   (27 new tests; full suite 133 passing).
 4. **Parallax sanity.** Adding the recorded elevation changes Earth elevation
    by ~0.0005°/km of altitude — verified end-to-end through
    `POST /api/scenario`.

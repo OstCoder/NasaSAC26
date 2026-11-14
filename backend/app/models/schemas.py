@@ -360,6 +360,48 @@ class RescheduleResult(BaseModel):
     headline_changes: list[MetricDelta]
 
 
+# ------------------------------------------------------- requirements ----
+
+
+class RequirementStatus(str, Enum):
+    met = "met"
+    not_met = "not_met"
+    unknown = "unknown"  # cannot be decided from this window (missing or censored value)
+
+
+class RequirementCheck(BaseModel):
+    """One Phase 1 requirement, measured against its configured threshold."""
+
+    id: str
+    label: str
+    unit: str
+    comparison: Literal["at_least", "at_most"]
+    threshold: float
+    value: Optional[float]
+    status: RequirementStatus
+    detail: str
+
+
+class RequirementEvaluation(BaseModel):
+    """A scenario checked against the requirements in the shared config.
+
+    Descriptive only: it reports which stated thresholds this scenario meets.
+    It never recommends or ranks a site.
+    """
+
+    location: ResolvedLocation
+    landing_utc: datetime
+    duration_hours: float
+    requirements_source: str
+    checks: list[RequirementCheck]
+    satisfied: Optional[bool] = Field(
+        None, description="True if every check is met, False if any fails, None if any is undecidable"
+    )
+    nearest_psr: Optional[PsrProximity] = None
+    psr_preference: str = "optional"
+    notes: list[str] = Field(default_factory=list)
+
+
 class ApiError(BaseModel):
     code: str
     message: str

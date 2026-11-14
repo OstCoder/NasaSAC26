@@ -4,23 +4,25 @@ What LunaNav is scoped to for the 2026 build: one hypothetical robotic mission a
 three candidate landing sites near the lunar south pole. The scenario is a
 decision, not a claim about a real mission.
 
-The machine-readable version lives in `config/lunanav.config.json` → `mission`,
-served to the frontend at `GET /api/config`; the site catalogue is
-`data/demo/sites.json`. This page explains the choices.
+The machine-readable version lives in `config/lunanav.config.json` → `mission` and
+`requirements`, and the site catalogue in `data/demo/sites.json`. This page explains
+the choices; the finalized Phase 1 specification, including the requirement
+thresholds, dataset list and sign-off, is [SPECIFICATIONS.md](SPECIFICATIONS.md).
 
 ## Mission: Polar Ice Scout
 
-**7-day solar-powered robotic mission investigating lunar polar terrain.**
+**Polar Ice Scout — 7-day solar-powered robotic mission investigating lunar polar terrain.**
 
 | | |
 | --- | --- |
-| Objective | Investigate the lunar south-pole environment and support scientific exploration of potential water ice near permanently shadowed regions |
-| Surface duration | 7 Earth days (168 h) |
-| Initial landing | 2026-12-01 12:00 UTC |
-| Alternative landing | 2026-12-11 12:00 UTC |
-| Power | Solar panels with battery storage |
-| Communication | Direct-to-Earth |
+| Surface duration | 7 days (168 h) |
+| Power | Solar panels with battery storage, no radioisotope source |
+| Communication | Direct-to-Earth, no relay |
 | Vehicle | Robotic lander/rover, uncrewed |
+| Objective | Investigate the lunar south-pole environment and support scientific exploration of potential water ice near permanently shadowed regions |
+| Primary landing | 2026-12-01 00:00 UTC (first of the two landing presets in the app) |
+| Alternate landing | 2026-12-11 00:00 UTC (the second preset, for a one-click date comparison) |
+| Requirements | ≥ 60 % sunlight, ≥ 50 % Earth visibility, ≤ 12 h Earth blackout over the 7-day window; PSR proximity is a preference ([SPECIFICATIONS.md](SPECIFICATIONS.md)) |
 
 Both landing dates are one-click presets in the planner; the initial date is the
 default landing time in the config, so an unedited run is the mission. The loader

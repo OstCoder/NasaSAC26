@@ -12,7 +12,7 @@ Additional challenge details are expected around **November 4–5, 2026**. This 
 
 ## 1. New or changed date range
 
-Edit `config/lunanav.config.json` → `simulation.supported_start_utc` / `supported_end_utc` (and `default_landing_utc`). Both backend and frontend read it. Tabulated providers also enforce their own table range; the API reports the intersection.
+Edit `config/lunanav.config.json` → `simulation.supported_start_utc` / `supported_end_utc` (and `default_landing_utc`, plus `simulation.landing_presets` — the named landing dates shown as one-click presets; every preset must sit inside the supported window or the API refuses to start). Both backend and frontend read it. Tabulated providers also enforce their own table range; the API reports the intersection.
 
 If you move `default_landing_utc` or `default_duration_hours`, update `mission.landing_dates.initial` and `mission.duration_days` to match: the loader rejects a config where they disagree, so the default scenario can never drift from the defined mission.
 

@@ -13,14 +13,15 @@
     ]
   },
   "mission": {
-    "$comment": "The mission this build is scoped to. See docs/MISSION.md. Hypothetical, not a flown mission.",
+    "$comment": "The mission this build is scoped to. See docs/MISSION.md and docs/SPECIFICATIONS.md. Hypothetical, not a flown mission.",
     "name": "Polar Ice Scout",
     "label": "7-day solar-powered robotic mission",
+    "profile": "solar_powered_robotic",
     "objective": "Investigate the lunar south-pole environment and support scientific exploration of potential water ice near permanently shadowed regions.",
     "duration_days": 7,
     "landing_dates": {
-      "initial": "2026-12-01T12:00:00Z",
-      "alternative": "2026-12-11T12:00:00Z"
+      "initial": "2026-12-01T00:00:00Z",
+      "alternative": "2026-12-11T00:00:00Z"
     },
     "spacecraft": {
       "power": "solar_panels_with_battery_storage",
@@ -36,7 +37,19 @@
   "simulation": {
     "supported_start_utc": "2026-01-01T00:00:00Z",
     "supported_end_utc": "2030-12-31T23:59:59Z",
-    "default_landing_utc": "2026-12-01T12:00:00Z",
+    "default_landing_utc": "2026-12-01T00:00:00Z",
+    "landing_presets": [
+      {
+        "key": "primary",
+        "label": "Primary \u00b7 1 Dec 2026",
+        "utc": "2026-12-01T00:00:00Z"
+      },
+      {
+        "key": "alternate",
+        "label": "Alternate \u00b7 11 Dec 2026",
+        "utc": "2026-12-11T00:00:00Z"
+      }
+    ],
     "default_duration_hours": 168,
     "min_duration_hours": 1,
     "max_duration_hours": 1440,
@@ -44,6 +57,19 @@
     "min_step_minutes": 5,
     "max_samples": 20000,
     "lookahead_hours_for_events": 720
+  },
+  "requirements": {
+    "$comment": "Phase 1 Task 3 thresholds. Measured over the whole mission window by the metric registry, served at GET /api/config and checked by POST /api/requirements. Hypothetical demonstration targets, not official NASA mission specifications - see docs/SPECIFICATIONS.md.",
+    "min_sun_visible_pct": 60,
+    "min_earth_visible_pct": 50,
+    "max_earth_blackout_hours": 12,
+    "psr_proximity": "preferred",
+    "basis": "Hypothetical demonstration requirements for the 7-day Polar Ice Scout scenario, not official NASA mission specifications."
+  },
+  "specification": {
+    "$comment": "Phase 1 sign-off recorded in docs/SPECIFICATIONS.md section 7. Bump the version when the mission definition changes.",
+    "version": "1.0.0",
+    "approved_utc": "2026-11-14T00:00:00Z"
   },
   "coordinates": {
     "body": "Moon",
