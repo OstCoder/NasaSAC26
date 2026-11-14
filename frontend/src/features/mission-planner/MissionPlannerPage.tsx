@@ -273,7 +273,17 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                   </Button>
                 )}
               </div>
-              {site?.coordinate_note && <p className="text-xs text-faint">Coordinates: {site.coordinate_note}</p>}
+              {site && (
+                <div className="space-y-1">
+                  <p className="text-xs text-faint">
+                    {site.region} · elevation{' '}
+                    {site.elevation_m != null ? `${Math.round(site.elevation_m)} m` : 'not yet recorded'} · source{' '}
+                    {site.source || 'not yet recorded'} · PSRs{' '}
+                    {site.nearby_psrs.length > 0 ? site.nearby_psrs.join(', ') : 'not yet recorded'}
+                  </p>
+                  {site.coordinate_note && <p className="text-xs text-faint">Coordinates: {site.coordinate_note}</p>}
+                </div>
+              )}
             </CardContent>
           </Card>
 

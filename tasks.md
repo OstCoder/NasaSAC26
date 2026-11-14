@@ -48,7 +48,10 @@ Resource: https://quickmap.lroc.asu.edu/
 - [x] Assume direct-to-Earth communication capability.
 
 Implemented in `config/lunanav.config.json` → `mission` (served at `GET /api/config`),
-with the reasoning in `docs/MISSION.md`.
+with the reasoning in `docs/MISSION.md`. Task 2 names the three candidates and
+their A/B/C order; Task 1 fills in their coordinates, elevation, source and nearby
+PSRs in `data/demo/sites.json`, and the backend rejects a candidate the catalogue
+cannot supply.
 
 ### Proposed Mission
 

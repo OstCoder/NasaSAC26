@@ -66,6 +66,10 @@ export function ScenarioEditor({
     })
   }
 
+  const candidateIds = config.mission.candidate_sites
+  const candidateList = candidateIds.flatMap((id) => sites.filter((s) => s.id === id))
+  const otherSites = sites.filter((s) => !candidateIds.includes(s.id))
+
   const problem = rangeProblem(draft, sim.supported_start_utc, sim.supported_end_utc)
 
   return (
@@ -83,11 +87,24 @@ export function ScenarioEditor({
             if (site) onChange({ ...draft, ...siteDraftLocation(site) })
           }}
         >
-          {sites.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.name}
-            </option>
-          ))}
+          {candidateList.length > 0 && (
+            <optgroup label="Mission candidates">
+              {candidateList.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </optgroup>
+          )}
+          {otherSites.length > 0 && (
+            <optgroup label="Other sites">
+              {otherSites.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </optgroup>
+          )}
           {features.custom_coordinates && <option value={CUSTOM}>Custom coordinates…</option>}
         </Select>
       </Field>

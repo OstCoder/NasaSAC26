@@ -90,6 +90,9 @@ class Site(BaseModel):
     coordinate_note: str = ""
     tags: list[str] = Field(default_factory=list)
     source: str = ""
+    # Task 1's remaining columns. ``None``/empty means "not recorded yet", never zero.
+    elevation_m: Optional[float] = None
+    nearby_psrs: list[str] = Field(default_factory=list)
 
 
 class LocationInput(BaseModel):

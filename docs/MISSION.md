@@ -49,13 +49,24 @@ link. See [METHODOLOGY.md](METHODOLOGY.md).
 
 ## Candidate sites
 
-In the order the planner treats them, all near the south pole:
+Task 2 owns *which* three sites the mission is flown at and their A → B → C order;
+Task 1 owns the numbers in those rows. `mission.candidate_sites` is that ordered
+list of ids, and every id must exist in `data/demo/sites.json` with a recorded
+coordinate `source` — otherwise `SiteRepository` refuses to serve the catalogue.
+That check is the seam between the two tasks: when Task 1 replaces the approximate
+coordinates with LROC-derived ones, only `data/demo/sites.json` changes.
 
-| # | Site | `site_id` | Latitude | Longitude (east+) | Why it is a candidate |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Peak Near Shackleton | `peak-near-shackleton` | −88.81° | 123.64° | High-standing massif on the far side of Shackleton crater as seen from Earth: low local horizon and long illumination, at the cost of Earth sitting low. |
-| 2 | Shackleton–de Gerlache Connecting Ridge | `connecting-ridge` | −89.45° | 222.69° (−137.31°) | Ridge crest between the two craters, discussed in the literature for extended illumination. |
-| 3 | de Gerlache Rim | `de-gerlache-rim` | −88.71° | −68.80° | Rim on the Earth-facing side of the pole: the counterpart case where direct-to-Earth geometry is favoured over illumination. |
+| # | Site | `site_id` | Region | Latitude | Longitude (east+) | Elevation | Coordinate source | Nearby PSRs |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A | Peak Near Shackleton | `peak-near-shackleton` | Shackleton Crater Rim | −88.81° | 123.64° | not yet recorded | Approximate literature value | not yet recorded |
+| B | Shackleton–de Gerlache Connecting Ridge | `connecting-ridge` | Connecting Ridge | −89.45° | 222.69° (−137.31°) | not yet recorded | Approximate literature value | not yet recorded |
+| C | de Gerlache Rim | `de-gerlache-rim` | de Gerlache Crater Rim | −88.71° | −68.80° | not yet recorded | Approximate | not yet recorded |
+
+Rows follow Task 1's table order, and that order is what the planner and
+`GET /api/sites` use: candidates first, in mission order, then the rest of the
+catalogue. "not yet recorded" is literal — `elevation_m` is `null` and
+`nearby_psrs` is empty in the catalogue until Task 1 fills them, and the planner
+prints the gap instead of substituting a plausible number.
 
 The three are deliberately different in elevation and Earth-facing geometry, so
 comparing them separates illumination from Earth visibility instead of sampling
@@ -63,6 +74,27 @@ one terrain type three times.
 
 Reference crater centres from the IAU Gazetteer (`data/reference/moon_craters.json`):
 Shackleton −89.67°, 129.78°, 20.9 km; de Gerlache −88.48°, −88.34°, 32.7 km.
+
+## Contract with Task 1
+
+Task 1's deliverable is a table of three sites: one exact coordinate per region,
+latitude and longitude, surface elevation, coordinate source, and nearby PSRs.
+Those columns are exactly the fields of a site record, so Task 1 can be finished
+without editing Task 2:
+
+| Task 1 column | `data/demo/sites.json` field |
+| --- | --- |
+| Site / Region | `name`, `region` (the region names in `tasks.md`) |
+| Latitude / Longitude | `latitude_deg`, `longitude_deg` (east-positive) |
+| Elevation | `elevation_m` (metres above the 1737.4 km reference sphere; `null` until recorded) |
+| Source | `source` (required for candidates; the loader rejects a candidate without one) |
+| Nearby PSRs | `nearby_psrs` (feature names; empty until recorded) |
+| How the point was chosen | `coordinate_note` |
+
+If Task 1 settles on a different feature than one of these three, change the id in
+`mission.candidate_sites` and the matching record together — the loader rejects a
+candidate the catalogue cannot supply, so the two files cannot drift apart
+silently.
 
 ## Provenance and limits
 

@@ -58,7 +58,11 @@ def providers(mode: Mode = Mode.demo):
 
 @router.get("/sites", response_model=list[Site])
 def sites():
-    return get_site_repository().all()
+    """Mission candidates first, in the order the mission declares them (Task 1's A/B/C)."""
+    repo = get_site_repository()
+    candidates = repo.candidates()
+    candidate_ids = {s.id for s in candidates}
+    return candidates + [s for s in repo.all() if s.id not in candidate_ids]
 
 
 @router.get("/sites/{site_id}", response_model=Site)

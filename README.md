@@ -34,8 +34,8 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 83 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
-                              # intervals, API contract, mission config validation, comparison,
+cd backend && pytest          # 85 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+                              # intervals, API contract, mission config and site-catalogue validation, comparison,
                               # rescheduler, mode switching, JPL Horizons live provider and
                               # Moon Trek imagery (mocked network)
 cd frontend && npm test       # projection round-trips

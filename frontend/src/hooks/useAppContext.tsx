@@ -69,11 +69,17 @@ function ReadyProvider({ config, sites, children }: { config: AppConfig; sites: 
     landing_utc: config.simulation.default_landing_utc,
     duration_hours: config.simulation.default_duration_hours,
   }
-  const [draftA, setDraftA] = React.useState<ScenarioDraft>({ ...base, ...siteDraftLocation(sites[0]) })
-  // Default to the third mission candidate when the catalogue provides it.
+  // A/B follow the mission's own candidate order (Task 1's A/B/C), not the order the
+  // catalogue happens to list sites in, so both slots are always candidates.
+  const candidates = React.useMemo(
+    () => config.mission.candidate_sites.flatMap((id) => sites.filter((s) => s.id === id)),
+    [config.mission.candidate_sites, sites],
+  )
+  const pool = candidates.length > 0 ? candidates : sites
+  const [draftA, setDraftA] = React.useState<ScenarioDraft>({ ...base, ...siteDraftLocation(pool[0]) })
   const [draftB, setDraftB] = React.useState<ScenarioDraft>({
     ...base,
-    ...siteDraftLocation(sites[Math.min(2, sites.length - 1)]),
+    ...siteDraftLocation(pool[Math.min(2, pool.length - 1)]),
   })
   const value = { config, sites, features, mode, setMode, draftA, setDraftA, draftB, setDraftB }
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>

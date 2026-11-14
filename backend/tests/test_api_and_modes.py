@@ -15,6 +15,7 @@ from app.providers.ephemeris_tabulated import HorizonsTableEphemeris
 from app.providers.registry import ProviderBundle, build_bundle
 from app.providers.terrain import LolaHorizonMaskProvider
 from app.services.comparison import ScenarioComparisonService
+from app.services.sites import SiteRepository
 from app.services.visibility import VisibilityCalculator
 
 LANDING = "2027-01-15T12:00:00Z"
@@ -60,6 +61,28 @@ class TestBasics:
             path = write_json(tmp_path / "bad_config.json", raw)
             with pytest.raises(ValueError):
                 load_settings(path)
+
+    def test_sites_carry_task_1s_columns(self, client):
+        sites = client.get("/api/sites").json()
+        mission = client.get("/api/config").json()["mission"]
+        assert [s["id"] for s in sites[: len(mission["candidate_sites"])]] == mission["candidate_sites"]
+        for site in sites:
+            assert {"region", "source", "elevation_m", "nearby_psrs"} <= site.keys()
+        for site in sites[: len(mission["candidate_sites"])]:
+            assert site["source"]
+
+    def test_catalogue_rejects_candidates_it_cannot_supply(self, tmp_path, write_json):
+        path = write_json(tmp_path / "sites.json", {"sites": [
+            {"id": "a", "name": "A", "latitude_deg": -89.0, "longitude_deg": 0.0, "source": "test"}]})
+        assert [s.id for s in SiteRepository(path, candidate_ids=["a"]).candidates()] == ["a"]
+        with pytest.raises(ValueError, match="unknown site"):
+            SiteRepository(path, candidate_ids=["a", "not-in-catalogue"])
+        with pytest.raises(ValueError, match="coordinate source"):
+            SiteRepository(
+                write_json(tmp_path / "unsourced.json", {"sites": [
+                    {"id": "b", "name": "B", "latitude_deg": -89.0, "longitude_deg": 0.0}]}),
+                candidate_ids=["b"],
+            )
 
     def test_unknown_site_404(self, client):
         r = client.post("/api/scenario", json=scenario(site="atlantis"))

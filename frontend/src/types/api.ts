@@ -57,6 +57,9 @@ export interface Site {
   coordinate_note: string
   tags: string[]
   source: string
+  /** Task 1 columns; null/[] means not recorded yet, not zero. */
+  elevation_m: number | null
+  nearby_psrs: string[]
 }
 
 export interface LocationInput {
