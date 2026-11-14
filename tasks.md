@@ -225,16 +225,16 @@ Task 3 terrain reference. Details: [docs/DATASETS.md](docs/DATASETS.md).
 
 ## Task 5: Validate NASA Data
 
-- [ ] Confirm that all three site coordinates are valid.
-- [ ] Verify the Horizons observer location is on the Moon.
-- [ ] Check Sun and Earth position results.
-- [ ] Compare selected results against Horizons reference output.
-- [ ] Verify azimuth and elevation units.
-- [ ] Confirm UTC date and time handling.
-- [ ] Check data continuity across the mission interval.
-- [ ] Test the same site on different dates.
-- [ ] Test different sites at the same date and time.
-- [ ] Document any assumptions or known limitations.
+- [x] Confirm that all three site coordinates are valid.
+- [x] Verify the Horizons observer location is on the Moon.
+- [x] Check Sun and Earth position results.
+- [x] Compare selected results against Horizons reference output.
+- [x] Verify azimuth and elevation units.
+- [x] Confirm UTC date and time handling.
+- [x] Check data continuity across the mission interval.
+- [x] Test the same site on different dates.
+- [x] Test different sites at the same date and time.
+- [x] Document any assumptions or known limitations.
 
 ### Important Validation Checks
 
@@ -258,6 +258,15 @@ Task 3 terrain reference. Details: [docs/DATASETS.md](docs/DATASETS.md).
 
 Validated astronomical datasets and documented
 limitations for all three landing sites.
+
+Automated by `backend/scripts/validate_nasa_data.py` (offline by default;
+`--live` re-queries Horizons) and served at `GET /api/validation`: ten checks —
+coordinates, lunar observer, Sun/Earth positions against an independent model, a
+separate Horizons reference table, units, UTC handling, continuity, the same site
+across dates and different sites at one instant. All 1,014 records agree with the
+independent model to 0.032° in elevation and 0.020° in azimuth; 180 Horizons
+reference rows reproduce exactly. Assumptions and the ten known limitations are in
+[docs/VALIDATION.md](docs/VALIDATION.md).
 
 ---
 
@@ -291,7 +300,7 @@ terrain-obstruction calculations.
 - [ ] Lunar terrain sources identified.
 - [ ] At least one usable terrain dataset obtained.
 - [ ] Data formats standardized.
-- [ ] Astronomical results validated.
+- [x] Astronomical results validated.
 - [ ] Backend data pipeline tested.
 - [ ] Data ready for Phase 3.
 

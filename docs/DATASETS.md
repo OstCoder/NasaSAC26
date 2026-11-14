@@ -23,6 +23,8 @@ python scripts/check_datasets.py --json   # the full payload
 | `site_elevations` | LOLA 125 m-window elevation/slope evidence | `data/reference/site_elevations.json` | 4 sites | `scripts/sample_site_elevation.py` |
 | `psr_catalogue` | LROC/LOLA PSR polygons (> 5 km²) | `data/reference/psrs.json` | 653 | `scripts/build_psr_catalogue.py` |
 | `craters` | IAU Gazetteer crater centres | `data/reference/moon_craters.json` | gazetteer subset | `scripts/fetch_craters.py` |
+| `horizons_reference` | Independent 12 h Horizons sample the Task 5 checks compare against | `data/reference/horizons_reference.json` | 180 rows in 6 requests | `services/nasa_validation.py` |
+| `nasa_validation` | Task 5 report: ten checks, assumptions, limitations, last live evidence | `data/reference/nasa_validation.json` | 10 checks | `services/nasa_validation.py` |
 | `ephemeris` | Optional tabulated Horizons sub-points | `data/scientific/ephemeris/` | **absent by design** | `scripts/fetch_horizons.py` |
 | `horizon_masks` | LOLA-derived skyline masks | `data/scientific/horizon_masks/` | **absent — Task 6** | `scripts/build_horizon_mask.py` |
 | `cache` | Horizons monthly tables + Moon Trek tiles | `data/cache/` | months + tiles on this machine | providers |
@@ -61,7 +63,10 @@ Cross-dataset, not just per-file:
 5. the series index total equals the records actually on disk, timestamps are
    chronological, and every value is finite;
 6. the declared longitude convention is east-positive and [−180°, 180°);
-7. the cache is reported unavailable (not "empty") when its directory is absent.
+7. the cache is reported unavailable (not "empty") when its directory is absent;
+8. the Horizons reference rows are finite, name known sites and Sun/Earth, and add
+   up to the row count the file claims; the validation report must say `pass`, or
+   the catalogue surfaces which check failed.
 
 A failing check is reported by `problems[]` in the payload and by exit status 1
 from the script — the API still serves the catalogue so a UI can show what is
@@ -72,6 +77,7 @@ broken rather than a blank page.
 ```bash
 curl -s localhost:8000/api/datasets | python -m json.tool | head -40
 curl -s 'localhost:8000/api/datasets?force=true'   # bypass the in-process cache
+curl -s localhost:8000/api/validation | python -m json.tool | head -30
 ```
 
 ```python
@@ -122,5 +128,8 @@ checksums and WGS-style descriptions, and both record when they were generated.
 - Terrain rasters are ~41 MB each and stay in `data/cache/`, referenced by
   checksum; the repository stores the description, not the raster.
 - `ephemeris` and `horizon_masks` are empty until Phase 2 Task 6 fills them.
+- `nasa_validation` describes the last run, including its live Horizons evidence.
+  Re-run `scripts/validate_nasa_data.py --live` to refresh it; offline runs keep
+  the recorded live block and say when it was taken.
 - The catalogue validates structure and cross-file agreement. It cannot prove a
   value is correct; that is what the per-dataset verifiers and tests are for.

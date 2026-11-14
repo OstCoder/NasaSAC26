@@ -1,0 +1,505 @@
+{
+  "schema": "lunanav.nasa_validation.v1",
+  "generated_utc": "2026-11-14T21:01:36Z",
+  "generator": "backend/scripts/validate_nasa_data.py",
+  "deliverable": "Phase 2 Task 5: validated astronomical datasets and documented limitations",
+  "method": "Re-read the committed Task 2 series and Task 3 terrain reference, recompute every azimuth/elevation with LunaNav's independent analytic model, compare the records with the committed Horizons reference fetch, and check coordinates, observer, units, UTC handling, continuity and cross-site geometry. Nothing is repaired or filled in.",
+  "sources": [
+    {
+      "label": "NASA JPL Horizons API (observer tables at coord@301)",
+      "url": "https://ssd.jpl.nasa.gov/horizons/"
+    },
+    {
+      "label": "NASA PGDA LOLA 5 m/pix site DEMs",
+      "url": "https://pgda.gsfc.nasa.gov/products/78"
+    },
+    {
+      "label": "LunaNav analytic ephemeris (Meeus, 2nd ed.)",
+      "url": null
+    }
+  ],
+  "summary": {
+    "checks": 10,
+    "passed": 10,
+    "failed": 0,
+    "status": "pass",
+    "records_checked": 1014,
+    "sites": [
+      "shackleton-rim",
+      "connecting-ridge",
+      "de-gerlache-rim"
+    ]
+  },
+  "task5_items": [
+    {
+      "id": "site_coordinates",
+      "item": "Confirm that all three site coordinates are valid.",
+      "check": "site_coordinates"
+    },
+    {
+      "id": "observer_on_moon",
+      "item": "Verify the Horizons observer location is on the Moon.",
+      "check": "observer_on_moon"
+    },
+    {
+      "id": "sun_earth_positions",
+      "item": "Check Sun and Earth position results.",
+      "check": "sun_earth_positions"
+    },
+    {
+      "id": "horizons_reference",
+      "item": "Compare selected results against Horizons reference output.",
+      "check": "horizons_reference"
+    },
+    {
+      "id": "units",
+      "item": "Verify azimuth and elevation units.",
+      "check": "units"
+    },
+    {
+      "id": "utc_time",
+      "item": "Confirm UTC date and time handling.",
+      "check": "utc_time"
+    },
+    {
+      "id": "continuity",
+      "item": "Check data continuity across the mission interval.",
+      "check": "continuity"
+    },
+    {
+      "id": "same_site_different_dates",
+      "item": "Test the same site on different dates.",
+      "check": "same_site_different_dates"
+    },
+    {
+      "id": "different_sites_same_time",
+      "item": "Test different sites at the same date and time.",
+      "check": "different_sites_same_time"
+    },
+    {
+      "id": "assumptions_documented",
+      "item": "Document any assumptions or known limitations.",
+      "check": "assumptions_documented"
+    }
+  ],
+  "checks": [
+    {
+      "id": "site_coordinates",
+      "title": "Site coordinates are valid and agree across files",
+      "task5_item": "Confirm that all three site coordinates are valid.",
+      "passed": true,
+      "detail": "3 candidates validated: finite coordinates, a recorded source, inside their PGDA DEM footprint, and the same point in the Task 2 series.",
+      "metrics": {
+        "sites": {
+          "shackleton-rim": {
+            "latitude_deg": -89.78,
+            "longitude_deg": -155.73,
+            "elevation_m": 1734.05,
+            "surface_radius_km": 1739.134,
+            "pgda_site": "Site04",
+            "inside_dem": true,
+            "dem_radius_km": 6.258,
+            "terrain_site_inside": true
+          },
+          "connecting-ridge": {
+            "latitude_deg": -89.45,
+            "longitude_deg": -137.31,
+            "elevation_m": 1955.23,
+            "surface_radius_km": 1739.355,
+            "pgda_site": "Site01",
+            "inside_dem": true,
+            "dem_radius_km": 7.692,
+            "terrain_site_inside": true
+          },
+          "de-gerlache-rim": {
+            "latitude_deg": -88.67,
+            "longitude_deg": -68.1,
+            "elevation_m": 1808.1,
+            "surface_radius_km": 1739.208,
+            "pgda_site": "Site11",
+            "inside_dem": true,
+            "dem_radius_km": 7.579,
+            "terrain_site_inside": true
+          }
+        },
+        "candidates": 3
+      },
+      "problems": []
+    },
+    {
+      "id": "observer_on_moon",
+      "title": "Horizons was asked for a lunar-surface observer",
+      "task5_item": "Verify the Horizons observer location is on the Moon.",
+      "passed": true,
+      "detail": "Every query uses CENTER='coord@301' (the Moon, body 301), COORD_TYPE='GEODETIC', an altitude of a few km above the mean sphere, and the recorded site coordinate; the reference fetch echoes that same observer.",
+      "metrics": {
+        "sites": {
+          "connecting-ridge": {
+            "latitude_deg": -89.45,
+            "longitude_deg": -137.31,
+            "elevation_m": 1955.23,
+            "altitude_km": 1.95723,
+            "observer_radius_km": 1739.357,
+            "query_count": 2,
+            "horizons_echo": "222.69, -89.45, 1.95723"
+          },
+          "de-gerlache-rim": {
+            "latitude_deg": -88.67,
+            "longitude_deg": -68.1,
+            "elevation_m": 1808.1,
+            "altitude_km": 1.8101,
+            "observer_radius_km": 1739.21,
+            "query_count": 2,
+            "horizons_echo": "291.9, -88.67, 1.8101"
+          },
+          "shackleton-rim": {
+            "latitude_deg": -89.78,
+            "longitude_deg": -155.73,
+            "elevation_m": 1734.05,
+            "altitude_km": 1.73605,
+            "observer_radius_km": 1739.136,
+            "query_count": 2,
+            "horizons_echo": "204.27, -89.78, 1.73605"
+          }
+        },
+        "earth_centre_altitude_km": -1737.4,
+        "queries_checked": 12
+      },
+      "problems": []
+    },
+    {
+      "id": "sun_earth_positions",
+      "title": "Sun and Earth positions agree with an independent model",
+      "task5_item": "Check Sun and Earth position results.",
+      "passed": true,
+      "detail": "All records recomputed with LunaNav's Meeus model from the same site coordinates; Horizons (light-time, physical libration) and the analytic model (neither) share no code.",
+      "metrics": {
+        "bodies": {
+          "sun": {
+            "samples": 1014,
+            "max_azimuth_difference_deg": 0.0089,
+            "max_elevation_difference_deg": 0.0319,
+            "rms_elevation_difference_deg": 0.02,
+            "max_range_difference_km": 7511.6,
+            "max_range_difference_ppm": 51.1,
+            "tolerance_deg": 0.15,
+            "range_tolerance_relative": 0.001
+          },
+          "earth": {
+            "samples": 1014,
+            "max_azimuth_difference_deg": 0.0195,
+            "max_elevation_difference_deg": 0.0325,
+            "rms_elevation_difference_deg": 0.0282,
+            "max_range_difference_km": 243.7,
+            "max_range_difference_ppm": 611.5,
+            "tolerance_deg": 0.15,
+            "range_tolerance_relative": 0.001
+          }
+        },
+        "elevation_range_deg": [
+          -7.2734,
+          4.883
+        ]
+      },
+      "problems": []
+    },
+    {
+      "id": "horizons_reference",
+      "title": "Committed values reproduce an independent Horizons fetch",
+      "task5_item": "Compare selected results against Horizons reference output.",
+      "passed": true,
+      "detail": "180 selected rows from a 12 h Horizons fetch over both mission windows, compared at the exact hourly timestamps in the series.",
+      "metrics": {
+        "rows": 180,
+        "requests": 6,
+        "max_azimuth_difference_deg": 0.0,
+        "max_elevation_difference_deg": 0.0,
+        "max_range_difference_km": 0.0,
+        "reference_generated_utc": "2026-11-14T21:01:34Z",
+        "reference_step": "12 h",
+        "tolerance_deg": 0.002
+      },
+      "problems": []
+    },
+    {
+      "id": "units",
+      "title": "Angles are degrees and distances are kilometres",
+      "task5_item": "Verify azimuth and elevation units.",
+      "passed": true,
+      "detail": "Angles are degrees (the radian hypothesis is rejected by a wide margin) and ranges are kilometres at the physical Sun and Moon-Earth distances.",
+      "metrics": {
+        "samples": 2028,
+        "azimuth_range_deg": [
+          0.056,
+          359.686
+        ],
+        "elevation_range_deg": [
+          -7.273,
+          4.883
+        ],
+        "degree_hypothesis_max_error_deg": 0.0195,
+        "radian_hypothesis_max_error_deg": 179.8779,
+        "sun_range_km_median": 147120006.3,
+        "earth_range_km_median": 397233.5
+      },
+      "problems": []
+    },
+    {
+      "id": "utc_time",
+      "title": "Every timestamp is UTC, ISO-8601 and on the mission grid",
+      "task5_item": "Confirm UTC date and time handling.",
+      "passed": true,
+      "detail": "Timestamps are ISO-8601 with Z, round-trip through the UTC parser, sit exactly on the configured landing date plus 7 days, and are one hour apart.",
+      "metrics": {
+        "files": 6,
+        "samples": 1014,
+        "first_utc": "2026-12-01T00:00:00Z",
+        "last_utc": "2026-12-18T00:00:00Z",
+        "step_s": 3600.0,
+        "windows_match_config": true
+      },
+      "problems": []
+    },
+    {
+      "id": "continuity",
+      "title": "No gaps or jumps across either mission interval",
+      "task5_item": "Check data continuity across the mission interval.",
+      "passed": true,
+      "detail": "Every hour is present with no duplicates, and the largest hour-to-hour change is what the analytic geometry predicts (no swapped, repeated or interpolated rows).",
+      "metrics": {
+        "samples": 2028,
+        "spacing_s": [
+          3600.0
+        ],
+        "max_azimuth_step_deg": 0.5081,
+        "max_elevation_step_deg": 0.0642,
+        "max_model_step_deg": 0.508,
+        "tolerance_deg": 0.05
+      },
+      "problems": []
+    },
+    {
+      "id": "same_site_different_dates",
+      "title": "Each site's two mission windows are distinct and consistent",
+      "task5_item": "Test the same site on different dates.",
+      "passed": true,
+      "detail": "The same observer point is used in both windows, the windows start ten days apart, and the Sun/Earth geometry differs in each as the model predicts.",
+      "metrics": {
+        "sites": {
+          "shackleton-rim": {
+            "initial_start_utc": "2026-12-01T00:00:00Z",
+            "alternative_start_utc": "2026-12-11T00:00:00Z",
+            "differences": {
+              "sun": {
+                "max_azimuth_difference_deg": 121.8787,
+                "max_elevation_difference_deg": 0.4826
+              },
+              "earth": {
+                "max_azimuth_difference_deg": 12.0041,
+                "max_elevation_difference_deg": 10.9611
+              }
+            }
+          },
+          "connecting-ridge": {
+            "initial_start_utc": "2026-12-01T00:00:00Z",
+            "alternative_start_utc": "2026-12-11T00:00:00Z",
+            "differences": {
+              "sun": {
+                "max_azimuth_difference_deg": 121.889,
+                "max_elevation_difference_deg": 1.0814
+              },
+              "earth": {
+                "max_azimuth_difference_deg": 11.9615,
+                "max_elevation_difference_deg": 11.0178
+              }
+            }
+          },
+          "de-gerlache-rim": {
+            "initial_start_utc": "2026-12-01T00:00:00Z",
+            "alternative_start_utc": "2026-12-11T00:00:00Z",
+            "differences": {
+              "sun": {
+                "max_azimuth_difference_deg": 121.8442,
+                "max_elevation_difference_deg": 2.3829
+              },
+              "earth": {
+                "max_azimuth_difference_deg": 11.8227,
+                "max_elevation_difference_deg": 11.1788
+              }
+            }
+          }
+        },
+        "days_between_landings": 10
+      },
+      "problems": []
+    },
+    {
+      "id": "different_sites_same_time",
+      "title": "The three sites are three different observers",
+      "task5_item": "Test different sites at the same date and time.",
+      "passed": true,
+      "detail": "At identical timestamps the sites differ by the amount their separation, latitude and elevation predict - the values were computed per observer, not shared.",
+      "metrics": {
+        "pairs": 12,
+        "max_difference_of_differences_azimuth_deg": 0.0007,
+        "max_difference_of_differences_elevation_deg": 0.0004,
+        "sun_elevation_spread_deg": 1.3391,
+        "earth_elevation_spread_deg": 1.0097,
+        "tolerance_deg": 0.15
+      },
+      "problems": []
+    },
+    {
+      "id": "assumptions_documented",
+      "title": "Assumptions and limitations are written down and complete",
+      "task5_item": "Document any assumptions or known limitations.",
+      "passed": true,
+      "detail": "All ten Task 5 items are mapped to a check, ten limitations and seven assumptions are recorded here and in docs/VALIDATION.md.",
+      "metrics": {
+        "task5_items": 10,
+        "limitations": 10,
+        "assumptions": 7,
+        "documentation": "docs/VALIDATION.md"
+      },
+      "problems": []
+    }
+  ],
+  "sites": {
+    "shackleton-rim": {
+      "latitude_deg": -89.78,
+      "longitude_deg": -155.73,
+      "elevation_m": 1734.05,
+      "surface_radius_km": 1739.134,
+      "pgda_site": "Site04",
+      "inside_dem": true,
+      "dem_radius_km": 6.258,
+      "terrain_site_inside": true
+    },
+    "connecting-ridge": {
+      "latitude_deg": -89.45,
+      "longitude_deg": -137.31,
+      "elevation_m": 1955.23,
+      "surface_radius_km": 1739.355,
+      "pgda_site": "Site01",
+      "inside_dem": true,
+      "dem_radius_km": 7.692,
+      "terrain_site_inside": true
+    },
+    "de-gerlache-rim": {
+      "latitude_deg": -88.67,
+      "longitude_deg": -68.1,
+      "elevation_m": 1808.1,
+      "surface_radius_km": 1739.208,
+      "pgda_site": "Site11",
+      "inside_dem": true,
+      "dem_radius_km": 7.579,
+      "terrain_site_inside": true
+    }
+  },
+  "live": {
+    "performed": true,
+    "retrieved_utc": "2026-11-14T21:01:36Z",
+    "host": "https://ssd.jpl.nasa.gov/api/horizons.api",
+    "checks": [
+      {
+        "id": "reproduction",
+        "passed": true,
+        "detail": "A fresh 1 h fetch at each site's initial window start reproduces the committed records at the same timestamps.",
+        "metrics": {
+          "samples": 18,
+          "max_azimuth_difference_deg": 0.0,
+          "max_elevation_difference_deg": 0.0,
+          "max_range_difference_km": 0.000474,
+          "tolerance_deg": 0.002
+        },
+        "problems": []
+      },
+      {
+        "id": "echoed_observer",
+        "passed": true,
+        "detail": "Horizons echoed the observer it used for every live query.",
+        "metrics": {
+          "queries": 6,
+          "echoes": [
+            "shackleton-rim sun: 204.27, -89.78, 1.73605",
+            "shackleton-rim earth: 204.27, -89.78, 1.73605",
+            "connecting-ridge sun: 222.69, -89.45, 1.95723",
+            "connecting-ridge earth: 222.69, -89.45, 1.95723",
+            "de-gerlache-rim sun: 291.9, -88.67, 1.8101",
+            "de-gerlache-rim earth: 291.9, -88.67, 1.8101"
+          ]
+        },
+        "problems": []
+      },
+      {
+        "id": "reference_stable",
+        "passed": true,
+        "detail": "The re-fetched reference table matches the previously committed one row for row.",
+        "metrics": {
+          "compared_rows": 180,
+          "max_azimuth_change_deg": 0.0,
+          "max_elevation_change_deg": 0.0
+        },
+        "problems": []
+      }
+    ]
+  },
+  "assumptions": [
+    "Longitude is selenographic east-positive in [-180, 180); Horizons receives the same meridian as 0-360 deg.",
+    "Heights are metres above the 1737.4 km IAU mean sphere; the Moon has no geoid.",
+    "The observer is the site point plus a 2 m antenna/eye height above the LOLA surface sample.",
+    "Elevation is apparent, airless and terrain-free: the geometric horizon, with no atmospheric refraction.",
+    "UTC is used everywhere; UTC -> TT for the analytic model uses the fixed 69.184 s offset valid for 2026-2030.",
+    "Hourly sampling is adequate to validate the data, not to time sunrise/Earthrise; Phase 3 refines edges.",
+    "Horizons applies light-time and aberration to the apparent position; the analytic model omits them."
+  ],
+  "limitations": [
+    {
+      "item": "Two methods, one authority",
+      "impact": "LunaNav verifies that the committed values reproduce Horizons and agree with an independent model. It cannot prove Horizons' own ephemeris is correct; Horizons remains the reference."
+    },
+    {
+      "item": "Analytic model accuracy",
+      "impact": "Meeus' truncated series omits physical libration, light-time and aberration. Agreement of a few hundredths of a degree is expected; a sub-arcsecond disagreement is not claimed."
+    },
+    {
+      "item": "Geometric, not terrain-obstructed, visibility",
+      "impact": "Every elevation here is above the local flat horizon. A Sun or Earth at +0.5 deg can still be hidden by the 6-13 deg LOLA skylines in data/reference/site_terrain.json; Phase 3 applies them."
+    },
+    {
+      "item": "Time resolution of the verification",
+      "impact": "The series is hourly and the reference fetch is 12-hourly. A value at an un-sampled minute is not validated by either; Phase 3 interpolates and must say so."
+    },
+    {
+      "item": "Observer height",
+      "impact": "A 2 m observer is assumed for all three sites. A real lander's camera, antenna or solar panel sits at a different height, which changes the geometric horizon by ~0.0005 deg per km and the terrain horizon much more."
+    },
+    {
+      "item": "Site elevation provenance",
+      "impact": "Elevations are a 125 m-window median of a 5 m/pixel LOLA DEM, not a surveyed datum. The 0.3 m RMS height uncertainty is small next to the 5 m pixel, but the point itself is a study coordinate, not a certified landing pad."
+    },
+    {
+      "item": "Frame assumptions",
+      "impact": "Moon Mean Earth / Polar Axis, planetocentric, with the 1.54242 deg lunar-equator inclination in the analytic model. PA vs ME differences (~0.5 km at the surface) and any future IAU frame change are below the stated tolerances but not zero."
+    },
+    {
+      "item": "No atmosphere, no refraction",
+      "impact": "Physically correct for the Moon, but it means these elevations are not comparable with Earth-based observing conventions."
+    },
+    {
+      "item": "No power or link-budget meaning",
+      "impact": "Sun elevation is illumination geometry, never electrical power; Earth elevation is line-of-sight geometry, never a communication link or data rate."
+    },
+    {
+      "item": "Coverage of the validation",
+      "impact": "Only the three mission candidates and the two mission windows are validated. Custom coordinates and other dates reuse the same code but are not covered by this report."
+    }
+  ],
+  "documents": [
+    "docs/VALIDATION.md",
+    "docs/DATASETS.md",
+    "docs/JPL_CONNECTION.md",
+    "docs/METHODOLOGY.md",
+    "docs/TERRAIN.md"
+  ]
+}

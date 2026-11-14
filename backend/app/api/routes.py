@@ -11,6 +11,7 @@ import json
 
 from fastapi import APIRouter, Query, Response
 
+from app.core.errors import DataUnavailableError
 from app.core.settings import get_settings
 from app.models.schemas import (
     ComparisonResult,
@@ -35,6 +36,7 @@ from app.models.schemas import (
 from app.providers.registry import get_bundle
 from app.services.comparison import ScenarioComparisonService, ScenarioService
 from app.services.dataset_catalogue import build_catalogue
+from app.services.nasa_validation import build_report as build_validation_report
 from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
@@ -70,6 +72,31 @@ def datasets(force: bool = False):
     ``force=true`` re-reads the files instead of using the in-process cache.
     """
     return build_catalogue(use_cache=not force)
+
+
+@lru_cache(maxsize=1)
+def _validation_report() -> dict:
+    try:
+        return build_validation_report()
+    except (FileNotFoundError, ValueError) as exc:
+        raise DataUnavailableError(
+            f"The Phase 2 Task 5 validation report cannot be built: {exc}"
+        ) from exc
+
+
+@router.get("/validation")
+def validation(force: bool = False):
+    """Phase 2 Task 5: ten checks over the committed NASA datasets.
+
+    Offline, derived from the files: coordinates, lunar observer, Sun/Earth
+    positions against an independent model, the Horizons reference sample, units,
+    UTC handling, continuity, and the cross-site/cross-date geometry. ``live``
+    records the last live Horizons verification; ``force=true`` rebuilds the
+    report instead of using the in-process cache.
+    """
+    if force:
+        _validation_report.cache_clear()
+    return _validation_report()
 
 
 @router.get("/sites", response_model=list[Site])

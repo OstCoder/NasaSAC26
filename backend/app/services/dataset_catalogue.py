@@ -342,6 +342,78 @@ def _reference(dataset_id: str, label: str, path: Path, kind: str, problems: lis
     return dataset
 
 
+def _horizons_reference(settings, sites_by_id: dict[str, dict], problems: list[str]) -> Dataset:
+    """The independent Horizons sample the Task 5 validation compares against."""
+    path = Path(settings.datasets["horizons_reference"])
+    payload, error = _read(path)
+    dataset = Dataset("horizons_reference", "Independent Horizons reference sample (Phase 2 Task 5)",
+                      "observations", _rel(path))
+    if error or payload is None:
+        dataset.available = False
+        dataset.unavailable_reason = error
+        problems.append(str(error))
+        return dataset
+    if payload.get("schema") != "lunanav.horizons_reference.v1":
+        problems.append(f"horizons_reference: schema {payload.get('schema')!r}")
+    rows = 0
+    for request in payload.get("requests", []):
+        site_id, body = request.get("site_id"), request.get("body")
+        if site_id not in sites_by_id:
+            problems.append(f"horizons_reference: unknown site {site_id!r}")
+        if body not in ("sun", "earth"):
+            problems.append(f"horizons_reference: {site_id} body {body!r}")
+        for row in request.get("rows", []):
+            rows += 1
+            if not (_finite(row.get("azimuth_deg")) and _finite(row.get("elevation_deg"))):
+                problems.append(
+                    f"horizons_reference: {site_id} {row.get('timestamp_utc')} has a non-finite value")
+    if payload.get("rows") != rows:
+        problems.append(f"horizons_reference: {payload.get('rows')} rows claimed, {rows} on disk")
+    dataset.schema = payload.get("schema")
+    dataset.records = rows
+    dataset.details = {
+        "step": payload.get("step"),
+        "requests": len(payload.get("requests", [])),
+        "start_utc": payload.get("start_utc"),
+        "stop_utc": payload.get("stop_utc"),
+        "excluded_outside_windows": payload.get("excluded_outside_windows"),
+        "generated_utc": payload.get("generated_utc"),
+    }
+    dataset.sources = [{"label": payload.get("source", "NASA JPL Horizons"),
+                        "url": "https://ssd.jpl.nasa.gov/horizons/"}]
+    return dataset
+
+
+def _nasa_validation(settings, problems: list[str]) -> Dataset:
+    """The Task 5 report itself, indexed so its status is visible with the data."""
+    path = Path(settings.datasets["nasa_validation"])
+    payload, error = _read(path)
+    dataset = Dataset("nasa_validation", "Phase 2 Task 5 validation report", "reference", _rel(path))
+    if error or payload is None:
+        dataset.available = False
+        dataset.unavailable_reason = error
+        problems.append(str(error))
+        return dataset
+    if payload.get("schema") != "lunanav.nasa_validation.v1":
+        problems.append(f"nasa_validation: schema {payload.get('schema')!r}")
+    summary = payload.get("summary") or {}
+    if summary.get("status") != "pass":
+        problems.append(
+            f"nasa_validation: status {summary.get('status')!r} with {summary.get('failed')} failed check(s)")
+    dataset.schema = payload.get("schema")
+    dataset.records = summary.get("checks")
+    dataset.details = {
+        "status": summary.get("status"),
+        "passed": summary.get("passed"),
+        "failed": summary.get("failed"),
+        "records_checked": summary.get("records_checked"),
+        "generated_utc": payload.get("generated_utc"),
+        "live_check_utc": (payload.get("live") or {}).get("retrieved_utc"),
+    }
+    dataset.sources = payload.get("sources") or []
+    return dataset
+
+
 def _optional_directory(dataset_id: str, label: str, path: Path, reason: str,
                         schema: str) -> Dataset:
     files = sorted(path.glob("*.json")) if path.exists() else []
@@ -401,6 +473,8 @@ def build_catalogue(*, use_cache: bool = False) -> dict:
                       Path(settings.datasets["psr_catalogue"]), "reference", problems)
     craters = _reference("craters", "IAU Gazetteer crater centres",
                          Path(settings.datasets["craters"]), "reference", problems)
+    reference = _horizons_reference(settings, sites_by_id, problems)
+    validation = _nasa_validation(settings, problems)
     ephemeris = _optional_directory(
         "ephemeris", "Tabulated Horizons ephemeris (Scientific Mode)",
         Path(settings.datasets["scientific_ephemeris_dir"]),
@@ -431,7 +505,8 @@ def build_catalogue(*, use_cache: bool = False) -> dict:
             "radius": "1737.4 km IAU mean sphere (no lunar geoid exists)",
         },
         "datasets": [d.as_dict() for d in
-                     (sites, series, terrain, elevations, psrs, craters, ephemeris, masks, cache)],
+                     (sites, series, terrain, elevations, psrs, craters, reference, validation,
+                      ephemeris, masks, cache)],
         "problems": list(dict.fromkeys(problems)),
     }
     _CACHED = payload
