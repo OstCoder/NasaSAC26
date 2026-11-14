@@ -1,207 +1,149 @@
 
-# Phase 3 — Lunar Visibility & Mission Calculations
+# Phase 4 — Interactive Website & Data Visualization
 
 ## Objective
 
-Develop the scientific calculation engine for our NASA
-Space Apps Challenge 2026 Lunar Landing Site Navigator.
+Develop the interactive Lunar Landing Site Navigator
+website for our NASA Space Apps Challenge 2026 project.
 
-Using the astronomical and terrain data collected in
-Phase 2, calculate when the Sun and Earth are visible
-from each selected lunar landing site.
+Use the verified scientific calculations from Phase 3
+to create an intuitive application that helps users
+evaluate lunar south-pole landing locations.
 
-Analyze sunlight availability, Earth communication
-windows, terrain obstructions, and mission feasibility.
+The website should allow users to:
 
-By the end of Phase 3, our backend should be able to
-evaluate and compare lunar landing sites using actual
-astronomical data and clearly documented assumptions.
+1. Explore and select lunar landing sites.
+2. Choose landing dates and mission durations.
+3. Visualize Sun and Earth positions.
+4. Analyze sunlight and communication windows.
+5. Compare multiple landing locations.
+6. Evaluate mission constraints.
+7. Understand how mission delays affect feasibility.
+
+By the end of Phase 4, users should be able to
+interact with a functional lunar mission-planning
+dashboard without needing to understand raw
+astronomical datasets.
 
 ---
 
-## Task 1: Calculate Geometric Sun Visibility
+## Task 1: Set Up the Frontend Application
 
-- [x] Load Sun position data generated in Phase 2.
-- [x] Read the Sun's elevation at each timestamp.
-- [x] Determine whether the Sun is above or below
-      the local geometric horizon.
-- [x] Calculate geometric Sun visibility for every
-      observation in the mission timeline.
-- [x] Store visibility results as Boolean values.
-- [x] Preserve Sun azimuth and elevation measurements.
-- [x] Handle observations near the horizon carefully.
-- [x] Test calculations with positive, negative,
-      and zero elevation angles.
+- [ ] Initialize the frontend using React and TypeScript.
+- [ ] Configure Vite or the team's chosen framework.
+- [ ] Install Tailwind CSS for styling.
+- [ ] Set up routing if multiple pages are required.
+- [ ] Create reusable components.
+- [ ] Configure environment variables for the backend URL.
+- [ ] Set up API request utilities.
+- [ ] Configure loading and error states.
+- [ ] Confirm the application runs locally.
+- [ ] Test communication with the backend.
 
-### Calculation
+### Suggested Technology Stack
 
-For a point-source geometric approximation:
+| Component | Technology |
+|-----------|------------|
+| Frontend | React + TypeScript |
+| Build Tool | Vite |
+| Styling | Tailwind CSS |
+| Charts | Recharts or Plotly |
+| 3D Visualization | Three.js (optional) |
+| Backend | Python + FastAPI |
+| Data Format | JSON |
+| Deployment | Vercel + Python backend host |
 
-Sun visible = Sun elevation > 0°
+### Suggested Frontend Structure
 
-Sun not visible = Sun elevation <= 0°
-
-This initially ignores terrain and the Sun's
-apparent angular diameter.
-
-### Example
-
-| Time (UTC) | Sun Elevation | Visible |
-|------------|---------------|---------|
-| 00:00 | +3.2° | Yes |
-| 01:00 | +1.5° | Yes |
-| 02:00 | -0.8° | No |
-| 03:00 | -2.1° | No |
-
-Example values are illustrative, not NASA measurements.
+```text
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── LunarMap.tsx
+│   │   ├── SiteSelector.tsx
+│   │   ├── DateSelector.tsx
+│   │   ├── MissionControls.tsx
+│   │   ├── SunEarthSkyView.tsx
+│   │   ├── VisibilityTimeline.tsx
+│   │   ├── MetricsDashboard.tsx
+│   │   ├── SiteComparison.tsx
+│   │   ├── MissionStatus.tsx
+│   │   └── LoadingState.tsx
+│   │
+│   ├── pages/
+│   │   └── Dashboard.tsx
+│   │
+│   ├── services/
+│   │   └── api.ts
+│   │
+│   ├── types/
+│   │   └── mission.ts
+│   │
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── package.json
+└── README.md
+```
 
 ### Deliverable
 
-A Python function that determines geometric Sun
-visibility at each timestamp.
-
-Implemented in `backend/app/services/geometric.py`
-(`geometric_visibility`, `sun_visibility_response`) and served at
-`GET /api/geometric-sun?site_id=..&window=initial|alternative`. It reads the
-committed Phase 2 series, keeps each azimuth and elevation, stores a boolean per
-timestamp, and flags samples within the Sun's 0.2666 deg radius as grazing
-without changing the `> 0` rule. Terrain is separate (`GET /api/phase3`); the
-two results are labelled differently on purpose.
+A working React frontend that connects to
+the scientific backend and loads mission data.
 
 ---
 
-## Task 2: Calculate Geometric Earth Visibility
+## Task 2: Build the Lunar Landing-Site Map
 
-- [x] Load Earth position data generated in Phase 2.
-- [x] Read Earth's elevation at each timestamp.
-- [x] Determine whether Earth is above or below
-      the local geometric horizon.
-- [x] Calculate geometric Earth visibility throughout
-      the mission timeline.
-- [x] Store Earth visibility as Boolean values.
-- [x] Preserve Earth azimuth and elevation measurements.
-- [x] Account for changing Earth positions over time
-      using the Horizons ephemeris.
-- [x] Test calculations with different locations
-      and observation times.
+- [ ] Display an interactive map of the lunar south pole.
+- [ ] Use lunar imagery or map tiles from a permitted source.
+- [ ] Display the three landing sites from Phase 1.
+- [ ] Add markers for each candidate landing site.
+- [ ] Allow users to select a site by clicking a marker.
+- [ ] Display each site's name and coordinates.
+- [ ] Highlight the currently selected location.
+- [ ] Support zooming and panning.
+- [ ] Display elevation data when available.
+- [ ] Provide a curated site list if map interaction fails.
+- [ ] Verify that coordinates align with the map projection.
 
-### Calculation
+### Initial Landing Sites
 
-For a point-source geometric approximation:
+- Site A — Shackleton Rim
+- Site B — Connecting Ridge
+- Site C — de Gerlache Rim
 
-Earth visible = Earth elevation > 0°
+Use the exact coordinates verified in Phase 1.
 
-Earth not visible = Earth elevation <= 0°
+Do not substitute approximate coordinates
+without clearly identifying them.
 
-This initially ignores terrain and Earth's
-apparent angular diameter.
+### Site Information Panel
+
+Display:
+
+- Site name
+- Latitude
+- Longitude
+- Elevation
+- Data source
+- Terrain analysis availability
+- Nearby scientific areas, if verified
 
 ### Important
 
-Geometric Earth visibility does not guarantee
-a successful communication link.
+LROC QuickMap and NASA Moon Trek are reference tools.
 
-Actual communication also depends on antenna
-orientation, signal strength, spacecraft hardware,
-ground-station availability, and other constraints.
+Do not assume their interactive viewers can be
+embedded directly into our website.
 
-### Deliverable
-
-A Python function that calculates geometric
-Earth visibility at each timestamp.
-
-Implemented in `backend/app/services/geometric_earth.py`
-(`geometric_earth_visibility`, `earth_visibility_response`) and served at
-`GET /api/geometric-earth?site_id=..&window=initial|alternative`. It reuses
-Task 1's rule implementation unchanged (one `> 0` rule for both bodies), reads
-the committed Phase 2 series, keeps each azimuth and elevation, stores a
-boolean per timestamp, and flags samples within Earth's 0.95 deg apparent
-radius as grazing without changing the rule. The response carries the task's
-warning that geometric visibility is not a working communication link. Tested
-at all three sites in both mission windows (11 tests in
-`backend/tests/test_geometric_earth.py`).
-
----
-
-## Task 3: Calculate Terrain Horizon Obstructions
-
-- [x] Load lunar elevation data obtained in Phase 2.
-- [x] Identify each landing site's surface elevation.
-- [x] Define an observer height above the lunar surface.
-- [x] Extract surrounding terrain elevations.
-- [x] Account for lunar surface curvature.
-- [x] Calculate terrain obstruction angles at
-      different azimuth directions.
-- [x] Generate a terrain horizon profile for
-      at least one landing site.
-- [x] Compare Sun elevation against the terrain horizon.
-- [x] Compare Earth elevation against the terrain horizon.
-- [x] Store terrain-adjusted visibility results.
-- [x] Document terrain resolution and uncertainties.
-- [x] Mark sites without terrain profiles as
-      geometric-only rather than terrain-verified.
-
-### Calculation
-
-For each azimuth:
-
-Terrain horizon angle =
-Maximum angular elevation of obstructing terrain
-in that direction.
-
-For simplified center-point visibility:
-
-Sun visible if:
-Sun elevation > terrain horizon angle
-
-Earth visible if:
-Earth elevation > terrain horizon angle
-
-### Example
-
-| Object | Elevation | Terrain Horizon | Visible |
-|--------|-----------|-----------------|---------|
-| Sun | +3° | +5° | No |
-| Sun | +7° | +5° | Yes |
-| Earth | +4° | +2° | Yes |
-| Earth | +1° | +6° | No |
-
-Example values are illustrative.
-
-### Implemented
-
-`backend/app/services/terrain_horizon.py` exposes `GET /api/terrain-horizon`:
-the committed 360-point two-tier LOLA skyline per site (5 m/pixel near,
-80 m/pixel to 150 km, 1 degree step, 2 m observer, curvature applied at build
-time), the site's surface elevation and observer height, per-body samples above
-and below the skyline with clearances, and how many flat-horizon "visible"
-samples the terrain blocks. The adjusted visibility, intervals and metrics are
-delegated unchanged to `services/phase3.py::visibility_response`, so there is
-one visibility rule in the project. Points without a committed mask (custom
-coordinates, or a site with no mask) return a flat 0 degree horizon marked
-`basis: "geometric"` / `geometric_only: true` — never a fabricated profile.
-Resolution, curvature, the 150 km range and the 1 degree sampling are documented
-in [docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md); tests are in
-`backend/tests/test_terrain_horizon.py`.
-
-### Important Considerations
-
-- Use consistent lunar coordinate and height systems.
-- Account for the Moon's curvature.
-- Use the observer's actual position and height.
-- Avoid treating the terrain as a flat plane.
-- Specify the distance covered by the terrain dataset.
-- A limited terrain dataset can miss distant obstructions.
-
-For more advanced accuracy, account for the apparent
-angular sizes of the Sun and Earth when calculating
-partial and complete obstruction.
+Use accessible imagery, supported APIs, or
+downloadable datasets according to their terms.
 
 ### Deliverable
 
-A terrain horizon calculation module that produces
-terrain-aware Sun and Earth visibility for at least
-one verified landing site.
+An interactive lunar south-pole map with
+three selectable landing sites.
 
 ### Resources
 
@@ -211,251 +153,221 @@ https://quickmap.lroc.asu.edu/
 NASA Moon Trek:
 https://trek.nasa.gov/moon/
 
-NASA LOLA South-Pole Topography:
-https://pgda.gsfc.nasa.gov/products/78
-
 ---
 
-## Task 4: Calculate Sunlight Availability
+## Task 3: Build Date and Mission Controls
 
-- [x] Load the Sun visibility timeline.
-- [x] Identify continuous periods of sunlight.
-- [x] Identify continuous periods without sunlight.
-- [x] Calculate total sunlight duration.
-- [x] Calculate total darkness duration.
-- [x] Calculate sunlight availability percentage.
-- [x] Find the longest continuous darkness period.
-- [x] Estimate the next sunrise or sunset transition.
-- [x] Refine observation intervals near transitions.
-- [x] Save calculated sunlight statistics.
+- [ ] Create a landing date and time selector.
+- [ ] Display timestamps in UTC.
+- [ ] Add mission duration controls.
+- [ ] Load the initial mission scenario.
+- [ ] Load the delayed mission scenario.
+- [ ] Allow users to switch between scenarios.
+- [ ] Provide a button to run the analysis.
+- [ ] Validate date ranges before sending requests.
+- [ ] Display an error for unsupported date ranges.
+- [ ] Prevent duplicate API requests while loading.
+- [ ] Reset outdated results when parameters change.
 
-### Calculations
+### Default Mission Configuration
 
-Sunlight availability percentage:
+Mission: Polar Ice Scout
 
-Sunlight Availability (%) =
-(Total Sunlit Duration / Total Mission Duration) * 100
+Initial landing date:
+December 1, 2026, 00:00 UTC
 
-Darkness duration:
+Alternative landing date:
+December 11, 2026, 00:00 UTC
 
-Darkness Duration =
-Total Mission Duration - Total Sunlit Duration
+Mission duration:
+168 hours (7 Earth days)
 
-### Example
+### Mission Controls
 
-Mission duration: 168 hours
+Users should be able to change:
 
-Sunlight duration: 120 hours
-
-Darkness duration: 48 hours
-
-Sunlight availability:
-
-120 / 168 * 100 = 71.43%
-
-These are hypothetical values.
+- Landing site
+- Landing date
+- Mission duration
+- Comparison date
+- Mission requirements
 
 ### Important
 
-Use time-weighted intervals rather than counting
-samples if observation intervals are unequal.
-
-A full seven-day mission may not contain a complete
-sunrise/sunset cycle.
-
-If a visibility interval extends beyond the selected
-analysis period, label the result as window-limited.
+If the backend only supports precomputed dates,
+the interface must clearly show those supported
+ranges instead of offering unrestricted dates.
 
 ### Deliverable
 
-A function that calculates sunlight availability,
-sunlight windows, darkness windows, and the longest
-continuous period without direct sunlight.
-
-### Implemented
-
-`backend/app/services/intervals.py` + `backend/app/services/metrics.py`, served
-by `GET /api/phase3` on the terrain-adjusted basis and by the Phase 1 planner on
-the geometric one. Sunlight and darkness come from
-`intervals_from_clearance` (visibility edges are interpolated between samples,
-so interval timing is finer than the stored step); totals and percentages are
-span seconds, i.e. time-weighted rather than sample counts, which stays honest
-if observation intervals are ever unequal. `sun_visible_hours`,
-`sun_visible_pct`, `sun_blocked` and `longest_sun_blackout_hours` all appear in
-`GET /api/phase3`; a longest interval that touches the window edge is flagged
-`censored` and shown as "≥", which is the window-limited labelling the task
-asks for. Next transitions come from `VisibilityCalculator.snapshot`
-(`services/visibility.py`): a 30-minute forward scan within the lookahead,
-then bisection refinement of the flip to sub-minute precision, with
-`transition_beyond_lookahead` set when the window contains no cycle
-(a seven-day polar mission may not). Statistics are served from the committed
-series and also captured by the Task 11 mission-report envelope; there is no
-second copy of the math to keep in sync. Verified against the committed data:
-connecting-ridge/initial is sunlit 100% of the window (blackout 0 h),
-shackleton-rim/alternative is dark 100% with the blackout censored at 168 h.
-Total darkness is `sun_blocked_hours` (window minus sunlight), and the
-`transitions` block gives the next `next_sunrise_utc` / `next_sunset_utc` edge
-after the window start (`null` when no such edge occurs inside the window).
-Tests: `backend/tests/test_horizon_intervals.py`,
-`backend/tests/test_phase3.py`, `backend/tests/test_api_and_modes.py`.
+Functional date and mission controls
+connected to backend calculations.
 
 ---
 
-## Task 5: Calculate Earth Communication Windows
+## Task 4: Create Sun and Earth Position Visualizations
 
-- [x] Load the Earth visibility timeline.
-- [x] Identify continuous periods of Earth visibility.
-- [x] Identify periods when Earth is obstructed.
-- [x] Calculate total Earth visibility duration.
-- [x] Calculate Earth visibility percentage.
-- [x] Identify the longest Earth visibility window.
-- [x] Identify the longest communication blackout.
-- [x] Estimate the next Earthrise or Earthset.
-- [x] Refine observation intervals near transitions.
-- [x] Save communication window statistics.
+- [ ] Display the Sun's azimuth and elevation.
+- [ ] Display Earth's azimuth and elevation.
+- [ ] Create a 2D sky-view visualization.
+- [ ] Show the geometric horizon.
+- [ ] Show the terrain horizon when available.
+- [ ] Represent the Sun with a recognizable marker.
+- [ ] Represent Earth with a recognizable marker.
+- [ ] Update positions based on selected timestamps.
+- [ ] Clearly indicate when an object is obstructed.
+- [ ] Add tooltips for position measurements.
+- [ ] Label the difference between geometric and
+      terrain-adjusted visibility.
 
-### Calculations
+### Suggested Visualization
 
-Earth visibility percentage:
+A sky-position chart containing:
 
-Earth Visibility (%) =
-(Total Earth-Visible Duration / Mission Duration) * 100
+- Azimuth along the horizontal axis
+- Elevation along the vertical axis
+- Sun position marker
+- Earth position marker
+- Geometric horizon reference
+- Terrain horizon profile, if available
 
-Maximum geometric communication blackout:
+### Example Data
 
-Longest continuous interval when Earth
-is not visible from the landing site.
+| Object | Azimuth | Elevation | Status |
+|--------|---------|-----------|--------|
+| Sun | 120° | +4° | Visible |
+| Earth | 245° | -2° | Below Horizon |
 
-### Example
-
-Mission duration: 168 hours
-
-Earth visible: 105 hours
-
-Earth obstructed: 63 hours
-
-Earth visibility:
-
-105 / 168 * 100 = 62.5%
+These are illustrative values.
 
 ### Important
 
-The application should describe these as
-direct-to-Earth line-of-sight opportunities.
+Use actual results from Phase 3.
 
-They are not guarantees of a working radio link.
+Do not animate fabricated Sun or Earth trajectories.
 
-Earth's partial visibility near the horizon and
-antenna clearance requirements may change actual
-communication availability.
+If the terrain model is unavailable, clearly label
+the visualization as geometric-only.
 
 ### Deliverable
 
-A function that calculates Earth visibility windows,
-visibility percentage, and maximum line-of-sight
-blackout duration.
-
-### Implemented
-
-The same interval and metric machinery as Task 4, run on the Earth track:
-`earth_visible`, `earth_blocked` intervals with interpolated edges,
-`earth_visible_hours`, `earth_visible_pct` and `longest_earth_blackout_hours`
-(with the `censored` flag for window-limited blackouts), all in `GET /api/phase3`
-on the terrain-adjusted basis. Earthrise/Earthset come from
-`VisibilityCalculator.snapshot` with the same 30-minute scan + bisection
-refinement. Every Earth response and note in the project says these are
-direct-to-Earth line-of-sight opportunities and not guarantees of a working
-radio link — antenna pattern, link budget and ground-station scheduling are out
-of scope by design. Earth's apparent disk is carried as a `disk_fraction`
-context field near the horizon; it never changes the boolean. Verified against
-the committed data: shackleton-rim/alternative is 0% (terrain blocks all 75
-flat-horizon-visible samples), connecting-ridge/alternative 20.7%, and
-de-gerlache-rim/alternative 59.8% — higher than its 52.1% geometric count
-because lunar curvature drops the skyline below 0° on convex ground, which
-`test_curvature_lowers_flat_horizon` pins down. The longest continuous Earth
-window is `longest_earth_visible_hours` in the registry and the `summary`, and
-`transitions.next_earthrise_utc` / `next_earthset_utc` give the next Earth edge
-after the window start. Tests: `test_phase3.py`, `test_horizon_intervals.py`,
-`test_api_and_modes.py`.
+An interactive sky visualization showing
+Sun and Earth positions relative to the horizon.
 
 ---
 
-## Task 6: Calculate Simultaneous Sun and Earth Visibility
+## Task 5: Build the Visibility Timeline
 
-- [x] Combine Sun and Earth visibility results.
-- [x] Ensure timestamps and site identifiers match.
-- [x] Identify periods when both objects are visible.
-- [x] Identify periods when only the Sun is visible.
-- [x] Identify periods when only Earth is visible.
-- [x] Identify periods when neither is visible.
-- [x] Calculate total simultaneous visibility time.
-- [x] Calculate simultaneous visibility percentage.
-- [x] Store the resulting operational windows.
+- [ ] Create a timeline covering the mission duration.
+- [ ] Display sunlight availability intervals.
+- [ ] Display periods without direct sunlight.
+- [ ] Display Earth visibility intervals.
+- [ ] Display Earth obstruction intervals.
+- [ ] Highlight simultaneous Sun/Earth visibility.
+- [ ] Display accurate UTC timestamps.
+- [ ] Add hover details for visibility transitions.
+- [ ] Add zoom controls for longer mission intervals.
+- [ ] Allow users to select a timestamp.
+- [ ] Synchronize timeline selection with the sky view.
+- [ ] Handle incomplete or missing data clearly.
 
-### Calculation
+### Timeline Layout
 
-Simultaneous Visibility =
-Sun Visible AND Earth Visible
+Display three separate rows:
 
-### Example
+1. Sunlight availability
+2. Earth visibility
+3. Simultaneous visibility
 
-| Time | Sun Visible | Earth Visible | Both |
-|------|-------------|---------------|------|
-| 00:00 | Yes | Yes | Yes |
-| 01:00 | Yes | No | No |
-| 02:00 | No | Yes | No |
-| 03:00 | No | No | No |
+Suggested visual categories:
 
-### Why This Matters
+- Yellow — Sun visible
+- Dark gray — Sun obstructed
+- Blue — Earth visible
+- Red/orange — Communication line of sight unavailable
+- Green — Both Sun and Earth visible
 
-Some mission operations may benefit from having
-sunlight and direct communication simultaneously.
+Include text labels so results are not
+communicated through color alone.
 
-However, spacecraft with batteries and onboard data
-storage may operate without both being available
-at the same time.
+### Interaction
+
+When a user selects a timestamp:
+
+- Update the Sun's sky position.
+- Update Earth's sky position.
+- Display their elevation and azimuth.
+- Update the visibility status.
+- Highlight the corresponding mission interval.
 
 ### Deliverable
 
-A function that identifies simultaneous sunlight
-and Earth communication opportunities.
-
-### Implemented
-
-`GET /api/phase3` builds every combination from one pair of interval lists:
-`both_visible` = `intersect(sun_visible, earth_visible)` from
-`services/intervals.py`, then `not_both`, `sun_blocked`, `earth_blocked` and
-`neither_visible` by interval algebra over the same window span — so sun-only
-and earth-only periods are the complements of the intersections, not a second
-calculation. Sun and Earth share one committed series per site/window
-(`services/site_data.load_series`), so timestamps and site identifiers match
-by construction. The summary reports `both_visible_hours`,
-`both_visible_pct` and `longest_no_simultaneous_hours`; the operational
-windows themselves are served in the `intervals` block of the same response:
-`both_visible`, plus `sun_only` and `earth_only`, each the intersection of one
-body's visible set with the other's complement, so `sun_only + both = sun_visible`
-by construction. They are carried into the Task 11 mission-report envelope.
-Verified against the
-committed data: both_visible_pct is 0% wherever either body is 0%
-(shackleton-rim in both windows; every site's initial window for Earth), and
-follows the intersection where both bodies have light. Tests:
-`test_phase3.py` (`test_summary_matches_the_intervals_it_claims`),
-`test_horizon_intervals.py` (`test_algebra`).
+An interactive timeline synchronized with
+the Sun and Earth position visualization.
 
 ---
 
-## Task 7: Compare Landing Sites
+## Task 6: Build the Mission Metrics Dashboard
 
-- [x] Load calculated results for all three sites.
-- [x] Compare sites over the same mission date range.
-- [x] Compare sunlight availability percentages.
-- [x] Compare Earth visibility percentages.
-- [x] Compare longest darkness periods.
-- [x] Compare longest communication blackouts.
-- [x] Compare simultaneous visibility percentages.
-- [x] Identify advantages and disadvantages
-      of each landing site.
-- [x] Generate structured comparison results.
+- [ ] Display total sunlight duration.
+- [ ] Display sunlight availability percentage.
+- [ ] Display longest darkness interval.
+- [ ] Display total Earth visibility duration.
+- [ ] Display Earth visibility percentage.
+- [ ] Display longest Earth visibility blackout.
+- [ ] Display simultaneous visibility percentage.
+- [ ] Display the next Sun visibility transition.
+- [ ] Display the next Earth visibility transition.
+- [ ] Show measurement units clearly.
+- [ ] Add explanations for technical terminology.
+- [ ] Display data quality and calculation assumptions.
+
+### Suggested Metrics
+
+| Metric | Unit |
+|--------|------|
+| Sunlight Availability | % |
+| Total Sunlight | Hours |
+| Longest Darkness | Hours |
+| Earth Visibility | % |
+| Total Earth Visibility | Hours |
+| Longest Earth Blackout | Hours |
+| Simultaneous Visibility | % |
+| Sun Elevation | Degrees |
+| Earth Elevation | Degrees |
+
+### Important
+
+Distinguish between:
+
+- Sun visibility and actual solar power generation.
+- Earth visibility and successful radio communication.
+- Geometric visibility and terrain-adjusted visibility.
+
+Do not display calculated numbers without
+identifying their meaning and assumptions.
+
+### Deliverable
+
+A mission metrics dashboard displaying
+scientifically grounded results.
+
+---
+
+## Task 7: Build Side-by-Side Landing-Site Comparison
+
+- [ ] Allow users to select at least two landing sites.
+- [ ] Support comparing all three curated sites.
+- [ ] Use the same date range for site comparisons.
+- [ ] Display sunlight percentages side by side.
+- [ ] Display Earth visibility percentages side by side.
+- [ ] Compare longest darkness periods.
+- [ ] Compare longest Earth blackouts.
+- [ ] Compare simultaneous visibility.
+- [ ] Highlight meaningful differences.
+- [ ] Show each site's mission constraint results.
+- [ ] Explain why one site may be preferable.
+- [ ] Clearly identify differences in model fidelity.
 
 ### Example Comparison
 
@@ -464,304 +376,220 @@ follows the intersection where both bodies have light. Tests:
 | Sunlight | 75% | 62% | 84% |
 | Earth Visibility | 55% | 88% | 70% |
 | Max Darkness | 10 h | 16 h | 7 h |
-| Max Earth Blackout | 18 h | 5 h | 11 h |
+| Max Blackout | 18 h | 5 h | 11 h |
 
-All numbers are hypothetical.
+These numbers are hypothetical.
+
+### Important
+
+When comparing sites, avoid presenting a
+terrain-adjusted result as directly equivalent
+to a geometric-only result without a warning.
+
+A site with stronger sunlight is not
+automatically the best landing site.
 
 ### Deliverable
 
-A function that compares multiple lunar sites
-and returns measurable mission-planning trade-offs.
-
-### Implemented
-
-`GET /api/phase3/windows` (`services/phase3.py::all_windows_summary`) loads the
-committed results for all three candidates over the same date range and reports,
-per site and per window: Sun/Earth/both visible percentages, the interval
-summaries, and the skyline's max range — one structured table, same timestamps,
-offline. Pairwise trade-offs come from `POST /api/compare`
-(`services/comparison.py::ScenarioComparisonService.compare`), which diffs every
-metric in the shared registry with delta, percent change, per-metric sentences,
-an explicit trade-off list and comparability notes (durations or landing times
-that differ are flagged there). Advantages and disadvantages are expressed as
-these measured deltas — the service deliberately refuses to rank: trade-off text
-is asserted free of "recommend/best site/optimal" in
-`test_api_and_modes.py::TestCompare::test_compare_two_sites`, and the windows
-summary carries the same note. The Phase 4 feasibility matrix composes the same
-numbers per site against the requirements. Tests: `test_phase3.py`,
-`test_api_and_modes.py`, `backend/tests/test_feasibility.py`.
+An interactive comparison dashboard
+showing the trade-offs between landing sites.
 
 ---
 
-## Task 8: Evaluate Mission Requirements
+## Task 8: Display Mission Feasibility Results
 
-- [x] Load mission requirements defined in Phase 1.
-- [x] Compare calculated results against each requirement.
-- [x] Determine whether each site meets the minimum
-      sunlight availability threshold.
-- [x] Determine whether each site meets the minimum
-      Earth visibility threshold.
-- [x] Determine whether each site's longest communication
-      blackout is within the permitted limit.
-- [x] Identify which requirements each site fails.
-- [x] Generate explanations for the results.
-- [x] Avoid declaring a site fully mission-safe
-      based only on these simplified conditions.
+- [ ] Load mission requirements from Phase 1.
+- [ ] Allow users to adjust supported constraints.
+- [ ] Display PASS or FAIL for each requirement.
+- [ ] Highlight failed mission constraints.
+- [ ] Provide a short explanation for each result.
+- [ ] Display an overall constraints-met status.
+- [ ] Identify missing data that prevents evaluation.
+- [ ] Allow comparisons using the same constraints.
+- [ ] Distinguish hypothetical requirements
+      from real NASA flight requirements.
 
-### Proposed Requirements
+### Default Demonstration Constraints
 
 | Requirement | Target |
 |-------------|--------|
 | Minimum Sunlight | 60% |
 | Minimum Earth Visibility | 50% |
-| Maximum Earth Blackout | 12 hours |
-
-These are hypothetical demo thresholds.
+| Maximum Blackout | 12 hours |
 
 ### Example Output
 
 Site A:
+
 - Sunlight requirement: PASS
 - Earth visibility requirement: PASS
 - Maximum blackout requirement: FAIL
 
-Overall:
-Does not meet all selected demonstration constraints.
+Result:
+
+Site A does not satisfy all selected
+demonstration constraints.
+
+### Important
+
+Do not label a site as fully "NASA-approved"
+or definitively safe for landing.
+
+The website evaluates selected environmental
+and operational constraints, not every aspect
+of mission feasibility.
 
 ### Deliverable
 
-A mission constraint evaluator that checks each
-landing site against the defined requirements
-and explains why it passes or fails.
-
-### Implemented
-
-`services/requirements.py::RequirementService` + `POST /api/requirements`
-(`RequirementEvaluation`): thresholds are loaded from
-`config/lunanav.config.json -> requirements` (60% Sun, 50% Earth, 12 h blackout
-— the Phase 1 demo thresholds), measured with the same metric registry the
-planner and comparison use, so a verdict and the on-screen number cannot
-disagree. Each check reports value, threshold, comparison, a status of
-`met/not_met/unknown` and a plain-language explanation of why; which
-requirements a site fails is exactly the list of `not_met` checks. The
-simplified-conditions caution is structural, not cosmetic: the verdict is a
-three-state `satisfied` field, a censored longest-blackout can only be
-`unknown` (the window caps it, so "at most" cannot be confirmed), and the
-docstring plus response notes state it is a constraint check, not a
-recommendation. `GET /api/feasibility` reuses the same `CHECKS` table and
-status rules for every candidate x window in one matrix. Tests:
-`test_spec_requirements.py`, `test_api_and_modes.py`,
-`test_feasibility.py`.
+An interactive mission constraint panel
+that explains site suitability.
 
 ---
 
-## Task 9: Compare Original and Delayed Landing Dates
+## Task 9: Build Mission Delay Comparison
 
-- [x] Load the initial mission period.
-- [x] Load the delayed mission period.
-- [x] Calculate visibility metrics for both periods.
-- [x] Compare sunlight availability changes.
-- [x] Compare Earth visibility changes.
-- [x] Compare maximum darkness duration changes.
-- [x] Compare communication blackout changes.
-- [x] Identify sites that become less favorable.
-- [x] Identify sites that become more favorable.
-- [x] Generate a before-and-after comparison.
+- [ ] Add a scenario comparison mode.
+- [ ] Display the original mission date.
+- [ ] Display the delayed mission date.
+- [ ] Retrieve metrics for both mission intervals.
+- [ ] Compare sunlight availability changes.
+- [ ] Compare Earth visibility changes.
+- [ ] Compare maximum darkness changes.
+- [ ] Compare communication blackout changes.
+- [ ] Highlight improvements and disadvantages.
+- [ ] Display updated mission feasibility results.
+- [ ] Provide an explanation of the changes.
 
-### Mission Scenarios
+### Example Scenario
 
-Original mission:
-December 1–8, 2026
+Original landing:
+December 1, 2026
 
-Delayed mission:
-December 11–18, 2026
+Delayed landing:
+December 11, 2026
 
-Each interval should represent exactly 168 hours,
-using explicit UTC start and end timestamps.
+Question:
 
-### Example Question
+How does a ten-day delay affect the
+operational conditions of the lander?
 
-If the mission is delayed by ten days, which
-landing site best satisfies the same sunlight
-and communication requirements?
+### Expected User Experience
+
+1. Select an original mission.
+2. Select the delayed landing date.
+3. Run both analyses.
+4. Compare the resulting visibility windows.
+5. Determine whether the original site still
+   meets mission requirements.
 
 ### Deliverable
 
-A scenario comparison function that highlights
-the operational consequences of changing
-a mission's landing date.
-
-### Implemented
-
-`POST /api/reschedule` (`ScenarioComparisonService.reschedule`) loads both
-periods, runs the same visibility computation for the original and proposed
-landing UTC at the same duration, and returns the shift in hours, the full
-metric delta list, and `headline_changes` ordered by operational impact (Sun
-hours, Earth hours, simultaneous hours, then the two longest blackouts) —
-which sites or dates become more or less favourable is expressed per metric via
-the registry's `availability_direction` and the generated statements, never as
-a site ranking. A censored delta on either side is carried as
-`either_censored`. The mission's own before/after pair (1-8 Dec vs 11-18 Dec
-2026, exactly 168 h each, explicit UTC) is precomputed offline by
-`GET /api/phase3/windows` and the feasibility matrix, both reporting both
-windows per site. Tests: `test_api_and_modes.py::TestReschedule` (shift hours,
-headline order, Original label), `test_identical_scenarios_have_zero_delta`,
-`test_different_durations_noted`, `test_spec_requirements.py` (the two
-presets), plus `test_phase3.py` for the offline window pairs.
+A mission-delay comparison interface
+that demonstrates the effects of schedule changes.
 
 ---
 
-## Task 10: Validate Scientific Calculations
+## Task 10: Add User Experience and Accessibility Features
 
-- [x] Write unit tests for geometric Sun visibility.
-- [x] Write unit tests for geometric Earth visibility.
-- [x] Test terrain obstruction calculations.
-- [x] Test zero-degree and near-horizon conditions.
-- [x] Test visibility interval detection.
-- [x] Test maximum blackout calculations.
-- [x] Test simultaneous visibility calculations.
-- [x] Test site comparison calculations.
-- [x] Test mission requirement evaluation.
-- [x] Compare selected results with Horizons output.
-- [x] Check calculations against NASA illumination
-      reference data where comparable.
-- [x] Verify timestamp ordering and units.
-- [x] Check behavior when data is missing.
-- [x] Ensure incomplete observations are not
-      incorrectly reported as continuous coverage.
+- [ ] Create a clear dashboard layout.
+- [ ] Use consistent typography and spacing.
+- [ ] Provide descriptions for technical terms.
+- [ ] Add hover tooltips to unfamiliar metrics.
+- [ ] Add loading states for scientific calculations.
+- [ ] Add helpful error messages.
+- [ ] Support keyboard navigation.
+- [ ] Add sufficient text/background contrast.
+- [ ] Avoid relying exclusively on colors.
+- [ ] Make charts readable on smaller screens.
+- [ ] Test mobile and desktop layouts.
+- [ ] Add links to NASA scientific data sources.
+- [ ] Display calculation limitations clearly.
 
-### Example Test Cases
+### Suggested Dashboard Layout
 
-Test 1:
-Sun elevation = +5°
-Geometric Sun visibility = True
+Top Section:
+- Project name
+- Landing-site selector
+- Date and mission controls
 
-Test 2:
-Sun elevation = -3°
-Geometric Sun visibility = False
+Main Section:
+- Lunar landing-site map
+- Sun/Earth position visualization
 
-Test 3:
-Sun elevation = +4°
-Terrain horizon = +8°
-Terrain-adjusted Sun visibility = False
+Analysis Section:
+- Visibility timeline
+- Mission metrics
+- Feasibility results
 
-Test 4:
-Sun visible = True
-Earth visible = False
-Simultaneous visibility = False
+Comparison Section:
+- Site comparison
+- Mission-delay comparison
 
-Test 5:
-Longest Earth visibility gap = 15 hours
-Allowed maximum blackout = 12 hours
-Communication requirement = FAIL
+Footer:
+- NASA data attribution
+- Scientific assumptions
+- Project team information
 
 ### Deliverable
 
-A tested scientific calculation engine with
-documented assumptions, known limitations,
-and reproducible results.
-
-### Implemented
-
-The engine is validated by three layers, all green in CI:
-
-1. **Unit tests for every calculation in this phase** — the Task 10 example
-   cases map directly onto existing test files:
-   - Geometric Sun: `backend/tests/test_geometric_sun.py` (+5 deg true, -3 deg
-     false, 0 and -0.0 not visible, +-1e-9 pin the strict rule).
-   - Geometric Earth: `backend/tests/test_geometric_earth.py` (same edge
-     cases, Earth's 0.95 deg grazing band, disk-fraction 0.5 at the horizon).
-   - Terrain obstruction: `test_horizon_intervals.py` (synthetic wall angle,
-     curvature lowering a flat horizon, 360 deg interpolation wrap, invalid
-     mask rejection, disk fraction) and `backend/tests/test_terrain_horizon.py`
-     (Test 3: Sun at +4 deg under an +8 deg skyline is not visible).
-   - Intervals, blackouts, simultaneity: `test_horizon_intervals.py`
-     (`test_edges_are_interpolated`, `test_longest_censored_flag`,
-     `test_algebra`) and `test_phase3.py`
-     (`test_summary_matches_the_intervals_it_claims`) — Test 4 and Test 5
-     semantics.
-   - Site comparison: `test_api_and_modes.py::TestCompare` (delta arithmetic,
-     zero-delta identity, differing durations flagged, anti-ranking wording).
-   - Requirement evaluation: `test_spec_requirements.py` and
-     `backend/tests/test_feasibility.py` (censored blackouts can only be
-     unknown).
-2. **Cross-validation against NASA sources** — Phase 2's
-   `services/nasa_validation.py` plus the committed report
-   `data/reference/nasa_validation.json`: 10 checks, all passing, over 1014
-   records for all three sites, including `horizons_reference` (site tracks
-   compared against the JPL Horizons observer-table evidence in
-   `data/reference/horizons_reference.json`), `units`, `utc_time` (timestamp
-   ordering and units), `continuity`, `same_site_different_dates`,
-   `different_sites_same_time`, and `assumptions_documented`. The validation is
-   adversarial: a tampered value fails the check and a missing reference is a
-   failure, not a skip (`test_nasa_validation.py`).
-   NASA illumination reference: the LROC/LOLA permanent-shadow catalogue
-   (`data/reference/psrs.json`, traced from the Mazarico et al. 2011 shadow
-   masks) marks ground that never receives direct sunlight. The 44 mapped PSRs
-   larger than 100 km² are the comparison set; 37 lie inside the 80 m/pix LOLA
-   wide DEM with at least 30 km of ground around them and are checked, and the
-   other 7 are recorded as skipped instead of being tested against clipped data.
-   `scripts/check_psr_illumination.py` ray-marches from each centroid (2 m
-   observer, curvature, 1° azimuths, up to 150 km and capped at the DEM edge, so
-   21 rows are edge-limited and record the range actually used) and
-   tests the Sun's topocentric elevation against that skyline for every day of
-   a year. The committed result is `data/reference/illumination_crosscheck.json`
-   (`lunanav.illumination_crosscheck.v1`), and
-   `backend/tests/test_illumination_crosscheck.py` asserts offline that every
-   sampled PSR has zero sunlit samples and a non-flat skyline, so the agreement
-   is a shadow/no-shadow classification check, not a vacuous one.
-3. **Missing-data and coverage honesty** — unavailable live data returns 503
-   (`SCIENTIFIC_DATA_UNAVAILABLE` / `JPL_UNAVAILABLE`), sites without masks get
-   a flat horizon labelled `geometric_only` instead of a fabricated skyline,
-   matrix cells fail individually without blanking the table, and every
-   longest-interval that touches the window edge carries the `censored` flag,
-   so incomplete observations are never reported as continuous coverage.
-
-Documented assumptions and limitations live in
-[docs/METHODOLOGY.md](docs/METHODOLOGY.md) (sections on geometry, masks,
-intervals, and section 9 "Known limitations"),
-[docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md) and
-[docs/MISSION_REPORT.md](docs/MISSION_REPORT.md). Reproducibility: the
-mission-report envelope sorts keys and includes no wall-clock time (byte-identical
-re-runs, asserted in `backend/tests/test_mission_report.py`), and the
-validation report records its generator and evidence versions.
+A polished, accessible interface suitable
+for mission planners, educators, and the public.
 
 ---
 
-## Task 11: Prepare Results for Phase 4
+## Task 11: Integrate Frontend and Backend
 
-- [x] Standardize calculated results into JSON.
-- [x] Include the site identifier and coordinates.
-- [x] Include mission start and end timestamps.
-- [x] Include sunlight and Earth visibility metrics.
-- [x] Include continuous visibility windows.
-- [x] Include simultaneous visibility statistics.
-- [x] Include mission requirement results.
-- [x] Include data source and model quality labels.
-- [x] Provide structured results for frontend charts.
-- [x] Test the calculation output for at least one site.
-- [x] Confirm that frontend developers understand
-      all output fields and units.
+- [ ] Connect landing-site selection to backend data.
+- [ ] Connect date controls to mission analysis requests.
+- [ ] Retrieve Sun and Earth positions.
+- [ ] Retrieve calculated visibility windows.
+- [ ] Retrieve mission metrics.
+- [ ] Retrieve mission constraint results.
+- [ ] Display real results in frontend components.
+- [ ] Handle backend connection failures.
+- [ ] Handle missing or unsupported scientific data.
+- [ ] Verify that changing sites updates all visualizations.
+- [ ] Verify that changing dates updates all calculations.
+- [ ] Ensure that outdated requests do not overwrite
+      newer results.
+- [ ] Confirm consistent UTC timestamps and units.
 
-### Example Output Structure
+### Suggested API Endpoints
+
+GET /api/sites
+
+Returns available lunar landing sites.
+
+GET /api/analysis?site_id=A&start=...&end=...
+
+Returns astronomical positions, visibility
+windows, and mission metrics.
+
+POST /api/compare
+
+Compares multiple landing sites or
+mission date scenarios.
+
+GET /api/terrain?site_id=A
+
+Returns a terrain horizon profile
+when supported.
+
+These are proposed application endpoints,
+not official NASA API endpoints.
+
+### Example Frontend Response
 
 ```json
 {
   "site_id": "A",
-  "mission_duration_hours": 168,
-  "sunlight": {
-    "availability_percent": null,
+  "start_utc": "2026-12-01T00:00:00Z",
+  "end_utc": "2026-12-08T00:00:00Z",
+  "metrics": {
+    "sunlight_percent": null,
+    "earth_visibility_percent": null,
     "longest_darkness_hours": null,
-    "windows": []
-  },
-  "earth": {
-    "visibility_percent": null,
-    "longest_blackout_hours": null,
-    "windows": []
-  },
-  "simultaneous_visibility": {
-    "availability_percent": null,
-    "windows": []
+    "longest_blackout_hours": null
   },
   "model": {
     "visibility_type": "geometric",
@@ -770,253 +598,164 @@ validation report records its generator and evidence versions.
 }
 ```
 
-Replace null values with actual calculations.
-
-The example is a schema template, not a
-completed scientific result.
-
-### Implemented
-
-`backend/app/services/mission_report.py` assembles the envelope behind
-`GET /api/mission-report?site_id=<id>&window=initial|alternative`, schema
-`lunanav.mission_report.v1`. It reads, and never recalculates, the terrain basis
-and coverage from `terrain_horizon.py`, the adjusted visibility, intervals and
-metrics from `phase3.py`, and the Phase 1 checks and thresholds from
-`requirements.py`. `mission_report_json()` sorts keys and includes no wall
-clock, so a re-run reproduces the document byte for byte (asserted in
-`backend/tests/test_mission_report.py`). Every field, its unit and its meaning
-are listed in [docs/MISSION_REPORT.md](docs/MISSION_REPORT.md).
-
-### Suggested Backend Structure
-
-```text
-backend/
-├── data/
-│   ├── sites.json
-│   ├── ephemeris/
-│   └── terrain/
-│
-├── services/
-│   ├── horizons.py
-│   ├── solar_visibility.py
-│   ├── earth_visibility.py
-│   ├── terrain_horizon.py
-│   ├── visibility_windows.py
-│   ├── site_comparison.py
-│   └── mission_constraints.py
-│
-├── tests/
-│   ├── test_solar_visibility.py
-│   ├── test_earth_visibility.py
-│   ├── test_terrain_horizon.py
-│   ├── test_visibility_windows.py
-│   └── test_site_comparison.py
-│
-└── outputs/
-    └── comparison_results.json
-```
+Replace null values with actual Phase 3 results.
 
 ### Deliverable
 
-A validated backend calculation engine that
-outputs structured mission analysis results
-for the frontend.
+A fully integrated frontend and backend
+with functioning scientific visualizations.
 
 ---
 
-## Phase 3 Completion Checklist
+## Task 12: Test the Website
 
-- [x] Geometric Sun visibility implemented.
-- [x] Geometric Earth visibility implemented.
-- [x] Sunlight and darkness windows calculated.
-- [x] Earth visibility and blackout windows calculated.
-- [x] Simultaneous visibility calculated.
-- [x] Sunlight availability percentages calculated.
-- [x] Earth visibility percentages calculated.
-- [x] Longest darkness and blackout periods calculated.
-- [x] Three landing sites compared.
-- [x] Mission constraints evaluated.
-- [x] Original and delayed mission dates compared.
-- [x] Scientific calculations tested.
-- [x] Structured JSON output generated.
-- [x] Results prepared for frontend integration.
+- [ ] Test selecting each landing site.
+- [ ] Test changing the landing date.
+- [ ] Test changing the mission duration.
+- [ ] Test visibility chart interactions.
+- [ ] Test sky-view timestamp synchronization.
+- [ ] Test side-by-side site comparison.
+- [ ] Test mission-delay comparison.
+- [ ] Test mission requirement adjustments.
+- [ ] Test invalid dates and coordinates.
+- [ ] Test missing backend data.
+- [ ] Test API connection failures.
+- [ ] Test desktop and mobile layouts.
+- [ ] Verify scientific values match backend outputs.
+- [ ] Verify labels and units are correct.
+- [ ] Check that no fabricated data is shown
+      as real NASA calculations.
+
+### Critical Test Scenario
+
+1. Open the website.
+2. Select Site A.
+3. Choose December 1, 2026.
+4. Run the seven-day analysis.
+5. Inspect Sun and Earth visibility timelines.
+6. Switch to Site B.
+7. Compare the sites.
+8. Change the date to December 11, 2026.
+9. Compare the original and delayed missions.
+10. Review mission constraint results.
+
+All steps should function without crashes
+or inconsistent scientific measurements.
+
+### Deliverable
+
+A tested website ready for deployment
+and final hackathon presentation.
+
+---
+
+## Phase 4 Completion Checklist
+
+- [ ] React frontend initialized.
+- [ ] Frontend connected to backend.
+- [ ] Interactive lunar map implemented.
+- [ ] Three landing sites selectable.
+- [ ] Date and mission controls functional.
+- [ ] Sun and Earth positions visualized.
+- [ ] Geometric horizon displayed.
+- [ ] Visibility timeline implemented.
+- [ ] Mission metrics displayed.
+- [ ] Side-by-side site comparison functional.
+- [ ] Mission constraints displayed.
+- [ ] Mission-delay comparison functional.
+- [ ] Scientific assumptions documented.
+- [ ] Loading and error states implemented.
+- [ ] Responsive layout tested.
+- [ ] End-to-end workflow tested.
 
 ### Advanced Completion Criteria
 
-- [x] Terrain horizon profile calculated.
-- [x] Terrain-adjusted visibility implemented.
-- [x] Terrain calculation validated.
-- [x] Uncertainty and coverage limitations documented.
-- [x] Geometric and terrain-adjusted results distinguished.
+- [ ] Terrain horizon displayed in sky visualization.
+- [ ] Terrain-adjusted visibility supported.
+- [ ] Three-dimensional lunar terrain visualization.
+- [ ] Smooth time-based animation.
+- [ ] Interactive custom lunar coordinates.
+- [ ] Educational explanations of lunar polar conditions.
 
 ---
 
-## Phase 4 — Next Steps
+## Phase 5 — Next Steps
 
-Build the interactive Lunar Landing Site Navigator
-website using the scientific results from Phase 3.
+Improve the application's mission decision-making
+capabilities.
 
-The website should help users understand
-why different locations and dates produce
-different mission conditions.
+Planned features:
 
-Phase 4 is tracked as concrete, independently
-claimable tasks. A task is done when it has an
-endpoint or component, tests or a build check,
-and a doc line; claim it in
-[docs/PHASE3_COORDINATION.md](docs/PHASE3_COORDINATION.md)
-before you start.
+1. Adjustable spacecraft requirements.
+2. Mission feasibility and constraint evaluation.
+3. Solar energy and battery survival modeling.
+4. Mission-delay recommendations.
+5. Landing-site ranking based on selected priorities.
+6. Explainable site recommendations.
+7. Optional scientific exploration preferences,
+   including proximity to permanently shadowed regions.
 
-## Task 1: Horizon profile view
-
-- [x] Draw the site's terrain horizon profile
-      from `GET /api/terrain-horizon` in the
-      Mission Planner.
-- [x] Overlay the Sun and Earth elevation
-      tracks, with their azimuths.
-- [x] Label the profile `terrain` or
-      `geometric only` from the payload, never
-      inferred from the site name.
-- [x] Show the observer height, the 5 m/80 m
-      tiers, the 150 km range and the maximum
-      obstruction with its azimuth.
-- [x] Explain in one sentence why a skyline
-      above the Sun's maximum elevation means
-      no sunlight in that window.
-
-## Task 2: Feasibility matrix
-
-- [x] One row per candidate, both mission
-      windows against every Phase 1
-      requirement.
-- [x] Each cell is met, not met or unknown,
-      with the measured value and threshold.
-- [x] Link each cell to the metric that
-      produced it; no hand-entered values.
-- [x] State that `unknown` is not a pass.
-
-## Task 3: Phase 3 result envelope
-
-- [x] One JSON document per site and window
-      combining the series, adjusted
-      visibility, intervals, metrics,
-      requirements and provenance.
-- [x] Deterministic ordering and rounding,
-      one schema string, a version field.
-- [x] Documented in `docs/` and covered by a
-      test that a re-run reproduces it byte
-      for byte.
-
-## Task 4: Landing-delay comparison
-
-- [x] Surface the reschedule comparison as a
-      before/after panel, not only an API.
-- [x] Show both windows, not only the initial
-      one.
-- [x] Make the change in the metrics explicit
-      when the landing date moves.
-
-## Task 5: States and accessibility
-
-- [x] Empty, loading, error and
-      geometric-only states for every new
-      panel.
-- [x] Keyboard reachable controls, labelled
-      charts, sufficient contrast.
-- [x] No chart is the only copy of a number.
-
-### Implemented
-
-An audit of all four Phase 3/4 panels (readiness, terrain horizon,
-feasibility matrix, landing-delay comparison), then fixes:
-
-- **Contrast:** `--color-faint` was 3.09:1 on the panel background — below
-  WCAG AA for the small informative text it carries (notes, table details).
-  Raised to #8394b0 (5.3:1 on panel, 4.7:1 on raised surfaces) and
-  `--color-muted` nudged to #98a5bd (6.6:1) to keep the two-tone hierarchy.
-- **States:** every panel has an explicit loading line, an `ErrorNotice`
-  with the API's explanation, and per-row/per-cell failure text —
-  one failed site or window never blanks a panel. The feasibility and delay
-  panels state what the missing thing was ("committed windows not available
-  for this site"), and TerrainHorizonPanel shows its `geometric only` badge
-  plus the reason whenever no LOLA skyline covers the point.
-- **Keyboard and labels:** all controls are native buttons/selects with
-  visible focus (browser default is not overridden); site buttons carry
-  `aria-pressed`, the window tabs and candidate group have `aria-label`s,
-  the reschedule select is `<label>`-bound, and the reschedule result
-  region is `aria-live="polite"`.
-- **No chart is the only copy of a number:** the horizon chart has a rich
-  `role="img"` aria description AND its coverage numbers appear as text
-  lines beside it; every other panel is a table or text.
-
-Verified with typecheck, the vitest suite and the production build.
-
-## Task 6: 3D terrain (optional, feature-flagged)
-
-- [x] Render the LOLA DEM around a candidate
-      with the skyline and Sun/Earth directions.
-- [x] Off by default; the 2D profile stays the
-      source of truth.
-- [x] Document the frame, datum and
-      exaggeration factor.
+Phase 5 will focus on helping users make better
+mission-planning decisions using the data
+and visualizations developed in Phase 4.
 
 ---
 
 ## Official NASA Space Apps Resources
 
-### NASA JPL Horizons
-https://ssd.jpl.nasa.gov/horizons/
-
-Used to obtain Sun and Earth positions for
-selected lunar observer locations.
-
 ### NASA LROC QuickMap
 https://quickmap.lroc.asu.edu/
 
-Used for site coordinates, lunar imagery,
-and terrain exploration.
+Used for lunar imagery, terrain exploration,
+and landing-site mapping references.
 
 ### NASA Moon Trek
 https://trek.nasa.gov/moon/
 
-Used to examine 3D lunar terrain and
-understand geographic features.
+Used for 3D lunar terrain exploration
+and spatial understanding.
+
+### NASA JPL Horizons
+https://ssd.jpl.nasa.gov/horizons/
+
+Used for the astronomical data displayed
+in the website.
 
 ### NASA LOLA South-Pole Topography
 https://pgda.gsfc.nasa.gov/products/78
 
-Used for terrain elevation data and
-terrain horizon calculations.
+Used for lunar elevation data and terrain
+horizon analysis.
 
 ### Canadian Space Agency — Moon Exploration
 https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/
 
-Used for scientific background and
-lunar exploration context.
+Used for lunar exploration background
+and educational information.
 
 ---
 
 ## Expected Final Outcome
 
-By completing Phase 3, our team should have:
+By completing Phase 4, our team should have:
 
-1. A functional Sun visibility calculation engine.
-2. A functional Earth visibility calculation engine.
-3. Calculated sunlight and communication windows.
-4. Maximum darkness and blackout measurements.
-5. Simultaneous Sun/Earth visibility analysis.
-6. Landing-site comparison functionality.
-7. Mission requirement evaluation.
-8. Mission-delay comparison functionality.
-9. Tested and documented scientific calculations.
-10. Structured data ready for the website.
+1. An interactive lunar south-pole map.
+2. Three selectable landing sites.
+3. Functional date and mission controls.
+4. Sun and Earth position visualizations.
+5. Sunlight and communication timelines.
+6. A mission metrics dashboard.
+7. Side-by-side landing-site comparisons.
+8. Mission feasibility indicators.
+9. Mission-delay comparison functionality.
+10. A fully integrated and tested web application.
 
-Phase 3 is complete when our backend can
-take verified lunar coordinates, a date range,
-and mission requirements, then return
-scientifically grounded visibility metrics
-and explain the trade-offs between sites.
+Phase 4 is complete when users can open the
+website, select lunar landing sites and dates,
+and understand the resulting sunlight and
+Earth communication conditions using
+real scientific data.
 
-Terrain-aware analysis is an advanced milestone.
-If it is incomplete, the application must clearly
-label its results as geometric-only estimates.
+The application should clearly distinguish
+between verified calculations, estimates,
+and hypothetical mission assumptions.
