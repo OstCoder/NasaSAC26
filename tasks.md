@@ -437,16 +437,16 @@ follows the intersection where both bodies have light. Tests:
 
 ## Task 7: Compare Landing Sites
 
-- [ ] Load calculated results for all three sites.
-- [ ] Compare sites over the same mission date range.
-- [ ] Compare sunlight availability percentages.
-- [ ] Compare Earth visibility percentages.
-- [ ] Compare longest darkness periods.
-- [ ] Compare longest communication blackouts.
-- [ ] Compare simultaneous visibility percentages.
-- [ ] Identify advantages and disadvantages
+- [x] Load calculated results for all three sites.
+- [x] Compare sites over the same mission date range.
+- [x] Compare sunlight availability percentages.
+- [x] Compare Earth visibility percentages.
+- [x] Compare longest darkness periods.
+- [x] Compare longest communication blackouts.
+- [x] Compare simultaneous visibility percentages.
+- [x] Identify advantages and disadvantages
       of each landing site.
-- [ ] Generate structured comparison results.
+- [x] Generate structured comparison results.
 
 ### Example Comparison
 
@@ -464,21 +464,39 @@ All numbers are hypothetical.
 A function that compares multiple lunar sites
 and returns measurable mission-planning trade-offs.
 
+### Implemented
+
+`GET /api/phase3/windows` (`services/phase3.py::all_windows_summary`) loads the
+committed results for all three candidates over the same date range and reports,
+per site and per window: Sun/Earth/both visible percentages, the interval
+summaries, and the skyline's max range — one structured table, same timestamps,
+offline. Pairwise trade-offs come from `POST /api/compare`
+(`services/comparison.py::ScenarioComparisonService.compare`), which diffs every
+metric in the shared registry with delta, percent change, per-metric sentences,
+an explicit trade-off list and comparability notes (durations or landing times
+that differ are flagged there). Advantages and disadvantages are expressed as
+these measured deltas — the service deliberately refuses to rank: trade-off text
+is asserted free of "recommend/best site/optimal" in
+`test_api_and_modes.py::TestCompare::test_compare_two_sites`, and the windows
+summary carries the same note. The Phase 4 feasibility matrix composes the same
+numbers per site against the requirements. Tests: `test_phase3.py`,
+`test_api_and_modes.py`, `backend/tests/test_feasibility.py`.
+
 ---
 
 ## Task 8: Evaluate Mission Requirements
 
-- [ ] Load mission requirements defined in Phase 1.
-- [ ] Compare calculated results against each requirement.
-- [ ] Determine whether each site meets the minimum
+- [x] Load mission requirements defined in Phase 1.
+- [x] Compare calculated results against each requirement.
+- [x] Determine whether each site meets the minimum
       sunlight availability threshold.
-- [ ] Determine whether each site meets the minimum
+- [x] Determine whether each site meets the minimum
       Earth visibility threshold.
-- [ ] Determine whether each site's longest communication
+- [x] Determine whether each site's longest communication
       blackout is within the permitted limit.
-- [ ] Identify which requirements each site fails.
-- [ ] Generate explanations for the results.
-- [ ] Avoid declaring a site fully mission-safe
+- [x] Identify which requirements each site fails.
+- [x] Generate explanations for the results.
+- [x] Avoid declaring a site fully mission-safe
       based only on these simplified conditions.
 
 ### Proposed Requirements
@@ -507,20 +525,39 @@ A mission constraint evaluator that checks each
 landing site against the defined requirements
 and explains why it passes or fails.
 
+### Implemented
+
+`services/requirements.py::RequirementService` + `POST /api/requirements`
+(`RequirementEvaluation`): thresholds are loaded from
+`config/lunanav.config.json -> requirements` (60% Sun, 50% Earth, 12 h blackout
+— the Phase 1 demo thresholds), measured with the same metric registry the
+planner and comparison use, so a verdict and the on-screen number cannot
+disagree. Each check reports value, threshold, comparison, a status of
+`met/not_met/unknown` and a plain-language explanation of why; which
+requirements a site fails is exactly the list of `not_met` checks. The
+simplified-conditions caution is structural, not cosmetic: the verdict is a
+three-state `satisfied` field, a censored longest-blackout can only be
+`unknown` (the window caps it, so "at most" cannot be confirmed), and the
+docstring plus response notes state it is a constraint check, not a
+recommendation. `GET /api/feasibility` reuses the same `CHECKS` table and
+status rules for every candidate x window in one matrix. Tests:
+`test_spec_requirements.py`, `test_api_and_modes.py`,
+`test_feasibility.py`.
+
 ---
 
 ## Task 9: Compare Original and Delayed Landing Dates
 
-- [ ] Load the initial mission period.
-- [ ] Load the delayed mission period.
-- [ ] Calculate visibility metrics for both periods.
-- [ ] Compare sunlight availability changes.
-- [ ] Compare Earth visibility changes.
-- [ ] Compare maximum darkness duration changes.
-- [ ] Compare communication blackout changes.
-- [ ] Identify sites that become less favorable.
-- [ ] Identify sites that become more favorable.
-- [ ] Generate a before-and-after comparison.
+- [x] Load the initial mission period.
+- [x] Load the delayed mission period.
+- [x] Calculate visibility metrics for both periods.
+- [x] Compare sunlight availability changes.
+- [x] Compare Earth visibility changes.
+- [x] Compare maximum darkness duration changes.
+- [x] Compare communication blackout changes.
+- [x] Identify sites that become less favorable.
+- [x] Identify sites that become more favorable.
+- [x] Generate a before-and-after comparison.
 
 ### Mission Scenarios
 
@@ -544,6 +581,24 @@ and communication requirements?
 A scenario comparison function that highlights
 the operational consequences of changing
 a mission's landing date.
+
+### Implemented
+
+`POST /api/reschedule` (`ScenarioComparisonService.reschedule`) loads both
+periods, runs the same visibility computation for the original and proposed
+landing UTC at the same duration, and returns the shift in hours, the full
+metric delta list, and `headline_changes` ordered by operational impact (Sun
+hours, Earth hours, simultaneous hours, then the two longest blackouts) —
+which sites or dates become more or less favourable is expressed per metric via
+the registry's `availability_direction` and the generated statements, never as
+a site ranking. A censored delta on either side is carried as
+`either_censored`. The mission's own before/after pair (1-8 Dec vs 11-18 Dec
+2026, exactly 168 h each, explicit UTC) is precomputed offline by
+`GET /api/phase3/windows` and the feasibility matrix, both reporting both
+windows per site. Tests: `test_api_and_modes.py::TestReschedule` (shift hours,
+headline order, Original label), `test_identical_scenarios_have_zero_delta`,
+`test_different_durations_noted`, `test_spec_requirements.py` (the two
+presets), plus `test_phase3.py` for the offline window pairs.
 
 ---
 
