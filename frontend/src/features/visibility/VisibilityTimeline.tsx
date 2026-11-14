@@ -17,6 +17,7 @@ import { CHART_COLORS } from '@/config/app'
 import { fmtDeg, fmtUtc } from '@/lib/format'
 import type { ScenarioResult } from '@/types/api'
 import { IntervalBands } from './IntervalBands'
+import { zoomDomain } from './timeline'
 
 type View = 'clearance' | 'geometric'
 
@@ -89,14 +90,10 @@ export function VisibilityTimeline({
 
   // Zoom is a view-only window centred on the inspected sample. The interval bands
   // below stay at full-mission scale, so zooming never hides a blackout.
-  const domain = React.useMemo<[number, number]>(() => {
-    const span = zoomHours === null ? 0 : zoomHours * 3_600_000
-    if (span <= 0 || span >= t1 - t0) return [t0, t1]
-    let start = Math.max(t0, cursorT - span / 2)
-    let end = Math.min(t1, start + span)
-    start = Math.max(t0, end - span)
-    return [start, end]
-  }, [zoomHours, cursorT, t0, t1])
+  const domain = React.useMemo<[number, number]>(
+    () => zoomDomain(t0, t1, cursorT, zoomHours),
+    [zoomHours, cursorT, t0, t1],
+  )
 
   const ticks = React.useMemo(() => {
     const spanDays = (domain[1] - domain[0]) / 86_400_000
