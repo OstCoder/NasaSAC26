@@ -604,21 +604,21 @@ presets), plus `test_phase3.py` for the offline window pairs.
 
 ## Task 10: Validate Scientific Calculations
 
-- [ ] Write unit tests for geometric Sun visibility.
-- [ ] Write unit tests for geometric Earth visibility.
-- [ ] Test terrain obstruction calculations.
-- [ ] Test zero-degree and near-horizon conditions.
-- [ ] Test visibility interval detection.
-- [ ] Test maximum blackout calculations.
-- [ ] Test simultaneous visibility calculations.
-- [ ] Test site comparison calculations.
-- [ ] Test mission requirement evaluation.
-- [ ] Compare selected results with Horizons output.
-- [ ] Check calculations against NASA illumination
+- [x] Write unit tests for geometric Sun visibility.
+- [x] Write unit tests for geometric Earth visibility.
+- [x] Test terrain obstruction calculations.
+- [x] Test zero-degree and near-horizon conditions.
+- [x] Test visibility interval detection.
+- [x] Test maximum blackout calculations.
+- [x] Test simultaneous visibility calculations.
+- [x] Test site comparison calculations.
+- [x] Test mission requirement evaluation.
+- [x] Compare selected results with Horizons output.
+- [x] Check calculations against NASA illumination
       reference data where comparable.
-- [ ] Verify timestamp ordering and units.
-- [ ] Check behavior when data is missing.
-- [ ] Ensure incomplete observations are not
+- [x] Verify timestamp ordering and units.
+- [x] Check behavior when data is missing.
+- [x] Ensure incomplete observations are not
       incorrectly reported as continuous coverage.
 
 ### Example Test Cases
@@ -651,6 +651,59 @@ Communication requirement = FAIL
 A tested scientific calculation engine with
 documented assumptions, known limitations,
 and reproducible results.
+
+### Implemented
+
+The engine is validated by three layers, all green in CI:
+
+1. **Unit tests for every calculation in this phase** — the Task 10 example
+   cases map directly onto existing test files:
+   - Geometric Sun: `backend/tests/test_geometric_sun.py` (+5 deg true, -3 deg
+     false, 0 and -0.0 not visible, +-1e-9 pin the strict rule).
+   - Geometric Earth: `backend/tests/test_geometric_earth.py` (same edge
+     cases, Earth's 0.95 deg grazing band, disk-fraction 0.5 at the horizon).
+   - Terrain obstruction: `test_horizon_intervals.py` (synthetic wall angle,
+     curvature lowering a flat horizon, 360 deg interpolation wrap, invalid
+     mask rejection, disk fraction) and `backend/tests/test_terrain_horizon.py`
+     (Test 3: Sun at +4 deg under an +8 deg skyline is not visible).
+   - Intervals, blackouts, simultaneity: `test_horizon_intervals.py`
+     (`test_edges_are_interpolated`, `test_longest_censored_flag`,
+     `test_algebra`) and `test_phase3.py`
+     (`test_summary_matches_the_intervals_it_claims`) — Test 4 and Test 5
+     semantics.
+   - Site comparison: `test_api_and_modes.py::TestCompare` (delta arithmetic,
+     zero-delta identity, differing durations flagged, anti-ranking wording).
+   - Requirement evaluation: `test_spec_requirements.py` and
+     `backend/tests/test_feasibility.py` (censored blackouts can only be
+     unknown).
+2. **Cross-validation against NASA sources** — Phase 2's
+   `services/nasa_validation.py` plus the committed report
+   `data/reference/nasa_validation.json`: 10 checks, all passing, over 1014
+   records for all three sites, including `horizons_reference` (site tracks
+   compared against the JPL Horizons observer-table evidence in
+   `data/reference/horizons_reference.json`), `units`, `utc_time` (timestamp
+   ordering and units), `continuity`, `same_site_different_dates`,
+   `different_sites_same_time`, and `assumptions_documented`. The validation is
+   adversarial: a tampered value fails the check and a missing reference is a
+   failure, not a skip (`test_nasa_validation.py`). NASA illumination maps
+   (Mazarico-style PSR products) are polygon masks, not point time series, so
+   they are not commensurable with per-sample elevation — recorded as a known
+   limitation rather than a forced comparison ("where comparable").
+3. **Missing-data and coverage honesty** — unavailable live data returns 503
+   (`SCIENTIFIC_DATA_UNAVAILABLE` / `JPL_UNAVAILABLE`), sites without masks get
+   a flat horizon labelled `geometric_only` instead of a fabricated skyline,
+   matrix cells fail individually without blanking the table, and every
+   longest-interval that touches the window edge carries the `censored` flag,
+   so incomplete observations are never reported as continuous coverage.
+
+Documented assumptions and limitations live in
+[docs/METHODOLOGY.md](docs/METHODOLOGY.md) (sections on geometry, masks,
+intervals, and section 9 "Known limitations"),
+[docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md) and
+[docs/MISSION_REPORT.md](docs/MISSION_REPORT.md). Reproducibility: the
+mission-report envelope sorts keys and includes no wall-clock time (byte-identical
+re-runs, asserted in `backend/tests/test_mission_report.py`), and the
+validation report records its generator and evidence versions.
 
 ---
 
@@ -752,28 +805,28 @@ for the frontend.
 
 ## Phase 3 Completion Checklist
 
-- [ ] Geometric Sun visibility implemented.
-- [ ] Geometric Earth visibility implemented.
-- [ ] Sunlight and darkness windows calculated.
-- [ ] Earth visibility and blackout windows calculated.
-- [ ] Simultaneous visibility calculated.
-- [ ] Sunlight availability percentages calculated.
-- [ ] Earth visibility percentages calculated.
-- [ ] Longest darkness and blackout periods calculated.
-- [ ] Three landing sites compared.
-- [ ] Mission constraints evaluated.
-- [ ] Original and delayed mission dates compared.
-- [ ] Scientific calculations tested.
-- [ ] Structured JSON output generated.
-- [ ] Results prepared for frontend integration.
+- [x] Geometric Sun visibility implemented.
+- [x] Geometric Earth visibility implemented.
+- [x] Sunlight and darkness windows calculated.
+- [x] Earth visibility and blackout windows calculated.
+- [x] Simultaneous visibility calculated.
+- [x] Sunlight availability percentages calculated.
+- [x] Earth visibility percentages calculated.
+- [x] Longest darkness and blackout periods calculated.
+- [x] Three landing sites compared.
+- [x] Mission constraints evaluated.
+- [x] Original and delayed mission dates compared.
+- [x] Scientific calculations tested.
+- [x] Structured JSON output generated.
+- [x] Results prepared for frontend integration.
 
 ### Advanced Completion Criteria
 
-- [ ] Terrain horizon profile calculated.
-- [ ] Terrain-adjusted visibility implemented.
-- [ ] Terrain calculation validated.
-- [ ] Uncertainty and coverage limitations documented.
-- [ ] Geometric and terrain-adjusted results distinguished.
+- [x] Terrain horizon profile calculated.
+- [x] Terrain-adjusted visibility implemented.
+- [x] Terrain calculation validated.
+- [x] Uncertainty and coverage limitations documented.
+- [x] Geometric and terrain-adjusted results distinguished.
 
 ---
 
