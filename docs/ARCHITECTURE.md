@@ -65,6 +65,7 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `services/metrics.py` | Metric registry. |
 | `services/visibility.py` | `VisibilityCalculator`: scenario series, snapshot, event refinement. |
 | `services/comparison.py` | `ScenarioService`, `ScenarioComparisonService`. |
+| `services/provenance.py` | Builds the `Provenance` block: mode, weakest data level, providers used, effects included, caveats. |
 | `services/sites.py` | Site catalogue: candidate resolution against the mission, PSR-proximity enrichment, elevation cross-check. |
 | `services/psr.py` | PSR boundary catalogue: nearest-PSR geometry and within-radius queries. |
 | `services/requirements.py` | Requirement check: one scenario measured against the config thresholds, three-state verdict, PSR preference reported but never scored. |
@@ -87,7 +88,9 @@ LocationInput ─► SiteRepository.resolve() ─► ResolvedLocation
 | `features/rescheduler` | Rescheduling workflow, reusing comparison components. |
 | `features/lunar-globe` | three.js 3D Moon (lazy-loaded), lit from the snapshot's sub-solar point. |
 | `features/methodology` | Provider/effects/conventions page driven by `/api/providers`. |
-| `config/features.ts` | Server flags + local overrides (`?ff=flag:on`). |
+| `lib/` | `format.ts` (durations, percentages, coordinates) and `utils.ts` (the `cn` class-name helper). |
+| `components/` | Shared UI: provenance badge and legends, JPL status, error notice/boundary, layout and nav, and the shadcn-style primitives in `ui/`. |
+| `config/` | `features.ts` (server flags + local overrides via `?ff=flag:on`) and `app.ts` (chart colours, tile URL overrides). |
 
 ## Extension points
 
