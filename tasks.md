@@ -897,12 +897,38 @@ before you start.
 
 ## Task 5: States and accessibility
 
-- [ ] Empty, loading, error and
+- [x] Empty, loading, error and
       geometric-only states for every new
       panel.
-- [ ] Keyboard reachable controls, labelled
+- [x] Keyboard reachable controls, labelled
       charts, sufficient contrast.
-- [ ] No chart is the only copy of a number.
+- [x] No chart is the only copy of a number.
+
+### Implemented
+
+An audit of all four Phase 3/4 panels (readiness, terrain horizon,
+feasibility matrix, landing-delay comparison), then fixes:
+
+- **Contrast:** `--color-faint` was 3.09:1 on the panel background — below
+  WCAG AA for the small informative text it carries (notes, table details).
+  Raised to #8394b0 (5.3:1 on panel, 4.7:1 on raised surfaces) and
+  `--color-muted` nudged to #98a5bd (6.6:1) to keep the two-tone hierarchy.
+- **States:** every panel has an explicit loading line, an `ErrorNotice`
+  with the API's explanation, and per-row/per-cell failure text —
+  one failed site or window never blanks a panel. The feasibility and delay
+  panels state what the missing thing was ("committed windows not available
+  for this site"), and TerrainHorizonPanel shows its `geometric only` badge
+  plus the reason whenever no LOLA skyline covers the point.
+- **Keyboard and labels:** all controls are native buttons/selects with
+  visible focus (browser default is not overridden); site buttons carry
+  `aria-pressed`, the window tabs and candidate group have `aria-label`s,
+  the reschedule select is `<label>`-bound, and the reschedule result
+  region is `aria-live="polite"`.
+- **No chart is the only copy of a number:** the horizon chart has a rich
+  `role="img"` aria description AND its coverage numbers appear as text
+  lines beside it; every other panel is a table or text.
+
+Verified with typecheck, the vitest suite and the production build.
 
 ## Task 6: 3D terrain (optional, feature-flagged)
 

@@ -156,7 +156,7 @@ export function DelayComparisonPanel() {
             </div>
           )}
           {reschedule.data && (
-            <div className="mt-3">
+            <div className="mt-3" role="region" aria-live="polite" aria-label="Reschedule comparison result">
               <p className="text-xs text-muted">
                 Shift: <span className="num text-ink">{reschedule.data.shift_hours} h</span>
                 {' '}— {reschedule.data.comparison.comparable ? 'same site and duration, directly comparable.' : 'not directly comparable (see notes).'}
