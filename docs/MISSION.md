@@ -47,6 +47,10 @@ charge, eclipse or link-budget model in this build
 Sun above terrain is not available power, and Earth visibility is not a comms
 link. See [METHODOLOGY.md](METHODOLOGY.md).
 
+The measurable criteria a site must meet to qualify for this mission — minimum
+sunlight, minimum Earth visibility, maximum communication blackout, and PSR
+proximity as a preference — are in [SITE_REQUIREMENTS.md](SITE_REQUIREMENTS.md).
+
 ## Candidate sites
 
 Task 2 owns *which* three sites the mission is flown at and their A → B → C order;
