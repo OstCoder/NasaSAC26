@@ -33,7 +33,12 @@ def main():
         print(f"south pole {layer}: zoom {meta['zoom']} ({time.time() - t:.0f} s)")
         t = time.time()
         im.global_jpeg(layer, 2)
+        im.global_jpeg(layer, 3)
         print(f"global {layer}: ({time.time() - t:.0f} s)")
+    t = time.time()
+    im.relief_jpeg("height", 2)
+    im.relief_jpeg("normal", 3)
+    print(f"relief: ({time.time() - t:.0f} s)")
     eph = get_bundle(Mode.jpl).ephemeris
     for m in a.months:
         y, mo = map(int, m.split("-"))

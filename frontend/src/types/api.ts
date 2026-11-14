@@ -168,6 +168,20 @@ export interface BodyState {
   sub_point: SubPoint | null
 }
 
+export interface SkyNow {
+  time_utc: string
+  sun: SubPoint
+  earth: SubPoint
+  source: string
+}
+
+export interface Crater {
+  name: string
+  latitude_deg: number
+  longitude_deg: number
+  diameter_km: number
+}
+
 export interface Snapshot {
   location: ResolvedLocation
   time_utc: string
@@ -225,7 +239,7 @@ export interface AppConfig {
   providers: Record<Mode, { ephemeris: string; terrain: string }>
   visibility: Record<string, string | number>
   features: Record<string, boolean>
-  imagery: { default_layer: string; layers: Record<string, { label: string; credit: string }> }
+  imagery: { default_layer: string; relief_layer: string; layers: Record<string, { label: string; credit: string; max_zoom: number }> }
 }
 
 export interface ServiceStatus {

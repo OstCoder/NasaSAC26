@@ -1,24 +1,41 @@
-import { RotateCcw } from 'lucide-react'
+import { RotateCcw, Sun, SunDim } from 'lucide-react'
 import * as React from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { Button } from '@/components/ui/button'
 import { CHART_COLORS } from '@/config/app'
 import { cn } from '@/lib/utils'
-import type { SubPoint } from '@/types/api'
+import type { Crater, SubPoint } from '@/types/api'
 
 export interface LunarGlobeProps {
   /** Equirectangular texture URL (lon -180..180 left to right, north at top). */
   textureUrl: string | null
+  /** Sharper version of textureUrl, swapped in once it has loaded. */
+  hdTextureUrl?: string | null
   textureCredit?: string
+  /** LOLA-derived maps that give the sphere its real shape (see /api/imagery/relief). */
+  relief?: { heightUrl: string; normalUrl: string; credit: string } | null
   sun: SubPoint | null
   earth: SubPoint | null
   site: { lat: number; lon: number; label: string } | null
+  /** IAU named craters. Labels appear as each crater grows large enough on screen. */
+  craters?: Crater[] | null
+  /** Re-aims the camera at the sunlit side when it changes (e.g. switching to another time). */
+  aimKey?: string
   /** Why sun/earth are missing (e.g. JPL Horizons unreachable). Shown instead of fake lighting. */
   positionNote?: string | null
   onTextureError?: () => void
   className?: string
 }
+
+/** Height map range in Moon radii: LOLA's ~19.9 km range, exaggerated 3x (keep in step with imagery.py). */
+const RELIEF_SCALE = 0.034
+/** Just above the highest displaced terrain, so markers never sink into it. */
+const MARKER_RADIUS = 1 + RELIEF_SCALE / 2 + 0.003
+const SUN_INTENSITY = 4.5
+const MIN_LABEL_PX = 42
+const MAX_LABELS = 30
+const EVEN_LIGHT_INTENSITY = 3
 
 /** True if this browser can create a WebGL context at all (hardware acceleration off, some VMs/managed laptops: false). */
 function webglAvailable(): boolean {
@@ -45,7 +62,7 @@ function moonDir(latDeg: number, lonDeg: number): THREE.Vector3 {
 
 function latitudeRing(latDeg: number, color: string, opacity: number) {
   const pts: THREE.Vector3[] = []
-  for (let lon = -180; lon <= 180; lon += 2) pts.push(moonDir(latDeg, lon).multiplyScalar(1.003))
+  for (let lon = -180; lon <= 180; lon += 2) pts.push(moonDir(latDeg, lon).multiplyScalar(MARKER_RADIUS))
   const line = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(pts),
     new THREE.LineBasicMaterial({ color, transparent: true, opacity }),
@@ -56,8 +73,8 @@ function latitudeRing(latDeg: number, color: string, opacity: number) {
 /**
  * Interactive Moon: Moon Trek texture, lit from the JPL (or analytic) sub-solar
  * point at the inspected time, with the direction to Earth and the selected site.
- * The sphere is smooth: crater shadows from terrain are NOT rendered here, the
- * terrain-aware answer is the horizon panorama.
+ * Its shape comes from LOLA elevation, exaggerated for display. Terrain does not
+ * cast shadows here: the terrain-aware answer is the horizon panorama.
  */
 export default function LunarGlobe(props: LunarGlobeProps) {
   const [glOk] = React.useState(webglAvailable)
@@ -80,9 +97,11 @@ export default function LunarGlobe(props: LunarGlobeProps) {
 }
 
 function GlobeScene({
-  textureUrl, textureCredit, sun, earth, site, positionNote, onTextureError, onGlError, className,
+  textureUrl, hdTextureUrl, textureCredit, relief, sun, earth, site, craters, aimKey, positionNote, onTextureError, onGlError, className,
 }: LunarGlobeProps & { onGlError: (msg: string) => void }) {
   const mountRef = React.useRef<HTMLDivElement>(null)
+  const labelsRef = React.useRef<HTMLDivElement>(null)
+  const updateLabelsRef = React.useRef<() => void>(() => {})
   const sceneRef = React.useRef<{
     renderer: THREE.WebGLRenderer
     camera: THREE.PerspectiveCamera
@@ -96,6 +115,8 @@ function GlobeScene({
     siteMarker: THREE.Mesh
   } | null>(null)
   const [textureState, setTextureState] = React.useState<'none' | 'loading' | 'ok' | 'error'>('none')
+  const [reliefState, setReliefState] = React.useState<'none' | 'loading' | 'ok' | 'error'>('none')
+  const [evenLight, setEvenLight] = React.useState(false)
 
   // one-time scene setup
   React.useEffect(() => {
@@ -120,16 +141,16 @@ function GlobeScene({
     controls.enablePan = false
 
     const moon = new THREE.Mesh(
-      new THREE.SphereGeometry(1, 160, 120),
+      new THREE.SphereGeometry(1, 512, 256),
       new THREE.MeshStandardMaterial({ color: 0x9aa3b2, roughness: 1, metalness: 0 }),
     )
     scene.add(moon)
-    scene.add(new THREE.AmbientLight(0xffffff, 0.06))
+    scene.add(new THREE.AmbientLight(0xffffff, 0.12))
     const sunLight = new THREE.DirectionalLight(0xfff4e0, 0)
     scene.add(sunLight)
-    // Neutral light that follows the camera, used ONLY when no Sun position is available,
-    // so the Moon stays visible without pretending to show real illumination.
-    const headLight = new THREE.DirectionalLight(0xffffff, 1.3)
+    // Neutral light that follows the camera, used when no Sun position is available or the
+    // user asks for even light, so the Moon stays visible without pretending to be real illumination.
+    const headLight = new THREE.DirectionalLight(0xffffff, EVEN_LIGHT_INTENSITY)
     camera.add(headLight)
     scene.add(camera)
 
@@ -175,6 +196,7 @@ function GlobeScene({
     const loop = () => {
       controls.update()
       renderer.render(scene, camera)
+      updateLabelsRef.current()
       raf = requestAnimationFrame(loop)
     }
     loop()
@@ -191,6 +213,8 @@ function GlobeScene({
         else mat?.dispose?.()
       })
       moon.material.map?.dispose()
+      moon.material.displacementMap?.dispose()
+      moon.material.normalMap?.dispose()
       renderer.dispose()
       mount.removeChild(renderer.domElement)
       sceneRef.current = null
@@ -206,17 +230,25 @@ function GlobeScene({
     }
     let live = true
     setTextureState('loading')
-    new THREE.TextureLoader().load(
+    const loader = new THREE.TextureLoader()
+    const apply = (tex: THREE.Texture) => {
+      tex.colorSpace = THREE.SRGBColorSpace
+      tex.anisotropy = s.renderer.capabilities.getMaxAnisotropy()
+      s.moon.material.map?.dispose()
+      s.moon.material.map = tex
+      s.moon.material.color.set(0xffffff)
+      s.moon.material.needsUpdate = true
+    }
+    loader.load(
       textureUrl,
       (tex) => {
         if (!live) return tex.dispose()
-        tex.colorSpace = THREE.SRGBColorSpace
-        tex.anisotropy = s.renderer.capabilities.getMaxAnisotropy()
-        s.moon.material.map?.dispose()
-        s.moon.material.map = tex
-        s.moon.material.color.set(0xffffff)
-        s.moon.material.needsUpdate = true
+        apply(tex)
         setTextureState('ok')
+        if (hdTextureUrl) {
+          // A missing HD texture is harmless: the standard one is already on screen.
+          loader.load(hdTextureUrl, (hd) => (live ? apply(hd) : hd.dispose()))
+        }
       },
       undefined,
       () => {
@@ -228,7 +260,88 @@ function GlobeScene({
     return () => {
       live = false
     }
-  }, [textureUrl])
+  }, [textureUrl, hdTextureUrl])
+
+  // crater labels: one pooled element per crater, placed each frame from the 3D position
+  React.useEffect(() => {
+    const s = sceneRef.current
+    const layer = labelsRef.current
+    if (!s || !layer || !craters) return
+    const items = [...craters]
+      .sort((a, b) => b.diameter_km - a.diameter_km)
+      .map((c) => {
+        const el = document.createElement('span')
+        el.textContent = c.name
+        el.hidden = true
+        el.className = 'absolute top-0 left-0 whitespace-nowrap text-[11px] text-[#dde5f0] [text-shadow:0_0_3px_#000,0_0_2px_#000]'
+        layer.appendChild(el)
+        return { el, dir: moonDir(c.latitude_deg, c.longitude_deg), diameter: c.diameter_km }
+      })
+    const toCamera = new THREE.Vector3()
+    const p = new THREE.Vector3()
+    updateLabelsRef.current = () => {
+      const { clientWidth: w, clientHeight: h } = layer
+      const dist = s.camera.position.length()
+      // On-screen pixels per Moon radius, for a crater at the centre of the disk.
+      const pxPerRadius = h / 2 / Math.tan(THREE.MathUtils.degToRad(s.camera.fov / 2)) / dist
+      toCamera.copy(s.camera.position).normalize()
+      let count = 0
+      for (const it of items) {
+        const facing = it.dir.dot(toCamera)
+        const big = (it.diameter / 1737.4) * pxPerRadius * facing >= MIN_LABEL_PX
+        const show = count < MAX_LABELS && big && facing > 1 / dist + 0.15
+        it.el.hidden = !show
+        if (!show) continue
+        count++
+        p.copy(it.dir).project(s.camera)
+        it.el.style.transform = `translate(${((p.x + 1) / 2) * w}px, ${((1 - p.y) / 2) * h}px) translate(-50%, -50%)`
+      }
+    }
+    return () => {
+      updateLabelsRef.current = () => {}
+      items.forEach((it) => it.el.remove())
+    }
+  }, [craters])
+
+  // relief
+  const heightUrl = relief?.heightUrl
+  const normalUrl = relief?.normalUrl
+  React.useEffect(() => {
+    const s = sceneRef.current
+    if (!s || !heightUrl || !normalUrl) {
+      setReliefState('none')
+      return
+    }
+    let live = true
+    setReliefState('loading')
+    const load = (url: string) => new THREE.TextureLoader().loadAsync(url)
+    Promise.all([load(heightUrl), load(normalUrl)]).then(
+      ([height, normal]) => {
+        if (!live) {
+          height.dispose()
+          normal.dispose()
+          return
+        }
+        height.wrapS = normal.wrapS = THREE.RepeatWrapping
+        normal.anisotropy = s.renderer.capabilities.getMaxAnisotropy()
+        const m = s.moon.material
+        m.displacementMap = height
+        m.displacementScale = RELIEF_SCALE
+        m.displacementBias = -RELIEF_SCALE / 2
+        m.normalMap = normal
+        m.needsUpdate = true
+        setReliefState('ok')
+      },
+      () => {
+        if (live) setReliefState('error')
+      },
+    )
+    return () => {
+      live = false
+    }
+  }, [heightUrl, normalUrl])
+
+  const realSun = Boolean(sun) && !evenLight
 
   // lighting + markers
   React.useEffect(() => {
@@ -240,44 +353,50 @@ function GlobeScene({
       s.sunArrow.position.copy(d.clone().multiplyScalar(1.12))
       s.sunArrow.setDirection(d)
       s.sunArrow.visible = true
-      s.sunLight.intensity = 2.6
-      s.headLight.intensity = 0
     } else {
       s.sunArrow.visible = false
-      s.sunLight.intensity = 0
-      s.headLight.intensity = 1.3
     }
+    s.sunLight.intensity = realSun ? SUN_INTENSITY : 0
+    s.headLight.intensity = realSun ? 0 : EVEN_LIGHT_INTENSITY
     if (earth) {
       const d = moonDir(earth.latitude_deg, earth.longitude_deg)
       s.earthMarker.position.copy(d.clone().multiplyScalar(1.8))
-      s.earthLine.geometry.setFromPoints([d.clone().multiplyScalar(1.02), d.clone().multiplyScalar(1.73)])
+      s.earthLine.geometry.setFromPoints([d.clone().multiplyScalar(MARKER_RADIUS), d.clone().multiplyScalar(1.73)])
       s.earthLine.computeLineDistances()
     }
     s.earthMarker.visible = s.earthLine.visible = Boolean(earth)
-    if (site) s.siteMarker.position.copy(moonDir(site.lat, site.lon).multiplyScalar(1.004))
+    if (site) s.siteMarker.position.copy(moonDir(site.lat, site.lon).multiplyScalar(MARKER_RADIUS))
     s.siteMarker.visible = Boolean(site)
-  }, [sun, earth, site])
+  }, [sun, earth, site, realSun])
+
+  // Read through a ref so scrubbing the timeline moves the light, not the camera.
+  const sunLonRef = React.useRef<number | null>(null)
+  React.useEffect(() => {
+    sunLonRef.current = sun?.longitude_deg ?? null
+  }, [sun?.longitude_deg])
 
   const resetView = React.useCallback(() => {
     const s = sceneRef.current
     if (!s) return
-    const lon = site?.lon ?? 0
-    // Oblique view over the south pole, from the site's meridian, whole disk in frame.
-    s.camera.position.copy(moonDir(-50, lon).multiplyScalar(4.6))
+    // Oblique view of the sunlit side, whole disk in frame, south pole in view.
+    const lon = sunLonRef.current ?? site?.lon ?? 0
+    s.camera.position.copy(moonDir(-35, lon).multiplyScalar(4.6))
     s.controls.target.set(0, 0, 0)
     s.camera.up.set(0, 1, 0)
     s.controls.update()
   }, [site?.lon])
 
-  // initial camera; re-aim when the site changes
-  React.useEffect(resetView, [resetView])
+  // initial camera; re-aim when the site changes or the Sun position first arrives
+  const hasSun = Boolean(sun)
+  React.useEffect(resetView, [resetView, hasSun, aimKey])
 
   return (
     <div className="space-y-1.5">
     <div className={cn('relative overflow-hidden rounded-md border border-rule-soft bg-[#070c15]', className)}>
       <div ref={mountRef} className="absolute inset-0" aria-label="Interactive 3D Moon. Drag to rotate, scroll to zoom." role="img" />
+      <div ref={labelsRef} aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden" />
       <div className="pointer-events-none absolute top-2 left-2 z-10 space-y-1 rounded bg-night/80 px-2 py-1.5 text-xs text-muted">
-        {sun && <p className="flex items-center gap-1.5"><i className="h-0.5 w-3 bg-sun" />Sunlight direction</p>}
+        {realSun && <p className="flex items-center gap-1.5"><i className="h-0.5 w-3 bg-sun" />Sunlight direction</p>}
         {earth && <p className="flex items-center gap-1.5"><i className="size-2 rounded-full bg-earth" />Earth direction (not to scale)</p>}
         {site && <p className="flex items-center gap-1.5"><i className="size-2 rounded-full bg-signal" />{site.label}</p>}
       </div>
@@ -287,16 +406,31 @@ function GlobeScene({
           {positionNote ?? 'Waiting for the calculation…'}
         </div>
       )}
-      <Button size="sm" variant="secondary" className="absolute top-2 right-2 z-10" onClick={resetView}>
-        <RotateCcw /> Reset view
-      </Button>
+      <div className="absolute top-2 right-2 z-10 flex flex-col items-end gap-1.5">
+        <Button size="sm" variant="secondary" onClick={resetView}>
+          <RotateCcw /> Reset view
+        </Button>
+        {sun && (
+          <Button size="sm" variant="secondary" aria-pressed={evenLight} onClick={() => setEvenLight((v) => !v)}>
+            {evenLight ? <Sun /> : <SunDim />} {evenLight ? 'Real sunlight' : 'Even light'}
+          </Button>
+        )}
+      </div>
+      {sun && evenLight && (
+        <div role="status" className="absolute inset-x-2 bottom-2 z-10 rounded-md border border-rule-soft bg-night/90 px-3 py-2 text-xs text-muted">
+          Even light for inspecting the surface. This is not the real illumination.
+        </div>
+      )}
     </div>
       <p className="text-[11px] leading-snug text-faint">
         {textureState === 'ok' && (textureCredit ?? 'Moon Trek imagery')}
         {textureState === 'loading' && 'Loading imagery from NASA/JPL Moon Trek…'}
         {textureState === 'error' && 'Imagery unavailable (see the message below). Showing a plain sphere.'}
         {textureState === 'none' && 'Imagery off.'}
-        {' '}Smooth sphere: terrain shadows are not drawn here; see the horizon panorama.
+        {reliefState === 'ok' && ` Shape: ${relief?.credit} Height exaggerated 3x.`}
+        {reliefState === 'loading' && ' Loading LOLA elevation…'}
+        {reliefState === 'error' && ' LOLA elevation unavailable, so this is a smooth sphere.'}
+        {' '}Crater names: IAU gazetteer. Shadows in the imagery were captured by LRO and don't move; terrain casts no live shadows here, so see the horizon panorama for those.
       </p>
     </div>
   )

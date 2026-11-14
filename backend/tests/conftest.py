@@ -8,6 +8,7 @@ from pathlib import Path
 # closed local port and the cache at a throwaway directory BEFORE importing the app.
 os.environ["LUNANAV_HORIZONS_URL"] = "http://127.0.0.1:9/api/horizons.api"
 os.environ["LUNANAV_TREK_URL"] = "http://127.0.0.1:9/tiles"
+os.environ["LUNANAV_MODE"] = "demo"
 os.environ["LUNANAV_CACHE_DIR"] = tempfile.mkdtemp(prefix="lunanav-test-cache-")
 
 import pytest  # noqa: E402

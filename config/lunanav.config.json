@@ -5,7 +5,7 @@
     "version": "0.1.0"
   },
   "mode": {
-    "default": "demo",
+    "default": "jpl",
     "allowed": [
       "demo",
       "jpl",
@@ -48,6 +48,7 @@
   },
   "datasets": {
     "sites": "data/demo/sites.json",
+    "craters": "data/reference/moon_craters.json",
     "demo_horizon_masks": "data/demo/horizon_masks.json",
     "scientific_ephemeris_dir": "data/scientific/ephemeris",
     "scientific_horizon_dir": "data/scientific/horizon_masks",
@@ -88,6 +89,7 @@
   },
   "imagery": {
     "default_layer": "wac",
+    "relief_layer": "lola_dem",
     "south_pole_size_px": 2048,
     "layers": {
       "lola_shade": {
@@ -109,8 +111,17 @@
         ],
         "max_zoom": 8,
         "credit": "Imagery: NASA/GSFC/Arizona State University LROC. Tiles: NASA/JPL Moon Trek."
+      },
+      "lola_dem": {
+        "label": "LOLA elevation (greyscale)",
+        "path": "Moon/EQ/LRO_LOLA_DEM_Global_128ppd_v04",
+        "extensions": [
+          "png"
+        ],
+        "max_zoom": 6,
+        "credit": "Elevation: NASA/GSFC LRO LOLA team. Tiles: NASA/JPL Moon Trek."
       }
     },
-    "$comment": "'wac' path is confirmed from public Trek examples. 'lola_shade' path is unverified: if it fails, LunaNav reports it instead of showing a blank Moon."
+    "$comment": "All layer paths were confirmed against Moon Trek on 2026-10-30. If Trek renames one, LunaNav reports it instead of showing a blank Moon. 'relief_layer' supplies the 3D Moon's shape; its 8-bit tiles are for display only, never for calculations."
   }
 }

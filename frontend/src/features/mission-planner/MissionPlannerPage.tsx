@@ -1,4 +1,4 @@
-import { CalendarPlus, GitCompare, Globe2, LoaderCircle, Map as MapIcon, X } from 'lucide-react'
+import { CalendarPlus, Earth, GitCompare, Globe2, LoaderCircle, Map as MapIcon, X } from 'lucide-react'
 import * as React from 'react'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { ErrorNotice } from '@/components/ErrorNotice'
@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Select } from '@/components/ui/field'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { LunarMap, type MapSelection, type Slot } from '@/features/lunar-map'
+import { GlobalMoonMap, LunarMap, type MapSelection, type Slot } from '@/features/lunar-map'
 import {
   HorizonPanorama,
   MetricsTable,
@@ -15,7 +15,7 @@ import {
   VisibilityTimeline,
 } from '@/features/visibility'
 import { siteDraftLocation, useApp, type ScenarioDraft } from '@/hooks/useAppContext'
-import { useScenario, useSnapshot } from '@/hooks/useScenario'
+import { useCraters, useScenario, useSkyNow, useSnapshot } from '@/hooks/useScenario'
 import { fmtLat, fmtLon, fmtUtc } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import { api } from '@/services/api'
@@ -33,6 +33,14 @@ function selectionOf(d: ScenarioDraft, sites: ReturnType<typeof useApp>['sites']
 }
 
 const LunarGlobe = React.lazy(() => import('@/features/lunar-globe/LunarGlobe'))
+
+type Viewer = 'map' | 'moon' | 'globe'
+
+const VIEWER_TEXT: Record<Viewer, { title: string; description: string }> = {
+  map: { title: 'South polar region', description: 'Select a site, or click anywhere to analyse custom coordinates. Crater outlines are from the IAU gazetteer.' },
+  moon: { title: 'Whole Moon', description: 'Scroll to zoom into the LRO imagery. Crater names and outlines are from the IAU gazetteer.' },
+  globe: { title: 'Lunar viewer', description: 'Drag to rotate, scroll to zoom.' },
+}
 
 const addDays = (iso: string, d: number) => new Date(Date.parse(iso) + d * 86_400_000).toISOString().slice(0, 19) + 'Z'
 
@@ -58,7 +66,13 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
   const setDraft = slot === 'A' ? setDraftA : setDraftB
   const selectionA = selectionOf(draftA, sites)
 
-  const [viewer, setViewer] = React.useState<'map' | 'globe'>('map')
+  const [viewer, setViewer] = React.useState<Viewer>('map')
+  const craters = useCraters().data
+  const skyNow = useSkyNow(mode)
+  const [sunTime, setSunTime] = React.useState<'now' | 'mission'>('now')
+  const live = sunTime === 'now'
+  const shownSun = (live ? skyNow.data?.sun : snapshot.data?.sun.sub_point) ?? null
+  const shownEarth = (live ? skyNow.data?.earth : snapshot.data?.earth.sub_point) ?? null
   const [imageryLayer, setImageryLayer] = React.useState<string>(features.lunar_imagery ? config.imagery.default_layer : '')
   const [imageryError, setImageryError] = React.useState<string | null>(null)
   const imageryCredit = imageryLayer ? (config.imagery.layers[imageryLayer]?.credit ?? '') : ''
@@ -71,21 +85,16 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
         {/* Map / 3D viewer */}
         <Card className="min-w-0 lg:col-span-5">
           <CardHeader
-            title={viewer === 'globe' ? 'Lunar viewer' : 'South polar region'}
-            description={
-              viewer === 'globe'
-                ? 'Lit by the Sun direction at the inspected time. Drag to rotate, scroll to zoom.'
-                : 'Select a site, or click anywhere to analyse custom coordinates.'
-            }
+            title={VIEWER_TEXT[viewer].title}
+            description={VIEWER_TEXT[viewer].description}
             actions={
-              features.lunar_globe_3d && (
-                <Tabs value={viewer} onValueChange={(v) => setViewer(v as 'map' | 'globe')}>
-                  <TabsList aria-label="Viewer">
-                    <TabsTrigger value="map"><MapIcon /> Polar map</TabsTrigger>
-                    <TabsTrigger value="globe"><Globe2 /> 3D Moon</TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              )
+              <Tabs value={viewer} onValueChange={(v) => setViewer(v as Viewer)}>
+                <TabsList aria-label="Viewer">
+                  <TabsTrigger value="map"><MapIcon /> Polar map</TabsTrigger>
+                  <TabsTrigger value="moon"><Earth /> Whole Moon</TabsTrigger>
+                  {features.lunar_globe_3d && <TabsTrigger value="globe"><Globe2 /> 3D Moon</TabsTrigger>}
+                </TabsList>
+              </Tabs>
             }
           />
           <CardContent className="space-y-3">
@@ -95,8 +104,10 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                 sites={sites}
                 selections={{ A: selectionOf(draftA, sites), B: features.scenario_comparison ? selectionOf(draftB, sites) : undefined }}
                 activeSlot={slot}
-                imagery={imageryLayer ? { url: api.southPoleImageryUrl(imageryLayer, 2048, -80), credit: imageryCredit } : null}
+                imagery={imageryLayer ? { url: api.southPoleImageryUrl(imageryLayer, 2048, -80), previewUrl: api.southPoleImageryUrl(imageryLayer, 512, -80), credit: imageryCredit } : null}
                 onImageryError={(url) => api.imageryError(url).then((e) => setImageryError(e?.message ?? 'Image failed to load.'))}
+                craters={craters}
+                sun={shownSun}
                 onSelectSite={(s, which) => (which === 'A' ? setDraftA : setDraftB)((d) => ({ ...d, ...siteDraftLocation(s) }))}
                 onPickCoordinates={
                   features.custom_coordinates
@@ -108,6 +119,18 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                         }))
                     : undefined
                 }
+              />
+            ) : viewer === 'moon' ? (
+              <GlobalMoonMap
+                className="aspect-[2/1] w-full"
+                sites={sites}
+                selection={selectionA}
+                onSelectSite={(s) => setDraftA((d) => ({ ...d, ...siteDraftLocation(s) }))}
+                tiles={imageryLayer ? { url: api.tileUrlTemplate(imageryLayer), maxNativeZoom: config.imagery.layers[imageryLayer]?.max_zoom ?? 6, credit: imageryCredit } : null}
+                craters={craters}
+                sun={shownSun}
+                earth={shownEarth}
+                onImageryError={(url) => api.imageryError(url).then((e) => setImageryError(e?.message ?? 'Image failed to load.'))}
               />
             ) : (
               <ErrorBoundary
@@ -130,12 +153,18 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                   <LunarGlobe
                     className="aspect-square w-full"
                     textureUrl={imageryLayer ? api.globalImageryUrl(imageryLayer, 2) : null}
+                    hdTextureUrl={imageryLayer ? api.globalImageryUrl(imageryLayer, 3) : null}
+                    relief={features.lunar_imagery ? { heightUrl: api.reliefUrl('height', 2), normalUrl: api.reliefUrl('normal', 3), credit: config.imagery.layers[config.imagery.relief_layer]?.credit ?? '' } : null}
                     textureCredit={imageryCredit}
-                    sun={snapshot.data?.sun.sub_point ?? null}
-                    earth={snapshot.data?.earth.sub_point ?? null}
+                    craters={craters}
+                    aimKey={sunTime}
+                    sun={shownSun}
+                    earth={shownEarth}
                     positionNote={
-                      scenario.error?.message ?? snapshot.error?.message ??
-                      (scenario.loading || snapshot.loading ? 'Calculating the Sun position…' : null)
+                      live
+                        ? skyNow.error?.message ?? (skyNow.loading ? 'Getting the Sun position…' : null)
+                        : scenario.error?.message ?? snapshot.error?.message ??
+                          (scenario.loading || snapshot.loading ? 'Calculating the Sun position…' : null)
                     }
                     onTextureError={() => {
                       const url = api.globalImageryUrl(imageryLayer, 2)
@@ -146,6 +175,27 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                 </React.Suspense>
               </ErrorBoundary>
             )}
+
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px]">
+              <div role="radiogroup" aria-label="Sunlight time" className="flex rounded-md border border-rule-soft p-0.5">
+                {([['now', 'Sun now'], ['mission', 'Mission time']] as const).map(([value, label]) => (
+                  <button key={value} role="radio" aria-checked={sunTime === value} onClick={() => setSunTime(value)}
+                    className={cn('h-7 rounded px-2.5 font-medium', sunTime === value ? 'bg-sun/15 text-sun' : 'text-muted')}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <p role="status" className="min-w-0 text-xs text-muted">
+                {live && skyNow.data && (
+                  <span className="num">
+                    Sun overhead at {fmtLat(skyNow.data.sun.latitude_deg)}, {fmtLon(skyNow.data.sun.longitude_deg)} at {fmtUtc(skyNow.data.time_utc)} UTC.
+                    {' '}{skyNow.data.source}, updates each minute.
+                  </span>
+                )}
+                {live && skyNow.error && <span className="text-alert">Live Sun position unavailable: {skyNow.error.message}</span>}
+                {!live && snapshotTime && <span className="num">Sunlight at {fmtUtc(snapshotTime)} UTC, from the timeline.</span>}
+              </p>
+            </div>
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
               {features.lunar_imagery && (
@@ -274,7 +324,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
           <Card>
             <CardHeader title="Visibility timeline" description="Hatched track means blocked. Click a band or the chart, drag the slider, or press play." />
             <CardContent>
-              <VisibilityTimeline result={result} index={safeIndex} onIndex={setIndex} />
+              <VisibilityTimeline result={result} index={safeIndex} onIndex={(i) => { setIndex(i); setSunTime('mission') }} />
             </CardContent>
           </Card>
 

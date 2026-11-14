@@ -217,6 +217,22 @@ class SubPoint(BaseModel):
     distance_km: float
 
 
+class SkyNow(BaseModel):
+    """Where the Sun and Earth are overhead on the Moon right now, by the server's clock."""
+
+    time_utc: datetime
+    sun: SubPoint
+    earth: SubPoint
+    source: str
+
+
+class Crater(BaseModel):
+    name: str
+    latitude_deg: float
+    longitude_deg: float
+    diameter_km: float
+
+
 class BodyState(BaseModel):
     azimuth_deg: float
     elevation_deg: float

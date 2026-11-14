@@ -7,7 +7,9 @@ tiles, row 0 at the north edge, longitude -180..180). LunaNav:
    keeps working offline after one online run (see scripts/warm_imagery.py);
 2. reprojects them into LunaNav's south polar stereographic map grid, so the
    imagery lines up exactly with sites, craters and the graticule;
-3. stitches a low-zoom global texture for the 3D globe.
+3. stitches a low-zoom global texture for the 3D globe;
+4. derives the globe's height and normal maps from the LOLA elevation layer;
+5. serves single tiles for the whole-Moon 2D map.
 
 Only layers listed in ``config/lunanav.config.json -> imagery.layers`` can be
 requested, and only from the configured Trek host.
@@ -32,6 +34,10 @@ from app.core.settings import Settings
 
 TILE = 256
 MOON_RADIUS_KM = 1737.4
+# Relief is for display only. Assumes the 8-bit DEM tiles span LOLA's ~19.9 km
+# global range; keep the exaggeration in step with RELIEF_SCALE in LunarGlobe.tsx.
+LOLA_RANGE_M = 19_900
+RELIEF_EXAGGERATION = 3
 Fetcher = Callable[[str, float], HttpResult]
 
 
@@ -138,6 +144,20 @@ class TrekImagery:
             missing_marker.write_text("no tile")
             return None
 
+    def tile_bytes(self, layer_id: str, z: int, row: int, col: int) -> tuple[bytes, str] | None:
+        """Encoded tile and its media type, or None where Trek has no data."""
+        layer = self.layer(layer_id)
+        if not (0 <= z <= layer.max_zoom and 0 <= row < 2 ** z and 0 <= col < 2 ** (z + 1)):
+            raise InvalidInputError(f"No tile {z}/{row}/{col} in layer {layer_id!r}")
+        if self.get_tile(layer, z, row, col) is None:
+            return None
+        base = self._layer_dir(layer) / str(z) / str(row)
+        for ext in layer.extensions:
+            p = base / f"{col}.{ext}"
+            if p.exists():
+                return p.read_bytes(), "image/jpeg" if ext == "jpg" else f"image/{ext}"
+        return None
+
     def _mosaic(self, layer: Layer, z: int, rows: range) -> tuple[np.ndarray, np.ndarray]:
         """Stitch full-longitude bands for ``rows``. Returns (rgb float32, valid mask)."""
         cols = 2 ** (z + 1)
@@ -217,6 +237,27 @@ class TrekImagery:
         out.write_bytes(buf.getvalue())
         return buf.getvalue(), meta
 
+    def relief_jpeg(self, kind: str, zoom: int = 2) -> tuple[bytes, dict]:
+        """Equirectangular height map (grey) or tangent-space normal map from the LOLA DEM tiles."""
+        if kind not in ("height", "normal"):
+            raise InvalidInputError("kind must be 'height' or 'normal'")
+        layer = self.layer(self.settings.imagery["relief_layer"])
+        if not 0 <= zoom <= min(3, layer.max_zoom):
+            raise InvalidInputError("zoom must be between 0 and 3 for the relief maps")
+        out = self._layer_dir(layer) / "rendered" / f"relief_{kind}_z{zoom}.jpg"
+        meta = {"layer": layer.id, "zoom": zoom, "kind": kind, "credit": layer.credit}
+        if out.exists():
+            return out.read_bytes(), meta
+        mosaic, valid = self._mosaic(layer, zoom, range(0, 2 ** zoom))
+        self._require_coverage(layer, valid, "relief map")
+        height = _smooth(mosaic[..., 0])
+        rgb = np.dstack([height] * 3) if kind == "height" else _normal_map(height)
+        buf = io.BytesIO()
+        Image.fromarray(rgb.clip(0, 255).astype(np.uint8)).save(buf, "JPEG", quality=92)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_bytes(buf.getvalue())
+        return buf.getvalue(), meta
+
     # ----------------------------------------------------------- status --
     def probe(self) -> HttpResult:
         layer = self.layer(self.settings.imagery["default_layer"])
@@ -241,6 +282,28 @@ def _bilinear(img: np.ndarray, valid: np.ndarray, fx: np.ndarray, fy: np.ndarray
     out = (img[y0c, x0] * ((1 - tx) * (1 - ty))[..., None] + img[y0c, x1] * (tx * (1 - ty))[..., None]
            + img[y1c, x0] * ((1 - tx) * ty)[..., None] + img[y1c, x1] * (tx * ty)[..., None])
     return out.clip(0, 255).astype(np.uint8), ok
+
+
+def _smooth(h: np.ndarray, passes: int = 4) -> np.ndarray:
+    """Binomial blur that hides 8-bit height steps. Longitude wraps; latitude clamps at the poles."""
+    for _ in range(passes):
+        h = (np.roll(h, 1, 1) + 2 * h + np.roll(h, -1, 1)) / 4
+        h = (np.vstack([h[:1], h[:-1]]) + 2 * h + np.vstack([h[1:], h[-1:]])) / 4
+    return h
+
+
+def _normal_map(height: np.ndarray) -> np.ndarray:
+    """RGB normals for an equirectangular height map: +x east, +y north (row 0 is the north edge)."""
+    rows, cols = height.shape
+    px_m = 2 * math.pi * MOON_RADIUS_KM * 1000 / cols
+    lat = np.radians(90 - (np.arange(rows) + 0.5) * 180 / rows)
+    # Near the poles, pixels get very narrow in longitude; the floor stops slopes blowing up.
+    cos_lat = np.maximum(np.cos(lat), 0.05)[:, None]
+    slope = RELIEF_EXAGGERATION * (LOLA_RANGE_M / 255) / px_m
+    d_east = (np.roll(height, -1, 1) - np.roll(height, 1, 1)) / 2 * slope / cos_lat
+    d_north = (np.vstack([height[:1], height[:-1]]) - np.vstack([height[1:], height[-1:]])) / 2 * slope
+    length = np.sqrt(d_east ** 2 + d_north ** 2 + 1)
+    return (np.dstack([-d_east, -d_north, np.ones_like(height)]) / length[..., None] + 1) * 127.5
 
 
 _instance: TrekImagery | None = None

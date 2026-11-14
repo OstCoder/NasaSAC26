@@ -87,7 +87,8 @@ class Settings:
             "features": self.features,
             "imagery": {
                 "default_layer": self.imagery["default_layer"],
-                "layers": {k: {"label": v["label"], "credit": v["credit"]}
+                "relief_layer": self.imagery["relief_layer"],
+                "layers": {k: {"label": v["label"], "credit": v["credit"], "max_zoom": v["max_zoom"]}
                            for k, v in self.imagery["layers"].items()},
             },
         }

@@ -3,6 +3,8 @@
  * so the transport (proxy, deployed host, mock) can change in one place.
  */
 import type {
+  Crater,
+  SkyNow,
   ApiErrorBody,
   AppConfig,
   ComparisonResult,
@@ -69,12 +71,17 @@ export const api = {
     body: { location: LocationInput; time_utc: string; mode?: Mode; lookahead_hours?: number },
     signal?: AbortSignal,
   ) => post<Snapshot>('/api/snapshot', body, signal),
+  craters: (signal?: AbortSignal) => request<Crater[]>('/api/craters', { signal }),
+  skyNow: (mode: Mode, signal?: AbortSignal) => request<SkyNow>(`/api/sky/now?mode=${mode}`, { signal }),
   jplStatus: (force = false) => request<JplStatus>(`/api/jpl/status${force ? '?force=true' : ''}`),
   /** URLs for image endpoints (used directly by <img>/Leaflet/three.js loaders). */
   southPoleImageryUrl: (layer: string, size = 2048, maxLat = -80) =>
     `${BASE}/api/imagery/south-pole?layer=${encodeURIComponent(layer)}&size=${size}&max_lat=${maxLat}`,
   globalImageryUrl: (layer = 'wac', zoom = 2) =>
     `${BASE}/api/imagery/global?layer=${encodeURIComponent(layer)}&zoom=${zoom}`,
+  reliefUrl: (kind: 'height' | 'normal', zoom: number) => `${BASE}/api/imagery/relief?kind=${kind}&zoom=${zoom}`,
+  /** Leaflet tile template: Moon Trek's {row}/{col} are Leaflet's {y}/{x}. */
+  tileUrlTemplate: (layer: string) => `${BASE}/api/imagery/tile/${encodeURIComponent(layer)}/{z}/{y}/{x}`,
   /** Fetch an image endpoint only to read its JSON error, after the image failed to load. */
   imageryError: async (url: string): Promise<ApiError | null> => {
     try {

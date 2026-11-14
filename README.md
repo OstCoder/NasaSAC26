@@ -6,11 +6,11 @@ Pick a site near the lunar south pole (or click anywhere on the polar map), choo
 
 Every result carries a provenance label. Three modes:
 
+- **JPL live** (default): Sun/Earth positions fetched live from **NASA JPL Horizons**, plus LRO imagery and LOLA elevation from **NASA/JPL Moon Trek** on the polar map, the whole-Moon map and a **3D Moon** lit by the real Sun direction. Visibility calculations apply terrain only where LOLA masks exist; otherwise results say "geometric only".
 - **Demo data**: built-in approximate ephemeris over **synthetic** terrain skylines. Works offline.
-- **JPL live**: Sun/Earth positions fetched live from **NASA JPL Horizons**, plus LRO imagery from **NASA/JPL Moon Trek** on the polar map and a **3D Moon** lit by the real Sun direction. Terrain is applied only where LOLA masks exist; otherwise results say "geometric only".
 - **Scientific**: JPL Horizons + LOLA terrain masks, and refuses to compute if either is missing.
 
-To connect to JPL, see [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md). In short: `python scripts/check_jpl.py`, then pick **JPL live**.
+For details on the JPL connection, see [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md). To check it: `python scripts/check_jpl.py`.
 
 ## Quick start
 
@@ -29,12 +29,12 @@ npm install
 npm run dev
 ```
 
-The Vite dev server proxies `/api` to the backend, so no CORS or URL configuration is needed locally. Or run both with `./scripts/dev.sh`.
+The Vite dev server proxies `/api` to the backend, so no CORS or URL configuration is needed locally. Or run `./scripts/dev.sh`, which installs dependencies on first run and starts both.
 
 ### Tests
 
 ```bash
-cd backend && pytest          # 72 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 81 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, comparison, rescheduler, mode switching,
                               # JPL Horizons live provider and Moon Trek imagery (mocked network)
 cd frontend && npm test       # projection round-trips
@@ -48,7 +48,7 @@ cd frontend && npm run build  # strict TypeScript + production bundle
 | **Mission planner** | Polar map with 5 example sites and click-to-pick custom coordinates; landing time (UTC) and duration; saved candidate dates; Sun/Earth elevation, azimuth, terrain skyline, clearance, time to sunset/Earthset; 360° horizon panorama; scrubbable visibility timeline; mission summary metrics. |
 | **Compare scenarios** | Two site/date/duration scenarios side by side with every metric, change highlighting, aligned visibility bands, and data-derived trade-off statements. |
 | **Reschedule a mission** | Same site and duration, original vs proposed date: changes in sunlight, Earth visibility, simultaneous visibility and longest blackouts. |
-| **Lunar viewer** | Moon Trek imagery (LOLA shaded relief or LROC WAC) reprojected onto the polar map; 3D Moon lit from the Sun direction at the inspected time, with Earth direction and the selected site. |
+| **Lunar viewer** | Moon Trek imagery (LROC WAC, LOLA shaded relief or LOLA elevation) on three views: south polar map; zoomable whole-Moon 2D map with the night side and the Sun and Earth sub-points; 3D Moon shaped by LOLA elevation. All are lit by the Sun's position right now, or at the inspected mission time, and label craters from the IAU gazetteer. |
 | **Data & methodology** | Calculation pipeline, providers per mode and their availability, which physical effects each includes, conventions, and what results do not mean. |
 
 ## Data honesty, in short

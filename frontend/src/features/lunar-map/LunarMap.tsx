@@ -6,6 +6,7 @@ import {
   ImageOverlay,
   MapContainer,
   Marker,
+  Polygon,
   Polyline,
   TileLayer,
   Tooltip,
@@ -14,15 +15,17 @@ import {
 import { CHART_COLORS, LUNAR_TILE_ATTRIBUTION, LUNAR_TILE_URL } from '@/config/app'
 import { fmtLat, fmtLon } from '@/lib/format'
 import { cn } from '@/lib/utils'
-import { SOUTH_POLE_CRATERS } from './craters'
+import { polarNightRings } from './night'
 import { fromLeaflet, rhoForLat, toLeaflet } from './projection'
 import type { LunarMapProps, Slot } from './types'
 
 const LAT_RINGS = [-89, -88, -87, -86, -85, -84, -82, -80]
 const MERIDIANS = Array.from({ length: 12 }, (_, i) => i * 30 - 180)
 const OUTER = rhoForLat(-80)
-const INITIAL_BOUNDS = L.latLngBounds([-175, -175], [175, 175])
+const INITIAL_BOUNDS = L.latLngBounds([-OUTER, -OUTER], [OUTER, OUTER])
 
+const MIN_CRATER_PX = 6
+const MIN_LABEL_PX = 32
 const SLOT_COLOR: Record<Slot, string> = { A: '#6b9cff', B: '#c79bff' }
 
 function pinIcon(slot: Slot) {
@@ -55,6 +58,12 @@ function ClickPicker({ onPick }: { onPick: (lat: number, lon: number) => void })
   return null
 }
 
+function ZoomWatcher({ onZoom }: { onZoom: (zoom: number) => void }) {
+  const map = useMapEvents({ zoomend: () => onZoom(map.getZoom()) })
+  React.useEffect(() => onZoom(map.getZoom()), [map])
+  return null
+}
+
 function CursorReadout({ onMove }: { onMove: (v: { lat: number; lon: number } | null) => void }) {
   useMapEvents({
     mousemove(e) {
@@ -75,8 +84,14 @@ function CursorReadout({ onMove }: { onMove: (v: { lat: number; lon: number } | 
 const IMAGERY_BOUNDS = L.latLngBounds([-OUTER, -OUTER], [OUTER, OUTER])
 
 export function LunarMap({
-  sites, selections, activeSlot, onSelectSite, onPickCoordinates, className, imagery, onImageryError,
+  sites, selections, activeSlot, onSelectSite, onPickCoordinates, className, imagery, onImageryError, craters, sun,
 }: LunarMapProps) {
+  const [zoom, setZoom] = React.useState(0)
+  const polarCraters = React.useMemo(() => (craters ?? []).filter((c) => c.latitude_deg <= -80), [craters])
+  const night = React.useMemo(
+    () => (sun ? polarNightRings(sun.latitude_deg, sun.longitude_deg).map((ring) => ring.map(([lat, lon]) => toLeaflet(lat, lon))) : null),
+    [sun?.latitude_deg, sun?.longitude_deg],
+  )
   const [cursor, setCursor] = React.useState<{ lat: number; lon: number } | null>(null)
   const [imgState, setImgState] = React.useState<'idle' | 'loading' | 'ok' | 'error'>('idle')
   React.useEffect(() => setImgState(imagery ? 'loading' : 'idle'), [imagery?.url])
@@ -96,6 +111,7 @@ export function LunarMap({
         style={{ cursor: onPickCoordinates ? 'crosshair' : undefined }}
       >
         {LUNAR_TILE_URL && <TileLayer url={LUNAR_TILE_URL} attribution={LUNAR_TILE_ATTRIBUTION} noWrap />}
+        {imagery?.previewUrl && <ImageOverlay key={imagery.previewUrl} url={imagery.previewUrl} bounds={IMAGERY_BOUNDS} />}
         {imagery && (
           <ImageOverlay
             key={imagery.url}
@@ -140,19 +156,34 @@ export function LunarMap({
           />
         ))}
 
-        {SOUTH_POLE_CRATERS.map((c) => (
-          <Circle
-            key={c.name}
-            center={toLeaflet(c.lat, c.lon)}
-            radius={c.diameterKm / 2}
+        {night && (
+          <Polygon
+            positions={night}
             interactive={false}
-            pathOptions={{ color: hasImagery ? '#c9d3e3' : CHART_COLORS.terrainEdge, weight: 1, dashArray: '3 3', opacity: hasImagery ? 0.55 : 1, fillColor: '#0a111d', fillOpacity: hasImagery ? 0 : 0.6 }}
-          >
-            <Tooltip permanent direction="center" className={hasImagery ? 'crater-label crater-label-on-image' : 'crater-label'}>
-              {c.name}
-            </Tooltip>
-          </Circle>
-        ))}
+            pathOptions={{ color: CHART_COLORS.sun, weight: 1, opacity: 0.8, fillColor: '#02050a', fillOpacity: 0.5 }}
+          />
+        )}
+
+        {polarCraters.map((c) => {
+          // CRS.Simple: one map unit (km) is 2^zoom pixels.
+          const px = c.diameter_km * 2 ** zoom
+          if (px < MIN_CRATER_PX) return null
+          return (
+            <Circle
+              key={`${c.name}:${px >= MIN_LABEL_PX}`}
+              center={toLeaflet(c.latitude_deg, c.longitude_deg)}
+              radius={c.diameter_km / 2}
+              interactive={false}
+              pathOptions={{ color: hasImagery ? '#c9d3e3' : CHART_COLORS.terrainEdge, weight: 1, dashArray: '3 3', opacity: hasImagery ? 0.55 : 1, fillColor: '#0a111d', fillOpacity: hasImagery ? 0 : 0.6 }}
+            >
+              {px >= MIN_LABEL_PX && (
+                <Tooltip permanent direction="center" className={hasImagery ? 'crater-label crater-label-on-image' : 'crater-label'}>
+                  {c.name}
+                </Tooltip>
+              )}
+            </Circle>
+          )
+        })}
 
         {sites.map((s) => {
           const selected = Object.values(selections).some(
@@ -190,6 +221,7 @@ export function LunarMap({
         )}
 
         {onPickCoordinates && <ClickPicker onPick={(lat, lon) => onPickCoordinates(lat, lon, activeSlot)} />}
+        <ZoomWatcher onZoom={setZoom} />
         <CursorReadout onMove={setCursor} />
       </MapContainer>
 
@@ -197,10 +229,10 @@ export function LunarMap({
         {cursor && cursor.lat <= -80 ? `${fmtLat(cursor.lat)}  ${fmtLon(cursor.lon)}` : 'South polar stereographic'}
       </div>
       <div className="pointer-events-none absolute left-2 bottom-2 z-[500] max-w-[62%] rounded bg-night/85 px-2 py-1 text-[11px] leading-snug text-faint">
-        {imagery && imgState === 'ok' && imagery.credit}
-        {imagery && imgState === 'loading' && 'Loading imagery from NASA/JPL Moon Trek… (first load can take a minute)'}
+        {imagery && imgState === 'ok' && `${imagery.credit} Shadows in the image were captured by LRO; the shaded area is the night side.`}
+        {imagery && imgState === 'loading' && 'Loading sharp imagery from NASA/JPL Moon Trek… (first load can take a minute)'}
         {imagery && imgState === 'error' && 'Imagery unavailable. Showing reference outlines only.'}
-        {!imagery && !LUNAR_TILE_URL && 'Reference map: graticule and approximate crater outlines.'}
+        {!imagery && !LUNAR_TILE_URL && 'Reference map: graticule and IAU crater outlines.'}
       </div>
     </div>
   )

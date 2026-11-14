@@ -9,7 +9,7 @@ from PIL import Image
 
 from app.core.errors import InvalidInputError, JplUnavailableError
 from app.core.settings import get_settings
-from app.services.imagery import TrekImagery, rho_for_lat
+from app.services.imagery import TrekImagery, _normal_map, rho_for_lat
 from jpl_fakes import FakeTrek
 
 
@@ -109,3 +109,38 @@ def test_fixing_a_layer_path_ignores_old_missing_markers(make, tmp_path):
     im2.layers["lola_shade"] = dataclasses.replace(im2.layers["lola_shade"], path="Moon/EQ/Corrected_Layer")
     jpg, _ = im2.global_jpeg("lola_shade", 0)
     assert np.asarray(Image.open(io.BytesIO(jpg))).mean() > 10
+
+
+def test_relief_maps_are_global_and_cached(make):
+    fake = FakeTrek()
+    im = make(fake)
+    for kind in ("height", "normal"):
+        jpg, meta = im.relief_jpeg(kind, 1)
+        assert Image.open(io.BytesIO(jpg)).size == (1024, 512) and meta["kind"] == kind
+    calls = len(fake.calls)
+    im.relief_jpeg("height", 1)
+    assert len(fake.calls) == calls
+    with pytest.raises(InvalidInputError):
+        im.relief_jpeg("colour", 1)
+
+
+def test_normal_map_leans_away_from_rising_ground():
+    rows, cols = 64, 128
+    rising_east = np.tile(np.sin(np.linspace(0, 2 * np.pi, cols, endpoint=False)) * 100, (rows, 1))
+    east_slope = _normal_map(rising_east)[rows // 2, 5]  # ground rises toward the east here
+    assert east_slope[0] < 127.5 and east_slope[1] == pytest.approx(127.5, abs=0.5) and east_slope[2] > 127.5
+
+    rising_north = np.tile(np.linspace(100, 0, rows)[:, None], (1, cols))  # row 0 is the north edge
+    north_slope = _normal_map(rising_north)[rows // 2, 5]
+    assert north_slope[1] < 127.5 and north_slope[0] == pytest.approx(127.5, abs=0.5)
+
+
+def test_single_tiles_pass_through_with_media_type_and_bounds(make):
+    im = make(FakeTrek(missing_cols={3}))
+    data, media_type = im.tile_bytes("lola_shade", 1, 0, 2)
+    assert media_type == "image/png" and Image.open(io.BytesIO(data)).size == (256, 256)
+    assert im.tile_bytes("lola_shade", 1, 0, 3) is None
+    with pytest.raises(InvalidInputError):
+        im.tile_bytes("lola_shade", 1, 2, 0)
+    with pytest.raises(InvalidInputError):
+        im.tile_bytes("nope", 0, 0, 0)

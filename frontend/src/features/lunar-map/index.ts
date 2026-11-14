@@ -4,5 +4,6 @@
  * the `experimental_3d_terrain` feature flag at the call site).
  */
 export { LunarMap } from './LunarMap'
-export type { LunarMapProps, MapSelection, Slot } from './types'
+export { GlobalMoonMap } from './GlobalMoonMap'
+export type { GlobalMoonMapProps, LunarMapProps, MapSelection, Slot } from './types'
 export { project, unproject, toLeaflet, fromLeaflet } from './projection'

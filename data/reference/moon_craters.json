@@ -1,0 +1,9697 @@
+{
+"dataset": "IAU Gazetteer of Planetary Nomenclature: lunar craters",
+"source": "https://planetarynames.wr.usgs.gov/shapefiles/MOON_nomenclature_center_pts.zip",
+"retrieved": "2026-10-30",
+"craters": [
+{
+"name": "8 Homeward",
+"latitude_deg": -12.0249,
+"longitude_deg": 97.0932,
+"diameter_km": 12.52
+},
+{
+"name": "Abbe",
+"latitude_deg": -57.5755,
+"longitude_deg": 174.775,
+"diameter_km": 63.98
+},
+{
+"name": "Abbot",
+"latitude_deg": 5.5562,
+"longitude_deg": 54.7431,
+"diameter_km": 10.4
+},
+{
+"name": "Abel",
+"latitude_deg": -34.6257,
+"longitude_deg": 85.7762,
+"diameter_km": 137.35
+},
+{
+"name": "Abenezra",
+"latitude_deg": -20.9936,
+"longitude_deg": 11.8907,
+"diameter_km": 43.19
+},
+{
+"name": "Abetti",
+"latitude_deg": 20.1127,
+"longitude_deg": 27.8157,
+"diameter_km": 1.6
+},
+{
+"name": "Abul Wáfa",
+"latitude_deg": 0.9626,
+"longitude_deg": 116.6306,
+"diameter_km": 54.18
+},
+{
+"name": "Abulfeda",
+"latitude_deg": -13.8651,
+"longitude_deg": 13.9103,
+"diameter_km": 62.23
+},
+{
+"name": "Acosta",
+"latitude_deg": -5.6453,
+"longitude_deg": 60.1395,
+"diameter_km": 13.06
+},
+{
+"name": "Adams",
+"latitude_deg": -31.8916,
+"longitude_deg": 68.3869,
+"diameter_km": 63.27
+},
+{
+"name": "Aepinus",
+"latitude_deg": 87.9582,
+"longitude_deg": -109.6869,
+"diameter_km": 16.74
+},
+{
+"name": "Agatharchides",
+"latitude_deg": -19.8537,
+"longitude_deg": -31.1146,
+"diameter_km": 51.98
+},
+{
+"name": "Agrippa",
+"latitude_deg": 4.0964,
+"longitude_deg": 10.4741,
+"diameter_km": 43.75
+},
+{
+"name": "Airy",
+"latitude_deg": -18.1416,
+"longitude_deg": 5.6149,
+"diameter_km": 38.9
+},
+{
+"name": "Aitken",
+"latitude_deg": -16.443,
+"longitude_deg": 172.9583,
+"diameter_km": 129.69
+},
+{
+"name": "Akis",
+"latitude_deg": 20.0109,
+"longitude_deg": -31.7594,
+"diameter_km": 2.28
+},
+{
+"name": "Al-Bakri",
+"latitude_deg": 14.3354,
+"longitude_deg": 20.2451,
+"diameter_km": 12.21
+},
+{
+"name": "Al-Biruni",
+"latitude_deg": 18.0713,
+"longitude_deg": 92.6162,
+"diameter_km": 80.41
+},
+{
+"name": "Al-Khwarizmi",
+"latitude_deg": 7.0219,
+"longitude_deg": 107.0062,
+"diameter_km": 56.25
+},
+{
+"name": "Al-Marrakushi",
+"latitude_deg": -10.4467,
+"longitude_deg": 55.7703,
+"diameter_km": 8.57
+},
+{
+"name": "Alan",
+"latitude_deg": -10.9331,
+"longitude_deg": -6.1709,
+"diameter_km": 1.44
+},
+{
+"name": "Albategnius",
+"latitude_deg": -11.24,
+"longitude_deg": 4.0092,
+"diameter_km": 130.84
+},
+{
+"name": "Albert",
+"latitude_deg": 38.3167,
+"longitude_deg": -35.0123,
+"diameter_km": 0.1
+},
+{
+"name": "Alden",
+"latitude_deg": -23.5084,
+"longitude_deg": 111.1141,
+"diameter_km": 111.44
+},
+{
+"name": "Alder",
+"latitude_deg": -48.6255,
+"longitude_deg": -177.8837,
+"diameter_km": 82.12
+},
+{
+"name": "Aldrin",
+"latitude_deg": 1.4059,
+"longitude_deg": 22.0899,
+"diameter_km": 2.8
+},
+{
+"name": "Alekhin",
+"latitude_deg": -67.944,
+"longitude_deg": -131.8524,
+"diameter_km": 74.82
+},
+{
+"name": "Alexander",
+"latitude_deg": 40.2515,
+"longitude_deg": 13.6932,
+"diameter_km": 94.8
+},
+{
+"name": "Alfraganus",
+"latitude_deg": -5.4217,
+"longitude_deg": 18.9706,
+"diameter_km": 20.52
+},
+{
+"name": "Alhazen",
+"latitude_deg": 15.9148,
+"longitude_deg": 71.8279,
+"diameter_km": 34.65
+},
+{
+"name": "Aliacensis",
+"latitude_deg": -30.5952,
+"longitude_deg": 5.1308,
+"diameter_km": 79.65
+},
+{
+"name": "Almanon",
+"latitude_deg": -16.845,
+"longitude_deg": 15.1351,
+"diameter_km": 47.76
+},
+{
+"name": "Aloha",
+"latitude_deg": 29.7926,
+"longitude_deg": -53.8796,
+"diameter_km": 2.55
+},
+{
+"name": "Alpetragius",
+"latitude_deg": -16.048,
+"longitude_deg": -4.5104,
+"diameter_km": 40.02
+},
+{
+"name": "Alphonsus",
+"latitude_deg": -13.3879,
+"longitude_deg": -2.8463,
+"diameter_km": 110.54
+},
+{
+"name": "Alter",
+"latitude_deg": 18.7401,
+"longitude_deg": -107.7969,
+"diameter_km": 64.73
+},
+{
+"name": "Ameghino",
+"latitude_deg": 3.2995,
+"longitude_deg": 57.037,
+"diameter_km": 9.2
+},
+{
+"name": "Amici",
+"latitude_deg": -10.062,
+"longitude_deg": -172.227,
+"diameter_km": 52.03
+},
+{
+"name": "Ammonius",
+"latitude_deg": -8.5209,
+"longitude_deg": -0.826,
+"diameter_km": 8.55
+},
+{
+"name": "Amontons",
+"latitude_deg": -5.3372,
+"longitude_deg": 46.7779,
+"diameter_km": 2.47
+},
+{
+"name": "Amundsen",
+"latitude_deg": -84.4398,
+"longitude_deg": 83.0691,
+"diameter_km": 103.39
+},
+{
+"name": "Anaxagoras",
+"latitude_deg": 73.481,
+"longitude_deg": -10.1712,
+"diameter_km": 51.9
+},
+{
+"name": "Anaximander",
+"latitude_deg": 66.9671,
+"longitude_deg": -51.4417,
+"diameter_km": 68.71
+},
+{
+"name": "Anaximenes",
+"latitude_deg": 72.485,
+"longitude_deg": -44.9825,
+"diameter_km": 81.12
+},
+{
+"name": "Anders",
+"latitude_deg": -41.3146,
+"longitude_deg": -143.301,
+"diameter_km": 41.33
+},
+{
+"name": "Anders' Earthrise",
+"latitude_deg": -11.7297,
+"longitude_deg": 100.4651,
+"diameter_km": 40.15
+},
+{
+"name": "Anderson",
+"latitude_deg": 15.4993,
+"longitude_deg": 170.7942,
+"diameter_km": 105.33
+},
+{
+"name": "Andersson",
+"latitude_deg": -49.9498,
+"longitude_deg": -95.4628,
+"diameter_km": 13.42
+},
+{
+"name": "Andronov",
+"latitude_deg": -22.6807,
+"longitude_deg": 146.1082,
+"diameter_km": 16.57
+},
+{
+"name": "Anděl",
+"latitude_deg": -10.4141,
+"longitude_deg": 12.3835,
+"diameter_km": 32.93
+},
+{
+"name": "Ango",
+"latitude_deg": 20.4775,
+"longitude_deg": -32.338,
+"diameter_km": 0.87
+},
+{
+"name": "Angström",
+"latitude_deg": 29.8957,
+"longitude_deg": -41.6674,
+"diameter_km": 9.55
+},
+{
+"name": "Ann",
+"latitude_deg": 25.1094,
+"longitude_deg": -0.054,
+"diameter_km": 2.12
+},
+{
+"name": "Annegrit",
+"latitude_deg": 29.4309,
+"longitude_deg": -25.6365,
+"diameter_km": 1.29
+},
+{
+"name": "Ansgarius",
+"latitude_deg": -12.9235,
+"longitude_deg": 79.7231,
+"diameter_km": 91.42
+},
+{
+"name": "Antoniadi",
+"latitude_deg": -69.3026,
+"longitude_deg": -173.0585,
+"diameter_km": 137.92
+},
+{
+"name": "Anuchin",
+"latitude_deg": -48.853,
+"longitude_deg": 101.6597,
+"diameter_km": 62.14
+},
+{
+"name": "Anville",
+"latitude_deg": 1.8428,
+"longitude_deg": 49.508,
+"diameter_km": 10.26
+},
+{
+"name": "Apianus",
+"latitude_deg": -26.9625,
+"longitude_deg": 7.8682,
+"diameter_km": 63.44
+},
+{
+"name": "Apollo",
+"latitude_deg": -35.6874,
+"longitude_deg": -151.4777,
+"diameter_km": 524.23
+},
+{
+"name": "Apollonius",
+"latitude_deg": 4.5053,
+"longitude_deg": 60.9648,
+"diameter_km": 50.66
+},
+{
+"name": "Appleton",
+"latitude_deg": 37.0465,
+"longitude_deg": 158.1689,
+"diameter_km": 64.59
+},
+{
+"name": "Arago",
+"latitude_deg": 6.1487,
+"longitude_deg": 21.4261,
+"diameter_km": 25.51
+},
+{
+"name": "Aratus",
+"latitude_deg": 23.5793,
+"longitude_deg": 4.5052,
+"diameter_km": 10.23
+},
+{
+"name": "Archimedes",
+"latitude_deg": 29.7172,
+"longitude_deg": -3.9931,
+"diameter_km": 81.04
+},
+{
+"name": "Archytas",
+"latitude_deg": 58.8662,
+"longitude_deg": 4.9925,
+"diameter_km": 31.95
+},
+{
+"name": "Argelander",
+"latitude_deg": -16.5493,
+"longitude_deg": 5.8011,
+"diameter_km": 33.72
+},
+{
+"name": "Ariadaeus",
+"latitude_deg": 4.5549,
+"longitude_deg": 17.2763,
+"diameter_km": 10.4
+},
+{
+"name": "Aristarchus",
+"latitude_deg": 23.7299,
+"longitude_deg": -47.4901,
+"diameter_km": 39.99
+},
+{
+"name": "Aristillus",
+"latitude_deg": 33.8808,
+"longitude_deg": 1.2075,
+"diameter_km": 54.37
+},
+{
+"name": "Aristoteles",
+"latitude_deg": 50.243,
+"longitude_deg": 17.32,
+"diameter_km": 87.57
+},
+{
+"name": "Armiński",
+"latitude_deg": -16.3628,
+"longitude_deg": 154.2162,
+"diameter_km": 26.76
+},
+{
+"name": "Armstrong",
+"latitude_deg": 1.3535,
+"longitude_deg": 24.9437,
+"diameter_km": 4.21
+},
+{
+"name": "Arnold",
+"latitude_deg": 66.9846,
+"longitude_deg": 35.8286,
+"diameter_km": 93.13
+},
+{
+"name": "Arrhenius",
+"latitude_deg": -55.5837,
+"longitude_deg": -91.4537,
+"diameter_km": 40.93
+},
+{
+"name": "Artamonov",
+"latitude_deg": 25.4387,
+"longitude_deg": 103.7853,
+"diameter_km": 62.45
+},
+{
+"name": "Artem'ev",
+"latitude_deg": 10.3953,
+"longitude_deg": -145.2222,
+"diameter_km": 66.39
+},
+{
+"name": "Artemis",
+"latitude_deg": 25.0326,
+"longitude_deg": -25.3552,
+"diameter_km": 2.28
+},
+{
+"name": "Artsimovich",
+"latitude_deg": 27.6116,
+"longitude_deg": -36.6281,
+"diameter_km": 7.96
+},
+{
+"name": "Aryabhata",
+"latitude_deg": 6.2028,
+"longitude_deg": 35.1733,
+"diameter_km": 21.89
+},
+{
+"name": "Arzachel",
+"latitude_deg": -18.2643,
+"longitude_deg": -1.9304,
+"diameter_km": 96.99
+},
+{
+"name": "Asada",
+"latitude_deg": 7.2466,
+"longitude_deg": 49.9018,
+"diameter_km": 12.37
+},
+{
+"name": "Asclepi",
+"latitude_deg": -55.1899,
+"longitude_deg": 25.5231,
+"diameter_km": 40.56
+},
+{
+"name": "Ashbrook",
+"latitude_deg": -81.1043,
+"longitude_deg": -110.575,
+"diameter_km": 157.68
+},
+{
+"name": "Aston",
+"latitude_deg": 32.7658,
+"longitude_deg": -87.6848,
+"diameter_km": 44.48
+},
+{
+"name": "Atlas",
+"latitude_deg": 46.7403,
+"longitude_deg": 44.3816,
+"diameter_km": 88.12
+},
+{
+"name": "Atwood",
+"latitude_deg": -5.877,
+"longitude_deg": 57.775,
+"diameter_km": 28.64
+},
+{
+"name": "Autolycus",
+"latitude_deg": 30.6757,
+"longitude_deg": 1.4858,
+"diameter_km": 38.88
+},
+{
+"name": "Auwers",
+"latitude_deg": 14.9968,
+"longitude_deg": 17.1184,
+"diameter_km": 19.64
+},
+{
+"name": "Auzout",
+"latitude_deg": 10.2078,
+"longitude_deg": 64.0092,
+"diameter_km": 32.92
+},
+{
+"name": "Avery",
+"latitude_deg": -1.3172,
+"longitude_deg": 81.3667,
+"diameter_km": 10.73
+},
+{
+"name": "Avicenna",
+"latitude_deg": 39.6254,
+"longitude_deg": -97.2768,
+"diameter_km": 72.99
+},
+{
+"name": "Avogadro",
+"latitude_deg": 63.2138,
+"longitude_deg": 165.3645,
+"diameter_km": 129.84
+},
+{
+"name": "Azophi",
+"latitude_deg": -22.193,
+"longitude_deg": 12.6958,
+"diameter_km": 47.54
+},
+{
+"name": "Baade",
+"latitude_deg": -44.7496,
+"longitude_deg": -82.0346,
+"diameter_km": 57.85
+},
+{
+"name": "Babakin",
+"latitude_deg": -20.8126,
+"longitude_deg": 123.2635,
+"diameter_km": 19.15
+},
+{
+"name": "Babbage",
+"latitude_deg": 59.5623,
+"longitude_deg": -57.3831,
+"diameter_km": 146.56
+},
+{
+"name": "Babcock",
+"latitude_deg": 4.1343,
+"longitude_deg": 94.1357,
+"diameter_km": 95.28
+},
+{
+"name": "Back",
+"latitude_deg": 1.1964,
+"longitude_deg": 80.668,
+"diameter_km": 34.63
+},
+{
+"name": "Backlund",
+"latitude_deg": -16.217,
+"longitude_deg": 103.3466,
+"diameter_km": 75.46
+},
+{
+"name": "Baco",
+"latitude_deg": -51.0441,
+"longitude_deg": 19.0964,
+"diameter_km": 65.31
+},
+{
+"name": "Baillaud",
+"latitude_deg": 74.6078,
+"longitude_deg": 37.3517,
+"diameter_km": 89.44
+},
+{
+"name": "Bailly",
+"latitude_deg": -66.8215,
+"longitude_deg": -68.8954,
+"diameter_km": 300.56
+},
+{
+"name": "Baily",
+"latitude_deg": 49.7798,
+"longitude_deg": 30.5582,
+"diameter_km": 25.68
+},
+{
+"name": "Balandin",
+"latitude_deg": -18.9419,
+"longitude_deg": 152.5836,
+"diameter_km": 11.81
+},
+{
+"name": "Balboa",
+"latitude_deg": 19.2367,
+"longitude_deg": -83.308,
+"diameter_km": 69.19
+},
+{
+"name": "Baldet",
+"latitude_deg": -53.3199,
+"longitude_deg": -151.9598,
+"diameter_km": 55.76
+},
+{
+"name": "Ball",
+"latitude_deg": -35.9228,
+"longitude_deg": -8.3942,
+"diameter_km": 40.31
+},
+{
+"name": "Ballet",
+"latitude_deg": 20.1745,
+"longitude_deg": 30.5656,
+"diameter_km": 0.01
+},
+{
+"name": "Balmer",
+"latitude_deg": -20.2715,
+"longitude_deg": 70.2247,
+"diameter_km": 136.3
+},
+{
+"name": "Banachiewicz",
+"latitude_deg": 5.277,
+"longitude_deg": 80.0097,
+"diameter_km": 99.09
+},
+{
+"name": "Bancroft",
+"latitude_deg": 28.0659,
+"longitude_deg": -6.4339,
+"diameter_km": 12.5
+},
+{
+"name": "Bandfield",
+"latitude_deg": -5.4,
+"longitude_deg": 90.77,
+"diameter_km": 1.0
+},
+{
+"name": "Banting",
+"latitude_deg": 26.5814,
+"longitude_deg": 16.4284,
+"diameter_km": 5.15
+},
+{
+"name": "Barbier",
+"latitude_deg": -23.8503,
+"longitude_deg": 157.9337,
+"diameter_km": 65.38
+},
+{
+"name": "Barkla",
+"latitude_deg": -10.668,
+"longitude_deg": 67.2187,
+"diameter_km": 40.9
+},
+{
+"name": "Barnard",
+"latitude_deg": -29.7883,
+"longitude_deg": 85.9489,
+"diameter_km": 115.73
+},
+{
+"name": "Barocius",
+"latitude_deg": -44.9791,
+"longitude_deg": 16.8058,
+"diameter_km": 82.72
+},
+{
+"name": "Barringer",
+"latitude_deg": -28.2181,
+"longitude_deg": -150.4306,
+"diameter_km": 66.89
+},
+{
+"name": "Barrow",
+"latitude_deg": 71.2844,
+"longitude_deg": 7.586,
+"diameter_km": 93.82
+},
+{
+"name": "Bartels",
+"latitude_deg": 24.5065,
+"longitude_deg": -89.8452,
+"diameter_km": 54.95
+},
+{
+"name": "Bawa",
+"latitude_deg": -25.277,
+"longitude_deg": 102.5586,
+"diameter_km": 1.57
+},
+{
+"name": "Bay",
+"latitude_deg": -88.76,
+"longitude_deg": -36.85,
+"diameter_km": 3.5
+},
+{
+"name": "Bayer",
+"latitude_deg": -51.6207,
+"longitude_deg": -35.1447,
+"diameter_km": 48.51
+},
+{
+"name": "Beals",
+"latitude_deg": 37.109,
+"longitude_deg": 86.5785,
+"diameter_km": 52.61
+},
+{
+"name": "Beaumont",
+"latitude_deg": -18.0807,
+"longitude_deg": 28.8229,
+"diameter_km": 50.69
+},
+{
+"name": "Becquerel",
+"latitude_deg": 40.7945,
+"longitude_deg": 129.5013,
+"diameter_km": 62.86
+},
+{
+"name": "Beer",
+"latitude_deg": 27.0746,
+"longitude_deg": -9.1017,
+"diameter_km": 9.06
+},
+{
+"name": "Behaim",
+"latitude_deg": -16.6056,
+"longitude_deg": 79.4051,
+"diameter_km": 56.21
+},
+{
+"name": "Beijerinck",
+"latitude_deg": -13.4016,
+"longitude_deg": 151.8375,
+"diameter_km": 76.77
+},
+{
+"name": "Beketov",
+"latitude_deg": 16.2309,
+"longitude_deg": 29.1769,
+"diameter_km": 8.3
+},
+{
+"name": "Bel'kovich",
+"latitude_deg": 61.5278,
+"longitude_deg": 90.147,
+"diameter_km": 215.08
+},
+{
+"name": "Bell",
+"latitude_deg": 21.9782,
+"longitude_deg": -96.5318,
+"diameter_km": 86.33
+},
+{
+"name": "Bellinsgauzen (Bellingshausen)",
+"latitude_deg": -60.7163,
+"longitude_deg": -164.8493,
+"diameter_km": 63.23
+},
+{
+"name": "Bellot",
+"latitude_deg": -12.476,
+"longitude_deg": 48.1945,
+"diameter_km": 17.5
+},
+{
+"name": "Belopol'skiy",
+"latitude_deg": -17.2508,
+"longitude_deg": -128.234,
+"diameter_km": 61.9
+},
+{
+"name": "Belyaev",
+"latitude_deg": 23.0964,
+"longitude_deg": 143.1111,
+"diameter_km": 55.9
+},
+{
+"name": "Benedict",
+"latitude_deg": 4.3492,
+"longitude_deg": 141.5364,
+"diameter_km": 13.83
+},
+{
+"name": "Bergman",
+"latitude_deg": 6.9731,
+"longitude_deg": 137.4896,
+"diameter_km": 22.51
+},
+{
+"name": "Bergstrand",
+"latitude_deg": -18.7246,
+"longitude_deg": 176.4405,
+"diameter_km": 42.98
+},
+{
+"name": "Berkner",
+"latitude_deg": 25.1259,
+"longitude_deg": -105.2357,
+"diameter_km": 87.62
+},
+{
+"name": "Berlage",
+"latitude_deg": -63.0414,
+"longitude_deg": -163.6083,
+"diameter_km": 93.75
+},
+{
+"name": "Bernoulli",
+"latitude_deg": 34.9295,
+"longitude_deg": 60.6124,
+"diameter_km": 47.3
+},
+{
+"name": "Berosus",
+"latitude_deg": 33.4956,
+"longitude_deg": 69.9922,
+"diameter_km": 75.24
+},
+{
+"name": "Berzelius",
+"latitude_deg": 36.5518,
+"longitude_deg": 50.9548,
+"diameter_km": 48.53
+},
+{
+"name": "Bessarion",
+"latitude_deg": 14.851,
+"longitude_deg": -37.3075,
+"diameter_km": 9.84
+},
+{
+"name": "Bessel",
+"latitude_deg": 21.7342,
+"longitude_deg": 17.9204,
+"diameter_km": 15.56
+},
+{
+"name": "Bettinus",
+"latitude_deg": -63.3969,
+"longitude_deg": -45.1602,
+"diameter_km": 71.78
+},
+{
+"name": "Bečvář",
+"latitude_deg": -2.574,
+"longitude_deg": 125.0733,
+"diameter_km": 66.62
+},
+{
+"name": "Bhabha",
+"latitude_deg": -55.4971,
+"longitude_deg": -165.3118,
+"diameter_km": 70.25
+},
+{
+"name": "Bi Sheng",
+"latitude_deg": 78.345,
+"longitude_deg": 148.4587,
+"diameter_km": 55.27
+},
+{
+"name": "Bianchini",
+"latitude_deg": 48.7814,
+"longitude_deg": -34.3739,
+"diameter_km": 37.59
+},
+{
+"name": "Biela",
+"latitude_deg": -54.9915,
+"longitude_deg": 51.6285,
+"diameter_km": 77.03
+},
+{
+"name": "Bilharz",
+"latitude_deg": -5.8278,
+"longitude_deg": 56.3438,
+"diameter_km": 44.55
+},
+{
+"name": "Billy",
+"latitude_deg": -13.8324,
+"longitude_deg": -50.2382,
+"diameter_km": 45.57
+},
+{
+"name": "Bingham",
+"latitude_deg": 8.0163,
+"longitude_deg": 115.0543,
+"diameter_km": 34.99
+},
+{
+"name": "Biot",
+"latitude_deg": -22.7003,
+"longitude_deg": 51.0798,
+"diameter_km": 13.01
+},
+{
+"name": "Birkeland",
+"latitude_deg": -30.1661,
+"longitude_deg": 174.0097,
+"diameter_km": 81.64
+},
+{
+"name": "Birkhoff",
+"latitude_deg": 58.4541,
+"longitude_deg": -145.6519,
+"diameter_km": 329.81
+},
+{
+"name": "Birmingham",
+"latitude_deg": 65.1238,
+"longitude_deg": -10.6979,
+"diameter_km": 89.92
+},
+{
+"name": "Birt",
+"latitude_deg": -22.3636,
+"longitude_deg": -8.5923,
+"diameter_km": 15.81
+},
+{
+"name": "Bjerknes",
+"latitude_deg": -38.4952,
+"longitude_deg": 113.6885,
+"diameter_km": 48.18
+},
+{
+"name": "Black",
+"latitude_deg": -9.1959,
+"longitude_deg": 80.3949,
+"diameter_km": 19.46
+},
+{
+"name": "Blackett",
+"latitude_deg": -37.5493,
+"longitude_deg": -115.8357,
+"diameter_km": 145.31
+},
+{
+"name": "Blagg",
+"latitude_deg": 1.2189,
+"longitude_deg": 1.4639,
+"diameter_km": 4.97
+},
+{
+"name": "Blancanus",
+"latitude_deg": -63.7697,
+"longitude_deg": -21.6299,
+"diameter_km": 105.82
+},
+{
+"name": "Blanchard",
+"latitude_deg": -58.248,
+"longitude_deg": -93.4958,
+"diameter_km": 37.46
+},
+{
+"name": "Blanchinus",
+"latitude_deg": -25.3156,
+"longitude_deg": 2.4439,
+"diameter_km": 59.9
+},
+{
+"name": "Blazhko",
+"latitude_deg": 31.3685,
+"longitude_deg": -147.8634,
+"diameter_km": 51.11
+},
+{
+"name": "Bliss",
+"latitude_deg": 53.0433,
+"longitude_deg": -13.7793,
+"diameter_km": 22.85
+},
+{
+"name": "Bobillier",
+"latitude_deg": 19.6311,
+"longitude_deg": 15.4354,
+"diameter_km": 6.04
+},
+{
+"name": "Bobone",
+"latitude_deg": 26.7014,
+"longitude_deg": -132.1165,
+"diameter_km": 32.14
+},
+{
+"name": "Bode",
+"latitude_deg": 6.7101,
+"longitude_deg": -2.4521,
+"diameter_km": 17.8
+},
+{
+"name": "Boethius",
+"latitude_deg": 5.569,
+"longitude_deg": 72.334,
+"diameter_km": 11.17
+},
+{
+"name": "Boguslawsky",
+"latitude_deg": -72.9012,
+"longitude_deg": 43.2572,
+"diameter_km": 94.59
+},
+{
+"name": "Bohnenberger",
+"latitude_deg": -16.2377,
+"longitude_deg": 40.0556,
+"diameter_km": 31.74
+},
+{
+"name": "Bohr",
+"latitude_deg": 12.7063,
+"longitude_deg": -86.5241,
+"diameter_km": 70.07
+},
+{
+"name": "Bok",
+"latitude_deg": -20.2596,
+"longitude_deg": -171.5829,
+"diameter_km": 43.03
+},
+{
+"name": "Boltzmann",
+"latitude_deg": -74.8229,
+"longitude_deg": -90.4069,
+"diameter_km": 72.31
+},
+{
+"name": "Bolyai",
+"latitude_deg": -33.8519,
+"longitude_deg": 126.121,
+"diameter_km": 102.22
+},
+{
+"name": "Bombelli",
+"latitude_deg": 5.28,
+"longitude_deg": 56.1869,
+"diameter_km": 9.72
+},
+{
+"name": "Bondarenko",
+"latitude_deg": -17.2443,
+"longitude_deg": 136.8896,
+"diameter_km": 28.26
+},
+{
+"name": "Bonpland",
+"latitude_deg": -8.3755,
+"longitude_deg": -17.3341,
+"diameter_km": 59.25
+},
+{
+"name": "Boole",
+"latitude_deg": 63.7885,
+"longitude_deg": -87.2854,
+"diameter_km": 61.34
+},
+{
+"name": "Borda",
+"latitude_deg": -25.1952,
+"longitude_deg": 46.5226,
+"diameter_km": 45.4
+},
+{
+"name": "Borel",
+"latitude_deg": 22.3735,
+"longitude_deg": 26.4241,
+"diameter_km": 4.66
+},
+{
+"name": "Boris",
+"latitude_deg": 30.5339,
+"longitude_deg": -33.5007,
+"diameter_km": 1.73
+},
+{
+"name": "Borman",
+"latitude_deg": -39.0627,
+"longitude_deg": -148.2516,
+"diameter_km": 50.72
+},
+{
+"name": "Born",
+"latitude_deg": -6.0526,
+"longitude_deg": 66.8274,
+"diameter_km": 15.07
+},
+{
+"name": "Borya",
+"latitude_deg": 38.2839,
+"longitude_deg": -35.0068,
+"diameter_km": 0.4
+},
+{
+"name": "Bosch",
+"latitude_deg": 86.8175,
+"longitude_deg": 133.5429,
+"diameter_km": 19.58
+},
+{
+"name": "Boscovich",
+"latitude_deg": 9.7109,
+"longitude_deg": 11.0111,
+"diameter_km": 41.53
+},
+{
+"name": "Bose",
+"latitude_deg": -53.953,
+"longitude_deg": -169.3606,
+"diameter_km": 92.55
+},
+{
+"name": "Boss",
+"latitude_deg": 45.748,
+"longitude_deg": 88.6799,
+"diameter_km": 50.2
+},
+{
+"name": "Bouguer",
+"latitude_deg": 52.3224,
+"longitude_deg": -35.8228,
+"diameter_km": 22.23
+},
+{
+"name": "Boussingault",
+"latitude_deg": -70.2063,
+"longitude_deg": 53.7342,
+"diameter_km": 127.61
+},
+{
+"name": "Bowditch",
+"latitude_deg": -24.9662,
+"longitude_deg": 103.066,
+"diameter_km": 43.04
+},
+{
+"name": "Bowen",
+"latitude_deg": 17.6281,
+"longitude_deg": 9.098,
+"diameter_km": 8.09
+},
+{
+"name": "Boyle",
+"latitude_deg": -53.2882,
+"longitude_deg": 177.8935,
+"diameter_km": 57.13
+},
+{
+"name": "Brackett",
+"latitude_deg": 17.8399,
+"longitude_deg": 23.5356,
+"diameter_km": 8.87
+},
+{
+"name": "Bragg",
+"latitude_deg": 42.3266,
+"longitude_deg": -103.4381,
+"diameter_km": 77.21
+},
+{
+"name": "Brashear",
+"latitude_deg": -73.5362,
+"longitude_deg": -171.5742,
+"diameter_km": 60.16
+},
+{
+"name": "Braude",
+"latitude_deg": -81.8201,
+"longitude_deg": 158.8802,
+"diameter_km": 11.28
+},
+{
+"name": "Brayley",
+"latitude_deg": 20.8963,
+"longitude_deg": -36.9373,
+"diameter_km": 14.17
+},
+{
+"name": "Bredikhin",
+"latitude_deg": 17.2547,
+"longitude_deg": -158.3714,
+"diameter_km": 61.68
+},
+{
+"name": "Breislak",
+"latitude_deg": -48.3075,
+"longitude_deg": 18.3096,
+"diameter_km": 48.64
+},
+{
+"name": "Brenner",
+"latitude_deg": -39.0936,
+"longitude_deg": 39.1078,
+"diameter_km": 90.01
+},
+{
+"name": "Brewster",
+"latitude_deg": 23.2694,
+"longitude_deg": 34.6857,
+"diameter_km": 9.83
+},
+{
+"name": "Brianchon",
+"latitude_deg": 74.7512,
+"longitude_deg": -88.3642,
+"diameter_km": 137.26
+},
+{
+"name": "Bridgman",
+"latitude_deg": 43.3859,
+"longitude_deg": 136.9796,
+"diameter_km": 81.89
+},
+{
+"name": "Briggs",
+"latitude_deg": 26.4528,
+"longitude_deg": -69.1873,
+"diameter_km": 36.75
+},
+{
+"name": "Brill",
+"latitude_deg": -88.27,
+"longitude_deg": -93.41,
+"diameter_km": 17.0
+},
+{
+"name": "Brisbane",
+"latitude_deg": -49.1997,
+"longitude_deg": 68.7569,
+"diameter_km": 44.32
+},
+{
+"name": "Bronk",
+"latitude_deg": 25.9,
+"longitude_deg": -134.6706,
+"diameter_km": 66.16
+},
+{
+"name": "Brouwer",
+"latitude_deg": -35.8245,
+"longitude_deg": -124.7481,
+"diameter_km": 119.6
+},
+{
+"name": "Brown",
+"latitude_deg": -46.5279,
+"longitude_deg": -17.9881,
+"diameter_km": 34.03
+},
+{
+"name": "Bruce",
+"latitude_deg": 1.1642,
+"longitude_deg": 0.3739,
+"diameter_km": 6.14
+},
+{
+"name": "Brunner",
+"latitude_deg": -9.8574,
+"longitude_deg": 90.9126,
+"diameter_km": 50.66
+},
+{
+"name": "Buch",
+"latitude_deg": -38.899,
+"longitude_deg": 17.6786,
+"diameter_km": 51.31
+},
+{
+"name": "Buffon",
+"latitude_deg": -40.6442,
+"longitude_deg": -133.5339,
+"diameter_km": 105.76
+},
+{
+"name": "Buisson",
+"latitude_deg": -1.4671,
+"longitude_deg": 112.9508,
+"diameter_km": 61.27
+},
+{
+"name": "Bullialdus",
+"latitude_deg": -20.7477,
+"longitude_deg": -22.2632,
+"diameter_km": 60.72
+},
+{
+"name": "Bunsen",
+"latitude_deg": 41.4036,
+"longitude_deg": -85.4596,
+"diameter_km": 55.22
+},
+{
+"name": "Burbidge",
+"latitude_deg": -86.35,
+"longitude_deg": 48.6,
+"diameter_km": 21.0
+},
+{
+"name": "Burckhardt",
+"latitude_deg": 31.1072,
+"longitude_deg": 56.3876,
+"diameter_km": 54.36
+},
+{
+"name": "Burnham",
+"latitude_deg": -13.9208,
+"longitude_deg": 7.2513,
+"diameter_km": 24.09
+},
+{
+"name": "Butlerov",
+"latitude_deg": 12.05,
+"longitude_deg": -108.8052,
+"diameter_km": 38.77
+},
+{
+"name": "Buys-Ballot",
+"latitude_deg": 20.8573,
+"longitude_deg": 174.8224,
+"diameter_km": 66.38
+},
+{
+"name": "Byrd",
+"latitude_deg": 85.4283,
+"longitude_deg": 10.0699,
+"diameter_km": 97.49
+},
+{
+"name": "Byrgius",
+"latitude_deg": -24.7311,
+"longitude_deg": -65.3799,
+"diameter_km": 84.46
+},
+{
+"name": "Béla",
+"latitude_deg": 24.665,
+"longitude_deg": 2.2693,
+"diameter_km": 10.07
+},
+{
+"name": "Bürg",
+"latitude_deg": 45.0734,
+"longitude_deg": 28.2081,
+"diameter_km": 41.04
+},
+{
+"name": "Büsching",
+"latitude_deg": -38.0425,
+"longitude_deg": 19.9551,
+"diameter_km": 53.49
+},
+{
+"name": "C. Herschel",
+"latitude_deg": 34.4815,
+"longitude_deg": -31.2949,
+"diameter_km": 13.7
+},
+{
+"name": "C. Mayer",
+"latitude_deg": 63.2562,
+"longitude_deg": 17.3072,
+"diameter_km": 37.54
+},
+{
+"name": "Cabannes",
+"latitude_deg": -61.2401,
+"longitude_deg": -170.2064,
+"diameter_km": 81.3
+},
+{
+"name": "Cabeus",
+"latitude_deg": -85.3303,
+"longitude_deg": -42.1327,
+"diameter_km": 100.58
+},
+{
+"name": "Cai Lun",
+"latitude_deg": 80.1166,
+"longitude_deg": 113.6639,
+"diameter_km": 44.89
+},
+{
+"name": "Cailleux",
+"latitude_deg": -60.4115,
+"longitude_deg": 153.4987,
+"diameter_km": 52.85
+},
+{
+"name": "Cajal",
+"latitude_deg": 12.5928,
+"longitude_deg": 31.075,
+"diameter_km": 8.57
+},
+{
+"name": "Cajori",
+"latitude_deg": -47.668,
+"longitude_deg": 168.6972,
+"diameter_km": 74.65
+},
+{
+"name": "Calippus",
+"latitude_deg": 38.9249,
+"longitude_deg": 10.7175,
+"diameter_km": 34.03
+},
+{
+"name": "Cameron",
+"latitude_deg": 6.1863,
+"longitude_deg": 45.9337,
+"diameter_km": 10.91
+},
+{
+"name": "Campanus",
+"latitude_deg": -28.0426,
+"longitude_deg": -27.8979,
+"diameter_km": 46.41
+},
+{
+"name": "Campbell",
+"latitude_deg": 45.5738,
+"longitude_deg": 152.9073,
+"diameter_km": 222.48
+},
+{
+"name": "Cannizzaro",
+"latitude_deg": 55.5049,
+"longitude_deg": -99.7295,
+"diameter_km": 54.51
+},
+{
+"name": "Cannon",
+"latitude_deg": 19.8752,
+"longitude_deg": 81.3641,
+"diameter_km": 57.58
+},
+{
+"name": "Cantor",
+"latitude_deg": 38.0397,
+"longitude_deg": 118.6878,
+"diameter_km": 75.72
+},
+{
+"name": "Capella",
+"latitude_deg": -7.6476,
+"longitude_deg": 34.9164,
+"diameter_km": 48.13
+},
+{
+"name": "Capuanus",
+"latitude_deg": -34.0926,
+"longitude_deg": -26.7316,
+"diameter_km": 59.69
+},
+{
+"name": "Cardanus",
+"latitude_deg": 13.2716,
+"longitude_deg": -72.4983,
+"diameter_km": 49.57
+},
+{
+"name": "Carlini",
+"latitude_deg": 33.7499,
+"longitude_deg": -24.1194,
+"diameter_km": 10.66
+},
+{
+"name": "Carlos",
+"latitude_deg": 24.9075,
+"longitude_deg": 2.2832,
+"diameter_km": 4.67
+},
+{
+"name": "Carmichael",
+"latitude_deg": 19.5342,
+"longitude_deg": 40.3619,
+"diameter_km": 19.73
+},
+{
+"name": "Carnot",
+"latitude_deg": 52.0938,
+"longitude_deg": -144.2026,
+"diameter_km": 126.06
+},
+{
+"name": "Carol",
+"latitude_deg": 8.4792,
+"longitude_deg": 122.3685,
+"diameter_km": 6.25
+},
+{
+"name": "Carpenter",
+"latitude_deg": 69.5156,
+"longitude_deg": -51.2336,
+"diameter_km": 59.06
+},
+{
+"name": "Carrel",
+"latitude_deg": 10.6655,
+"longitude_deg": 26.6796,
+"diameter_km": 15.59
+},
+{
+"name": "Carrillo",
+"latitude_deg": -2.1111,
+"longitude_deg": 80.9607,
+"diameter_km": 17.85
+},
+{
+"name": "Carrington",
+"latitude_deg": 43.9674,
+"longitude_deg": 62.0366,
+"diameter_km": 27.77
+},
+{
+"name": "Cartan",
+"latitude_deg": 4.2416,
+"longitude_deg": 59.2867,
+"diameter_km": 15.62
+},
+{
+"name": "Cartwright",
+"latitude_deg": -87.65,
+"longitude_deg": -46.95,
+"diameter_km": 17.0
+},
+{
+"name": "Carver",
+"latitude_deg": -43.4559,
+"longitude_deg": 127.5978,
+"diameter_km": 62.45
+},
+{
+"name": "Casatus",
+"latitude_deg": -72.6964,
+"longitude_deg": -30.7476,
+"diameter_km": 102.85
+},
+{
+"name": "Cassegrain",
+"latitude_deg": -51.9529,
+"longitude_deg": 113.2981,
+"diameter_km": 56.66
+},
+{
+"name": "Cassini",
+"latitude_deg": 40.2503,
+"longitude_deg": 4.6437,
+"diameter_km": 56.88
+},
+{
+"name": "Catalán",
+"latitude_deg": -45.6955,
+"longitude_deg": -87.3716,
+"diameter_km": 26.77
+},
+{
+"name": "Catharina",
+"latitude_deg": -17.9802,
+"longitude_deg": 23.5521,
+"diameter_km": 98.77
+},
+{
+"name": "Cauchy",
+"latitude_deg": 9.5561,
+"longitude_deg": 38.6261,
+"diameter_km": 11.8
+},
+{
+"name": "Cavalerius",
+"latitude_deg": 5.0973,
+"longitude_deg": -66.928,
+"diameter_km": 59.35
+},
+{
+"name": "Cavendish",
+"latitude_deg": -24.6251,
+"longitude_deg": -53.7833,
+"diameter_km": 52.64
+},
+{
+"name": "Caventou",
+"latitude_deg": 29.7437,
+"longitude_deg": -29.3776,
+"diameter_km": 2.8
+},
+{
+"name": "Cayley",
+"latitude_deg": 3.9379,
+"longitude_deg": 15.0896,
+"diameter_km": 14.2
+},
+{
+"name": "Celsius",
+"latitude_deg": -34.098,
+"longitude_deg": 20.0456,
+"diameter_km": 38.96
+},
+{
+"name": "Censorinus",
+"latitude_deg": -0.4169,
+"longitude_deg": 32.6907,
+"diameter_km": 4.1
+},
+{
+"name": "Cepheus",
+"latitude_deg": 40.681,
+"longitude_deg": 45.7806,
+"diameter_km": 39.43
+},
+{
+"name": "Chacornac",
+"latitude_deg": 29.884,
+"longitude_deg": 31.6669,
+"diameter_km": 50.44
+},
+{
+"name": "Chadwick",
+"latitude_deg": -52.852,
+"longitude_deg": -101.3424,
+"diameter_km": 29.74
+},
+{
+"name": "Chaffee",
+"latitude_deg": -39.065,
+"longitude_deg": -154.6287,
+"diameter_km": 51.75
+},
+{
+"name": "Challis",
+"latitude_deg": 79.5799,
+"longitude_deg": 9.0856,
+"diameter_km": 53.21
+},
+{
+"name": "Chalonge",
+"latitude_deg": -20.4391,
+"longitude_deg": -116.3493,
+"diameter_km": 25.08
+},
+{
+"name": "Chamberlin",
+"latitude_deg": -58.8339,
+"longitude_deg": 96.0379,
+"diameter_km": 60.41
+},
+{
+"name": "Champollion",
+"latitude_deg": 37.3917,
+"longitude_deg": 175.0292,
+"diameter_km": 48.97
+},
+{
+"name": "Chandler",
+"latitude_deg": 43.646,
+"longitude_deg": 171.7597,
+"diameter_km": 88.6
+},
+{
+"name": "Chang Heng",
+"latitude_deg": 18.9038,
+"longitude_deg": 112.2149,
+"diameter_km": 42.65
+},
+{
+"name": "Chang-Ngo",
+"latitude_deg": -12.6871,
+"longitude_deg": -2.165,
+"diameter_km": 2.34
+},
+{
+"name": "Chant",
+"latitude_deg": -40.1352,
+"longitude_deg": -109.4585,
+"diameter_km": 33.6
+},
+{
+"name": "Chaplygin",
+"latitude_deg": -5.7649,
+"longitude_deg": 150.2374,
+"diameter_km": 123.39
+},
+{
+"name": "Chapman",
+"latitude_deg": 50.0915,
+"longitude_deg": -100.4708,
+"diameter_km": 76.83
+},
+{
+"name": "Chappe",
+"latitude_deg": -61.2913,
+"longitude_deg": -91.2403,
+"diameter_km": 55.79
+},
+{
+"name": "Chappell",
+"latitude_deg": 54.5317,
+"longitude_deg": -176.7704,
+"diameter_km": 73.92
+},
+{
+"name": "Charles",
+"latitude_deg": 29.8968,
+"longitude_deg": -26.3656,
+"diameter_km": 1.34
+},
+{
+"name": "Charlier",
+"latitude_deg": 36.2197,
+"longitude_deg": -131.6909,
+"diameter_km": 109.88
+},
+{
+"name": "Chaucer",
+"latitude_deg": 3.386,
+"longitude_deg": -140.7072,
+"diameter_km": 45.48
+},
+{
+"name": "Chauvenet",
+"latitude_deg": -11.636,
+"longitude_deg": 137.1979,
+"diameter_km": 77.67
+},
+{
+"name": "Chawla",
+"latitude_deg": -42.4784,
+"longitude_deg": -147.4852,
+"diameter_km": 14.25
+},
+{
+"name": "Chebyshev",
+"latitude_deg": -34.0106,
+"longitude_deg": -132.8833,
+"diameter_km": 179.05
+},
+{
+"name": "Chernyshev",
+"latitude_deg": 47.0115,
+"longitude_deg": 174.4078,
+"diameter_km": 59.31
+},
+{
+"name": "Chevallier",
+"latitude_deg": 45.0093,
+"longitude_deg": 51.5726,
+"diameter_km": 51.83
+},
+{
+"name": "Chien-Shiung Wu",
+"latitude_deg": -41.88,
+"longitude_deg": -153.68,
+"diameter_km": 0.7
+},
+{
+"name": "Ching-Te",
+"latitude_deg": 20.0195,
+"longitude_deg": 29.9681,
+"diameter_km": 3.7
+},
+{
+"name": "Chladni",
+"latitude_deg": 3.9869,
+"longitude_deg": 1.1172,
+"diameter_km": 13.07
+},
+{
+"name": "Chrétien",
+"latitude_deg": -46.1145,
+"longitude_deg": 162.9911,
+"diameter_km": 98.63
+},
+{
+"name": "Cichus",
+"latitude_deg": -33.2877,
+"longitude_deg": -21.1825,
+"diameter_km": 39.18
+},
+{
+"name": "Clairaut",
+"latitude_deg": -47.8361,
+"longitude_deg": 13.8618,
+"diameter_km": 76.89
+},
+{
+"name": "Clark",
+"latitude_deg": -38.6746,
+"longitude_deg": 119.3478,
+"diameter_km": 52.11
+},
+{
+"name": "Clausius",
+"latitude_deg": -36.903,
+"longitude_deg": -43.9347,
+"diameter_km": 24.2
+},
+{
+"name": "Clavius",
+"latitude_deg": -58.6228,
+"longitude_deg": -14.7275,
+"diameter_km": 230.77
+},
+{
+"name": "Cleomedes",
+"latitude_deg": 27.6005,
+"longitude_deg": 55.5005,
+"diameter_km": 130.77
+},
+{
+"name": "Cleostratus",
+"latitude_deg": 60.3196,
+"longitude_deg": -77.397,
+"diameter_km": 63.23
+},
+{
+"name": "Clerke",
+"latitude_deg": 21.6803,
+"longitude_deg": 29.7981,
+"diameter_km": 6.66
+},
+{
+"name": "Coblentz",
+"latitude_deg": -38.0932,
+"longitude_deg": 126.6513,
+"diameter_km": 32.66
+},
+{
+"name": "Cockcroft",
+"latitude_deg": 31.0913,
+"longitude_deg": -162.9081,
+"diameter_km": 92.16
+},
+{
+"name": "Collins",
+"latitude_deg": 1.2981,
+"longitude_deg": 23.7089,
+"diameter_km": 2.58
+},
+{
+"name": "Colombo",
+"latitude_deg": -15.255,
+"longitude_deg": 46.0218,
+"diameter_km": 79.02
+},
+{
+"name": "Compton",
+"latitude_deg": 55.8622,
+"longitude_deg": 104.0548,
+"diameter_km": 164.63
+},
+{
+"name": "Comrie",
+"latitude_deg": 23.3932,
+"longitude_deg": -113.1694,
+"diameter_km": 59.25
+},
+{
+"name": "Comstock",
+"latitude_deg": 21.5916,
+"longitude_deg": -122.0502,
+"diameter_km": 73.23
+},
+{
+"name": "Condon",
+"latitude_deg": 1.8731,
+"longitude_deg": 60.3601,
+"diameter_km": 34.85
+},
+{
+"name": "Condorcet",
+"latitude_deg": 12.0996,
+"longitude_deg": 69.5832,
+"diameter_km": 74.85
+},
+{
+"name": "Congreve",
+"latitude_deg": -0.2801,
+"longitude_deg": -167.8415,
+"diameter_km": 57.61
+},
+{
+"name": "Conon",
+"latitude_deg": 21.6571,
+"longitude_deg": 1.9504,
+"diameter_km": 20.96
+},
+{
+"name": "Cook",
+"latitude_deg": -17.4975,
+"longitude_deg": 48.8072,
+"diameter_km": 45.16
+},
+{
+"name": "Cooper",
+"latitude_deg": 52.6816,
+"longitude_deg": 175.9201,
+"diameter_km": 51.87
+},
+{
+"name": "Copernicus",
+"latitude_deg": 9.6209,
+"longitude_deg": -20.0786,
+"diameter_km": 96.07
+},
+{
+"name": "Cori",
+"latitude_deg": -50.4802,
+"longitude_deg": -152.9052,
+"diameter_km": 67.22
+},
+{
+"name": "Coriolis",
+"latitude_deg": 0.5643,
+"longitude_deg": 171.7954,
+"diameter_km": 78.56
+},
+{
+"name": "Couder",
+"latitude_deg": -4.9013,
+"longitude_deg": -92.5825,
+"diameter_km": 18.56
+},
+{
+"name": "Coulomb",
+"latitude_deg": 54.462,
+"longitude_deg": -115.0013,
+"diameter_km": 89.72
+},
+{
+"name": "Courtney",
+"latitude_deg": 25.135,
+"longitude_deg": -30.8051,
+"diameter_km": 1.24
+},
+{
+"name": "Cremona",
+"latitude_deg": 67.2352,
+"longitude_deg": -90.8571,
+"diameter_km": 85.12
+},
+{
+"name": "Crile",
+"latitude_deg": 14.2083,
+"longitude_deg": 45.9842,
+"diameter_km": 9.3
+},
+{
+"name": "Crocco",
+"latitude_deg": -46.9804,
+"longitude_deg": 150.5058,
+"diameter_km": 67.5
+},
+{
+"name": "Crommelin",
+"latitude_deg": -67.4614,
+"longitude_deg": -147.9515,
+"diameter_km": 93.48
+},
+{
+"name": "Crookes",
+"latitude_deg": -10.3961,
+"longitude_deg": -165.1024,
+"diameter_km": 48.25
+},
+{
+"name": "Crozier",
+"latitude_deg": -13.5595,
+"longitude_deg": 50.7177,
+"diameter_km": 22.51
+},
+{
+"name": "Crüger",
+"latitude_deg": -16.6769,
+"longitude_deg": -66.9602,
+"diameter_km": 45.94
+},
+{
+"name": "Ctesibius",
+"latitude_deg": 0.8348,
+"longitude_deg": 118.751,
+"diameter_km": 32.1
+},
+{
+"name": "Curie",
+"latitude_deg": -23.0455,
+"longitude_deg": 92.2793,
+"diameter_km": 138.87
+},
+{
+"name": "Curtis",
+"latitude_deg": 14.5741,
+"longitude_deg": 56.7921,
+"diameter_km": 2.88
+},
+{
+"name": "Curtius",
+"latitude_deg": -67.0794,
+"longitude_deg": 4.4049,
+"diameter_km": 99.29
+},
+{
+"name": "Cusanus",
+"latitude_deg": 71.8208,
+"longitude_deg": 69.4004,
+"diameter_km": 60.87
+},
+{
+"name": "Cuvier",
+"latitude_deg": -50.2927,
+"longitude_deg": 9.6921,
+"diameter_km": 77.3
+},
+{
+"name": "Cyrano",
+"latitude_deg": -20.3653,
+"longitude_deg": 157.3738,
+"diameter_km": 79.58
+},
+{
+"name": "Cyrillus",
+"latitude_deg": -13.2913,
+"longitude_deg": 24.0655,
+"diameter_km": 98.09
+},
+{
+"name": "Cysatus",
+"latitude_deg": -66.2082,
+"longitude_deg": -6.3382,
+"diameter_km": 47.77
+},
+{
+"name": "D'Arrest",
+"latitude_deg": 2.2648,
+"longitude_deg": 14.6041,
+"diameter_km": 29.67
+},
+{
+"name": "D'Arsonval",
+"latitude_deg": -10.3139,
+"longitude_deg": 124.5874,
+"diameter_km": 30.36
+},
+{
+"name": "D. Brown",
+"latitude_deg": -41.6479,
+"longitude_deg": -147.1598,
+"diameter_km": 16.12
+},
+{
+"name": "Daedalus",
+"latitude_deg": -5.8329,
+"longitude_deg": 179.3983,
+"diameter_km": 93.61
+},
+{
+"name": "Dag",
+"latitude_deg": 18.7098,
+"longitude_deg": 5.2622,
+"diameter_km": 0.36
+},
+{
+"name": "Daguerre",
+"latitude_deg": -11.9067,
+"longitude_deg": 33.6135,
+"diameter_km": 45.79
+},
+{
+"name": "Dale",
+"latitude_deg": -9.5581,
+"longitude_deg": 82.9299,
+"diameter_km": 23.41
+},
+{
+"name": "Dalton",
+"latitude_deg": 17.0655,
+"longitude_deg": -84.4518,
+"diameter_km": 60.69
+},
+{
+"name": "Daly",
+"latitude_deg": 5.7442,
+"longitude_deg": 59.5004,
+"diameter_km": 14.96
+},
+{
+"name": "Damoiseau",
+"latitude_deg": -4.8514,
+"longitude_deg": -61.25,
+"diameter_km": 36.66
+},
+{
+"name": "Daniell",
+"latitude_deg": 35.4201,
+"longitude_deg": 31.1645,
+"diameter_km": 28.2
+},
+{
+"name": "Danjon",
+"latitude_deg": -11.4209,
+"longitude_deg": 123.9033,
+"diameter_km": 69.3
+},
+{
+"name": "Dante",
+"latitude_deg": 25.3552,
+"longitude_deg": 179.996,
+"diameter_km": 53.83
+},
+{
+"name": "Darney",
+"latitude_deg": -14.6071,
+"longitude_deg": -23.5682,
+"diameter_km": 14.81
+},
+{
+"name": "Darwin",
+"latitude_deg": -19.9279,
+"longitude_deg": -69.2051,
+"diameter_km": 122.18
+},
+{
+"name": "Das",
+"latitude_deg": -26.4904,
+"longitude_deg": -137.0499,
+"diameter_km": 35.95
+},
+{
+"name": "Daubrée",
+"latitude_deg": 15.7298,
+"longitude_deg": 14.7464,
+"diameter_km": 14.67
+},
+{
+"name": "Davisson",
+"latitude_deg": -37.9272,
+"longitude_deg": -174.9653,
+"diameter_km": 92.46
+},
+{
+"name": "Davy",
+"latitude_deg": -11.847,
+"longitude_deg": -8.1491,
+"diameter_km": 33.94
+},
+{
+"name": "Dawa",
+"latitude_deg": -85.45,
+"longitude_deg": 31.66,
+"diameter_km": 0.65
+},
+{
+"name": "Dawes",
+"latitude_deg": 17.2082,
+"longitude_deg": 26.3431,
+"diameter_km": 17.6
+},
+{
+"name": "Dawson",
+"latitude_deg": -66.9897,
+"longitude_deg": -135.0484,
+"diameter_km": 44.32
+},
+{
+"name": "De Forest",
+"latitude_deg": -76.9356,
+"longitude_deg": -163.3333,
+"diameter_km": 56.26
+},
+{
+"name": "De La Rue",
+"latitude_deg": 59.0179,
+"longitude_deg": 52.8409,
+"diameter_km": 135.22
+},
+{
+"name": "De Moraes",
+"latitude_deg": 49.3821,
+"longitude_deg": 142.9964,
+"diameter_km": 54.41
+},
+{
+"name": "De Morgan",
+"latitude_deg": 3.306,
+"longitude_deg": 14.8882,
+"diameter_km": 9.68
+},
+{
+"name": "De Roy",
+"latitude_deg": -55.2351,
+"longitude_deg": -98.9863,
+"diameter_km": 43.51
+},
+{
+"name": "De Sitter",
+"latitude_deg": 79.8123,
+"longitude_deg": 38.5701,
+"diameter_km": 63.79
+},
+{
+"name": "De Vico",
+"latitude_deg": -19.7114,
+"longitude_deg": -60.3189,
+"diameter_km": 22.13
+},
+{
+"name": "De Vries",
+"latitude_deg": -19.6813,
+"longitude_deg": -176.7847,
+"diameter_km": 57.51
+},
+{
+"name": "Debes",
+"latitude_deg": 29.4739,
+"longitude_deg": 51.624,
+"diameter_km": 31.92
+},
+{
+"name": "Debus",
+"latitude_deg": -10.6829,
+"longitude_deg": 99.6833,
+"diameter_km": 19.77
+},
+{
+"name": "Debye",
+"latitude_deg": 49.426,
+"longitude_deg": -176.0269,
+"diameter_km": 127.03
+},
+{
+"name": "Dechen",
+"latitude_deg": 46.1204,
+"longitude_deg": -68.1813,
+"diameter_km": 12.04
+},
+{
+"name": "Delambre",
+"latitude_deg": -1.9391,
+"longitude_deg": 17.394,
+"diameter_km": 51.49
+},
+{
+"name": "Delaunay",
+"latitude_deg": -22.2577,
+"longitude_deg": 2.6187,
+"diameter_km": 44.63
+},
+{
+"name": "Delia",
+"latitude_deg": -10.9124,
+"longitude_deg": -6.1257,
+"diameter_km": 1.57
+},
+{
+"name": "Delisle",
+"latitude_deg": 29.9831,
+"longitude_deg": -34.6772,
+"diameter_km": 24.83
+},
+{
+"name": "Dellinger",
+"latitude_deg": -6.8685,
+"longitude_deg": 140.6955,
+"diameter_km": 82.04
+},
+{
+"name": "Delmotte",
+"latitude_deg": 27.1615,
+"longitude_deg": 60.2048,
+"diameter_km": 32.16
+},
+{
+"name": "Delporte",
+"latitude_deg": -15.8938,
+"longitude_deg": 121.5544,
+"diameter_km": 42.5
+},
+{
+"name": "Deluc",
+"latitude_deg": -55.0165,
+"longitude_deg": -2.9754,
+"diameter_km": 45.69
+},
+{
+"name": "Dembowski",
+"latitude_deg": 2.8779,
+"longitude_deg": 7.2743,
+"diameter_km": 26.11
+},
+{
+"name": "Democritus",
+"latitude_deg": 62.3076,
+"longitude_deg": 34.9905,
+"diameter_km": 37.78
+},
+{
+"name": "Demonax",
+"latitude_deg": -78.0864,
+"longitude_deg": 59.3552,
+"diameter_km": 121.93
+},
+{
+"name": "Denning",
+"latitude_deg": -16.2616,
+"longitude_deg": 142.7552,
+"diameter_km": 44.18
+},
+{
+"name": "Desargues",
+"latitude_deg": 70.2482,
+"longitude_deg": -73.4236,
+"diameter_km": 84.85
+},
+{
+"name": "Descartes",
+"latitude_deg": -11.7428,
+"longitude_deg": 15.6667,
+"diameter_km": 47.73
+},
+{
+"name": "Deseilligny",
+"latitude_deg": 21.1291,
+"longitude_deg": 20.5875,
+"diameter_km": 6.01
+},
+{
+"name": "Deslandres",
+"latitude_deg": -32.554,
+"longitude_deg": -5.5716,
+"diameter_km": 227.02
+},
+{
+"name": "Deutsch",
+"latitude_deg": 24.3486,
+"longitude_deg": 110.9088,
+"diameter_km": 73.33
+},
+{
+"name": "Dewar",
+"latitude_deg": -2.6123,
+"longitude_deg": 165.6226,
+"diameter_km": 46.31
+},
+{
+"name": "Diana",
+"latitude_deg": 14.2946,
+"longitude_deg": 35.654,
+"diameter_km": 1.55
+},
+{
+"name": "Diderot",
+"latitude_deg": -20.4174,
+"longitude_deg": 121.5438,
+"diameter_km": 20.0
+},
+{
+"name": "Dionysius",
+"latitude_deg": 2.7733,
+"longitude_deg": 17.293,
+"diameter_km": 17.25
+},
+{
+"name": "Diophantus",
+"latitude_deg": 27.6194,
+"longitude_deg": -34.2979,
+"diameter_km": 17.57
+},
+{
+"name": "Dirichlet",
+"latitude_deg": 10.58,
+"longitude_deg": -152.052,
+"diameter_km": 47.24
+},
+{
+"name": "Dobrovol'skiy",
+"latitude_deg": -12.8347,
+"longitude_deg": 129.6762,
+"diameter_km": 38.4
+},
+{
+"name": "Doerfel",
+"latitude_deg": -68.9688,
+"longitude_deg": -108.5275,
+"diameter_km": 68.63
+},
+{
+"name": "Dollond",
+"latitude_deg": -10.4833,
+"longitude_deg": 14.413,
+"diameter_km": 11.04
+},
+{
+"name": "Donati",
+"latitude_deg": -20.6941,
+"longitude_deg": 5.1007,
+"diameter_km": 35.84
+},
+{
+"name": "Donna",
+"latitude_deg": 7.2203,
+"longitude_deg": 38.305,
+"diameter_km": 1.84
+},
+{
+"name": "Donner",
+"latitude_deg": -31.3545,
+"longitude_deg": 97.9945,
+"diameter_km": 55.05
+},
+{
+"name": "Doppelmayer",
+"latitude_deg": -28.4779,
+"longitude_deg": -41.507,
+"diameter_km": 65.08
+},
+{
+"name": "Doppler",
+"latitude_deg": -12.5828,
+"longitude_deg": -159.8416,
+"diameter_km": 101.79
+},
+{
+"name": "Douglass",
+"latitude_deg": 35.4985,
+"longitude_deg": -122.7214,
+"diameter_km": 50.95
+},
+{
+"name": "Dove",
+"latitude_deg": -46.8322,
+"longitude_deg": 31.4242,
+"diameter_km": 30.36
+},
+{
+"name": "Draper",
+"latitude_deg": 17.5641,
+"longitude_deg": -21.7536,
+"diameter_km": 8.28
+},
+{
+"name": "Drebbel",
+"latitude_deg": -40.9343,
+"longitude_deg": -49.1219,
+"diameter_km": 30.23
+},
+{
+"name": "Dreyer",
+"latitude_deg": 10.2372,
+"longitude_deg": 97.0948,
+"diameter_km": 63.84
+},
+{
+"name": "Drude",
+"latitude_deg": -38.5644,
+"longitude_deg": -91.8888,
+"diameter_km": 27.13
+},
+{
+"name": "Dryden",
+"latitude_deg": -33.2147,
+"longitude_deg": -156.1507,
+"diameter_km": 54.45
+},
+{
+"name": "Drygalski",
+"latitude_deg": -79.5738,
+"longitude_deg": -87.177,
+"diameter_km": 162.49
+},
+{
+"name": "Dubyago",
+"latitude_deg": 4.3831,
+"longitude_deg": 69.949,
+"diameter_km": 48.12
+},
+{
+"name": "Dufay",
+"latitude_deg": 5.5666,
+"longitude_deg": 169.5397,
+"diameter_km": 36.11
+},
+{
+"name": "Dugan",
+"latitude_deg": 64.1213,
+"longitude_deg": 103.1059,
+"diameter_km": 49.65
+},
+{
+"name": "Dunthorne",
+"latitude_deg": -30.1188,
+"longitude_deg": -31.7058,
+"diameter_km": 15.12
+},
+{
+"name": "Dunér",
+"latitude_deg": 44.6812,
+"longitude_deg": 179.4555,
+"diameter_km": 65.07
+},
+{
+"name": "Dyson",
+"latitude_deg": 60.8742,
+"longitude_deg": -121.7086,
+"diameter_km": 63.14
+},
+{
+"name": "Dziewulski",
+"latitude_deg": 20.985,
+"longitude_deg": 99.0151,
+"diameter_km": 68.9
+},
+{
+"name": "Easley",
+"latitude_deg": -23.69,
+"longitude_deg": 87.97,
+"diameter_km": 9.0
+},
+{
+"name": "Eckert",
+"latitude_deg": 17.283,
+"longitude_deg": 58.3775,
+"diameter_km": 2.62
+},
+{
+"name": "Eddington",
+"latitude_deg": 21.5025,
+"longitude_deg": -72.0175,
+"diameter_km": 120.13
+},
+{
+"name": "Edison",
+"latitude_deg": 24.8805,
+"longitude_deg": 99.268,
+"diameter_km": 62.72
+},
+{
+"name": "Edith",
+"latitude_deg": -25.767,
+"longitude_deg": 102.3273,
+"diameter_km": 6.92
+},
+{
+"name": "Egede",
+"latitude_deg": 48.7173,
+"longitude_deg": 10.6359,
+"diameter_km": 34.18
+},
+{
+"name": "Ehrlich",
+"latitude_deg": 40.8161,
+"longitude_deg": -172.2685,
+"diameter_km": 33.58
+},
+{
+"name": "Eichstadt",
+"latitude_deg": -22.6281,
+"longitude_deg": -78.4182,
+"diameter_km": 49.57
+},
+{
+"name": "Eijkman",
+"latitude_deg": -63.2133,
+"longitude_deg": -142.5148,
+"diameter_km": 56.36
+},
+{
+"name": "Eimmart",
+"latitude_deg": 23.9676,
+"longitude_deg": 64.8039,
+"diameter_km": 44.99
+},
+{
+"name": "Einstein",
+"latitude_deg": 16.603,
+"longitude_deg": -88.6545,
+"diameter_km": 181.47
+},
+{
+"name": "Einthoven",
+"latitude_deg": -5.0597,
+"longitude_deg": 110.0643,
+"diameter_km": 73.94
+},
+{
+"name": "Elger",
+"latitude_deg": -35.4004,
+"longitude_deg": -29.811,
+"diameter_km": 21.51
+},
+{
+"name": "Ellerman",
+"latitude_deg": -25.4384,
+"longitude_deg": -120.3931,
+"diameter_km": 46.21
+},
+{
+"name": "Ellison",
+"latitude_deg": 54.9332,
+"longitude_deg": -108.046,
+"diameter_km": 36.99
+},
+{
+"name": "Elmer",
+"latitude_deg": -10.2318,
+"longitude_deg": 84.1777,
+"diameter_km": 16.86
+},
+{
+"name": "Elvey",
+"latitude_deg": 9.0085,
+"longitude_deg": -100.6443,
+"diameter_km": 80.21
+},
+{
+"name": "Emden",
+"latitude_deg": 62.7624,
+"longitude_deg": -176.512,
+"diameter_km": 114.64
+},
+{
+"name": "Encke",
+"latitude_deg": 4.5707,
+"longitude_deg": -36.683,
+"diameter_km": 28.27
+},
+{
+"name": "Endymion",
+"latitude_deg": 53.6067,
+"longitude_deg": 56.4832,
+"diameter_km": 122.1
+},
+{
+"name": "Engel'gardt (Engelhardt)",
+"latitude_deg": 5.389,
+"longitude_deg": -159.4685,
+"diameter_km": 43.51
+},
+{
+"name": "Epigenes",
+"latitude_deg": 67.4974,
+"longitude_deg": -4.6221,
+"diameter_km": 54.51
+},
+{
+"name": "Epimenides",
+"latitude_deg": -40.9172,
+"longitude_deg": -30.3312,
+"diameter_km": 22.56
+},
+{
+"name": "Eratosthenes",
+"latitude_deg": 14.4737,
+"longitude_deg": -11.3162,
+"diameter_km": 58.77
+},
+{
+"name": "Erlanger",
+"latitude_deg": 86.9883,
+"longitude_deg": 28.6166,
+"diameter_km": 10.94
+},
+{
+"name": "Erro",
+"latitude_deg": 5.6829,
+"longitude_deg": 98.54,
+"diameter_km": 63.75
+},
+{
+"name": "Esclangon",
+"latitude_deg": 21.4685,
+"longitude_deg": 42.0618,
+"diameter_km": 15.29
+},
+{
+"name": "Esnault-Pelterie",
+"latitude_deg": 47.4149,
+"longitude_deg": -141.8257,
+"diameter_km": 76.79
+},
+{
+"name": "Espin",
+"latitude_deg": 28.1455,
+"longitude_deg": 109.3385,
+"diameter_km": 70.01
+},
+{
+"name": "Euclides",
+"latitude_deg": -7.4009,
+"longitude_deg": -29.5639,
+"diameter_km": 11.8
+},
+{
+"name": "Euctemon",
+"latitude_deg": 76.259,
+"longitude_deg": 30.5691,
+"diameter_km": 62.7
+},
+{
+"name": "Eudoxus",
+"latitude_deg": 44.2656,
+"longitude_deg": 16.2257,
+"diameter_km": 70.16
+},
+{
+"name": "Euler",
+"latitude_deg": 23.2627,
+"longitude_deg": -29.181,
+"diameter_km": 26.03
+},
+{
+"name": "Evans",
+"latitude_deg": -9.6266,
+"longitude_deg": -133.7782,
+"diameter_km": 69.4
+},
+{
+"name": "Evdokimov",
+"latitude_deg": 34.5738,
+"longitude_deg": -153.0427,
+"diameter_km": 48.88
+},
+{
+"name": "Evershed",
+"latitude_deg": 35.3008,
+"longitude_deg": -159.5059,
+"diameter_km": 65.28
+},
+{
+"name": "Ewen",
+"latitude_deg": 7.6903,
+"longitude_deg": 121.4604,
+"diameter_km": 2.6
+},
+{
+"name": "Eötvös",
+"latitude_deg": -35.6097,
+"longitude_deg": 134.4272,
+"diameter_km": 101.8
+},
+{
+"name": "Fabbroni",
+"latitude_deg": 18.6579,
+"longitude_deg": 29.2715,
+"diameter_km": 10.55
+},
+{
+"name": "Fabricius",
+"latitude_deg": -42.7509,
+"longitude_deg": 41.8421,
+"diameter_km": 78.9
+},
+{
+"name": "Fabry",
+"latitude_deg": 43.0734,
+"longitude_deg": 100.6844,
+"diameter_km": 179.44
+},
+{
+"name": "Fahrenheit",
+"latitude_deg": 13.1217,
+"longitude_deg": 61.7051,
+"diameter_km": 6.65
+},
+{
+"name": "Fairouz",
+"latitude_deg": -26.0686,
+"longitude_deg": 102.9467,
+"diameter_km": 2.87
+},
+{
+"name": "Faraday",
+"latitude_deg": -42.4461,
+"longitude_deg": 8.7475,
+"diameter_km": 69.03
+},
+{
+"name": "Faustini",
+"latitude_deg": -87.1832,
+"longitude_deg": 84.3099,
+"diameter_km": 42.48
+},
+{
+"name": "Fauth",
+"latitude_deg": 6.2315,
+"longitude_deg": -20.1364,
+"diameter_km": 11.94
+},
+{
+"name": "Faye",
+"latitude_deg": -21.3938,
+"longitude_deg": 3.8116,
+"diameter_km": 38.02
+},
+{
+"name": "Fechner",
+"latitude_deg": -58.2462,
+"longitude_deg": 125.0314,
+"diameter_km": 59.32
+},
+{
+"name": "Fedorov",
+"latitude_deg": 28.2265,
+"longitude_deg": -37.0462,
+"diameter_km": 6.08
+},
+{
+"name": "Felix",
+"latitude_deg": 25.0864,
+"longitude_deg": -25.3766,
+"diameter_km": 1.45
+},
+{
+"name": "Feoktistov",
+"latitude_deg": 30.7347,
+"longitude_deg": 140.5014,
+"diameter_km": 22.06
+},
+{
+"name": "Fermat",
+"latitude_deg": -22.7113,
+"longitude_deg": 19.7923,
+"diameter_km": 37.77
+},
+{
+"name": "Fermi",
+"latitude_deg": -19.6097,
+"longitude_deg": 123.2414,
+"diameter_km": 241.41
+},
+{
+"name": "Fernelius",
+"latitude_deg": -38.1783,
+"longitude_deg": 4.8588,
+"diameter_km": 68.42
+},
+{
+"name": "Fersman",
+"latitude_deg": 17.9029,
+"longitude_deg": -126.0623,
+"diameter_km": 148.14
+},
+{
+"name": "Fesenkov",
+"latitude_deg": -23.159,
+"longitude_deg": 135.1414,
+"diameter_km": 36.12
+},
+{
+"name": "Feuillée",
+"latitude_deg": 27.3724,
+"longitude_deg": -9.4615,
+"diameter_km": 8.94
+},
+{
+"name": "Fibiger",
+"latitude_deg": 86.1396,
+"longitude_deg": 37.133,
+"diameter_km": 21.1
+},
+{
+"name": "Finsch",
+"latitude_deg": 23.5828,
+"longitude_deg": 21.2693,
+"diameter_km": 4.05
+},
+{
+"name": "Finsen",
+"latitude_deg": -42.2914,
+"longitude_deg": -177.7205,
+"diameter_km": 72.98
+},
+{
+"name": "Firmicus",
+"latitude_deg": 7.2455,
+"longitude_deg": 63.4259,
+"diameter_km": 56.81
+},
+{
+"name": "Firsov",
+"latitude_deg": 4.2043,
+"longitude_deg": 112.6973,
+"diameter_km": 51.0
+},
+{
+"name": "Fischer",
+"latitude_deg": 7.9899,
+"longitude_deg": 142.4391,
+"diameter_km": 30.48
+},
+{
+"name": "Fitzgerald",
+"latitude_deg": 26.6744,
+"longitude_deg": -172.1362,
+"diameter_km": 104.21
+},
+{
+"name": "Fizeau",
+"latitude_deg": -58.1864,
+"longitude_deg": -134.1148,
+"diameter_km": 107.08
+},
+{
+"name": "Flammarion",
+"latitude_deg": -3.3286,
+"longitude_deg": -3.7325,
+"diameter_km": 76.18
+},
+{
+"name": "Flamsteed",
+"latitude_deg": -4.4906,
+"longitude_deg": -44.3398,
+"diameter_km": 19.34
+},
+{
+"name": "Fleming",
+"latitude_deg": 14.9098,
+"longitude_deg": 109.2776,
+"diameter_km": 126.37
+},
+{
+"name": "Florensky",
+"latitude_deg": 25.4517,
+"longitude_deg": 131.8508,
+"diameter_km": 69.03
+},
+{
+"name": "Florey",
+"latitude_deg": 87.0372,
+"longitude_deg": -19.7466,
+"diameter_km": 69.06
+},
+{
+"name": "Floss",
+"latitude_deg": -84.28,
+"longitude_deg": 42.27,
+"diameter_km": 9.0
+},
+{
+"name": "Focas",
+"latitude_deg": -33.7046,
+"longitude_deg": -93.9111,
+"diameter_km": 22.04
+},
+{
+"name": "Fontana",
+"latitude_deg": -16.0394,
+"longitude_deg": -56.7905,
+"diameter_km": 31.47
+},
+{
+"name": "Fontenelle",
+"latitude_deg": 63.4192,
+"longitude_deg": -18.9561,
+"diameter_km": 37.68
+},
+{
+"name": "Foster",
+"latitude_deg": 23.5877,
+"longitude_deg": -141.4935,
+"diameter_km": 37.02
+},
+{
+"name": "Foucault",
+"latitude_deg": 50.4589,
+"longitude_deg": -39.8618,
+"diameter_km": 25.08
+},
+{
+"name": "Fourier",
+"latitude_deg": -30.3131,
+"longitude_deg": -53.1046,
+"diameter_km": 51.57
+},
+{
+"name": "Fowler",
+"latitude_deg": 42.5862,
+"longitude_deg": -145.2654,
+"diameter_km": 139.52
+},
+{
+"name": "Fox",
+"latitude_deg": 0.4715,
+"longitude_deg": 98.1444,
+"diameter_km": 23.97
+},
+{
+"name": "Fra Mauro",
+"latitude_deg": -6.061,
+"longitude_deg": -16.9738,
+"diameter_km": 96.76
+},
+{
+"name": "Fracastorius",
+"latitude_deg": -21.3587,
+"longitude_deg": 33.0703,
+"diameter_km": 120.58
+},
+{
+"name": "Franck",
+"latitude_deg": 22.587,
+"longitude_deg": 35.5594,
+"diameter_km": 11.91
+},
+{
+"name": "Franklin",
+"latitude_deg": 38.7288,
+"longitude_deg": 47.6397,
+"diameter_km": 55.92
+},
+{
+"name": "Franz",
+"latitude_deg": 16.5686,
+"longitude_deg": 40.2445,
+"diameter_km": 25.48
+},
+{
+"name": "Fraunhofer",
+"latitude_deg": -39.5155,
+"longitude_deg": 59.0634,
+"diameter_km": 57.75
+},
+{
+"name": "Fredholm",
+"latitude_deg": 18.3661,
+"longitude_deg": 46.5526,
+"diameter_km": 13.39
+},
+{
+"name": "Freud",
+"latitude_deg": 25.7932,
+"longitude_deg": -52.3985,
+"diameter_km": 2.85
+},
+{
+"name": "Freundlich",
+"latitude_deg": 25.0026,
+"longitude_deg": 170.894,
+"diameter_km": 83.16
+},
+{
+"name": "Fridman (Friedmann)",
+"latitude_deg": -12.4812,
+"longitude_deg": -126.8788,
+"diameter_km": 101.45
+},
+{
+"name": "Froelich",
+"latitude_deg": 80.0014,
+"longitude_deg": -111.6316,
+"diameter_km": 56.73
+},
+{
+"name": "Frost",
+"latitude_deg": 37.4072,
+"longitude_deg": -118.901,
+"diameter_km": 78.3
+},
+{
+"name": "Fryxell",
+"latitude_deg": -21.2544,
+"longitude_deg": -101.6523,
+"diameter_km": 17.62
+},
+{
+"name": "Furnerius",
+"latitude_deg": -36.0038,
+"longitude_deg": 60.5383,
+"diameter_km": 135.03
+},
+{
+"name": "Fényi",
+"latitude_deg": -44.9406,
+"longitude_deg": -105.0586,
+"diameter_km": 43.31
+},
+{
+"name": "G. Bond",
+"latitude_deg": 32.3873,
+"longitude_deg": 36.3221,
+"diameter_km": 19.05
+},
+{
+"name": "Gadomski",
+"latitude_deg": 36.2108,
+"longitude_deg": -147.3579,
+"diameter_km": 65.66
+},
+{
+"name": "Gagarin",
+"latitude_deg": -19.6576,
+"longitude_deg": 149.3541,
+"diameter_km": 261.83
+},
+{
+"name": "Galen",
+"latitude_deg": 21.9549,
+"longitude_deg": 4.9606,
+"diameter_km": 9.18
+},
+{
+"name": "Galilaei",
+"latitude_deg": 10.4804,
+"longitude_deg": -62.8325,
+"diameter_km": 15.99
+},
+{
+"name": "Galimov",
+"latitude_deg": -64.3,
+"longitude_deg": -126.53,
+"diameter_km": 33.0
+},
+{
+"name": "Galle",
+"latitude_deg": 55.8733,
+"longitude_deg": 22.3286,
+"diameter_km": 20.96
+},
+{
+"name": "Galois",
+"latitude_deg": -13.9394,
+"longitude_deg": -152.9932,
+"diameter_km": 231.97
+},
+{
+"name": "Galvani",
+"latitude_deg": 49.5121,
+"longitude_deg": -84.5618,
+"diameter_km": 76.83
+},
+{
+"name": "Gambart",
+"latitude_deg": 0.9236,
+"longitude_deg": -15.2389,
+"diameter_km": 24.68
+},
+{
+"name": "Gamow",
+"latitude_deg": 65.2869,
+"longitude_deg": 144.6454,
+"diameter_km": 113.92
+},
+{
+"name": "Ganskiy (Hansky)",
+"latitude_deg": -9.6406,
+"longitude_deg": 97.0029,
+"diameter_km": 42.11
+},
+{
+"name": "Ganswindt",
+"latitude_deg": -79.4155,
+"longitude_deg": 111.1673,
+"diameter_km": 77.52
+},
+{
+"name": "Garavito",
+"latitude_deg": -47.2132,
+"longitude_deg": 156.781,
+"diameter_km": 81.05
+},
+{
+"name": "Gardner",
+"latitude_deg": 17.7474,
+"longitude_deg": 33.8133,
+"diameter_km": 17.62
+},
+{
+"name": "Gassendi",
+"latitude_deg": -17.5546,
+"longitude_deg": -39.9637,
+"diameter_km": 111.39
+},
+{
+"name": "Gaston",
+"latitude_deg": 30.8777,
+"longitude_deg": -33.9599,
+"diameter_km": 2.02
+},
+{
+"name": "Gaudibert",
+"latitude_deg": -10.9294,
+"longitude_deg": 37.8232,
+"diameter_km": 33.14
+},
+{
+"name": "Gauricus",
+"latitude_deg": -33.9066,
+"longitude_deg": -12.742,
+"diameter_km": 79.64
+},
+{
+"name": "Gauss",
+"latitude_deg": 36.0063,
+"longitude_deg": 79.0767,
+"diameter_km": 170.72
+},
+{
+"name": "Gavrilov",
+"latitude_deg": 17.4084,
+"longitude_deg": 131.2222,
+"diameter_km": 61.62
+},
+{
+"name": "Gay-Lussac",
+"latitude_deg": 13.875,
+"longitude_deg": -20.7928,
+"diameter_km": 25.4
+},
+{
+"name": "Geber",
+"latitude_deg": -19.4614,
+"longitude_deg": 13.8479,
+"diameter_km": 44.68
+},
+{
+"name": "Geiger",
+"latitude_deg": -14.3877,
+"longitude_deg": 158.4092,
+"diameter_km": 36.63
+},
+{
+"name": "Geissler",
+"latitude_deg": -2.5969,
+"longitude_deg": 76.5052,
+"diameter_km": 17.39
+},
+{
+"name": "Geminus",
+"latitude_deg": 34.4197,
+"longitude_deg": 56.6607,
+"diameter_km": 81.98
+},
+{
+"name": "Gemma Frisius",
+"latitude_deg": -34.3285,
+"longitude_deg": 13.3685,
+"diameter_km": 88.54
+},
+{
+"name": "Gena",
+"latitude_deg": 38.27,
+"longitude_deg": -35.0124,
+"diameter_km": 0.2
+},
+{
+"name": "Gerard",
+"latitude_deg": 44.5353,
+"longitude_deg": -80.5063,
+"diameter_km": 98.78
+},
+{
+"name": "Gerasimovich",
+"latitude_deg": -22.9519,
+"longitude_deg": -123.4191,
+"diameter_km": 90.19
+},
+{
+"name": "Gernsback",
+"latitude_deg": -36.5261,
+"longitude_deg": 99.5261,
+"diameter_km": 47.2
+},
+{
+"name": "Gibbs",
+"latitude_deg": -18.3659,
+"longitude_deg": 84.2675,
+"diameter_km": 78.76
+},
+{
+"name": "Gilbert",
+"latitude_deg": -3.195,
+"longitude_deg": 76.1598,
+"diameter_km": 100.25
+},
+{
+"name": "Gill",
+"latitude_deg": -63.7652,
+"longitude_deg": 75.9457,
+"diameter_km": 63.9
+},
+{
+"name": "Ginzel",
+"latitude_deg": 14.2496,
+"longitude_deg": 97.4003,
+"diameter_km": 53.23
+},
+{
+"name": "Gioja",
+"latitude_deg": 83.3469,
+"longitude_deg": 1.7595,
+"diameter_km": 42.47
+},
+{
+"name": "Giordano Bruno",
+"latitude_deg": 35.9686,
+"longitude_deg": 102.8933,
+"diameter_km": 22.13
+},
+{
+"name": "Glaisher",
+"latitude_deg": 13.187,
+"longitude_deg": 49.3406,
+"diameter_km": 15.92
+},
+{
+"name": "Glauber",
+"latitude_deg": 11.3172,
+"longitude_deg": 142.666,
+"diameter_km": 15.24
+},
+{
+"name": "Glazenap",
+"latitude_deg": -1.8512,
+"longitude_deg": 137.7565,
+"diameter_km": 38.96
+},
+{
+"name": "Glushko",
+"latitude_deg": 8.1124,
+"longitude_deg": -77.6678,
+"diameter_km": 40.1
+},
+{
+"name": "Goclenius",
+"latitude_deg": -10.0504,
+"longitude_deg": 45.031,
+"diameter_km": 73.04
+},
+{
+"name": "Goddard",
+"latitude_deg": 15.1545,
+"longitude_deg": 89.1275,
+"diameter_km": 93.18
+},
+{
+"name": "Godin",
+"latitude_deg": 1.8235,
+"longitude_deg": 10.1583,
+"diameter_km": 34.25
+},
+{
+"name": "Goldschmidt",
+"latitude_deg": 73.0367,
+"longitude_deg": -3.3686,
+"diameter_km": 115.26
+},
+{
+"name": "Golgi",
+"latitude_deg": 27.7849,
+"longitude_deg": -59.9553,
+"diameter_km": 5.58
+},
+{
+"name": "Golitsyn",
+"latitude_deg": -25.1987,
+"longitude_deg": -105.1962,
+"diameter_km": 35.47
+},
+{
+"name": "Golovin",
+"latitude_deg": 39.7528,
+"longitude_deg": 161.2442,
+"diameter_km": 37.86
+},
+{
+"name": "Goodacre",
+"latitude_deg": -32.6746,
+"longitude_deg": 14.0755,
+"diameter_km": 44.09
+},
+{
+"name": "Gore",
+"latitude_deg": 86.1761,
+"longitude_deg": -62.3112,
+"diameter_km": 9.41
+},
+{
+"name": "Gould",
+"latitude_deg": -19.258,
+"longitude_deg": -17.2478,
+"diameter_km": 32.99
+},
+{
+"name": "Grace",
+"latitude_deg": 14.2082,
+"longitude_deg": 35.8934,
+"diameter_km": 1.49
+},
+{
+"name": "Grachev",
+"latitude_deg": -3.835,
+"longitude_deg": -108.4211,
+"diameter_km": 34.98
+},
+{
+"name": "Graff",
+"latitude_deg": -42.3032,
+"longitude_deg": -88.7097,
+"diameter_km": 36.16
+},
+{
+"name": "Grave",
+"latitude_deg": -17.0433,
+"longitude_deg": 150.2304,
+"diameter_km": 36.95
+},
+{
+"name": "Greaves",
+"latitude_deg": 13.1821,
+"longitude_deg": 52.7914,
+"diameter_km": 14.27
+},
+{
+"name": "Green",
+"latitude_deg": 3.6852,
+"longitude_deg": 133.1161,
+"diameter_km": 68.28
+},
+{
+"name": "Gregory",
+"latitude_deg": 1.7586,
+"longitude_deg": 127.2797,
+"diameter_km": 63.9
+},
+{
+"name": "Grigg",
+"latitude_deg": 12.503,
+"longitude_deg": -130.1314,
+"diameter_km": 36.72
+},
+{
+"name": "Grignard",
+"latitude_deg": 84.5352,
+"longitude_deg": -75.834,
+"diameter_km": 12.95
+},
+{
+"name": "Grimaldi",
+"latitude_deg": -5.38,
+"longitude_deg": -68.36,
+"diameter_km": 235.0
+},
+{
+"name": "Grissom",
+"latitude_deg": -46.9237,
+"longitude_deg": -147.9765,
+"diameter_km": 59.82
+},
+{
+"name": "Grotrian",
+"latitude_deg": -66.1517,
+"longitude_deg": 128.283,
+"diameter_km": 36.78
+},
+{
+"name": "Grove",
+"latitude_deg": 40.303,
+"longitude_deg": 32.9834,
+"diameter_km": 28.55
+},
+{
+"name": "Gruemberger",
+"latitude_deg": -67.0413,
+"longitude_deg": -10.3021,
+"diameter_km": 91.5
+},
+{
+"name": "Gruithuisen",
+"latitude_deg": 32.8867,
+"longitude_deg": -39.7792,
+"diameter_km": 14.98
+},
+{
+"name": "Guericke",
+"latitude_deg": -11.5663,
+"longitude_deg": -14.1872,
+"diameter_km": 60.75
+},
+{
+"name": "Guest",
+"latitude_deg": -19.79,
+"longitude_deg": 117.39,
+"diameter_km": 19.79
+},
+{
+"name": "Guillaume",
+"latitude_deg": 45.1577,
+"longitude_deg": -173.3834,
+"diameter_km": 56.75
+},
+{
+"name": "Gullstrand",
+"latitude_deg": 44.9535,
+"longitude_deg": -129.6666,
+"diameter_km": 45.05
+},
+{
+"name": "Gum",
+"latitude_deg": -40.337,
+"longitude_deg": 88.9088,
+"diameter_km": 54.55
+},
+{
+"name": "Gutenberg",
+"latitude_deg": -8.6137,
+"longitude_deg": 41.249,
+"diameter_km": 70.65
+},
+{
+"name": "Guthnick",
+"latitude_deg": -47.759,
+"longitude_deg": -94.0356,
+"diameter_km": 37.03
+},
+{
+"name": "Guyot",
+"latitude_deg": 11.6256,
+"longitude_deg": 117.122,
+"diameter_km": 98.28
+},
+{
+"name": "Gyldén",
+"latitude_deg": -5.3737,
+"longitude_deg": 0.2323,
+"diameter_km": 48.15
+},
+{
+"name": "Gärtner",
+"latitude_deg": 59.2433,
+"longitude_deg": 34.7579,
+"diameter_km": 101.79
+},
+{
+"name": "H. G. Wells",
+"latitude_deg": 40.8412,
+"longitude_deg": 122.6287,
+"diameter_km": 108.9
+},
+{
+"name": "Haber",
+"latitude_deg": 83.3997,
+"longitude_deg": -94.6276,
+"diameter_km": 56.79
+},
+{
+"name": "Hagecius",
+"latitude_deg": -59.9168,
+"longitude_deg": 46.6293,
+"diameter_km": 79.55
+},
+{
+"name": "Hagen",
+"latitude_deg": -48.3205,
+"longitude_deg": 135.9478,
+"diameter_km": 57.52
+},
+{
+"name": "Hahn",
+"latitude_deg": 31.216,
+"longitude_deg": 73.549,
+"diameter_km": 87.49
+},
+{
+"name": "Haidinger",
+"latitude_deg": -39.1763,
+"longitude_deg": -25.1389,
+"diameter_km": 21.33
+},
+{
+"name": "Hainzel",
+"latitude_deg": -41.2315,
+"longitude_deg": -33.5207,
+"diameter_km": 70.56
+},
+{
+"name": "Haldane",
+"latitude_deg": -1.659,
+"longitude_deg": 84.1054,
+"diameter_km": 40.26
+},
+{
+"name": "Hale",
+"latitude_deg": -74.1261,
+"longitude_deg": 91.7125,
+"diameter_km": 84.42
+},
+{
+"name": "Hall",
+"latitude_deg": 33.8093,
+"longitude_deg": 36.7501,
+"diameter_km": 31.77
+},
+{
+"name": "Halley",
+"latitude_deg": -8.0492,
+"longitude_deg": 5.7298,
+"diameter_km": 34.59
+},
+{
+"name": "Hamilton",
+"latitude_deg": -42.7748,
+"longitude_deg": 84.4127,
+"diameter_km": 57.45
+},
+{
+"name": "Hanno",
+"latitude_deg": -56.4637,
+"longitude_deg": 71.3841,
+"diameter_km": 59.54
+},
+{
+"name": "Hansen",
+"latitude_deg": 14.0438,
+"longitude_deg": 72.5423,
+"diameter_km": 41.18
+},
+{
+"name": "Hansteen",
+"latitude_deg": -11.5307,
+"longitude_deg": -52.0592,
+"diameter_km": 44.99
+},
+{
+"name": "Harden",
+"latitude_deg": 5.4644,
+"longitude_deg": 143.5475,
+"diameter_km": 14.98
+},
+{
+"name": "Harding",
+"latitude_deg": 43.5401,
+"longitude_deg": -71.6562,
+"diameter_km": 22.57
+},
+{
+"name": "Haret",
+"latitude_deg": -58.771,
+"longitude_deg": -176.1854,
+"diameter_km": 29.77
+},
+{
+"name": "Hargreaves",
+"latitude_deg": -2.1783,
+"longitude_deg": 64.0926,
+"diameter_km": 18.0
+},
+{
+"name": "Harkhebi",
+"latitude_deg": 40.8705,
+"longitude_deg": 98.7449,
+"diameter_km": 337.14
+},
+{
+"name": "Harlan",
+"latitude_deg": -38.3073,
+"longitude_deg": 79.6475,
+"diameter_km": 63.45
+},
+{
+"name": "Harold",
+"latitude_deg": -10.8805,
+"longitude_deg": -6.0692,
+"diameter_km": 1.43
+},
+{
+"name": "Harpalus",
+"latitude_deg": 52.7316,
+"longitude_deg": -43.4938,
+"diameter_km": 39.77
+},
+{
+"name": "Harriot",
+"latitude_deg": 33.1985,
+"longitude_deg": 114.396,
+"diameter_km": 52.77
+},
+{
+"name": "Hartmann",
+"latitude_deg": 2.7138,
+"longitude_deg": 135.4507,
+"diameter_km": 63.29
+},
+{
+"name": "Hartwig",
+"latitude_deg": -6.1356,
+"longitude_deg": -80.4694,
+"diameter_km": 78.46
+},
+{
+"name": "Harvey",
+"latitude_deg": 19.3458,
+"longitude_deg": -146.5142,
+"diameter_km": 59.98
+},
+{
+"name": "Hase",
+"latitude_deg": -29.3708,
+"longitude_deg": 62.6828,
+"diameter_km": 82.08
+},
+{
+"name": "Haskin",
+"latitude_deg": 81.5114,
+"longitude_deg": 133.1589,
+"diameter_km": 66.57
+},
+{
+"name": "Hatanaka",
+"latitude_deg": 29.3335,
+"longitude_deg": -121.9238,
+"diameter_km": 30.15
+},
+{
+"name": "Hausen",
+"latitude_deg": -65.1105,
+"longitude_deg": -88.4905,
+"diameter_km": 163.24
+},
+{
+"name": "Hawke",
+"latitude_deg": -66.61,
+"longitude_deg": 128.65,
+"diameter_km": 13.2
+},
+{
+"name": "Haworth",
+"latitude_deg": -87.45,
+"longitude_deg": -5.17,
+"diameter_km": 51.42
+},
+{
+"name": "Hayford",
+"latitude_deg": 12.6823,
+"longitude_deg": -176.449,
+"diameter_km": 28.15
+},
+{
+"name": "Hayn",
+"latitude_deg": 64.5577,
+"longitude_deg": 83.8675,
+"diameter_km": 86.21
+},
+{
+"name": "Haynes",
+"latitude_deg": -88.75,
+"longitude_deg": 167.39,
+"diameter_km": 17.0
+},
+{
+"name": "Healy",
+"latitude_deg": 32.4954,
+"longitude_deg": -110.9953,
+"diameter_km": 37.98
+},
+{
+"name": "Heaviside",
+"latitude_deg": -10.4421,
+"longitude_deg": 166.7736,
+"diameter_km": 164.46
+},
+{
+"name": "Hecataeus",
+"latitude_deg": -22.0613,
+"longitude_deg": 79.6754,
+"diameter_km": 133.67
+},
+{
+"name": "Hedin",
+"latitude_deg": 2.8746,
+"longitude_deg": -76.5738,
+"diameter_km": 157.38
+},
+{
+"name": "Hegu",
+"latitude_deg": -46.3,
+"longitude_deg": 177.57,
+"diameter_km": 2.2
+},
+{
+"name": "Heinrich",
+"latitude_deg": 24.8412,
+"longitude_deg": -15.3651,
+"diameter_km": 6.86
+},
+{
+"name": "Heinsius",
+"latitude_deg": -39.481,
+"longitude_deg": -17.8249,
+"diameter_km": 64.87
+},
+{
+"name": "Heis",
+"latitude_deg": 32.4732,
+"longitude_deg": -31.9811,
+"diameter_km": 13.69
+},
+{
+"name": "Helberg",
+"latitude_deg": 22.6282,
+"longitude_deg": -102.4586,
+"diameter_km": 61.93
+},
+{
+"name": "Helicon",
+"latitude_deg": 40.4306,
+"longitude_deg": -23.1082,
+"diameter_km": 23.74
+},
+{
+"name": "Hell",
+"latitude_deg": -32.4149,
+"longitude_deg": -7.7982,
+"diameter_km": 33.31
+},
+{
+"name": "Helmert",
+"latitude_deg": -7.564,
+"longitude_deg": 87.6719,
+"diameter_km": 26.72
+},
+{
+"name": "Helmholtz",
+"latitude_deg": -68.6423,
+"longitude_deg": 65.3421,
+"diameter_km": 110.16
+},
+{
+"name": "Henderson",
+"latitude_deg": 4.7616,
+"longitude_deg": 152.0042,
+"diameter_km": 43.49
+},
+{
+"name": "Hendrix",
+"latitude_deg": -46.8576,
+"longitude_deg": -159.9711,
+"diameter_km": 16.63
+},
+{
+"name": "Henry",
+"latitude_deg": -23.9732,
+"longitude_deg": -57.0132,
+"diameter_km": 39.06
+},
+{
+"name": "Henry Frères",
+"latitude_deg": -23.5221,
+"longitude_deg": -59.016,
+"diameter_km": 41.73
+},
+{
+"name": "Henson",
+"latitude_deg": -88.57,
+"longitude_deg": -130.63,
+"diameter_km": 43.0
+},
+{
+"name": "Henyey",
+"latitude_deg": 12.6985,
+"longitude_deg": -152.3253,
+"diameter_km": 68.74
+},
+{
+"name": "Heraclitus",
+"latitude_deg": -49.3051,
+"longitude_deg": 6.4202,
+"diameter_km": 85.74
+},
+{
+"name": "Hercules",
+"latitude_deg": 46.8219,
+"longitude_deg": 39.2135,
+"diameter_km": 68.32
+},
+{
+"name": "Herigonius",
+"latitude_deg": -13.3555,
+"longitude_deg": -33.9713,
+"diameter_km": 14.86
+},
+{
+"name": "Hermann",
+"latitude_deg": -0.8746,
+"longitude_deg": -57.4691,
+"diameter_km": 15.92
+},
+{
+"name": "Hermite",
+"latitude_deg": 86.1659,
+"longitude_deg": -93.3152,
+"diameter_km": 108.64
+},
+{
+"name": "Herodotus",
+"latitude_deg": 23.2537,
+"longitude_deg": -49.8353,
+"diameter_km": 35.87
+},
+{
+"name": "Heron (Hero)",
+"latitude_deg": 0.6525,
+"longitude_deg": 119.8771,
+"diameter_km": 28.1
+},
+{
+"name": "Herschel",
+"latitude_deg": -5.686,
+"longitude_deg": -2.0854,
+"diameter_km": 39.09
+},
+{
+"name": "Hertz",
+"latitude_deg": 13.3228,
+"longitude_deg": 104.5617,
+"diameter_km": 82.94
+},
+{
+"name": "Hertzsprung",
+"latitude_deg": 1.3651,
+"longitude_deg": -128.6561,
+"diameter_km": 536.37
+},
+{
+"name": "Hesiodus",
+"latitude_deg": -29.4195,
+"longitude_deg": -16.4185,
+"diameter_km": 43.24
+},
+{
+"name": "Hess",
+"latitude_deg": -54.4692,
+"longitude_deg": 174.1868,
+"diameter_km": 90.44
+},
+{
+"name": "Hevelius",
+"latitude_deg": 2.1952,
+"longitude_deg": -67.4626,
+"diameter_km": 113.87
+},
+{
+"name": "Hevesy",
+"latitude_deg": 83.085,
+"longitude_deg": 149.1544,
+"diameter_km": 49.99
+},
+{
+"name": "Heymans",
+"latitude_deg": 74.7553,
+"longitude_deg": -144.9393,
+"diameter_km": 46.45
+},
+{
+"name": "Heyrovsky",
+"latitude_deg": -39.5508,
+"longitude_deg": -95.4243,
+"diameter_km": 16.66
+},
+{
+"name": "Hilbert",
+"latitude_deg": -17.8732,
+"longitude_deg": 108.3205,
+"diameter_km": 173.24
+},
+{
+"name": "Hildegard",
+"latitude_deg": -51.6797,
+"longitude_deg": 127.7446,
+"diameter_km": 122.0
+},
+{
+"name": "Hill",
+"latitude_deg": 20.9126,
+"longitude_deg": 40.8134,
+"diameter_km": 15.86
+},
+{
+"name": "Hind",
+"latitude_deg": -7.918,
+"longitude_deg": 7.3058,
+"diameter_km": 28.5
+},
+{
+"name": "Hinshelwood",
+"latitude_deg": 89.4092,
+"longitude_deg": -51.8884,
+"diameter_km": 13.35
+},
+{
+"name": "Hippalus",
+"latitude_deg": -24.9186,
+"longitude_deg": -30.4173,
+"diameter_km": 57.36
+},
+{
+"name": "Hipparchus",
+"latitude_deg": -5.3565,
+"longitude_deg": 4.9133,
+"diameter_km": 143.95
+},
+{
+"name": "Hippocrates",
+"latitude_deg": 70.261,
+"longitude_deg": -146.5396,
+"diameter_km": 59.24
+},
+{
+"name": "Hirayama",
+"latitude_deg": -6.0127,
+"longitude_deg": 93.6295,
+"diameter_km": 145.21
+},
+{
+"name": "Hoffmeister",
+"latitude_deg": 15.0438,
+"longitude_deg": 136.8373,
+"diameter_km": 44.46
+},
+{
+"name": "Hogg",
+"latitude_deg": 33.514,
+"longitude_deg": 121.9575,
+"diameter_km": 38.39
+},
+{
+"name": "Hohmann",
+"latitude_deg": -17.9159,
+"longitude_deg": -94.2643,
+"diameter_km": 16.81
+},
+{
+"name": "Holden",
+"latitude_deg": -19.1873,
+"longitude_deg": 62.5297,
+"diameter_km": 47.6
+},
+{
+"name": "Holetschek",
+"latitude_deg": -27.6129,
+"longitude_deg": 151.1463,
+"diameter_km": 37.77
+},
+{
+"name": "Hommel",
+"latitude_deg": -54.7383,
+"longitude_deg": 32.9253,
+"diameter_km": 113.6
+},
+{
+"name": "Hooke",
+"latitude_deg": 41.1373,
+"longitude_deg": 54.8588,
+"diameter_km": 34.35
+},
+{
+"name": "Hopmann",
+"latitude_deg": -51.0085,
+"longitude_deg": 159.2346,
+"diameter_km": 87.84
+},
+{
+"name": "Hornsby",
+"latitude_deg": 23.795,
+"longitude_deg": 12.5087,
+"diameter_km": 2.85
+},
+{
+"name": "Horrebow",
+"latitude_deg": 58.8016,
+"longitude_deg": -40.9313,
+"diameter_km": 24.98
+},
+{
+"name": "Horrocks",
+"latitude_deg": -3.9887,
+"longitude_deg": 5.8491,
+"diameter_km": 29.65
+},
+{
+"name": "Hortensius",
+"latitude_deg": 6.4671,
+"longitude_deg": -27.9995,
+"diameter_km": 14.16
+},
+{
+"name": "Houssay",
+"latitude_deg": 83.1148,
+"longitude_deg": 98.5226,
+"diameter_km": 31.41
+},
+{
+"name": "Houtermans",
+"latitude_deg": -9.4194,
+"longitude_deg": 87.376,
+"diameter_km": 42.68
+},
+{
+"name": "Houzeau",
+"latitude_deg": -17.2492,
+"longitude_deg": -123.8923,
+"diameter_km": 76.84
+},
+{
+"name": "Hubble",
+"latitude_deg": 22.2896,
+"longitude_deg": 86.9076,
+"diameter_km": 81.84
+},
+{
+"name": "Huggins",
+"latitude_deg": -41.0687,
+"longitude_deg": -1.5192,
+"diameter_km": 65.79
+},
+{
+"name": "Humason",
+"latitude_deg": 30.7305,
+"longitude_deg": -56.6593,
+"diameter_km": 4.34
+},
+{
+"name": "Humboldt",
+"latitude_deg": -27.0212,
+"longitude_deg": 80.9636,
+"diameter_km": 199.46
+},
+{
+"name": "Hume",
+"latitude_deg": -4.6769,
+"longitude_deg": 90.4737,
+"diameter_km": 22.3
+},
+{
+"name": "Husband",
+"latitude_deg": -40.3152,
+"longitude_deg": -147.843,
+"diameter_km": 31.26
+},
+{
+"name": "Hutton",
+"latitude_deg": 37.2234,
+"longitude_deg": 168.6829,
+"diameter_km": 45.17
+},
+{
+"name": "Huxley",
+"latitude_deg": 20.1969,
+"longitude_deg": -4.543,
+"diameter_km": 3.48
+},
+{
+"name": "Hyginus",
+"latitude_deg": 7.7598,
+"longitude_deg": 6.27,
+"diameter_km": 8.7
+},
+{
+"name": "Hypatia",
+"latitude_deg": -4.2502,
+"longitude_deg": 22.5814,
+"diameter_km": 38.82
+},
+{
+"name": "Hédervári",
+"latitude_deg": -81.7719,
+"longitude_deg": 85.6005,
+"diameter_km": 74.14
+},
+{
+"name": "Ian",
+"latitude_deg": 25.7184,
+"longitude_deg": -0.3878,
+"diameter_km": 1.51
+},
+{
+"name": "Ibn Bajja",
+"latitude_deg": -86.2964,
+"longitude_deg": -75.0361,
+"diameter_km": 11.98
+},
+{
+"name": "Ibn Battuta",
+"latitude_deg": -6.9516,
+"longitude_deg": 50.4371,
+"diameter_km": 11.51
+},
+{
+"name": "Ibn Firnas",
+"latitude_deg": 6.834,
+"longitude_deg": 122.3042,
+"diameter_km": 88.29
+},
+{
+"name": "Ibn Yunus",
+"latitude_deg": 14.1382,
+"longitude_deg": 91.1362,
+"diameter_km": 59.69
+},
+{
+"name": "Ibn-Rushd",
+"latitude_deg": -11.6868,
+"longitude_deg": 21.7132,
+"diameter_km": 31.08
+},
+{
+"name": "Icarus",
+"latitude_deg": -5.4912,
+"longitude_deg": -173.2585,
+"diameter_km": 93.73
+},
+{
+"name": "Idel'son",
+"latitude_deg": -81.3478,
+"longitude_deg": 112.6939,
+"diameter_km": 59.82
+},
+{
+"name": "Ideler",
+"latitude_deg": -49.3197,
+"longitude_deg": 22.243,
+"diameter_km": 37.77
+},
+{
+"name": "Igor",
+"latitude_deg": 38.2536,
+"longitude_deg": -35.0063,
+"diameter_km": 0.1
+},
+{
+"name": "Il'in",
+"latitude_deg": -17.8008,
+"longitude_deg": -97.6768,
+"diameter_km": 12.42
+},
+{
+"name": "Ina",
+"latitude_deg": 18.659,
+"longitude_deg": 5.3043,
+"diameter_km": 2.98
+},
+{
+"name": "Ingalls",
+"latitude_deg": 26.1565,
+"longitude_deg": -153.3355,
+"diameter_km": 37.23
+},
+{
+"name": "Inghirami",
+"latitude_deg": -47.4946,
+"longitude_deg": -68.9471,
+"diameter_km": 94.6
+},
+{
+"name": "Innes",
+"latitude_deg": 27.8499,
+"longitude_deg": 119.3075,
+"diameter_km": 42.83
+},
+{
+"name": "Ioffe",
+"latitude_deg": -14.3802,
+"longitude_deg": -129.1552,
+"diameter_km": 83.95
+},
+{
+"name": "Isabel",
+"latitude_deg": 28.1841,
+"longitude_deg": -34.0678,
+"diameter_km": 1.22
+},
+{
+"name": "Isaev",
+"latitude_deg": -17.5659,
+"longitude_deg": 147.491,
+"diameter_km": 94.1
+},
+{
+"name": "Isidorus",
+"latitude_deg": -7.9629,
+"longitude_deg": 33.5008,
+"diameter_km": 41.39
+},
+{
+"name": "Isis",
+"latitude_deg": 18.9531,
+"longitude_deg": 27.482,
+"diameter_km": 0.61
+},
+{
+"name": "Ivan",
+"latitude_deg": 26.8565,
+"longitude_deg": -43.2568,
+"diameter_km": 3.84
+},
+{
+"name": "Izsak",
+"latitude_deg": -23.3212,
+"longitude_deg": 117.5913,
+"diameter_km": 30.83
+},
+{
+"name": "J. Herschel",
+"latitude_deg": 62.3139,
+"longitude_deg": -41.8586,
+"diameter_km": 154.44
+},
+{
+"name": "Jaci",
+"latitude_deg": -85.42,
+"longitude_deg": 31.23,
+"diameter_km": 1.8
+},
+{
+"name": "Jackson",
+"latitude_deg": 22.05,
+"longitude_deg": -163.3186,
+"diameter_km": 71.38
+},
+{
+"name": "Jacobi",
+"latitude_deg": -56.8152,
+"longitude_deg": 11.3037,
+"diameter_km": 66.28
+},
+{
+"name": "Jansen",
+"latitude_deg": 13.5521,
+"longitude_deg": 28.6414,
+"diameter_km": 24.21
+},
+{
+"name": "Jansky",
+"latitude_deg": 8.6279,
+"longitude_deg": 89.5047,
+"diameter_km": 73.77
+},
+{
+"name": "Janssen",
+"latitude_deg": -44.9595,
+"longitude_deg": 40.8221,
+"diameter_km": 200.65
+},
+{
+"name": "Jarvis",
+"latitude_deg": -35.1345,
+"longitude_deg": -148.2062,
+"diameter_km": 41.22
+},
+{
+"name": "Jeans",
+"latitude_deg": -55.5795,
+"longitude_deg": 91.5134,
+"diameter_km": 81.13
+},
+{
+"name": "Jehan",
+"latitude_deg": 20.7117,
+"longitude_deg": -31.8612,
+"diameter_km": 4.46
+},
+{
+"name": "Jenkins",
+"latitude_deg": 0.3717,
+"longitude_deg": 78.0405,
+"diameter_km": 37.77
+},
+{
+"name": "Jenner",
+"latitude_deg": -42.01,
+"longitude_deg": 95.9837,
+"diameter_km": 73.66
+},
+{
+"name": "Jerik",
+"latitude_deg": 18.5279,
+"longitude_deg": 27.6312,
+"diameter_km": 0.63
+},
+{
+"name": "Joliot",
+"latitude_deg": 25.7883,
+"longitude_deg": 93.3896,
+"diameter_km": 172.79
+},
+{
+"name": "Jomo",
+"latitude_deg": 24.4056,
+"longitude_deg": 2.4443,
+"diameter_km": 7.36
+},
+{
+"name": "José",
+"latitude_deg": -12.6753,
+"longitude_deg": -1.664,
+"diameter_km": 1.22
+},
+{
+"name": "Joule",
+"latitude_deg": 27.1509,
+"longitude_deg": -144.1359,
+"diameter_km": 97.52
+},
+{
+"name": "Joy",
+"latitude_deg": 25.0112,
+"longitude_deg": 6.5587,
+"diameter_km": 5.12
+},
+{
+"name": "Jules Verne",
+"latitude_deg": -34.8456,
+"longitude_deg": 147.2755,
+"diameter_km": 145.54
+},
+{
+"name": "Julienne",
+"latitude_deg": 26.0576,
+"longitude_deg": 3.1282,
+"diameter_km": 1.8
+},
+{
+"name": "Julius Caesar",
+"latitude_deg": 9.1665,
+"longitude_deg": 15.2105,
+"diameter_km": 84.72
+},
+{
+"name": "Kaiser",
+"latitude_deg": -36.4853,
+"longitude_deg": 6.4786,
+"diameter_km": 53.15
+},
+{
+"name": "Kamerlingh Onnes",
+"latitude_deg": 14.7186,
+"longitude_deg": -116.2863,
+"diameter_km": 70.03
+},
+{
+"name": "Kane",
+"latitude_deg": 62.9949,
+"longitude_deg": 25.8433,
+"diameter_km": 54.96
+},
+{
+"name": "Kant",
+"latitude_deg": -10.6235,
+"longitude_deg": 20.1979,
+"diameter_km": 30.85
+},
+{
+"name": "Kao",
+"latitude_deg": -6.7122,
+"longitude_deg": 87.8103,
+"diameter_km": 34.54
+},
+{
+"name": "Kapteyn",
+"latitude_deg": -10.7896,
+"longitude_deg": 70.5944,
+"diameter_km": 48.65
+},
+{
+"name": "Karima",
+"latitude_deg": -25.9326,
+"longitude_deg": 102.982,
+"diameter_km": 3.05
+},
+{
+"name": "Karpinskiy",
+"latitude_deg": 72.6094,
+"longitude_deg": 166.8014,
+"diameter_km": 91.4
+},
+{
+"name": "Karrer",
+"latitude_deg": -52.0645,
+"longitude_deg": -142.2796,
+"diameter_km": 55.56
+},
+{
+"name": "Kasper",
+"latitude_deg": 8.299,
+"longitude_deg": 122.1239,
+"diameter_km": 12.39
+},
+{
+"name": "Katchalsky",
+"latitude_deg": 5.906,
+"longitude_deg": 116.0746,
+"diameter_km": 32.3
+},
+{
+"name": "Kathleen",
+"latitude_deg": 25.3427,
+"longitude_deg": -0.834,
+"diameter_km": 5.37
+},
+{
+"name": "Kearons",
+"latitude_deg": -11.5877,
+"longitude_deg": -112.9184,
+"diameter_km": 27.99
+},
+{
+"name": "Keeler",
+"latitude_deg": -9.7798,
+"longitude_deg": 161.7761,
+"diameter_km": 158.07
+},
+{
+"name": "Kekulé",
+"latitude_deg": 16.3094,
+"longitude_deg": -138.4661,
+"diameter_km": 94.22
+},
+{
+"name": "Keldysh",
+"latitude_deg": 51.2253,
+"longitude_deg": 43.6466,
+"diameter_km": 32.75
+},
+{
+"name": "Kepler",
+"latitude_deg": 8.121,
+"longitude_deg": -38.0087,
+"diameter_km": 29.49
+},
+{
+"name": "Kepínski",
+"latitude_deg": 28.6282,
+"longitude_deg": 126.7176,
+"diameter_km": 31.67
+},
+{
+"name": "Khvol'son",
+"latitude_deg": -14.1259,
+"longitude_deg": 111.8709,
+"diameter_km": 55.88
+},
+{
+"name": "Kibal'chich",
+"latitude_deg": 2.7213,
+"longitude_deg": -147.1787,
+"diameter_km": 91.67
+},
+{
+"name": "Kidinnu",
+"latitude_deg": 35.7926,
+"longitude_deg": 122.9454,
+"diameter_km": 55.1
+},
+{
+"name": "Kies",
+"latitude_deg": -26.3072,
+"longitude_deg": -22.6253,
+"diameter_km": 45.54
+},
+{
+"name": "Kiess",
+"latitude_deg": -6.4092,
+"longitude_deg": 84.1108,
+"diameter_km": 67.79
+},
+{
+"name": "Kimura",
+"latitude_deg": -56.8157,
+"longitude_deg": 118.3822,
+"diameter_km": 27.44
+},
+{
+"name": "Kinau",
+"latitude_deg": -60.7473,
+"longitude_deg": 14.9354,
+"diameter_km": 41.87
+},
+{
+"name": "King",
+"latitude_deg": 4.9617,
+"longitude_deg": 120.4943,
+"diameter_km": 76.21
+},
+{
+"name": "Kira",
+"latitude_deg": -17.7073,
+"longitude_deg": 132.8316,
+"diameter_km": 6.81
+},
+{
+"name": "Kirch",
+"latitude_deg": 39.2652,
+"longitude_deg": -5.6222,
+"diameter_km": 11.71
+},
+{
+"name": "Kircher",
+"latitude_deg": -67.0075,
+"longitude_deg": -45.4818,
+"diameter_km": 71.2
+},
+{
+"name": "Kirchhoff",
+"latitude_deg": 30.3018,
+"longitude_deg": 38.8444,
+"diameter_km": 24.38
+},
+{
+"name": "Kirkwood",
+"latitude_deg": 68.3398,
+"longitude_deg": -156.6629,
+"diameter_km": 68.12
+},
+{
+"name": "Klaproth",
+"latitude_deg": -69.8529,
+"longitude_deg": -26.2614,
+"diameter_km": 121.37
+},
+{
+"name": "Klein",
+"latitude_deg": -11.9864,
+"longitude_deg": 2.5264,
+"diameter_km": 43.47
+},
+{
+"name": "Kleymenov",
+"latitude_deg": -32.4775,
+"longitude_deg": -140.3555,
+"diameter_km": 55.98
+},
+{
+"name": "Klute",
+"latitude_deg": 36.9253,
+"longitude_deg": -141.7628,
+"diameter_km": 77.47
+},
+{
+"name": "Knox-Shaw",
+"latitude_deg": 5.3567,
+"longitude_deg": 80.1936,
+"diameter_km": 13.44
+},
+{
+"name": "Koch",
+"latitude_deg": -42.1311,
+"longitude_deg": 150.3306,
+"diameter_km": 94.7
+},
+{
+"name": "Kocher",
+"latitude_deg": -84.4671,
+"longitude_deg": -134.0244,
+"diameter_km": 24.03
+},
+{
+"name": "Kohlschütter",
+"latitude_deg": 14.2426,
+"longitude_deg": 153.9455,
+"diameter_km": 56.25
+},
+{
+"name": "Kolhörster",
+"latitude_deg": 10.7875,
+"longitude_deg": -115.0115,
+"diameter_km": 78.78
+},
+{
+"name": "Kolya",
+"latitude_deg": 38.313,
+"longitude_deg": -34.9989,
+"diameter_km": 0.14
+},
+{
+"name": "Komarov",
+"latitude_deg": 24.5868,
+"longitude_deg": 152.248,
+"diameter_km": 80.43
+},
+{
+"name": "Kondratyuk",
+"latitude_deg": -15.3349,
+"longitude_deg": 115.8029,
+"diameter_km": 97.97
+},
+{
+"name": "Konoplev",
+"latitude_deg": -28.1616,
+"longitude_deg": -124.3701,
+"diameter_km": 27.67
+},
+{
+"name": "Konstantinov",
+"latitude_deg": 19.5572,
+"longitude_deg": 158.3415,
+"diameter_km": 68.08
+},
+{
+"name": "Kopff",
+"latitude_deg": -17.3903,
+"longitude_deg": -89.68,
+"diameter_km": 40.49
+},
+{
+"name": "Korolev",
+"latitude_deg": -4.1913,
+"longitude_deg": -157.4082,
+"diameter_km": 423.41
+},
+{
+"name": "Kosberg",
+"latitude_deg": -20.1868,
+"longitude_deg": 149.6124,
+"diameter_km": 14.63
+},
+{
+"name": "Kostinskiy",
+"latitude_deg": 14.4332,
+"longitude_deg": 118.8534,
+"diameter_km": 67.91
+},
+{
+"name": "Kostya",
+"latitude_deg": 38.2642,
+"longitude_deg": -35.0203,
+"diameter_km": 0.13
+},
+{
+"name": "Koval'skiy",
+"latitude_deg": -21.8916,
+"longitude_deg": 101.0344,
+"diameter_km": 44.97
+},
+{
+"name": "Kovalevskaya",
+"latitude_deg": 30.8613,
+"longitude_deg": -129.435,
+"diameter_km": 113.71
+},
+{
+"name": "Kozyrev",
+"latitude_deg": -46.6419,
+"longitude_deg": 129.5944,
+"diameter_km": 59.35
+},
+{
+"name": "Krafft",
+"latitude_deg": 16.5576,
+"longitude_deg": -72.7216,
+"diameter_km": 51.15
+},
+{
+"name": "Kramarov",
+"latitude_deg": -2.2946,
+"longitude_deg": -98.8918,
+"diameter_km": 21.05
+},
+{
+"name": "Kramers",
+"latitude_deg": 53.2804,
+"longitude_deg": -127.9792,
+"diameter_km": 61.59
+},
+{
+"name": "Krasnov",
+"latitude_deg": -29.9335,
+"longitude_deg": -79.822,
+"diameter_km": 41.17
+},
+{
+"name": "Krasovskiy",
+"latitude_deg": 3.7902,
+"longitude_deg": -175.6335,
+"diameter_km": 61.67
+},
+{
+"name": "Kreiken",
+"latitude_deg": -9.0481,
+"longitude_deg": 84.5522,
+"diameter_km": 29.37
+},
+{
+"name": "Krieger",
+"latitude_deg": 29.0236,
+"longitude_deg": -45.6091,
+"diameter_km": 22.87
+},
+{
+"name": "Krogh",
+"latitude_deg": 9.4127,
+"longitude_deg": 65.6891,
+"diameter_km": 19.17
+},
+{
+"name": "Krusenstern",
+"latitude_deg": -26.3,
+"longitude_deg": 5.7578,
+"diameter_km": 46.44
+},
+{
+"name": "Krylov",
+"latitude_deg": 35.2638,
+"longitude_deg": -166.1129,
+"diameter_km": 49.83
+},
+{
+"name": "Kugler",
+"latitude_deg": -53.4409,
+"longitude_deg": 104.0994,
+"diameter_km": 65.87
+},
+{
+"name": "Kuhn",
+"latitude_deg": -84.482,
+"longitude_deg": -152.4779,
+"diameter_km": 16.61
+},
+{
+"name": "Kuiper",
+"latitude_deg": -9.775,
+"longitude_deg": -22.6833,
+"diameter_km": 6.28
+},
+{
+"name": "Kulik",
+"latitude_deg": 41.977,
+"longitude_deg": -154.6286,
+"diameter_km": 60.46
+},
+{
+"name": "Kundt",
+"latitude_deg": -11.567,
+"longitude_deg": -11.5675,
+"diameter_km": 10.31
+},
+{
+"name": "Kunowsky",
+"latitude_deg": 3.2151,
+"longitude_deg": -32.528,
+"diameter_km": 18.27
+},
+{
+"name": "Kuo Shou Ching",
+"latitude_deg": 8.1044,
+"longitude_deg": -134.6565,
+"diameter_km": 33.48
+},
+{
+"name": "Kurchatov",
+"latitude_deg": 38.2953,
+"longitude_deg": 141.7354,
+"diameter_km": 110.96
+},
+{
+"name": "Kästner",
+"latitude_deg": -6.9019,
+"longitude_deg": 78.9367,
+"diameter_km": 116.07
+},
+{
+"name": "König",
+"latitude_deg": -24.2276,
+"longitude_deg": -24.6792,
+"diameter_km": 22.86
+},
+{
+"name": "L. Clark",
+"latitude_deg": -43.3369,
+"longitude_deg": -147.6974,
+"diameter_km": 15.3
+},
+{
+"name": "La Caille",
+"latitude_deg": -23.6763,
+"longitude_deg": 1.0836,
+"diameter_km": 67.22
+},
+{
+"name": "La Condamine",
+"latitude_deg": 53.5371,
+"longitude_deg": -28.218,
+"diameter_km": 37.83
+},
+{
+"name": "La Pérouse",
+"latitude_deg": -10.669,
+"longitude_deg": 76.2809,
+"diameter_km": 80.4
+},
+{
+"name": "Lacchini",
+"latitude_deg": 41.2944,
+"longitude_deg": -107.83,
+"diameter_km": 57.95
+},
+{
+"name": "Lacroix",
+"latitude_deg": -37.9337,
+"longitude_deg": -59.2,
+"diameter_km": 36.07
+},
+{
+"name": "Lade",
+"latitude_deg": -1.3262,
+"longitude_deg": 9.9901,
+"diameter_km": 58.11
+},
+{
+"name": "Lagalla",
+"latitude_deg": -44.4847,
+"longitude_deg": -22.3599,
+"diameter_km": 88.78
+},
+{
+"name": "Lagrange",
+"latitude_deg": -32.6026,
+"longitude_deg": -71.4474,
+"diameter_km": 162.21
+},
+{
+"name": "Lalande",
+"latitude_deg": -4.4556,
+"longitude_deg": -8.6467,
+"diameter_km": 23.54
+},
+{
+"name": "Lallemand",
+"latitude_deg": -14.4007,
+"longitude_deg": -84.2063,
+"diameter_km": 16.69
+},
+{
+"name": "Lamarck",
+"latitude_deg": -23.1205,
+"longitude_deg": -70.0577,
+"diameter_km": 114.65
+},
+{
+"name": "Lamb",
+"latitude_deg": -42.6735,
+"longitude_deg": 100.9418,
+"diameter_km": 103.55
+},
+{
+"name": "Lambert",
+"latitude_deg": 25.7717,
+"longitude_deg": -20.9864,
+"diameter_km": 30.12
+},
+{
+"name": "Lamont",
+"latitude_deg": 5.1381,
+"longitude_deg": 23.3164,
+"diameter_km": 83.23
+},
+{
+"name": "Lampland",
+"latitude_deg": -31.1678,
+"longitude_deg": 131.5097,
+"diameter_km": 63.04
+},
+{
+"name": "Lamèch",
+"latitude_deg": 42.789,
+"longitude_deg": 13.1507,
+"diameter_km": 12.41
+},
+{
+"name": "Lamé",
+"latitude_deg": -14.7553,
+"longitude_deg": 64.559,
+"diameter_km": 84.28
+},
+{
+"name": "Landau",
+"latitude_deg": 42.1629,
+"longitude_deg": -119.3397,
+"diameter_km": 218.15
+},
+{
+"name": "Lander",
+"latitude_deg": -15.3371,
+"longitude_deg": 131.8068,
+"diameter_km": 40.05
+},
+{
+"name": "Landsteiner",
+"latitude_deg": 31.2983,
+"longitude_deg": -14.7897,
+"diameter_km": 6.11
+},
+{
+"name": "Lane",
+"latitude_deg": -9.501,
+"longitude_deg": 132.3648,
+"diameter_km": 53.76
+},
+{
+"name": "Langemak",
+"latitude_deg": -9.9336,
+"longitude_deg": 119.4531,
+"diameter_km": 104.76
+},
+{
+"name": "Langevin",
+"latitude_deg": 44.1662,
+"longitude_deg": 162.6912,
+"diameter_km": 57.8
+},
+{
+"name": "Langley",
+"latitude_deg": 51.1662,
+"longitude_deg": -86.0499,
+"diameter_km": 59.17
+},
+{
+"name": "Langmuir",
+"latitude_deg": -35.8461,
+"longitude_deg": -128.8949,
+"diameter_km": 91.5
+},
+{
+"name": "Langrenus",
+"latitude_deg": -8.8604,
+"longitude_deg": 61.038,
+"diameter_km": 131.98
+},
+{
+"name": "Lansberg",
+"latitude_deg": -0.3118,
+"longitude_deg": -26.6273,
+"diameter_km": 38.75
+},
+{
+"name": "Larmor",
+"latitude_deg": 31.8463,
+"longitude_deg": -179.6721,
+"diameter_km": 99.49
+},
+{
+"name": "Lassell",
+"latitude_deg": -15.4866,
+"longitude_deg": -7.9034,
+"diameter_km": 21.82
+},
+{
+"name": "Laue",
+"latitude_deg": 28.2904,
+"longitude_deg": -97.0512,
+"diameter_km": 89.17
+},
+{
+"name": "Lauritsen",
+"latitude_deg": -27.5443,
+"longitude_deg": 96.309,
+"diameter_km": 51.24
+},
+{
+"name": "Laveran",
+"latitude_deg": -81.7989,
+"longitude_deg": -159.7841,
+"diameter_km": 12.52
+},
+{
+"name": "Lavoisier",
+"latitude_deg": 38.1694,
+"longitude_deg": -81.253,
+"diameter_km": 71.01
+},
+{
+"name": "Lawrence",
+"latitude_deg": 7.3519,
+"longitude_deg": 43.2965,
+"diameter_km": 24.02
+},
+{
+"name": "Le Gentil",
+"latitude_deg": -74.2739,
+"longitude_deg": -76.0199,
+"diameter_km": 125.38
+},
+{
+"name": "Le Monnier",
+"latitude_deg": 26.656,
+"longitude_deg": 30.5015,
+"diameter_km": 68.4
+},
+{
+"name": "Le Verrier",
+"latitude_deg": 40.3266,
+"longitude_deg": -20.6098,
+"diameter_km": 20.52
+},
+{
+"name": "Leakey",
+"latitude_deg": -3.1895,
+"longitude_deg": 37.4633,
+"diameter_km": 12.48
+},
+{
+"name": "Leavitt",
+"latitude_deg": -44.8561,
+"longitude_deg": -139.8922,
+"diameter_km": 69.31
+},
+{
+"name": "Lebedev",
+"latitude_deg": -46.8039,
+"longitude_deg": 107.8856,
+"diameter_km": 121.8
+},
+{
+"name": "Lebedinskiy",
+"latitude_deg": 7.844,
+"longitude_deg": -164.8876,
+"diameter_km": 63.39
+},
+{
+"name": "Lebesgue",
+"latitude_deg": -5.136,
+"longitude_deg": 88.9747,
+"diameter_km": 11.39
+},
+{
+"name": "Lee",
+"latitude_deg": -30.6574,
+"longitude_deg": -40.759,
+"diameter_km": 41.17
+},
+{
+"name": "Leeuwenhoek",
+"latitude_deg": -29.2834,
+"longitude_deg": -178.871,
+"diameter_km": 125.0
+},
+{
+"name": "Legendre",
+"latitude_deg": -28.922,
+"longitude_deg": 70.0193,
+"diameter_km": 78.08
+},
+{
+"name": "Lehmann",
+"latitude_deg": -39.9555,
+"longitude_deg": -56.1674,
+"diameter_km": 53.85
+},
+{
+"name": "Leibnitz",
+"latitude_deg": -38.2367,
+"longitude_deg": 179.349,
+"diameter_km": 236.67
+},
+{
+"name": "Lemaître",
+"latitude_deg": -61.362,
+"longitude_deg": -149.9778,
+"diameter_km": 93.7
+},
+{
+"name": "Lents (Lenz)",
+"latitude_deg": 2.7234,
+"longitude_deg": -102.2999,
+"diameter_km": 21.98
+},
+{
+"name": "Leonid",
+"latitude_deg": 38.3135,
+"longitude_deg": -35.0072,
+"diameter_km": 0.12
+},
+{
+"name": "Leonov",
+"latitude_deg": 19.0652,
+"longitude_deg": 148.3628,
+"diameter_km": 34.04
+},
+{
+"name": "Lepaute",
+"latitude_deg": -33.3006,
+"longitude_deg": -33.6925,
+"diameter_km": 16.36
+},
+{
+"name": "Letronne",
+"latitude_deg": -10.5006,
+"longitude_deg": -42.4879,
+"diameter_km": 117.59
+},
+{
+"name": "Leucippus",
+"latitude_deg": 29.241,
+"longitude_deg": -116.4138,
+"diameter_km": 57.03
+},
+{
+"name": "Leuschner",
+"latitude_deg": 1.6657,
+"longitude_deg": -109.0508,
+"diameter_km": 50.14
+},
+{
+"name": "Lev",
+"latitude_deg": 12.713,
+"longitude_deg": 62.2138,
+"diameter_km": 0.06
+},
+{
+"name": "Levi-Civita",
+"latitude_deg": -23.3438,
+"longitude_deg": 143.1389,
+"diameter_km": 108.23
+},
+{
+"name": "Levi-Montalcini",
+"latitude_deg": -40.79,
+"longitude_deg": -154.32,
+"diameter_km": 5.0
+},
+{
+"name": "Lewis",
+"latitude_deg": -18.5073,
+"longitude_deg": -114.2293,
+"diameter_km": 40.32
+},
+{
+"name": "Lexell",
+"latitude_deg": -35.7753,
+"longitude_deg": -4.2651,
+"diameter_km": 63.7
+},
+{
+"name": "Ley",
+"latitude_deg": 42.1056,
+"longitude_deg": 154.8391,
+"diameter_km": 81.05
+},
+{
+"name": "Lhamu",
+"latitude_deg": -85.92,
+"longitude_deg": -1.62,
+"diameter_km": 1.4
+},
+{
+"name": "Li Bing",
+"latitude_deg": -41.44,
+"longitude_deg": -154.19,
+"diameter_km": 0.4
+},
+{
+"name": "Li Shizhen",
+"latitude_deg": -41.69,
+"longitude_deg": -154.08,
+"diameter_km": 0.4
+},
+{
+"name": "Licetus",
+"latitude_deg": -47.1896,
+"longitude_deg": 6.5435,
+"diameter_km": 75.42
+},
+{
+"name": "Lichtenberg",
+"latitude_deg": 31.8537,
+"longitude_deg": -67.7161,
+"diameter_km": 19.53
+},
+{
+"name": "Lick",
+"latitude_deg": 12.3559,
+"longitude_deg": 52.8434,
+"diameter_km": 31.63
+},
+{
+"name": "Liebig",
+"latitude_deg": -24.3541,
+"longitude_deg": -48.299,
+"diameter_km": 38.96
+},
+{
+"name": "Lilius",
+"latitude_deg": -54.6018,
+"longitude_deg": 6.0936,
+"diameter_km": 61.18
+},
+{
+"name": "Linda",
+"latitude_deg": 30.687,
+"longitude_deg": -33.3755,
+"diameter_km": 1.11
+},
+{
+"name": "Lindbergh",
+"latitude_deg": -5.4123,
+"longitude_deg": 52.9033,
+"diameter_km": 13.34
+},
+{
+"name": "Lindblad",
+"latitude_deg": 70.0336,
+"longitude_deg": -99.2224,
+"diameter_km": 59.37
+},
+{
+"name": "Lindenau",
+"latitude_deg": -32.3488,
+"longitude_deg": 24.7742,
+"diameter_km": 53.08
+},
+{
+"name": "Lindsay",
+"latitude_deg": -6.9975,
+"longitude_deg": 13.0101,
+"diameter_km": 32.23
+},
+{
+"name": "Linné",
+"latitude_deg": 27.7464,
+"longitude_deg": 11.7994,
+"diameter_km": 2.23
+},
+{
+"name": "Liouville",
+"latitude_deg": 2.7278,
+"longitude_deg": 73.5659,
+"diameter_km": 16.12
+},
+{
+"name": "Lippershey",
+"latitude_deg": -25.9613,
+"longitude_deg": -10.381,
+"diameter_km": 6.74
+},
+{
+"name": "Lippmann",
+"latitude_deg": -55.4274,
+"longitude_deg": -114.3173,
+"diameter_km": 160.07
+},
+{
+"name": "Lipskiy",
+"latitude_deg": -2.1518,
+"longitude_deg": -179.3752,
+"diameter_km": 91.15
+},
+{
+"name": "Litke (Lütke)",
+"latitude_deg": -16.7606,
+"longitude_deg": 123.1229,
+"diameter_km": 38.18
+},
+{
+"name": "Littrow",
+"latitude_deg": 21.5037,
+"longitude_deg": 31.3941,
+"diameter_km": 28.52
+},
+{
+"name": "Liu Hui",
+"latitude_deg": 42.88,
+"longitude_deg": -52.61,
+"diameter_km": 1.5
+},
+{
+"name": "Lobachevskiy",
+"latitude_deg": 9.7565,
+"longitude_deg": 113.0733,
+"diameter_km": 87.26
+},
+{
+"name": "Lockyer",
+"latitude_deg": -46.2733,
+"longitude_deg": 36.595,
+"diameter_km": 35.08
+},
+{
+"name": "Lodygin",
+"latitude_deg": -17.4239,
+"longitude_deg": -146.778,
+"diameter_km": 56.11
+},
+{
+"name": "Loewy",
+"latitude_deg": -22.6931,
+"longitude_deg": -32.8523,
+"diameter_km": 22.45
+},
+{
+"name": "Lohrmann",
+"latitude_deg": -0.4399,
+"longitude_deg": -67.3826,
+"diameter_km": 31.25
+},
+{
+"name": "Lohse",
+"latitude_deg": -13.7621,
+"longitude_deg": 60.3079,
+"diameter_km": 43.34
+},
+{
+"name": "Lomonosov",
+"latitude_deg": 27.3501,
+"longitude_deg": 98.2786,
+"diameter_km": 90.69
+},
+{
+"name": "Longomontanus",
+"latitude_deg": -49.5516,
+"longitude_deg": -21.8793,
+"diameter_km": 145.5
+},
+{
+"name": "Lorentz",
+"latitude_deg": 34.5886,
+"longitude_deg": -97.187,
+"diameter_km": 378.42
+},
+{
+"name": "Louise",
+"latitude_deg": 28.4866,
+"longitude_deg": -34.1961,
+"diameter_km": 0.64
+},
+{
+"name": "Louville",
+"latitude_deg": 44.1248,
+"longitude_deg": -46.0395,
+"diameter_km": 34.81
+},
+{
+"name": "Love",
+"latitude_deg": -6.3328,
+"longitude_deg": 129.1712,
+"diameter_km": 90.08
+},
+{
+"name": "Lovelace",
+"latitude_deg": 82.0804,
+"longitude_deg": -109.5096,
+"diameter_km": 57.06
+},
+{
+"name": "Lovell",
+"latitude_deg": -36.7419,
+"longitude_deg": -142.4723,
+"diameter_km": 35.1
+},
+{
+"name": "Lowell",
+"latitude_deg": -12.9655,
+"longitude_deg": -103.4179,
+"diameter_km": 62.65
+},
+{
+"name": "Lubbock",
+"latitude_deg": -3.9859,
+"longitude_deg": 41.7886,
+"diameter_km": 14.09
+},
+{
+"name": "Lubiniezky",
+"latitude_deg": -17.8816,
+"longitude_deg": -23.8941,
+"diameter_km": 42.97
+},
+{
+"name": "Lucian",
+"latitude_deg": 14.3413,
+"longitude_deg": 36.782,
+"diameter_km": 6.85
+},
+{
+"name": "Lucretius",
+"latitude_deg": -8.2224,
+"longitude_deg": -121.2438,
+"diameter_km": 64.61
+},
+{
+"name": "Ludwig",
+"latitude_deg": -7.7216,
+"longitude_deg": 97.4529,
+"diameter_km": 23.29
+},
+{
+"name": "Lundmark",
+"latitude_deg": -38.8699,
+"longitude_deg": 152.5579,
+"diameter_km": 103.44
+},
+{
+"name": "Luther",
+"latitude_deg": 33.1967,
+"longitude_deg": 24.1502,
+"diameter_km": 9.29
+},
+{
+"name": "Lyapunov",
+"latitude_deg": 26.429,
+"longitude_deg": 89.3639,
+"diameter_km": 67.58
+},
+{
+"name": "Lyell",
+"latitude_deg": 13.6282,
+"longitude_deg": 40.5564,
+"diameter_km": 31.17
+},
+{
+"name": "Lyman",
+"latitude_deg": -64.9584,
+"longitude_deg": 162.47,
+"diameter_km": 83.25
+},
+{
+"name": "Lyot",
+"latitude_deg": -50.4658,
+"longitude_deg": 84.804,
+"diameter_km": 150.6
+},
+{
+"name": "M. Anderson",
+"latitude_deg": -41.2083,
+"longitude_deg": -148.9908,
+"diameter_km": 16.94
+},
+{
+"name": "MacMillan",
+"latitude_deg": 24.2008,
+"longitude_deg": -7.8466,
+"diameter_km": 6.88
+},
+{
+"name": "Mach",
+"latitude_deg": 18.1279,
+"longitude_deg": -149.2365,
+"diameter_km": 174.97
+},
+{
+"name": "Maclaurin",
+"latitude_deg": -1.9235,
+"longitude_deg": 67.9894,
+"diameter_km": 54.33
+},
+{
+"name": "Maclear",
+"latitude_deg": 10.5221,
+"longitude_deg": 20.1049,
+"diameter_km": 20.34
+},
+{
+"name": "Macrobius",
+"latitude_deg": 21.2556,
+"longitude_deg": 45.9702,
+"diameter_km": 62.79
+},
+{
+"name": "Maestlin",
+"latitude_deg": 4.8974,
+"longitude_deg": -40.7165,
+"diameter_km": 6.82
+},
+{
+"name": "Magelhaens",
+"latitude_deg": -11.9758,
+"longitude_deg": 44.074,
+"diameter_km": 37.2
+},
+{
+"name": "Maginus",
+"latitude_deg": -50.0337,
+"longitude_deg": -5.9837,
+"diameter_km": 155.58
+},
+{
+"name": "Main",
+"latitude_deg": 80.8694,
+"longitude_deg": 10.4085,
+"diameter_km": 47.43
+},
+{
+"name": "Mairan",
+"latitude_deg": 41.5965,
+"longitude_deg": -43.4979,
+"diameter_km": 39.49
+},
+{
+"name": "Maksutov",
+"latitude_deg": -40.747,
+"longitude_deg": -168.6529,
+"diameter_km": 83.84
+},
+{
+"name": "Malapert",
+"latitude_deg": -84.9998,
+"longitude_deg": 11.4031,
+"diameter_km": 72.38
+},
+{
+"name": "Malinkin",
+"latitude_deg": -87.2217,
+"longitude_deg": 75.9366,
+"diameter_km": 8.28
+},
+{
+"name": "Mallet",
+"latitude_deg": -45.4129,
+"longitude_deg": 54.0546,
+"diameter_km": 58.92
+},
+{
+"name": "Malyy",
+"latitude_deg": 22.0294,
+"longitude_deg": 105.5584,
+"diameter_km": 41.29
+},
+{
+"name": "Mandel'shtam",
+"latitude_deg": 5.6977,
+"longitude_deg": 162.3877,
+"diameter_km": 181.89
+},
+{
+"name": "Manilius",
+"latitude_deg": 14.452,
+"longitude_deg": 9.0737,
+"diameter_km": 38.34
+},
+{
+"name": "Manners",
+"latitude_deg": 4.5701,
+"longitude_deg": 19.9946,
+"diameter_km": 15.05
+},
+{
+"name": "Manuel",
+"latitude_deg": 24.4665,
+"longitude_deg": 11.3557,
+"diameter_km": 0.57
+},
+{
+"name": "Manzinus",
+"latitude_deg": -67.51,
+"longitude_deg": 26.3736,
+"diameter_km": 95.97
+},
+{
+"name": "Maraldi",
+"latitude_deg": 19.3606,
+"longitude_deg": 34.7972,
+"diameter_km": 39.62
+},
+{
+"name": "Marci",
+"latitude_deg": 22.2283,
+"longitude_deg": -167.5721,
+"diameter_km": 24.47
+},
+{
+"name": "Marco Polo",
+"latitude_deg": 15.5234,
+"longitude_deg": -2.0484,
+"diameter_km": 28.25
+},
+{
+"name": "Marconi",
+"latitude_deg": -9.4812,
+"longitude_deg": 145.2025,
+"diameter_km": 72.88
+},
+{
+"name": "Mareta",
+"latitude_deg": 36.45,
+"longitude_deg": -40.81,
+"diameter_km": 0.15
+},
+{
+"name": "Marinus",
+"latitude_deg": -39.3759,
+"longitude_deg": 76.5739,
+"diameter_km": 56.55
+},
+{
+"name": "Mariotte",
+"latitude_deg": -28.4567,
+"longitude_deg": -139.0639,
+"diameter_km": 70.27
+},
+{
+"name": "Marius",
+"latitude_deg": 11.8968,
+"longitude_deg": -50.8355,
+"diameter_km": 40.09
+},
+{
+"name": "Markov",
+"latitude_deg": 53.4333,
+"longitude_deg": -62.8405,
+"diameter_km": 39.92
+},
+{
+"name": "Marth",
+"latitude_deg": -31.1567,
+"longitude_deg": -29.3505,
+"diameter_km": 6.54
+},
+{
+"name": "Marvin",
+"latitude_deg": -89.13,
+"longitude_deg": -87.78,
+"diameter_km": 4.6
+},
+{
+"name": "Mary",
+"latitude_deg": 18.9251,
+"longitude_deg": 27.3922,
+"diameter_km": 0.53
+},
+{
+"name": "Masina",
+"latitude_deg": -85.42,
+"longitude_deg": 32.15,
+"diameter_km": 1.4
+},
+{
+"name": "Maskelyne",
+"latitude_deg": 2.1558,
+"longitude_deg": 30.0437,
+"diameter_km": 22.42
+},
+{
+"name": "Mason",
+"latitude_deg": 42.6996,
+"longitude_deg": 30.5087,
+"diameter_km": 33.33
+},
+{
+"name": "Maunder",
+"latitude_deg": -14.525,
+"longitude_deg": -93.8755,
+"diameter_km": 53.8
+},
+{
+"name": "Maupertuis",
+"latitude_deg": 49.6968,
+"longitude_deg": -27.2829,
+"diameter_km": 45.49
+},
+{
+"name": "Maurolycus",
+"latitude_deg": -41.7719,
+"longitude_deg": 13.9201,
+"diameter_km": 115.35
+},
+{
+"name": "Maury",
+"latitude_deg": 37.1088,
+"longitude_deg": 39.6913,
+"diameter_km": 16.58
+},
+{
+"name": "Mavis",
+"latitude_deg": 29.7614,
+"longitude_deg": -26.3574,
+"diameter_km": 1.09
+},
+{
+"name": "Maxwell",
+"latitude_deg": 29.9048,
+"longitude_deg": 98.5256,
+"diameter_km": 109.24
+},
+{
+"name": "McAdie",
+"latitude_deg": 2.1097,
+"longitude_deg": 92.2182,
+"diameter_km": 41.0
+},
+{
+"name": "McAuliffe",
+"latitude_deg": -33.2433,
+"longitude_deg": -149.772,
+"diameter_km": 19.11
+},
+{
+"name": "McClure",
+"latitude_deg": -15.3192,
+"longitude_deg": 50.2369,
+"diameter_km": 23.96
+},
+{
+"name": "McCool",
+"latitude_deg": -41.2779,
+"longitude_deg": -146.2562,
+"diameter_km": 20.47
+},
+{
+"name": "McDonald",
+"latitude_deg": 30.3884,
+"longitude_deg": -20.8835,
+"diameter_km": 6.97
+},
+{
+"name": "McGetchin",
+"latitude_deg": 1.3536,
+"longitude_deg": 67.1765,
+"diameter_km": 0.2
+},
+{
+"name": "McKellar",
+"latitude_deg": -15.7181,
+"longitude_deg": -170.8618,
+"diameter_km": 50.16
+},
+{
+"name": "McLaughlin",
+"latitude_deg": 47.0081,
+"longitude_deg": -92.8277,
+"diameter_km": 75.29
+},
+{
+"name": "McMath",
+"latitude_deg": 16.6303,
+"longitude_deg": -166.0918,
+"diameter_km": 88.58
+},
+{
+"name": "McNair",
+"latitude_deg": -35.9301,
+"longitude_deg": -147.9519,
+"diameter_km": 32.02
+},
+{
+"name": "McNally",
+"latitude_deg": 22.4959,
+"longitude_deg": -127.6515,
+"diameter_km": 47.03
+},
+{
+"name": "Mechnikov",
+"latitude_deg": -10.474,
+"longitude_deg": -148.9851,
+"diameter_km": 58.83
+},
+{
+"name": "Mee",
+"latitude_deg": -43.6253,
+"longitude_deg": -35.1872,
+"diameter_km": 134.11
+},
+{
+"name": "Mees",
+"latitude_deg": 13.57,
+"longitude_deg": -96.1803,
+"diameter_km": 51.55
+},
+{
+"name": "Meggers",
+"latitude_deg": 24.3006,
+"longitude_deg": 122.9411,
+"diameter_km": 51.16
+},
+{
+"name": "Meitner",
+"latitude_deg": -10.8715,
+"longitude_deg": 113.104,
+"diameter_km": 87.27
+},
+{
+"name": "Melissa",
+"latitude_deg": 8.1222,
+"longitude_deg": 121.7777,
+"diameter_km": 17.21
+},
+{
+"name": "Mendel",
+"latitude_deg": -48.8282,
+"longitude_deg": -109.8613,
+"diameter_km": 139.65
+},
+{
+"name": "Mendeleev",
+"latitude_deg": 5.3754,
+"longitude_deg": 141.1676,
+"diameter_km": 325.13
+},
+{
+"name": "Menelaus",
+"latitude_deg": 16.2593,
+"longitude_deg": 15.9294,
+"diameter_km": 27.13
+},
+{
+"name": "Menzel",
+"latitude_deg": 3.4072,
+"longitude_deg": 36.9425,
+"diameter_km": 3.44
+},
+{
+"name": "Mercator",
+"latitude_deg": -29.2535,
+"longitude_deg": -26.1104,
+"diameter_km": 46.32
+},
+{
+"name": "Mercurius",
+"latitude_deg": 46.6634,
+"longitude_deg": 66.0703,
+"diameter_km": 64.3
+},
+{
+"name": "Merrill",
+"latitude_deg": 74.83,
+"longitude_deg": -117.4478,
+"diameter_km": 56.99
+},
+{
+"name": "Mersenius",
+"latitude_deg": -21.4928,
+"longitude_deg": -49.3362,
+"diameter_km": 84.46
+},
+{
+"name": "Meshcherskiy",
+"latitude_deg": 12.1061,
+"longitude_deg": 125.5264,
+"diameter_km": 65.94
+},
+{
+"name": "Messala",
+"latitude_deg": 39.3079,
+"longitude_deg": 60.0591,
+"diameter_km": 122.4
+},
+{
+"name": "Messier",
+"latitude_deg": -1.9038,
+"longitude_deg": 47.6533,
+"diameter_km": 13.8
+},
+{
+"name": "Metius",
+"latitude_deg": -40.4244,
+"longitude_deg": 43.3727,
+"diameter_km": 83.81
+},
+{
+"name": "Meton",
+"latitude_deg": 73.5673,
+"longitude_deg": 19.6262,
+"diameter_km": 124.7
+},
+{
+"name": "Mezentsev",
+"latitude_deg": 71.7712,
+"longitude_deg": -129.6361,
+"diameter_km": 84.51
+},
+{
+"name": "Michael",
+"latitude_deg": 25.0494,
+"longitude_deg": 0.2146,
+"diameter_km": 3.46
+},
+{
+"name": "Michelson",
+"latitude_deg": 6.7246,
+"longitude_deg": -121.546,
+"diameter_km": 123.14
+},
+{
+"name": "Milanković",
+"latitude_deg": 76.5263,
+"longitude_deg": 171.3514,
+"diameter_km": 94.21
+},
+{
+"name": "Milichius",
+"latitude_deg": 10.0059,
+"longitude_deg": -30.2314,
+"diameter_km": 12.19
+},
+{
+"name": "Miller",
+"latitude_deg": -39.3719,
+"longitude_deg": 0.7827,
+"diameter_km": 61.37
+},
+{
+"name": "Millikan",
+"latitude_deg": 46.7599,
+"longitude_deg": 121.5152,
+"diameter_km": 93.97
+},
+{
+"name": "Mills",
+"latitude_deg": 8.5447,
+"longitude_deg": 155.7409,
+"diameter_km": 35.65
+},
+{
+"name": "Milne",
+"latitude_deg": -31.003,
+"longitude_deg": 112.7821,
+"diameter_km": 259.97
+},
+{
+"name": "Mineur",
+"latitude_deg": 24.6656,
+"longitude_deg": -161.7298,
+"diameter_km": 72.28
+},
+{
+"name": "Minkowski",
+"latitude_deg": -56.1291,
+"longitude_deg": -145.8011,
+"diameter_km": 107.51
+},
+{
+"name": "Minnaert",
+"latitude_deg": -67.5365,
+"longitude_deg": 178.5686,
+"diameter_km": 137.31
+},
+{
+"name": "Mirzakhani",
+"latitude_deg": -17.47,
+"longitude_deg": 85.2,
+"diameter_km": 5.0
+},
+{
+"name": "Mitchell",
+"latitude_deg": 49.7696,
+"longitude_deg": 20.171,
+"diameter_km": 32.15
+},
+{
+"name": "Mitra",
+"latitude_deg": 17.7644,
+"longitude_deg": -154.6514,
+"diameter_km": 97.1
+},
+{
+"name": "Mohorovičić",
+"latitude_deg": -18.7305,
+"longitude_deg": -164.8317,
+"diameter_km": 49.97
+},
+{
+"name": "Moigno",
+"latitude_deg": 66.2667,
+"longitude_deg": 28.7952,
+"diameter_km": 36.83
+},
+{
+"name": "Moiseev",
+"latitude_deg": 9.4412,
+"longitude_deg": 103.2562,
+"diameter_km": 61.56
+},
+{
+"name": "Moissan",
+"latitude_deg": 4.7708,
+"longitude_deg": 137.4486,
+"diameter_km": 22.45
+},
+{
+"name": "Moltke",
+"latitude_deg": -0.5928,
+"longitude_deg": 24.1642,
+"diameter_km": 6.15
+},
+{
+"name": "Monge",
+"latitude_deg": -19.241,
+"longitude_deg": 47.5443,
+"diameter_km": 36.6
+},
+{
+"name": "Monira",
+"latitude_deg": -12.5432,
+"longitude_deg": -1.7327,
+"diameter_km": 1.07
+},
+{
+"name": "Montanari",
+"latitude_deg": -45.8282,
+"longitude_deg": -20.7551,
+"diameter_km": 77.05
+},
+{
+"name": "Montgolfier",
+"latitude_deg": 47.056,
+"longitude_deg": -160.0817,
+"diameter_km": 83.71
+},
+{
+"name": "Moore",
+"latitude_deg": 37.2515,
+"longitude_deg": -177.5498,
+"diameter_km": 52.66
+},
+{
+"name": "Moretus",
+"latitude_deg": -70.6346,
+"longitude_deg": -5.947,
+"diameter_km": 114.45
+},
+{
+"name": "Morley",
+"latitude_deg": -2.8201,
+"longitude_deg": 64.6157,
+"diameter_km": 13.71
+},
+{
+"name": "Morozov",
+"latitude_deg": 4.6188,
+"longitude_deg": 127.3264,
+"diameter_km": 41.01
+},
+{
+"name": "Morse",
+"latitude_deg": 21.8967,
+"longitude_deg": -175.2906,
+"diameter_km": 72.77
+},
+{
+"name": "Moseley",
+"latitude_deg": 20.9543,
+"longitude_deg": -90.2008,
+"diameter_km": 88.89
+},
+{
+"name": "Mouchez",
+"latitude_deg": 78.3787,
+"longitude_deg": -26.8245,
+"diameter_km": 82.78
+},
+{
+"name": "Moulton",
+"latitude_deg": -60.9081,
+"longitude_deg": 97.5678,
+"diameter_km": 54.7
+},
+{
+"name": "Murakami",
+"latitude_deg": -23.3826,
+"longitude_deg": -140.9703,
+"diameter_km": 44.52
+},
+{
+"name": "Murchison",
+"latitude_deg": 5.07,
+"longitude_deg": -0.21,
+"diameter_km": 57.83
+},
+{
+"name": "Mutus",
+"latitude_deg": -63.6479,
+"longitude_deg": 29.9254,
+"diameter_km": 76.33
+},
+{
+"name": "Mädler",
+"latitude_deg": -11.0415,
+"longitude_deg": 29.759,
+"diameter_km": 27.58
+},
+{
+"name": "Möbius",
+"latitude_deg": 15.6323,
+"longitude_deg": 101.1308,
+"diameter_km": 48.96
+},
+{
+"name": "Mösting",
+"latitude_deg": -0.7009,
+"longitude_deg": -5.8808,
+"diameter_km": 24.38
+},
+{
+"name": "Müller",
+"latitude_deg": -7.6391,
+"longitude_deg": 2.0386,
+"diameter_km": 23.4
+},
+{
+"name": "Nagaoka",
+"latitude_deg": 19.5066,
+"longitude_deg": 154.0477,
+"diameter_km": 50.54
+},
+{
+"name": "Nam Byeong-Cheol",
+"latitude_deg": -14.66,
+"longitude_deg": -123.41,
+"diameter_km": 132.0
+},
+{
+"name": "Nansen",
+"latitude_deg": 81.1708,
+"longitude_deg": 95.3805,
+"diameter_km": 116.9
+},
+{
+"name": "Naonobu",
+"latitude_deg": -4.7002,
+"longitude_deg": 57.9303,
+"diameter_km": 32.96
+},
+{
+"name": "Nasireddin",
+"latitude_deg": -41.0387,
+"longitude_deg": 0.1427,
+"diameter_km": 51.99
+},
+{
+"name": "Nasmyth",
+"latitude_deg": -50.4863,
+"longitude_deg": -56.3943,
+"diameter_km": 78.37
+},
+{
+"name": "Nassau",
+"latitude_deg": -24.9137,
+"longitude_deg": 177.337,
+"diameter_km": 75.8
+},
+{
+"name": "Natasha",
+"latitude_deg": 19.9759,
+"longitude_deg": -31.1632,
+"diameter_km": 10.98
+},
+{
+"name": "Naumann",
+"latitude_deg": 35.3798,
+"longitude_deg": -62.0198,
+"diameter_km": 9.93
+},
+{
+"name": "Neander",
+"latitude_deg": -31.3527,
+"longitude_deg": 39.885,
+"diameter_km": 49.22
+},
+{
+"name": "Nearch",
+"latitude_deg": -58.5806,
+"longitude_deg": 39.013,
+"diameter_km": 72.79
+},
+{
+"name": "Necho",
+"latitude_deg": -5.2483,
+"longitude_deg": 123.2445,
+"diameter_km": 36.87
+},
+{
+"name": "Nefed'ev",
+"latitude_deg": -81.0719,
+"longitude_deg": 135.7723,
+"diameter_km": 52.94
+},
+{
+"name": "Neison",
+"latitude_deg": 68.2055,
+"longitude_deg": 25.0233,
+"diameter_km": 51.03
+},
+{
+"name": "Neper",
+"latitude_deg": 8.7649,
+"longitude_deg": 84.582,
+"diameter_km": 144.32
+},
+{
+"name": "Nernst",
+"latitude_deg": 35.5702,
+"longitude_deg": -94.6362,
+"diameter_km": 121.52
+},
+{
+"name": "Neujmin",
+"latitude_deg": -26.6795,
+"longitude_deg": 125.1745,
+"diameter_km": 97.03
+},
+{
+"name": "Neumayer",
+"latitude_deg": -71.1614,
+"longitude_deg": 70.9231,
+"diameter_km": 84.38
+},
+{
+"name": "Newcomb",
+"latitude_deg": 29.7623,
+"longitude_deg": 43.6666,
+"diameter_km": 39.8
+},
+{
+"name": "Newton",
+"latitude_deg": -76.5207,
+"longitude_deg": -17.4414,
+"diameter_km": 83.85
+},
+{
+"name": "Nicholson",
+"latitude_deg": -26.216,
+"longitude_deg": -85.2107,
+"diameter_km": 38.08
+},
+{
+"name": "Nicolai",
+"latitude_deg": -42.471,
+"longitude_deg": 25.8715,
+"diameter_km": 40.54
+},
+{
+"name": "Nicollet",
+"latitude_deg": -21.9484,
+"longitude_deg": -12.4958,
+"diameter_km": 14.73
+},
+{
+"name": "Nielsen",
+"latitude_deg": 31.8035,
+"longitude_deg": -51.756,
+"diameter_km": 9.64
+},
+{
+"name": "Niepce",
+"latitude_deg": 72.1984,
+"longitude_deg": -120.1468,
+"diameter_km": 59.69
+},
+{
+"name": "Nijland",
+"latitude_deg": 33.1944,
+"longitude_deg": 134.1682,
+"diameter_km": 35.46
+},
+{
+"name": "Nikolaev",
+"latitude_deg": 35.0799,
+"longitude_deg": 151.2802,
+"diameter_km": 42.67
+},
+{
+"name": "Nikolya",
+"latitude_deg": 38.2024,
+"longitude_deg": -34.984,
+"diameter_km": 0.12
+},
+{
+"name": "Nishina",
+"latitude_deg": -44.5739,
+"longitude_deg": -170.7978,
+"diameter_km": 62.13
+},
+{
+"name": "Nobel",
+"latitude_deg": 14.733,
+"longitude_deg": -101.3895,
+"diameter_km": 50.87
+},
+{
+"name": "Nobile",
+"latitude_deg": -85.2752,
+"longitude_deg": 53.2725,
+"diameter_km": 79.27
+},
+{
+"name": "Nobili",
+"latitude_deg": 0.1661,
+"longitude_deg": 75.9486,
+"diameter_km": 41.79
+},
+{
+"name": "Nonius",
+"latitude_deg": -34.9024,
+"longitude_deg": 3.7889,
+"diameter_km": 70.61
+},
+{
+"name": "Norman",
+"latitude_deg": -11.7814,
+"longitude_deg": -30.354,
+"diameter_km": 9.87
+},
+{
+"name": "Numerov",
+"latitude_deg": -70.518,
+"longitude_deg": -162.2003,
+"diameter_km": 105.39
+},
+{
+"name": "Nunn",
+"latitude_deg": 4.6151,
+"longitude_deg": 91.1463,
+"diameter_km": 18.49
+},
+{
+"name": "Nušl",
+"latitude_deg": 32.1935,
+"longitude_deg": 167.4506,
+"diameter_km": 60.58
+},
+{
+"name": "Nöggerath",
+"latitude_deg": -48.82,
+"longitude_deg": -45.8418,
+"diameter_km": 32.12
+},
+{
+"name": "Nöther (Noether)",
+"latitude_deg": 66.3453,
+"longitude_deg": -114.1767,
+"diameter_km": 64.8
+},
+{
+"name": "O'Day",
+"latitude_deg": -30.4238,
+"longitude_deg": 157.2934,
+"diameter_km": 70.41
+},
+{
+"name": "Oberbeck",
+"latitude_deg": -83.55,
+"longitude_deg": 68.14,
+"diameter_km": 58.0
+},
+{
+"name": "Oberth",
+"latitude_deg": 62.4926,
+"longitude_deg": 154.838,
+"diameter_km": 49.52
+},
+{
+"name": "Obruchev",
+"latitude_deg": -38.6671,
+"longitude_deg": 162.4297,
+"diameter_km": 72.23
+},
+{
+"name": "Oenopides",
+"latitude_deg": 57.1253,
+"longitude_deg": -64.2028,
+"diameter_km": 73.47
+},
+{
+"name": "Oersted",
+"latitude_deg": 43.0857,
+"longitude_deg": 47.2547,
+"diameter_km": 42.28
+},
+{
+"name": "Ohm",
+"latitude_deg": 18.3205,
+"longitude_deg": -113.7758,
+"diameter_km": 61.75
+},
+{
+"name": "Oken",
+"latitude_deg": -43.7556,
+"longitude_deg": 76.0914,
+"diameter_km": 78.67
+},
+{
+"name": "Olbers",
+"latitude_deg": 7.2986,
+"longitude_deg": -76.1433,
+"diameter_km": 73.02
+},
+{
+"name": "Olcott",
+"latitude_deg": 20.573,
+"longitude_deg": 117.7883,
+"diameter_km": 79.94
+},
+{
+"name": "Olivier",
+"latitude_deg": 58.7227,
+"longitude_deg": 138.4434,
+"diameter_km": 78.45
+},
+{
+"name": "Omar Khayyam",
+"latitude_deg": 58.2098,
+"longitude_deg": -102.2166,
+"diameter_km": 68.64
+},
+{
+"name": "Onizuka",
+"latitude_deg": -36.3773,
+"longitude_deg": -149.7884,
+"diameter_km": 26.88
+},
+{
+"name": "Opelt",
+"latitude_deg": -16.3155,
+"longitude_deg": -17.6401,
+"diameter_km": 48.73
+},
+{
+"name": "Oppenheimer",
+"latitude_deg": -35.3187,
+"longitude_deg": -166.0349,
+"diameter_km": 201.16
+},
+{
+"name": "Oppolzer",
+"latitude_deg": -1.52,
+"longitude_deg": -0.45,
+"diameter_km": 40.87
+},
+{
+"name": "Oresme",
+"latitude_deg": -42.6145,
+"longitude_deg": 169.2236,
+"diameter_km": 82.05
+},
+{
+"name": "Orlov",
+"latitude_deg": -25.7685,
+"longitude_deg": -175.0807,
+"diameter_km": 72.93
+},
+{
+"name": "Orontius",
+"latitude_deg": -40.3691,
+"longitude_deg": -3.9599,
+"diameter_km": 121.02
+},
+{
+"name": "Osama",
+"latitude_deg": 18.609,
+"longitude_deg": 5.2668,
+"diameter_km": 0.42
+},
+{
+"name": "Osiris",
+"latitude_deg": 18.6493,
+"longitude_deg": 27.6458,
+"diameter_km": 0.96
+},
+{
+"name": "Osman",
+"latitude_deg": -10.9782,
+"longitude_deg": -6.2519,
+"diameter_km": 1.79
+},
+{
+"name": "Ostwald",
+"latitude_deg": 10.2351,
+"longitude_deg": 121.9478,
+"diameter_km": 108.13
+},
+{
+"name": "Palisa",
+"latitude_deg": -9.4668,
+"longitude_deg": -7.1886,
+"diameter_km": 33.47
+},
+{
+"name": "Palitzsch",
+"latitude_deg": -28.0239,
+"longitude_deg": 64.3896,
+"diameter_km": 41.87
+},
+{
+"name": "Pallas",
+"latitude_deg": 5.4764,
+"longitude_deg": -1.6533,
+"diameter_km": 49.51
+},
+{
+"name": "Palmieri",
+"latitude_deg": -28.6407,
+"longitude_deg": -47.7974,
+"diameter_km": 39.84
+},
+{
+"name": "Paneth",
+"latitude_deg": 62.5963,
+"longitude_deg": -94.6342,
+"diameter_km": 60.92
+},
+{
+"name": "Pannekoek",
+"latitude_deg": -4.1987,
+"longitude_deg": 140.6937,
+"diameter_km": 67.5
+},
+{
+"name": "Papaleksi",
+"latitude_deg": 10.1451,
+"longitude_deg": 163.9473,
+"diameter_km": 92.03
+},
+{
+"name": "Paracelsus",
+"latitude_deg": -22.9226,
+"longitude_deg": 163.4434,
+"diameter_km": 85.88
+},
+{
+"name": "Paraskevopoulos",
+"latitude_deg": 50.0931,
+"longitude_deg": -150.3448,
+"diameter_km": 98.87
+},
+{
+"name": "Parenago",
+"latitude_deg": 25.8774,
+"longitude_deg": -108.9111,
+"diameter_km": 94.57
+},
+{
+"name": "Parkhurst",
+"latitude_deg": -33.2851,
+"longitude_deg": 103.6935,
+"diameter_km": 93.08
+},
+{
+"name": "Parrot",
+"latitude_deg": -14.5731,
+"longitude_deg": 3.2921,
+"diameter_km": 70.66
+},
+{
+"name": "Parry",
+"latitude_deg": -7.8834,
+"longitude_deg": -15.7794,
+"diameter_km": 47.28
+},
+{
+"name": "Parsons",
+"latitude_deg": 37.2467,
+"longitude_deg": -171.1594,
+"diameter_km": 41.12
+},
+{
+"name": "Pascal",
+"latitude_deg": 74.357,
+"longitude_deg": -70.6301,
+"diameter_km": 108.2
+},
+{
+"name": "Paschen",
+"latitude_deg": -14.0579,
+"longitude_deg": -140.528,
+"diameter_km": 127.36
+},
+{
+"name": "Pasteur",
+"latitude_deg": -11.5769,
+"longitude_deg": 104.9078,
+"diameter_km": 232.77
+},
+{
+"name": "Patricia",
+"latitude_deg": 24.9075,
+"longitude_deg": 0.4985,
+"diameter_km": 10.08
+},
+{
+"name": "Patsaev",
+"latitude_deg": -16.7738,
+"longitude_deg": 133.5983,
+"diameter_km": 55.25
+},
+{
+"name": "Pauli",
+"latitude_deg": -44.7588,
+"longitude_deg": 137.3501,
+"diameter_km": 95.28
+},
+{
+"name": "Pavlov",
+"latitude_deg": -28.2842,
+"longitude_deg": 142.401,
+"diameter_km": 143.05
+},
+{
+"name": "Pawsey",
+"latitude_deg": 44.2383,
+"longitude_deg": 145.2939,
+"diameter_km": 59.98
+},
+{
+"name": "Peary",
+"latitude_deg": 88.6251,
+"longitude_deg": 24.4024,
+"diameter_km": 78.75
+},
+{
+"name": "Pease",
+"latitude_deg": 12.512,
+"longitude_deg": -106.3046,
+"diameter_km": 40.84
+},
+{
+"name": "Peek",
+"latitude_deg": 2.7597,
+"longitude_deg": 86.9582,
+"diameter_km": 12.55
+},
+{
+"name": "Pei Xiu",
+"latitude_deg": 44.06,
+"longitude_deg": -52.75,
+"diameter_km": 2.2
+},
+{
+"name": "Peirce",
+"latitude_deg": 18.2641,
+"longitude_deg": 53.3536,
+"diameter_km": 18.86
+},
+{
+"name": "Peirescius",
+"latitude_deg": -46.405,
+"longitude_deg": 67.7976,
+"diameter_km": 61.53
+},
+{
+"name": "Pentland",
+"latitude_deg": -64.5699,
+"longitude_deg": 11.3425,
+"diameter_km": 56.45
+},
+{
+"name": "Perel'man",
+"latitude_deg": -24.0522,
+"longitude_deg": 106.0122,
+"diameter_km": 48.87
+},
+{
+"name": "Perepelkin",
+"latitude_deg": -9.9891,
+"longitude_deg": 128.8002,
+"diameter_km": 88.74
+},
+{
+"name": "Perey",
+"latitude_deg": -42.46,
+"longitude_deg": -153.69,
+"diameter_km": 1.6
+},
+{
+"name": "Perkin",
+"latitude_deg": 47.017,
+"longitude_deg": -175.727,
+"diameter_km": 62.48
+},
+{
+"name": "Perrine",
+"latitude_deg": 42.1112,
+"longitude_deg": -127.9453,
+"diameter_km": 87.41
+},
+{
+"name": "Petavius",
+"latitude_deg": -25.3914,
+"longitude_deg": 60.7776,
+"diameter_km": 184.06
+},
+{
+"name": "Petermann",
+"latitude_deg": 74.3468,
+"longitude_deg": 67.8923,
+"diameter_km": 76.95
+},
+{
+"name": "Peters",
+"latitude_deg": 68.0693,
+"longitude_deg": 29.3921,
+"diameter_km": 14.67
+},
+{
+"name": "Petit",
+"latitude_deg": 2.3225,
+"longitude_deg": 63.4616,
+"diameter_km": 5.04
+},
+{
+"name": "Petrie",
+"latitude_deg": 45.1422,
+"longitude_deg": 108.466,
+"diameter_km": 32.86
+},
+{
+"name": "Petropavlovskiy",
+"latitude_deg": 36.9242,
+"longitude_deg": -115.2757,
+"diameter_km": 64.07
+},
+{
+"name": "Petrov",
+"latitude_deg": -61.3618,
+"longitude_deg": 88.1752,
+"diameter_km": 55.44
+},
+{
+"name": "Pettit",
+"latitude_deg": -27.5205,
+"longitude_deg": -86.7536,
+"diameter_km": 36.67
+},
+{
+"name": "Petzval",
+"latitude_deg": -62.729,
+"longitude_deg": -110.8305,
+"diameter_km": 93.47
+},
+{
+"name": "Phillips",
+"latitude_deg": -26.5745,
+"longitude_deg": 75.6706,
+"diameter_km": 104.21
+},
+{
+"name": "Philolaus",
+"latitude_deg": 72.2221,
+"longitude_deg": -32.8845,
+"diameter_km": 71.44
+},
+{
+"name": "Phocylides",
+"latitude_deg": -52.7918,
+"longitude_deg": -57.3125,
+"diameter_km": 115.18
+},
+{
+"name": "Piazzi",
+"latitude_deg": -36.1571,
+"longitude_deg": -68.0088,
+"diameter_km": 102.57
+},
+{
+"name": "Piazzi Smyth",
+"latitude_deg": 41.9138,
+"longitude_deg": -3.2431,
+"diameter_km": 12.96
+},
+{
+"name": "Picard",
+"latitude_deg": 14.5663,
+"longitude_deg": 54.724,
+"diameter_km": 22.35
+},
+{
+"name": "Piccolomini",
+"latitude_deg": -29.6998,
+"longitude_deg": 32.1986,
+"diameter_km": 87.58
+},
+{
+"name": "Pickering",
+"latitude_deg": -2.8764,
+"longitude_deg": 6.9918,
+"diameter_km": 15.4
+},
+{
+"name": "Pictet",
+"latitude_deg": -43.5636,
+"longitude_deg": -7.4924,
+"diameter_km": 59.95
+},
+{
+"name": "Pierazzo",
+"latitude_deg": 3.3048,
+"longitude_deg": -100.2393,
+"diameter_km": 9.29
+},
+{
+"name": "Pikel'ner",
+"latitude_deg": -48.3682,
+"longitude_deg": 124.2473,
+"diameter_km": 40.96
+},
+{
+"name": "Pilâtre",
+"latitude_deg": -60.1702,
+"longitude_deg": -86.6951,
+"diameter_km": 64.37
+},
+{
+"name": "Pingré",
+"latitude_deg": -58.6378,
+"longitude_deg": -73.9522,
+"diameter_km": 88.43
+},
+{
+"name": "Pirquet",
+"latitude_deg": -20.3443,
+"longitude_deg": 139.9254,
+"diameter_km": 62.14
+},
+{
+"name": "Pitatus",
+"latitude_deg": -29.8816,
+"longitude_deg": -13.5269,
+"diameter_km": 100.63
+},
+{
+"name": "Pitiscus",
+"latitude_deg": -50.6112,
+"longitude_deg": 30.5661,
+"diameter_km": 79.85
+},
+{
+"name": "Pizzetti",
+"latitude_deg": -35.0633,
+"longitude_deg": 119.2891,
+"diameter_km": 53.47
+},
+{
+"name": "Plana",
+"latitude_deg": 42.2544,
+"longitude_deg": 28.2215,
+"diameter_km": 42.97
+},
+{
+"name": "Planck",
+"latitude_deg": -57.2721,
+"longitude_deg": 135.3374,
+"diameter_km": 319.46
+},
+{
+"name": "Planté",
+"latitude_deg": -10.2181,
+"longitude_deg": 163.2562,
+"diameter_km": 36.8
+},
+{
+"name": "Plaskett",
+"latitude_deg": 81.6332,
+"longitude_deg": 176.7147,
+"diameter_km": 114.34
+},
+{
+"name": "Plato",
+"latitude_deg": 51.6192,
+"longitude_deg": -9.3825,
+"diameter_km": 100.68
+},
+{
+"name": "Playfair",
+"latitude_deg": -23.5604,
+"longitude_deg": 8.4452,
+"diameter_km": 49.88
+},
+{
+"name": "Plinius",
+"latitude_deg": 15.3569,
+"longitude_deg": 23.6067,
+"diameter_km": 41.31
+},
+{
+"name": "Plummer",
+"latitude_deg": -24.6233,
+"longitude_deg": -154.8569,
+"diameter_km": 75.7
+},
+{
+"name": "Plutarch",
+"latitude_deg": 24.1768,
+"longitude_deg": 79.0519,
+"diameter_km": 69.59
+},
+{
+"name": "Poczobutt",
+"latitude_deg": 57.2678,
+"longitude_deg": -99.2332,
+"diameter_km": 212.36
+},
+{
+"name": "Pogson",
+"latitude_deg": -42.3785,
+"longitude_deg": 111.1137,
+"diameter_km": 40.87
+},
+{
+"name": "Poincaré",
+"latitude_deg": -56.8623,
+"longitude_deg": 163.9945,
+"diameter_km": 345.99
+},
+{
+"name": "Poinsot",
+"latitude_deg": 78.902,
+"longitude_deg": -146.215,
+"diameter_km": 65.11
+},
+{
+"name": "Poisson",
+"latitude_deg": -30.3393,
+"longitude_deg": 10.5648,
+"diameter_km": 41.4
+},
+{
+"name": "Polybius",
+"latitude_deg": -22.4634,
+"longitude_deg": 25.6274,
+"diameter_km": 40.81
+},
+{
+"name": "Polzunov",
+"latitude_deg": 25.5675,
+"longitude_deg": 115.0082,
+"diameter_km": 66.53
+},
+{
+"name": "Pomortsev",
+"latitude_deg": 0.7366,
+"longitude_deg": 66.9105,
+"diameter_km": 25.51
+},
+{
+"name": "Poncelet",
+"latitude_deg": 75.9094,
+"longitude_deg": -54.5718,
+"diameter_km": 67.57
+},
+{
+"name": "Pons",
+"latitude_deg": -25.4347,
+"longitude_deg": 21.552,
+"diameter_km": 39.7
+},
+{
+"name": "Pontanus",
+"latitude_deg": -28.4223,
+"longitude_deg": 14.3562,
+"diameter_km": 55.66
+},
+{
+"name": "Pontécoulant",
+"latitude_deg": -58.7788,
+"longitude_deg": 66.0673,
+"diameter_km": 91.4
+},
+{
+"name": "Popov",
+"latitude_deg": 16.9336,
+"longitude_deg": 99.3759,
+"diameter_km": 71.4
+},
+{
+"name": "Porter",
+"latitude_deg": -56.1468,
+"longitude_deg": -10.1829,
+"diameter_km": 51.46
+},
+{
+"name": "Posidonius",
+"latitude_deg": 31.8783,
+"longitude_deg": 29.9913,
+"diameter_km": 95.06
+},
+{
+"name": "Poynting",
+"latitude_deg": 17.5016,
+"longitude_deg": -133.3755,
+"diameter_km": 127.55
+},
+{
+"name": "Prager",
+"latitude_deg": -3.9909,
+"longitude_deg": 130.7815,
+"diameter_km": 53.9
+},
+{
+"name": "Prandtl",
+"latitude_deg": -59.6193,
+"longitude_deg": 141.5415,
+"diameter_km": 87.53
+},
+{
+"name": "Priestley",
+"latitude_deg": -56.71,
+"longitude_deg": 108.4724,
+"diameter_km": 54.88
+},
+{
+"name": "Prinz",
+"latitude_deg": 25.4878,
+"longitude_deg": -44.1415,
+"diameter_km": 46.13
+},
+{
+"name": "Priscilla",
+"latitude_deg": -10.9564,
+"longitude_deg": -6.2116,
+"diameter_km": 1.5
+},
+{
+"name": "Proclus",
+"latitude_deg": 16.0878,
+"longitude_deg": 46.8943,
+"diameter_km": 26.91
+},
+{
+"name": "Proctor",
+"latitude_deg": -46.4292,
+"longitude_deg": -5.044,
+"diameter_km": 47.64
+},
+{
+"name": "Protagoras",
+"latitude_deg": 56.0177,
+"longitude_deg": 7.3407,
+"diameter_km": 21.05
+},
+{
+"name": "Ptolemaeus",
+"latitude_deg": -9.1605,
+"longitude_deg": -1.8373,
+"diameter_km": 153.67
+},
+{
+"name": "Puiseux",
+"latitude_deg": -27.8179,
+"longitude_deg": -39.187,
+"diameter_km": 24.95
+},
+{
+"name": "Pupin",
+"latitude_deg": 23.8688,
+"longitude_deg": -11.0004,
+"diameter_km": 2.17
+},
+{
+"name": "Purbach",
+"latitude_deg": -25.512,
+"longitude_deg": -2.0304,
+"diameter_km": 114.97
+},
+{
+"name": "Purkyně",
+"latitude_deg": -1.5355,
+"longitude_deg": 94.8606,
+"diameter_km": 50.29
+},
+{
+"name": "Pythagoras",
+"latitude_deg": 63.6814,
+"longitude_deg": -62.9759,
+"diameter_km": 144.55
+},
+{
+"name": "Pytheas",
+"latitude_deg": 20.567,
+"longitude_deg": -20.5943,
+"diameter_km": 18.81
+},
+{
+"name": "Quetelet",
+"latitude_deg": 42.6578,
+"longitude_deg": -135.3022,
+"diameter_km": 54.77
+},
+{
+"name": "Rabbi Levi",
+"latitude_deg": -34.7815,
+"longitude_deg": 23.4565,
+"diameter_km": 82.44
+},
+{
+"name": "Racah",
+"latitude_deg": -13.5028,
+"longitude_deg": -179.8693,
+"diameter_km": 71.91
+},
+{
+"name": "Raimond",
+"latitude_deg": 14.7791,
+"longitude_deg": -159.6294,
+"diameter_km": 68.37
+},
+{
+"name": "Raman",
+"latitude_deg": 26.9587,
+"longitude_deg": -55.156,
+"diameter_km": 10.17
+},
+{
+"name": "Ramon",
+"latitude_deg": -41.228,
+"longitude_deg": -148.0779,
+"diameter_km": 17.23
+},
+{
+"name": "Ramsay",
+"latitude_deg": -40.0202,
+"longitude_deg": 145.0416,
+"diameter_km": 61.28
+},
+{
+"name": "Ramsden",
+"latitude_deg": -32.9564,
+"longitude_deg": -31.875,
+"diameter_km": 25.11
+},
+{
+"name": "Rankine",
+"latitude_deg": -3.8687,
+"longitude_deg": 71.4939,
+"diameter_km": 10.48
+},
+{
+"name": "Raspletin",
+"latitude_deg": -22.4061,
+"longitude_deg": 151.751,
+"diameter_km": 45.52
+},
+{
+"name": "Ravi",
+"latitude_deg": -12.5043,
+"longitude_deg": -1.9667,
+"diameter_km": 1.62
+},
+{
+"name": "Rayet",
+"latitude_deg": 44.6517,
+"longitude_deg": 114.5036,
+"diameter_km": 27.76
+},
+{
+"name": "Rayleigh",
+"latitude_deg": 29.1194,
+"longitude_deg": 89.4467,
+"diameter_km": 113.77
+},
+{
+"name": "Razumov",
+"latitude_deg": 38.9498,
+"longitude_deg": -114.6297,
+"diameter_km": 75.08
+},
+{
+"name": "Recht",
+"latitude_deg": 9.7613,
+"longitude_deg": 123.9949,
+"diameter_km": 19.96
+},
+{
+"name": "Regiomontanus",
+"latitude_deg": -28.2794,
+"longitude_deg": -1.0861,
+"diameter_km": 126.64
+},
+{
+"name": "Regnault",
+"latitude_deg": 54.0438,
+"longitude_deg": -87.8805,
+"diameter_km": 51.31
+},
+{
+"name": "Reichenbach",
+"latitude_deg": -30.4773,
+"longitude_deg": 47.9545,
+"diameter_km": 64.85
+},
+{
+"name": "Reimarus",
+"latitude_deg": -47.6917,
+"longitude_deg": 60.4213,
+"diameter_km": 47.62
+},
+{
+"name": "Reiner",
+"latitude_deg": 6.92,
+"longitude_deg": -54.983,
+"diameter_km": 29.85
+},
+{
+"name": "Reinhold",
+"latitude_deg": 3.2815,
+"longitude_deg": -22.8625,
+"diameter_km": 43.28
+},
+{
+"name": "Repsold",
+"latitude_deg": 51.3072,
+"longitude_deg": -78.4103,
+"diameter_km": 108.65
+},
+{
+"name": "Resnik",
+"latitude_deg": -34.1502,
+"longitude_deg": -150.8357,
+"diameter_km": 22.16
+},
+{
+"name": "Respighi",
+"latitude_deg": 2.8612,
+"longitude_deg": 71.8997,
+"diameter_km": 17.88
+},
+{
+"name": "Rhaeticus",
+"latitude_deg": 0.0318,
+"longitude_deg": 4.9241,
+"diameter_km": 44.43
+},
+{
+"name": "Rheita",
+"latitude_deg": -37.1,
+"longitude_deg": 47.1708,
+"diameter_km": 70.81
+},
+{
+"name": "Riccioli",
+"latitude_deg": -2.9004,
+"longitude_deg": -74.4155,
+"diameter_km": 155.66
+},
+{
+"name": "Riccius",
+"latitude_deg": -37.025,
+"longitude_deg": 26.4255,
+"diameter_km": 71.79
+},
+{
+"name": "Ricco",
+"latitude_deg": 74.918,
+"longitude_deg": 177.0519,
+"diameter_km": 65.83
+},
+{
+"name": "Richards",
+"latitude_deg": 7.7033,
+"longitude_deg": 140.0949,
+"diameter_km": 16.8
+},
+{
+"name": "Richardson",
+"latitude_deg": 30.9257,
+"longitude_deg": 99.8919,
+"diameter_km": 162.56
+},
+{
+"name": "Riedel",
+"latitude_deg": -48.8881,
+"longitude_deg": -140.0474,
+"diameter_km": 49.14
+},
+{
+"name": "Riemann",
+"latitude_deg": 39.3804,
+"longitude_deg": 87.1776,
+"diameter_km": 117.85
+},
+{
+"name": "Ritchey",
+"latitude_deg": -11.1285,
+"longitude_deg": 8.4767,
+"diameter_km": 24.07
+},
+{
+"name": "Rittenhouse",
+"latitude_deg": -74.2482,
+"longitude_deg": 107.0668,
+"diameter_km": 27.5
+},
+{
+"name": "Ritter",
+"latitude_deg": 1.958,
+"longitude_deg": 19.1713,
+"diameter_km": 29.52
+},
+{
+"name": "Ritz",
+"latitude_deg": -15.3701,
+"longitude_deg": 92.3848,
+"diameter_km": 53.77
+},
+{
+"name": "Robert",
+"latitude_deg": 19.0288,
+"longitude_deg": 27.4495,
+"diameter_km": 0.56
+},
+{
+"name": "Roberts",
+"latitude_deg": 70.6621,
+"longitude_deg": -174.2455,
+"diameter_km": 89.37
+},
+{
+"name": "Robertson",
+"latitude_deg": 21.8408,
+"longitude_deg": -105.365,
+"diameter_km": 89.85
+},
+{
+"name": "Robinson",
+"latitude_deg": 59.0645,
+"longitude_deg": -46.0292,
+"diameter_km": 24.09
+},
+{
+"name": "Rocca",
+"latitude_deg": -12.8877,
+"longitude_deg": -72.8943,
+"diameter_km": 84.06
+},
+{
+"name": "Rocco",
+"latitude_deg": 28.9078,
+"longitude_deg": -45.0001,
+"diameter_km": 4.35
+},
+{
+"name": "Roche",
+"latitude_deg": -42.3652,
+"longitude_deg": 136.5413,
+"diameter_km": 152.67
+},
+{
+"name": "Romeo",
+"latitude_deg": 7.5274,
+"longitude_deg": 122.683,
+"diameter_km": 7.15
+},
+{
+"name": "Rosa",
+"latitude_deg": 20.305,
+"longitude_deg": -32.3037,
+"diameter_km": 0.82
+},
+{
+"name": "Rosenberger",
+"latitude_deg": -55.4924,
+"longitude_deg": 43.1489,
+"diameter_km": 91.65
+},
+{
+"name": "Ross",
+"latitude_deg": 11.669,
+"longitude_deg": 21.7375,
+"diameter_km": 24.49
+},
+{
+"name": "Rosse",
+"latitude_deg": -17.9479,
+"longitude_deg": 34.981,
+"diameter_km": 11.43
+},
+{
+"name": "Rosseland",
+"latitude_deg": -40.8198,
+"longitude_deg": 130.6831,
+"diameter_km": 67.66
+},
+{
+"name": "Rost",
+"latitude_deg": -56.4237,
+"longitude_deg": -33.8434,
+"diameter_km": 46.85
+},
+{
+"name": "Rothmann",
+"latitude_deg": -30.8134,
+"longitude_deg": 27.6981,
+"diameter_km": 41.67
+},
+{
+"name": "Rowland",
+"latitude_deg": 56.9821,
+"longitude_deg": -162.4829,
+"diameter_km": 166.12
+},
+{
+"name": "Rozhdestvenskiy",
+"latitude_deg": 84.9943,
+"longitude_deg": -157.8924,
+"diameter_km": 181.15
+},
+{
+"name": "Rubin",
+"latitude_deg": -82.82,
+"longitude_deg": 77.65,
+"diameter_km": 4.0
+},
+{
+"name": "Rumford",
+"latitude_deg": -28.8113,
+"longitude_deg": -169.8015,
+"diameter_km": 60.83
+},
+{
+"name": "Runge",
+"latitude_deg": -2.429,
+"longitude_deg": 86.806,
+"diameter_km": 38.98
+},
+{
+"name": "Russell",
+"latitude_deg": 26.5116,
+"longitude_deg": -75.5478,
+"diameter_km": 103.37
+},
+{
+"name": "Ruth",
+"latitude_deg": 28.709,
+"longitude_deg": -45.0642,
+"diameter_km": 3.08
+},
+{
+"name": "Rutherford",
+"latitude_deg": 10.5637,
+"longitude_deg": 137.0917,
+"diameter_km": 15.98
+},
+{
+"name": "Rutherfurd",
+"latitude_deg": -61.1458,
+"longitude_deg": -12.2468,
+"diameter_km": 49.98
+},
+{
+"name": "Rydberg",
+"latitude_deg": -46.431,
+"longitude_deg": -96.427,
+"diameter_km": 48.03
+},
+{
+"name": "Ryder",
+"latitude_deg": -43.8747,
+"longitude_deg": 143.2994,
+"diameter_km": 15.55
+},
+{
+"name": "Rynin",
+"latitude_deg": 46.7841,
+"longitude_deg": -103.7314,
+"diameter_km": 77.88
+},
+{
+"name": "Réaumur",
+"latitude_deg": -2.45,
+"longitude_deg": 0.73,
+"diameter_km": 51.25
+},
+{
+"name": "Römer",
+"latitude_deg": 25.4258,
+"longitude_deg": 36.4051,
+"diameter_km": 43.7
+},
+{
+"name": "Röntgen",
+"latitude_deg": 32.8791,
+"longitude_deg": -91.4245,
+"diameter_km": 128.42
+},
+{
+"name": "Sabatier",
+"latitude_deg": 13.1864,
+"longitude_deg": 79.0072,
+"diameter_km": 9.6
+},
+{
+"name": "Sabine",
+"latitude_deg": 1.3769,
+"longitude_deg": 20.066,
+"diameter_km": 29.75
+},
+{
+"name": "Sacrobosco",
+"latitude_deg": -23.7522,
+"longitude_deg": 16.6401,
+"diameter_km": 97.67
+},
+{
+"name": "Saenger",
+"latitude_deg": 4.4851,
+"longitude_deg": 102.8024,
+"diameter_km": 74.57
+},
+{
+"name": "Saha",
+"latitude_deg": -1.6865,
+"longitude_deg": 103.0407,
+"diameter_km": 103.34
+},
+{
+"name": "Salam",
+"latitude_deg": -42.23,
+"longitude_deg": -153.02,
+"diameter_km": 6.0
+},
+{
+"name": "Samir",
+"latitude_deg": 28.5044,
+"longitude_deg": -34.2879,
+"diameter_km": 1.86
+},
+{
+"name": "Sampson",
+"latitude_deg": 29.5779,
+"longitude_deg": -16.5313,
+"diameter_km": 1.83
+},
+{
+"name": "Sanford",
+"latitude_deg": 32.3769,
+"longitude_deg": -139.2057,
+"diameter_km": 55.09
+},
+{
+"name": "Santbech",
+"latitude_deg": -20.9883,
+"longitude_deg": 44.0602,
+"diameter_km": 62.24
+},
+{
+"name": "Santos-Dumont",
+"latitude_deg": 27.7948,
+"longitude_deg": 4.7547,
+"diameter_km": 8.8
+},
+{
+"name": "Sarabhai",
+"latitude_deg": 24.7539,
+"longitude_deg": 21.0005,
+"diameter_km": 7.38
+},
+{
+"name": "Sarton",
+"latitude_deg": 49.1204,
+"longitude_deg": -121.1409,
+"diameter_km": 71.33
+},
+{
+"name": "Sasserides",
+"latitude_deg": -39.2776,
+"longitude_deg": -9.4444,
+"diameter_km": 81.74
+},
+{
+"name": "Saunder",
+"latitude_deg": -4.2601,
+"longitude_deg": 8.7179,
+"diameter_km": 44.38
+},
+{
+"name": "Saussure",
+"latitude_deg": -43.3776,
+"longitude_deg": -3.8849,
+"diameter_km": 54.56
+},
+{
+"name": "Scaliger",
+"latitude_deg": -27.2551,
+"longitude_deg": 109.1445,
+"diameter_km": 86.4
+},
+{
+"name": "Schaeberle",
+"latitude_deg": -26.3252,
+"longitude_deg": 117.7081,
+"diameter_km": 56.74
+},
+{
+"name": "Scheele",
+"latitude_deg": -9.4485,
+"longitude_deg": -37.8466,
+"diameter_km": 4.69
+},
+{
+"name": "Scheiner",
+"latitude_deg": -60.3532,
+"longitude_deg": -27.8091,
+"diameter_km": 110.07
+},
+{
+"name": "Schiaparelli",
+"latitude_deg": 23.3788,
+"longitude_deg": -58.8207,
+"diameter_km": 24.2
+},
+{
+"name": "Schickard",
+"latitude_deg": -44.3793,
+"longitude_deg": -55.1052,
+"diameter_km": 212.18
+},
+{
+"name": "Schiller",
+"latitude_deg": -51.7244,
+"longitude_deg": -39.784,
+"diameter_km": 179.36
+},
+{
+"name": "Schjellerup",
+"latitude_deg": 69.0378,
+"longitude_deg": 158.2447,
+"diameter_km": 62.82
+},
+{
+"name": "Schlesinger",
+"latitude_deg": 47.1209,
+"longitude_deg": -138.9807,
+"diameter_km": 97.28
+},
+{
+"name": "Schliemann",
+"latitude_deg": -1.99,
+"longitude_deg": 155.1232,
+"diameter_km": 77.4
+},
+{
+"name": "Schlüter",
+"latitude_deg": -5.9335,
+"longitude_deg": -83.389,
+"diameter_km": 87.55
+},
+{
+"name": "Schmidt",
+"latitude_deg": 0.9564,
+"longitude_deg": 18.7806,
+"diameter_km": 11.13
+},
+{
+"name": "Schneller",
+"latitude_deg": 41.3353,
+"longitude_deg": -163.727,
+"diameter_km": 56.87
+},
+{
+"name": "Schomberger",
+"latitude_deg": -76.6392,
+"longitude_deg": 24.6912,
+"diameter_km": 85.8
+},
+{
+"name": "Schorr",
+"latitude_deg": -19.4539,
+"longitude_deg": 89.7962,
+"diameter_km": 52.09
+},
+{
+"name": "Schrödinger",
+"latitude_deg": -74.7326,
+"longitude_deg": 132.9252,
+"diameter_km": 316.39
+},
+{
+"name": "Schröter",
+"latitude_deg": 2.7384,
+"longitude_deg": -6.9837,
+"diameter_km": 36.67
+},
+{
+"name": "Schubert",
+"latitude_deg": 2.7836,
+"longitude_deg": 81.0143,
+"diameter_km": 51.94
+},
+{
+"name": "Schumacher",
+"latitude_deg": 42.421,
+"longitude_deg": 60.8092,
+"diameter_km": 61.31
+},
+{
+"name": "Schuster",
+"latitude_deg": 4.4433,
+"longitude_deg": 146.4243,
+"diameter_km": 100.08
+},
+{
+"name": "Schwabe",
+"latitude_deg": 65.1032,
+"longitude_deg": 45.4808,
+"diameter_km": 25.47
+},
+{
+"name": "Schwarzschild",
+"latitude_deg": 70.0802,
+"longitude_deg": 121.5672,
+"diameter_km": 211.42
+},
+{
+"name": "Schönfeld",
+"latitude_deg": 44.7601,
+"longitude_deg": -98.0009,
+"diameter_km": 24.57
+},
+{
+"name": "Scobee",
+"latitude_deg": -31.358,
+"longitude_deg": -149.6437,
+"diameter_km": 41.53
+},
+{
+"name": "Scoresby",
+"latitude_deg": 77.7298,
+"longitude_deg": 14.1334,
+"diameter_km": 54.93
+},
+{
+"name": "Scott",
+"latitude_deg": -82.3532,
+"longitude_deg": 48.5154,
+"diameter_km": 107.82
+},
+{
+"name": "Seares",
+"latitude_deg": 73.7382,
+"longitude_deg": 147.2338,
+"diameter_km": 99.5
+},
+{
+"name": "Secchi",
+"latitude_deg": 2.4039,
+"longitude_deg": 43.5585,
+"diameter_km": 22.13
+},
+{
+"name": "Sechenov",
+"latitude_deg": -6.9731,
+"longitude_deg": -143.0887,
+"diameter_km": 63.8
+},
+{
+"name": "Seeliger",
+"latitude_deg": -2.2155,
+"longitude_deg": 2.995,
+"diameter_km": 8.28
+},
+{
+"name": "Segers",
+"latitude_deg": 46.9933,
+"longitude_deg": 127.5153,
+"diameter_km": 17.28
+},
+{
+"name": "Segner",
+"latitude_deg": -58.9597,
+"longitude_deg": -48.6752,
+"diameter_km": 67.84
+},
+{
+"name": "Seidel",
+"latitude_deg": -32.6543,
+"longitude_deg": 152.4703,
+"diameter_km": 55.39
+},
+{
+"name": "Seleucus",
+"latitude_deg": 21.0908,
+"longitude_deg": -66.6608,
+"diameter_km": 45.01
+},
+{
+"name": "Seneca",
+"latitude_deg": 26.7111,
+"longitude_deg": 79.8062,
+"diameter_km": 47.57
+},
+{
+"name": "Seyfert",
+"latitude_deg": 29.2637,
+"longitude_deg": 114.335,
+"diameter_km": 102.63
+},
+{
+"name": "Shackleton",
+"latitude_deg": -89.67,
+"longitude_deg": 129.78,
+"diameter_km": 20.92
+},
+{
+"name": "Shahinaz",
+"latitude_deg": 7.5803,
+"longitude_deg": 122.4234,
+"diameter_km": 15.99
+},
+{
+"name": "Shaler",
+"latitude_deg": -32.8919,
+"longitude_deg": -85.2705,
+"diameter_km": 48.47
+},
+{
+"name": "Shapley",
+"latitude_deg": 9.3543,
+"longitude_deg": 56.8341,
+"diameter_km": 24.82
+},
+{
+"name": "Sharonov",
+"latitude_deg": 12.3728,
+"longitude_deg": 173.0995,
+"diameter_km": 75.12
+},
+{
+"name": "Sharp",
+"latitude_deg": 45.7513,
+"longitude_deg": -40.2166,
+"diameter_km": 37.61
+},
+{
+"name": "Shatalov",
+"latitude_deg": 24.2609,
+"longitude_deg": 140.4775,
+"diameter_km": 24.05
+},
+{
+"name": "Shayn",
+"latitude_deg": 32.5158,
+"longitude_deg": 172.416,
+"diameter_km": 92.9
+},
+{
+"name": "Sheepshanks",
+"latitude_deg": 59.2419,
+"longitude_deg": 17.0386,
+"diameter_km": 23.67
+},
+{
+"name": "Shen Kuo",
+"latitude_deg": 44.0,
+"longitude_deg": -49.41,
+"diameter_km": 0.9
+},
+{
+"name": "Sherrington",
+"latitude_deg": -11.1281,
+"longitude_deg": 118.0003,
+"diameter_km": 18.8
+},
+{
+"name": "Shi Shen",
+"latitude_deg": 75.7847,
+"longitude_deg": 104.1348,
+"diameter_km": 46.52
+},
+{
+"name": "Shioli",
+"latitude_deg": -13.3266,
+"longitude_deg": 25.2299,
+"diameter_km": 0.27
+},
+{
+"name": "Shirakatsi",
+"latitude_deg": -12.1836,
+"longitude_deg": 128.559,
+"diameter_km": 48.13
+},
+{
+"name": "Shoemaker",
+"latitude_deg": -88.137,
+"longitude_deg": 45.911,
+"diameter_km": 51.82
+},
+{
+"name": "Short",
+"latitude_deg": -74.537,
+"longitude_deg": -7.684,
+"diameter_km": 67.94
+},
+{
+"name": "Shternberg (Sternberg)",
+"latitude_deg": 19.3773,
+"longitude_deg": -116.8186,
+"diameter_km": 74.36
+},
+{
+"name": "Shuckburgh",
+"latitude_deg": 42.6481,
+"longitude_deg": 52.7127,
+"diameter_km": 37.73
+},
+{
+"name": "Shuleykin",
+"latitude_deg": -27.1062,
+"longitude_deg": -92.6743,
+"diameter_km": 14.67
+},
+{
+"name": "Siedentopf",
+"latitude_deg": 22.0475,
+"longitude_deg": 135.0841,
+"diameter_km": 62.7
+},
+{
+"name": "Sierpinski",
+"latitude_deg": -26.9349,
+"longitude_deg": 154.8096,
+"diameter_km": 66.94
+},
+{
+"name": "Sikorsky",
+"latitude_deg": -65.887,
+"longitude_deg": 103.6462,
+"diameter_km": 97.67
+},
+{
+"name": "Silberschlag",
+"latitude_deg": 6.2066,
+"longitude_deg": 12.5291,
+"diameter_km": 12.56
+},
+{
+"name": "Simpelius",
+"latitude_deg": -72.6125,
+"longitude_deg": 14.743,
+"diameter_km": 68.89
+},
+{
+"name": "Sinas",
+"latitude_deg": 8.8511,
+"longitude_deg": 31.6001,
+"diameter_km": 11.67
+},
+{
+"name": "Sirsalis",
+"latitude_deg": -12.4922,
+"longitude_deg": -60.5065,
+"diameter_km": 44.17
+},
+{
+"name": "Sisakyan",
+"latitude_deg": 41.0738,
+"longitude_deg": 109.1275,
+"diameter_km": 35.6
+},
+{
+"name": "Sita",
+"latitude_deg": 4.6133,
+"longitude_deg": 120.7003,
+"diameter_km": 1.59
+},
+{
+"name": "Sklodowska",
+"latitude_deg": -18.0352,
+"longitude_deg": 96.1496,
+"diameter_km": 125.55
+},
+{
+"name": "Slater",
+"latitude_deg": -88.0792,
+"longitude_deg": 111.2881,
+"diameter_km": 25.12
+},
+{
+"name": "Slava",
+"latitude_deg": 38.2282,
+"longitude_deg": -35.004,
+"diameter_km": 0.1
+},
+{
+"name": "Slipher",
+"latitude_deg": 49.279,
+"longitude_deg": 160.2683,
+"diameter_km": 74.65
+},
+{
+"name": "Slocum",
+"latitude_deg": -3.154,
+"longitude_deg": 89.0746,
+"diameter_km": 12.15
+},
+{
+"name": "Smith",
+"latitude_deg": -31.7878,
+"longitude_deg": -151.0077,
+"diameter_km": 32.87
+},
+{
+"name": "Smithson",
+"latitude_deg": 2.3823,
+"longitude_deg": 53.6375,
+"diameter_km": 6.04
+},
+{
+"name": "Smoluchowski",
+"latitude_deg": 60.2219,
+"longitude_deg": -96.9076,
+"diameter_km": 84.26
+},
+{
+"name": "Snellius",
+"latitude_deg": -29.3332,
+"longitude_deg": 55.7048,
+"diameter_km": 85.98
+},
+{
+"name": "Sniadecki",
+"latitude_deg": -22.2873,
+"longitude_deg": -168.8407,
+"diameter_km": 41.13
+},
+{
+"name": "Soddy",
+"latitude_deg": 0.4483,
+"longitude_deg": 121.7653,
+"diameter_km": 40.79
+},
+{
+"name": "Somerville",
+"latitude_deg": -8.3319,
+"longitude_deg": 64.9611,
+"diameter_km": 17.08
+},
+{
+"name": "Sommerfeld",
+"latitude_deg": 64.8298,
+"longitude_deg": -161.545,
+"diameter_km": 150.89
+},
+{
+"name": "Song Yingxing",
+"latitude_deg": 42.34,
+"longitude_deg": -49.65,
+"diameter_km": 1.8
+},
+{
+"name": "Soraya",
+"latitude_deg": -12.8652,
+"longitude_deg": -1.6342,
+"diameter_km": 1.9
+},
+{
+"name": "Sosigenes",
+"latitude_deg": 8.7,
+"longitude_deg": 17.5955,
+"diameter_km": 16.99
+},
+{
+"name": "South",
+"latitude_deg": 57.5807,
+"longitude_deg": -50.9415,
+"diameter_km": 119.04
+},
+{
+"name": "Spallanzani",
+"latitude_deg": -46.3835,
+"longitude_deg": 24.7277,
+"diameter_km": 30.86
+},
+{
+"name": "Spencer Jones",
+"latitude_deg": 13.0588,
+"longitude_deg": 165.8397,
+"diameter_km": 88.19
+},
+{
+"name": "Spudis",
+"latitude_deg": -89.51,
+"longitude_deg": -84.61,
+"diameter_km": 13.0
+},
+{
+"name": "Spurr",
+"latitude_deg": 27.9112,
+"longitude_deg": -1.2695,
+"diameter_km": 13.21
+},
+{
+"name": "Spörer",
+"latitude_deg": -4.3025,
+"longitude_deg": -1.7745,
+"diameter_km": 25.57
+},
+{
+"name": "St. John",
+"latitude_deg": 10.0716,
+"longitude_deg": 149.9823,
+"diameter_km": 66.74
+},
+{
+"name": "Stadius",
+"latitude_deg": 10.4758,
+"longitude_deg": -13.7737,
+"diameter_km": 68.48
+},
+{
+"name": "Stearns",
+"latitude_deg": 34.6828,
+"longitude_deg": 162.6047,
+"diameter_km": 38.94
+},
+{
+"name": "Stebbins",
+"latitude_deg": 64.3627,
+"longitude_deg": -142.6406,
+"diameter_km": 129.74
+},
+{
+"name": "Stefan",
+"latitude_deg": 46.3319,
+"longitude_deg": -108.7744,
+"diameter_km": 112.18
+},
+{
+"name": "Stein",
+"latitude_deg": 6.9952,
+"longitude_deg": 179.1068,
+"diameter_km": 30.72
+},
+{
+"name": "Steinheil",
+"latitude_deg": -48.7091,
+"longitude_deg": 46.6562,
+"diameter_km": 63.28
+},
+{
+"name": "Steklov",
+"latitude_deg": -36.7313,
+"longitude_deg": -105.0504,
+"diameter_km": 36.61
+},
+{
+"name": "Stella",
+"latitude_deg": 19.9124,
+"longitude_deg": 29.7579,
+"diameter_km": 0.42
+},
+{
+"name": "Steno",
+"latitude_deg": 32.6069,
+"longitude_deg": 161.7772,
+"diameter_km": 32.29
+},
+{
+"name": "Sternfeld",
+"latitude_deg": -19.7506,
+"longitude_deg": -142.2673,
+"diameter_km": 109.8
+},
+{
+"name": "Stetson",
+"latitude_deg": -39.5793,
+"longitude_deg": -118.1956,
+"diameter_km": 63.12
+},
+{
+"name": "Stevinus",
+"latitude_deg": -32.4902,
+"longitude_deg": 54.1372,
+"diameter_km": 71.54
+},
+{
+"name": "Stewart",
+"latitude_deg": 2.15,
+"longitude_deg": 66.9786,
+"diameter_km": 13.77
+},
+{
+"name": "Stiborius",
+"latitude_deg": -34.493,
+"longitude_deg": 31.9908,
+"diameter_km": 43.76
+},
+{
+"name": "Stokes",
+"latitude_deg": 52.3639,
+"longitude_deg": -88.1059,
+"diameter_km": 53.85
+},
+{
+"name": "Stoletov",
+"latitude_deg": 44.8207,
+"longitude_deg": -155.5016,
+"diameter_km": 42.43
+},
+{
+"name": "Stoney",
+"latitude_deg": -55.5755,
+"longitude_deg": -156.3785,
+"diameter_km": 47.51
+},
+{
+"name": "Stose",
+"latitude_deg": -86.38,
+"longitude_deg": 32.13,
+"diameter_km": 16.7
+},
+{
+"name": "Strabo",
+"latitude_deg": 61.9382,
+"longitude_deg": 54.4249,
+"diameter_km": 54.72
+},
+{
+"name": "Stratton",
+"latitude_deg": -5.6036,
+"longitude_deg": 164.7021,
+"diameter_km": 69.76
+},
+{
+"name": "Street",
+"latitude_deg": -46.5784,
+"longitude_deg": -10.7364,
+"diameter_km": 58.52
+},
+{
+"name": "Struve",
+"latitude_deg": 23.4132,
+"longitude_deg": -76.6523,
+"diameter_km": 164.34
+},
+{
+"name": "Strömgren",
+"latitude_deg": -21.7398,
+"longitude_deg": -132.3677,
+"diameter_km": 62.17
+},
+{
+"name": "Stöfler",
+"latitude_deg": -41.2416,
+"longitude_deg": 5.9265,
+"diameter_km": 129.87
+},
+{
+"name": "Störmer",
+"latitude_deg": 57.1387,
+"longitude_deg": 146.6485,
+"diameter_km": 68.62
+},
+{
+"name": "Su Song",
+"latitude_deg": -41.8,
+"longitude_deg": -154.49,
+"diameter_km": 0.7
+},
+{
+"name": "Subbotin",
+"latitude_deg": -29.3249,
+"longitude_deg": 135.7052,
+"diameter_km": 71.66
+},
+{
+"name": "Suess",
+"latitude_deg": 4.3578,
+"longitude_deg": -47.7174,
+"diameter_km": 8.39
+},
+{
+"name": "Sulpicius Gallus",
+"latitude_deg": 19.6262,
+"longitude_deg": 11.6788,
+"diameter_km": 11.61
+},
+{
+"name": "Sumner",
+"latitude_deg": 37.6176,
+"longitude_deg": 108.7621,
+"diameter_km": 52.87
+},
+{
+"name": "Sundman",
+"latitude_deg": 10.7554,
+"longitude_deg": -91.6933,
+"diameter_km": 41.04
+},
+{
+"name": "Susan",
+"latitude_deg": -10.9982,
+"longitude_deg": -6.3006,
+"diameter_km": 0.95
+},
+{
+"name": "Svedberg",
+"latitude_deg": -81.6806,
+"longitude_deg": 65.1505,
+"diameter_km": 15.34
+},
+{
+"name": "Sverdrup",
+"latitude_deg": -88.3209,
+"longitude_deg": -153.3875,
+"diameter_km": 32.83
+},
+{
+"name": "Swann",
+"latitude_deg": 51.9571,
+"longitude_deg": 112.5212,
+"diameter_km": 42.18
+},
+{
+"name": "Swasey",
+"latitude_deg": -5.4575,
+"longitude_deg": 89.6704,
+"diameter_km": 24.85
+},
+{
+"name": "Swift",
+"latitude_deg": 19.3463,
+"longitude_deg": 53.4448,
+"diameter_km": 10.06
+},
+{
+"name": "Sylvester",
+"latitude_deg": 82.6492,
+"longitude_deg": -81.2181,
+"diameter_km": 59.28
+},
+{
+"name": "Szilard",
+"latitude_deg": 33.7051,
+"longitude_deg": 105.7832,
+"diameter_km": 127.22
+},
+{
+"name": "Sömmering",
+"latitude_deg": 0.1927,
+"longitude_deg": -7.5263,
+"diameter_km": 27.97
+},
+{
+"name": "T. Mayer",
+"latitude_deg": 15.537,
+"longitude_deg": -29.167,
+"diameter_km": 33.15
+},
+{
+"name": "Tacchini",
+"latitude_deg": 5.0843,
+"longitude_deg": 85.8245,
+"diameter_km": 42.58
+},
+{
+"name": "Tacitus",
+"latitude_deg": -16.2049,
+"longitude_deg": 18.9495,
+"diameter_km": 39.81
+},
+{
+"name": "Tacquet",
+"latitude_deg": 16.6412,
+"longitude_deg": 19.2026,
+"diameter_km": 6.43
+},
+{
+"name": "Tai Wei",
+"latitude_deg": 44.1534,
+"longitude_deg": -19.4928,
+"diameter_km": 0.48
+},
+{
+"name": "Taizo",
+"latitude_deg": 24.7024,
+"longitude_deg": 2.1961,
+"diameter_km": 8.19
+},
+{
+"name": "Talbot",
+"latitude_deg": -2.4745,
+"longitude_deg": 85.2971,
+"diameter_km": 12.36
+},
+{
+"name": "Tamm",
+"latitude_deg": -4.3201,
+"longitude_deg": 146.3816,
+"diameter_km": 40.54
+},
+{
+"name": "Tannerus",
+"latitude_deg": -56.4376,
+"longitude_deg": 21.922,
+"diameter_km": 28.07
+},
+{
+"name": "Taruntius",
+"latitude_deg": 5.5022,
+"longitude_deg": 46.5426,
+"diameter_km": 57.32
+},
+{
+"name": "Taylor",
+"latitude_deg": -5.2823,
+"longitude_deg": 16.6479,
+"diameter_km": 36.35
+},
+{
+"name": "Tebbutt",
+"latitude_deg": 9.4591,
+"longitude_deg": 53.5189,
+"diameter_km": 33.99
+},
+{
+"name": "Teisserenc",
+"latitude_deg": 31.9629,
+"longitude_deg": -136.2752,
+"diameter_km": 62.31
+},
+{
+"name": "Tempel",
+"latitude_deg": 3.7612,
+"longitude_deg": 11.8574,
+"diameter_km": 43.19
+},
+{
+"name": "Ten Bruggencate",
+"latitude_deg": -9.5765,
+"longitude_deg": 134.6649,
+"diameter_km": 59.95
+},
+{
+"name": "Tereshkova",
+"latitude_deg": 28.2107,
+"longitude_deg": 143.8439,
+"diameter_km": 31.33
+},
+{
+"name": "Tesla",
+"latitude_deg": 38.3641,
+"longitude_deg": 124.7251,
+"diameter_km": 41.15
+},
+{
+"name": "Thales",
+"latitude_deg": 61.7351,
+"longitude_deg": 50.2675,
+"diameter_km": 30.75
+},
+{
+"name": "Tharp",
+"latitude_deg": -30.599,
+"longitude_deg": 145.6308,
+"diameter_km": 13.45
+},
+{
+"name": "Theaetetus",
+"latitude_deg": 37.0106,
+"longitude_deg": 6.0554,
+"diameter_km": 24.59
+},
+{
+"name": "Thebit",
+"latitude_deg": -22.0111,
+"longitude_deg": -4.0157,
+"diameter_km": 54.64
+},
+{
+"name": "Theiler",
+"latitude_deg": 13.3632,
+"longitude_deg": 82.85,
+"diameter_km": 8.28
+},
+{
+"name": "Theon Junior",
+"latitude_deg": -2.4094,
+"longitude_deg": 15.793,
+"diameter_km": 17.61
+},
+{
+"name": "Theon Senior",
+"latitude_deg": -0.8143,
+"longitude_deg": 15.4192,
+"diameter_km": 18.02
+},
+{
+"name": "Theophilus",
+"latitude_deg": -11.4524,
+"longitude_deg": 26.2847,
+"diameter_km": 98.59
+},
+{
+"name": "Theophrastus",
+"latitude_deg": 17.4635,
+"longitude_deg": 39.057,
+"diameter_km": 8.03
+},
+{
+"name": "Thiel",
+"latitude_deg": 40.171,
+"longitude_deg": -134.5614,
+"diameter_km": 35.67
+},
+{
+"name": "Thiessen",
+"latitude_deg": 74.8576,
+"longitude_deg": -169.5041,
+"diameter_km": 66.39
+},
+{
+"name": "Thomson",
+"latitude_deg": -32.3183,
+"longitude_deg": 166.0417,
+"diameter_km": 117.25
+},
+{
+"name": "Tian Shi",
+"latitude_deg": 44.0967,
+"longitude_deg": -19.4474,
+"diameter_km": 0.47
+},
+{
+"name": "Tianjin",
+"latitude_deg": -44.93,
+"longitude_deg": 178.81,
+"diameter_km": 3.9
+},
+{
+"name": "Tikhomirov",
+"latitude_deg": 24.1988,
+"longitude_deg": 161.3329,
+"diameter_km": 86.43
+},
+{
+"name": "Tikhov",
+"latitude_deg": 61.6626,
+"longitude_deg": 172.2935,
+"diameter_km": 83.97
+},
+{
+"name": "Tiling",
+"latitude_deg": -52.8549,
+"longitude_deg": -133.1111,
+"diameter_km": 38.23
+},
+{
+"name": "Timaeus",
+"latitude_deg": 62.91,
+"longitude_deg": -0.55,
+"diameter_km": 32.81
+},
+{
+"name": "Timiryazev",
+"latitude_deg": -5.0866,
+"longitude_deg": -147.1467,
+"diameter_km": 52.15
+},
+{
+"name": "Timocharis",
+"latitude_deg": 26.7172,
+"longitude_deg": -13.1002,
+"diameter_km": 34.14
+},
+{
+"name": "Tiselius",
+"latitude_deg": 6.8928,
+"longitude_deg": 176.7031,
+"diameter_km": 53.75
+},
+{
+"name": "Tisserand",
+"latitude_deg": 21.4131,
+"longitude_deg": 48.1666,
+"diameter_km": 34.63
+},
+{
+"name": "Titius",
+"latitude_deg": -26.7475,
+"longitude_deg": 100.6634,
+"diameter_km": 68.42
+},
+{
+"name": "Titov",
+"latitude_deg": 28.5505,
+"longitude_deg": 150.2852,
+"diameter_km": 29.61
+},
+{
+"name": "Tolansky",
+"latitude_deg": -9.5186,
+"longitude_deg": -15.9822,
+"diameter_km": 13.03
+},
+{
+"name": "Tooley",
+"latitude_deg": -88.04,
+"longitude_deg": 51.31,
+"diameter_km": 7.0
+},
+{
+"name": "Torricelli",
+"latitude_deg": -4.7197,
+"longitude_deg": 28.4037,
+"diameter_km": 30.87
+},
+{
+"name": "Toscanelli",
+"latitude_deg": 27.9591,
+"longitude_deg": -47.6136,
+"diameter_km": 7.05
+},
+{
+"name": "Townley",
+"latitude_deg": 3.4244,
+"longitude_deg": 63.1872,
+"diameter_km": 17.68
+},
+{
+"name": "Tralles",
+"latitude_deg": 28.3181,
+"longitude_deg": 52.8496,
+"diameter_km": 44.16
+},
+{
+"name": "Triesnecker",
+"latitude_deg": 4.181,
+"longitude_deg": 3.5988,
+"diameter_km": 24.97
+},
+{
+"name": "Trouvelot",
+"latitude_deg": 49.3708,
+"longitude_deg": 5.7947,
+"diameter_km": 8.5
+},
+{
+"name": "Trumpler",
+"latitude_deg": 29.3264,
+"longitude_deg": 167.1351,
+"diameter_km": 76.17
+},
+{
+"name": "Tsander (Zander)",
+"latitude_deg": 5.3935,
+"longitude_deg": -149.6931,
+"diameter_km": 159.94
+},
+{
+"name": "Tseraskiy (Ceraski)",
+"latitude_deg": -48.6599,
+"longitude_deg": 142.6355,
+"diameter_km": 65.59
+},
+{
+"name": "Tsinger (Zinger)",
+"latitude_deg": 56.5363,
+"longitude_deg": 175.71,
+"diameter_km": 44.21
+},
+{
+"name": "Tsiolkovskiy",
+"latitude_deg": -20.3789,
+"longitude_deg": 128.9715,
+"diameter_km": 184.39
+},
+{
+"name": "Tsu Chung-Chi",
+"latitude_deg": 17.1647,
+"longitude_deg": 145.1593,
+"diameter_km": 28.53
+},
+{
+"name": "Tucker",
+"latitude_deg": -5.6198,
+"longitude_deg": 88.2091,
+"diameter_km": 6.78
+},
+{
+"name": "Turner",
+"latitude_deg": -1.3961,
+"longitude_deg": -13.2408,
+"diameter_km": 11.22
+},
+{
+"name": "Tycho",
+"latitude_deg": -43.2958,
+"longitude_deg": -11.2153,
+"diameter_km": 85.29
+},
+{
+"name": "Tyndall",
+"latitude_deg": -35.2009,
+"longitude_deg": 117.6442,
+"diameter_km": 20.94
+},
+{
+"name": "Ukert",
+"latitude_deg": 7.7084,
+"longitude_deg": 1.366,
+"diameter_km": 21.71
+},
+{
+"name": "Ulugh Beigh",
+"latitude_deg": 32.6682,
+"longitude_deg": -81.9565,
+"diameter_km": 57.04
+},
+{
+"name": "Urey",
+"latitude_deg": 27.9335,
+"longitude_deg": 87.4286,
+"diameter_km": 39.29
+},
+{
+"name": "Valera",
+"latitude_deg": 38.2896,
+"longitude_deg": -35.0185,
+"diameter_km": 0.13
+},
+{
+"name": "Valier",
+"latitude_deg": 6.6548,
+"longitude_deg": 174.2643,
+"diameter_km": 65.06
+},
+{
+"name": "Van Biesbroeck",
+"latitude_deg": 28.7664,
+"longitude_deg": -45.5872,
+"diameter_km": 9.08
+},
+{
+"name": "Van Gent",
+"latitude_deg": 15.4217,
+"longitude_deg": 160.2707,
+"diameter_km": 44.37
+},
+{
+"name": "Van Maanen",
+"latitude_deg": 36.0319,
+"longitude_deg": 128.1776,
+"diameter_km": 46.42
+},
+{
+"name": "Van Vleck",
+"latitude_deg": -1.7738,
+"longitude_deg": 78.2015,
+"diameter_km": 33.48
+},
+{
+"name": "Van Wijk",
+"latitude_deg": -62.4955,
+"longitude_deg": 119.0565,
+"diameter_km": 31.06
+},
+{
+"name": "Van de Graaff",
+"latitude_deg": -27.0413,
+"longitude_deg": 172.008,
+"diameter_km": 240.47
+},
+{
+"name": "Van den Bergh",
+"latitude_deg": 30.9096,
+"longitude_deg": -159.2081,
+"diameter_km": 43.42
+},
+{
+"name": "Van der Waals",
+"latitude_deg": -43.5564,
+"longitude_deg": 119.9806,
+"diameter_km": 113.37
+},
+{
+"name": "Vasco da Gama",
+"latitude_deg": 13.7807,
+"longitude_deg": -83.9386,
+"diameter_km": 93.52
+},
+{
+"name": "Vashakidze",
+"latitude_deg": 43.6533,
+"longitude_deg": 93.0137,
+"diameter_km": 44.99
+},
+{
+"name": "Vasya",
+"latitude_deg": 38.1994,
+"longitude_deg": -34.9819,
+"diameter_km": 0.1
+},
+{
+"name": "Vaughan",
+"latitude_deg": -41.41,
+"longitude_deg": -171.85,
+"diameter_km": 3.0
+},
+{
+"name": "Vavilov",
+"latitude_deg": -0.8701,
+"longitude_deg": -138.7731,
+"diameter_km": 98.22
+},
+{
+"name": "Vega",
+"latitude_deg": -45.4061,
+"longitude_deg": 63.2659,
+"diameter_km": 73.51
+},
+{
+"name": "Vendelinus",
+"latitude_deg": -16.4576,
+"longitude_deg": 61.5456,
+"diameter_km": 141.21
+},
+{
+"name": "Vening Meinesz",
+"latitude_deg": -0.102,
+"longitude_deg": 162.5078,
+"diameter_km": 88.69
+},
+{
+"name": "Ventris",
+"latitude_deg": -4.7736,
+"longitude_deg": 157.9669,
+"diameter_km": 100.74
+},
+{
+"name": "Vera",
+"latitude_deg": 26.327,
+"longitude_deg": -43.7128,
+"diameter_km": 2.27
+},
+{
+"name": "Vernadskiy",
+"latitude_deg": 23.1139,
+"longitude_deg": 130.4256,
+"diameter_km": 91.97
+},
+{
+"name": "Verne",
+"latitude_deg": 24.9533,
+"longitude_deg": -25.3772,
+"diameter_km": 1.54
+},
+{
+"name": "Vertregt",
+"latitude_deg": -19.2999,
+"longitude_deg": 171.1203,
+"diameter_km": 172.76
+},
+{
+"name": "Very",
+"latitude_deg": 25.6228,
+"longitude_deg": 25.348,
+"diameter_km": 4.65
+},
+{
+"name": "Vesalius",
+"latitude_deg": -3.2312,
+"longitude_deg": 114.7936,
+"diameter_km": 64.65
+},
+{
+"name": "Vestine",
+"latitude_deg": 33.871,
+"longitude_deg": 93.6785,
+"diameter_km": 97.81
+},
+{
+"name": "Vetchinkin",
+"latitude_deg": 9.7685,
+"longitude_deg": 131.0751,
+"diameter_km": 94.29
+},
+{
+"name": "Vieta",
+"latitude_deg": -29.3106,
+"longitude_deg": -56.5269,
+"diameter_km": 87.16
+},
+{
+"name": "Vil'ev",
+"latitude_deg": -5.7561,
+"longitude_deg": 144.3924,
+"diameter_km": 45.83
+},
+{
+"name": "Virchow",
+"latitude_deg": 9.8789,
+"longitude_deg": 83.7658,
+"diameter_km": 18.83
+},
+{
+"name": "Virtanen",
+"latitude_deg": 15.643,
+"longitude_deg": 176.7368,
+"diameter_km": 39.65
+},
+{
+"name": "Vitello",
+"latitude_deg": -30.4194,
+"longitude_deg": -37.5506,
+"diameter_km": 42.51
+},
+{
+"name": "Vitruvius",
+"latitude_deg": 17.6627,
+"longitude_deg": 31.2797,
+"diameter_km": 30.94
+},
+{
+"name": "Vitya",
+"latitude_deg": 38.2687,
+"longitude_deg": -35.028,
+"diameter_km": 0.13
+},
+{
+"name": "Viviani",
+"latitude_deg": 5.1622,
+"longitude_deg": 117.1518,
+"diameter_km": 26.94
+},
+{
+"name": "Vlacq",
+"latitude_deg": -53.3894,
+"longitude_deg": 38.6902,
+"diameter_km": 89.21
+},
+{
+"name": "Vogel",
+"latitude_deg": -15.1071,
+"longitude_deg": 5.8307,
+"diameter_km": 26.3
+},
+{
+"name": "Volkov",
+"latitude_deg": -13.6189,
+"longitude_deg": 131.6652,
+"diameter_km": 40.84
+},
+{
+"name": "Volta",
+"latitude_deg": 53.9005,
+"longitude_deg": -84.7656,
+"diameter_km": 117.15
+},
+{
+"name": "Volterra",
+"latitude_deg": 56.5541,
+"longitude_deg": 131.6432,
+"diameter_km": 55.1
+},
+{
+"name": "Von Kármán",
+"latitude_deg": -44.4505,
+"longitude_deg": 176.2451,
+"diameter_km": 186.35
+},
+{
+"name": "Von Neumann",
+"latitude_deg": 40.2846,
+"longitude_deg": 153.2494,
+"diameter_km": 74.83
+},
+{
+"name": "Von Zeipel",
+"latitude_deg": 42.1924,
+"longitude_deg": -141.9254,
+"diameter_km": 83.41
+},
+{
+"name": "Von der Pahlen",
+"latitude_deg": -24.8361,
+"longitude_deg": -133.0094,
+"diameter_km": 53.89
+},
+{
+"name": "Voskresenskiy",
+"latitude_deg": 27.9059,
+"longitude_deg": -88.1201,
+"diameter_km": 49.37
+},
+{
+"name": "Väisälä",
+"latitude_deg": 25.9025,
+"longitude_deg": -47.8975,
+"diameter_km": 8.12
+},
+{
+"name": "W. Bond",
+"latitude_deg": 65.4052,
+"longitude_deg": 3.5195,
+"diameter_km": 170.53
+},
+{
+"name": "Walker",
+"latitude_deg": -25.819,
+"longitude_deg": -161.921,
+"diameter_km": 32.94
+},
+{
+"name": "Wallace",
+"latitude_deg": 20.2571,
+"longitude_deg": -8.7491,
+"diameter_km": 25.71
+},
+{
+"name": "Wallach",
+"latitude_deg": 4.8889,
+"longitude_deg": 32.2654,
+"diameter_km": 5.74
+},
+{
+"name": "Walter",
+"latitude_deg": 28.0444,
+"longitude_deg": -33.8112,
+"diameter_km": 1.26
+},
+{
+"name": "Walther",
+"latitude_deg": -33.2485,
+"longitude_deg": 0.6156,
+"diameter_km": 134.23
+},
+{
+"name": "Wan-Hoo (Van-Gu)",
+"latitude_deg": -9.9632,
+"longitude_deg": -138.9062,
+"diameter_km": 53.28
+},
+{
+"name": "Wapowski",
+"latitude_deg": -83.0777,
+"longitude_deg": 53.7893,
+"diameter_km": 11.45
+},
+{
+"name": "Wargentin",
+"latitude_deg": -49.5313,
+"longitude_deg": -60.4386,
+"diameter_km": 84.69
+},
+{
+"name": "Wargo",
+"latitude_deg": 27.68,
+"longitude_deg": -148.62,
+"diameter_km": 13.9
+},
+{
+"name": "Warner",
+"latitude_deg": -3.9814,
+"longitude_deg": 87.3484,
+"diameter_km": 34.51
+},
+{
+"name": "Waterman",
+"latitude_deg": -25.7021,
+"longitude_deg": 128.1769,
+"diameter_km": 74.91
+},
+{
+"name": "Watson",
+"latitude_deg": -62.5929,
+"longitude_deg": -124.0469,
+"diameter_km": 59.43
+},
+{
+"name": "Watt",
+"latitude_deg": -49.5972,
+"longitude_deg": 48.4773,
+"diameter_km": 66.54
+},
+{
+"name": "Watts",
+"latitude_deg": 8.8443,
+"longitude_deg": 46.3079,
+"diameter_km": 15.55
+},
+{
+"name": "Webb",
+"latitude_deg": -0.9819,
+"longitude_deg": 59.9993,
+"diameter_km": 21.41
+},
+{
+"name": "Weber",
+"latitude_deg": 50.0618,
+"longitude_deg": -123.7932,
+"diameter_km": 43.95
+},
+{
+"name": "Wegener",
+"latitude_deg": 45.2055,
+"longitude_deg": -113.8107,
+"diameter_km": 95.78
+},
+{
+"name": "Weierstrass",
+"latitude_deg": -1.258,
+"longitude_deg": 77.1472,
+"diameter_km": 31.32
+},
+{
+"name": "Weigel",
+"latitude_deg": -58.385,
+"longitude_deg": -39.3361,
+"diameter_km": 34.85
+},
+{
+"name": "Weinek",
+"latitude_deg": -27.5651,
+"longitude_deg": 37.0614,
+"diameter_km": 32.01
+},
+{
+"name": "Weiss",
+"latitude_deg": -31.7618,
+"longitude_deg": -19.5873,
+"diameter_km": 66.56
+},
+{
+"name": "Werner",
+"latitude_deg": -28.0263,
+"longitude_deg": 3.2927,
+"diameter_km": 70.59
+},
+{
+"name": "Wexler",
+"latitude_deg": -68.8843,
+"longitude_deg": 90.7106,
+"diameter_km": 52.44
+},
+{
+"name": "Weyl",
+"latitude_deg": 15.9696,
+"longitude_deg": -120.5341,
+"diameter_km": 122.82
+},
+{
+"name": "Whewell",
+"latitude_deg": 4.1604,
+"longitude_deg": 13.7338,
+"diameter_km": 13.05
+},
+{
+"name": "Whipple",
+"latitude_deg": 89.1373,
+"longitude_deg": 120.0192,
+"diameter_km": 14.53
+},
+{
+"name": "Whitaker",
+"latitude_deg": -84.67,
+"longitude_deg": 0.69,
+"diameter_km": 20.0
+},
+{
+"name": "White",
+"latitude_deg": -44.7954,
+"longitude_deg": -159.0354,
+"diameter_km": 42.34
+},
+{
+"name": "Wichmann",
+"latitude_deg": -7.5359,
+"longitude_deg": -38.1297,
+"diameter_km": 9.77
+},
+{
+"name": "Widmannstätten",
+"latitude_deg": -6.0929,
+"longitude_deg": 85.4335,
+"diameter_km": 52.88
+},
+{
+"name": "Wiechert",
+"latitude_deg": -84.0334,
+"longitude_deg": 164.701,
+"diameter_km": 40.82
+},
+{
+"name": "Wiener",
+"latitude_deg": 40.9021,
+"longitude_deg": 146.5137,
+"diameter_km": 113.39
+},
+{
+"name": "Wildt",
+"latitude_deg": 9.024,
+"longitude_deg": 75.828,
+"diameter_km": 12.31
+},
+{
+"name": "Wilhelm",
+"latitude_deg": -43.2127,
+"longitude_deg": -20.9406,
+"diameter_km": 100.83
+},
+{
+"name": "Wilkins",
+"latitude_deg": -29.5801,
+"longitude_deg": 19.5767,
+"diameter_km": 59.44
+},
+{
+"name": "Williams",
+"latitude_deg": 42.0203,
+"longitude_deg": 37.3056,
+"diameter_km": 36.36
+},
+{
+"name": "Wilsing",
+"latitude_deg": -20.9706,
+"longitude_deg": -155.0546,
+"diameter_km": 66.8
+},
+{
+"name": "Wilson",
+"latitude_deg": -69.3286,
+"longitude_deg": -42.8256,
+"diameter_km": 66.57
+},
+{
+"name": "Winkler",
+"latitude_deg": 42.2285,
+"longitude_deg": -178.8083,
+"diameter_km": 22.85
+},
+{
+"name": "Winlock",
+"latitude_deg": 35.3971,
+"longitude_deg": -105.9241,
+"diameter_km": 63.93
+},
+{
+"name": "Winthrop",
+"latitude_deg": -10.7601,
+"longitude_deg": -44.46,
+"diameter_km": 17.25
+},
+{
+"name": "Wolf",
+"latitude_deg": -22.7856,
+"longitude_deg": -16.6258,
+"diameter_km": 25.74
+},
+{
+"name": "Wollaston",
+"latitude_deg": 30.5993,
+"longitude_deg": -46.9793,
+"diameter_km": 9.64
+},
+{
+"name": "Woltjer",
+"latitude_deg": 44.8717,
+"longitude_deg": -159.8296,
+"diameter_km": 44.5
+},
+{
+"name": "Wood",
+"latitude_deg": 43.6621,
+"longitude_deg": -121.8254,
+"diameter_km": 84.15
+},
+{
+"name": "Wright",
+"latitude_deg": -31.5479,
+"longitude_deg": -86.7434,
+"diameter_km": 40.16
+},
+{
+"name": "Wrottesley",
+"latitude_deg": -23.8964,
+"longitude_deg": 56.6193,
+"diameter_km": 58.38
+},
+{
+"name": "Wróblewski",
+"latitude_deg": -24.0023,
+"longitude_deg": 152.7955,
+"diameter_km": 21.78
+},
+{
+"name": "Wurzelbauer",
+"latitude_deg": -34.0409,
+"longitude_deg": -16.0564,
+"diameter_km": 86.77
+},
+{
+"name": "Wyld",
+"latitude_deg": -1.4161,
+"longitude_deg": 98.1009,
+"diameter_km": 103.4
+},
+{
+"name": "Wöhler",
+"latitude_deg": -38.2518,
+"longitude_deg": 31.3531,
+"diameter_km": 28.07
+},
+{
+"name": "Xenophanes",
+"latitude_deg": 57.4889,
+"longitude_deg": -82.0059,
+"diameter_km": 117.57
+},
+{
+"name": "Xenophon",
+"latitude_deg": -22.7937,
+"longitude_deg": 122.0493,
+"diameter_km": 25.5
+},
+{
+"name": "Xu Guangqi",
+"latitude_deg": 43.06,
+"longitude_deg": -51.93,
+"diameter_km": 0.4
+},
+{
+"name": "Xu Xiake",
+"latitude_deg": -40.9,
+"longitude_deg": -153.76,
+"diameter_km": 10.0
+},
+{
+"name": "Yablochkov",
+"latitude_deg": 60.7758,
+"longitude_deg": 127.5758,
+"diameter_km": 101.49
+},
+{
+"name": "Yakovkin",
+"latitude_deg": -54.418,
+"longitude_deg": -78.9288,
+"diameter_km": 35.92
+},
+{
+"name": "Yamamoto",
+"latitude_deg": 58.1593,
+"longitude_deg": 161.87,
+"diameter_km": 77.46
+},
+{
+"name": "Yangel'",
+"latitude_deg": 16.9565,
+"longitude_deg": 4.6878,
+"diameter_km": 7.87
+},
+{
+"name": "Yerkes",
+"latitude_deg": 14.6039,
+"longitude_deg": 51.6975,
+"diameter_km": 34.94
+},
+{
+"name": "Yoshi",
+"latitude_deg": 24.5615,
+"longitude_deg": 10.9923,
+"diameter_km": 0.5
+},
+{
+"name": "Young",
+"latitude_deg": -41.5419,
+"longitude_deg": 50.9763,
+"diameter_km": 71.44
+},
+{
+"name": "Zach",
+"latitude_deg": -60.9183,
+"longitude_deg": 5.2455,
+"diameter_km": 68.54
+},
+{
+"name": "Zagut",
+"latitude_deg": -31.9412,
+"longitude_deg": 21.8893,
+"diameter_km": 78.92
+},
+{
+"name": "Zanstra",
+"latitude_deg": 2.9299,
+"longitude_deg": 124.6897,
+"diameter_km": 39.5
+},
+{
+"name": "Zasyadko",
+"latitude_deg": 3.9552,
+"longitude_deg": 94.1883,
+"diameter_km": 10.27
+},
+{
+"name": "Zeeman",
+"latitude_deg": -75.0682,
+"longitude_deg": -135.0613,
+"diameter_km": 186.56
+},
+{
+"name": "Zelinskiy",
+"latitude_deg": -28.7385,
+"longitude_deg": 166.8638,
+"diameter_km": 53.95
+},
+{
+"name": "Zeno",
+"latitude_deg": 45.1488,
+"longitude_deg": 72.9822,
+"diameter_km": 66.78
+},
+{
+"name": "Zernike",
+"latitude_deg": 18.3379,
+"longitude_deg": 168.4018,
+"diameter_km": 50.68
+},
+{
+"name": "Zhang Yuzhe",
+"latitude_deg": -69.0699,
+"longitude_deg": -137.8205,
+"diameter_km": 38.0
+},
+{
+"name": "Zhang Zhongjing",
+"latitude_deg": -41.56,
+"longitude_deg": -154.87,
+"diameter_km": 1.5
+},
+{
+"name": "Zhinyu",
+"latitude_deg": -45.34,
+"longitude_deg": 176.15,
+"diameter_km": 3.8
+},
+{
+"name": "Zhiritskiy",
+"latitude_deg": -24.8383,
+"longitude_deg": 120.2591,
+"diameter_km": 33.36
+},
+{
+"name": "Zhukovskiy",
+"latitude_deg": 7.5519,
+"longitude_deg": -167.2766,
+"diameter_km": 82.07
+},
+{
+"name": "Zi Wei",
+"latitude_deg": 44.1218,
+"longitude_deg": -19.52,
+"diameter_km": 0.42
+},
+{
+"name": "Zinner",
+"latitude_deg": 26.6411,
+"longitude_deg": -58.8635,
+"diameter_km": 4.56
+},
+{
+"name": "Zsigmondy",
+"latitude_deg": 59.5151,
+"longitude_deg": -105.2991,
+"diameter_km": 66.88
+},
+{
+"name": "Zucchius",
+"latitude_deg": -61.3822,
+"longitude_deg": -50.6484,
+"diameter_km": 63.18
+},
+{
+"name": "Zupus",
+"latitude_deg": -17.1783,
+"longitude_deg": -52.3743,
+"diameter_km": 35.29
+},
+{
+"name": "Zwicky",
+"latitude_deg": -16.1746,
+"longitude_deg": 167.6443,
+"diameter_km": 126.06
+},
+{
+"name": "Zähringer",
+"latitude_deg": 5.5099,
+"longitude_deg": 40.2137,
+"diameter_km": 11.19
+},
+{
+"name": "Zöllner",
+"latitude_deg": -7.9668,
+"longitude_deg": 18.8993,
+"diameter_km": 47.69
+},
+{
+"name": "d'Alembert",
+"latitude_deg": 51.0723,
+"longitude_deg": 164.8907,
+"diameter_km": 233.55
+},
+{
+"name": "da Vinci",
+"latitude_deg": 9.1048,
+"longitude_deg": 44.9548,
+"diameter_km": 37.46
+},
+{
+"name": "de Gasparis",
+"latitude_deg": -25.8331,
+"longitude_deg": -50.8264,
+"diameter_km": 30.9
+},
+{
+"name": "de Gerlache",
+"latitude_deg": -88.4849,
+"longitude_deg": -88.3447,
+"diameter_km": 32.71
+},
+{
+"name": "van Albada",
+"latitude_deg": 9.3607,
+"longitude_deg": 64.3545,
+"diameter_km": 22.92
+},
+{
+"name": "van Rhijn",
+"latitude_deg": 52.4668,
+"longitude_deg": 146.3678,
+"diameter_km": 46.16
+},
+{
+"name": "van den Bos",
+"latitude_deg": -5.2602,
+"longitude_deg": 145.9537,
+"diameter_km": 25.18
+},
+{
+"name": "van't Hoff",
+"latitude_deg": 61.7493,
+"longitude_deg": -132.6822,
+"diameter_km": 107.3
+},
+{
+"name": "von Baeyer",
+"latitude_deg": -81.8013,
+"longitude_deg": 61.8738,
+"diameter_km": 13.46
+},
+{
+"name": "von Behring",
+"latitude_deg": -7.7496,
+"longitude_deg": 71.7222,
+"diameter_km": 37.65
+},
+{
+"name": "von Braun",
+"latitude_deg": 41.0431,
+"longitude_deg": -78.0845,
+"diameter_km": 61.83
+},
+{
+"name": "von Békésy",
+"latitude_deg": 51.923,
+"longitude_deg": 126.7339,
+"diameter_km": 96.25
+},
+{
+"name": "Šafařík",
+"latitude_deg": 10.439,
+"longitude_deg": 176.7038,
+"diameter_km": 31.42
+}
+]
+}

@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
+from functools import lru_cache
+from pathlib import Path
 from typing import Optional
 
 import json
@@ -12,6 +15,7 @@ from app.core.settings import get_settings
 from app.models.schemas import (
     ComparisonResult,
     CompareRequest,
+    Crater,
     HorizonMaskOut,
     LocationInput,
     Mode,
@@ -21,8 +25,10 @@ from app.models.schemas import (
     ScenarioInput,
     ScenarioResult,
     Site,
+    SkyNow,
     Snapshot,
     SnapshotRequest,
+    SubPoint,
 )
 from app.providers.registry import get_bundle
 from app.services.comparison import ScenarioComparisonService, ScenarioService
@@ -99,6 +105,32 @@ def reschedule(req: RescheduleRequest):
     )
 
 
+@lru_cache
+def _craters() -> list[dict]:
+    return json.loads(Path(get_settings().datasets["craters"]).read_text())["craters"]
+
+
+@router.get("/craters", response_model=list[Crater])
+def craters():
+    """Named lunar craters from the IAU Gazetteer of Planetary Nomenclature."""
+    return _craters()
+
+
+@router.get("/sky/now", response_model=SkyNow)
+def sky_now(mode: Optional[Mode] = None):
+    """Sub-solar and sub-Earth points at this moment, from the mode's ephemeris provider."""
+    ephemeris = get_bundle(mode or Mode(get_settings().default_mode)).ephemeris
+    now = datetime.now(timezone.utc).replace(microsecond=0)
+
+    def point(body):
+        sp = ephemeris.sub_points(body, [now])
+        return SubPoint(latitude_deg=round(float(sp.sub_lat_deg[0]), 5),
+                        longitude_deg=round(float(sp.sub_lon_deg[0]), 5),
+                        distance_km=round(float(sp.distance_km[0]), 1))
+
+    return SkyNow(time_utc=now, sun=point("sun"), earth=point("earth"), source=ephemeris.info().name)
+
+
 # ------------------------------------------------------------ NASA/JPL ----
 
 
@@ -137,3 +169,20 @@ def imagery_global(layer: Optional[str] = None, zoom: int = 2):
     im = get_imagery()
     data, meta = im.global_jpeg(layer or "wac", zoom)
     return _image_response(data, meta, "image/jpeg")
+
+
+@router.get("/imagery/relief")
+def imagery_relief(kind: str = "height", zoom: int = 2):
+    """LOLA-derived height or normal map (JPEG) that gives the 3D globe its real shape. Display only."""
+    data, meta = get_imagery().relief_jpeg(kind, zoom)
+    return _image_response(data, meta, "image/jpeg")
+
+
+@router.get("/imagery/tile/{layer}/{z}/{row}/{col}")
+def imagery_tile(layer: str, z: int, row: int, col: int):
+    """One Moon Trek tile through the disk cache, for the whole-Moon 2D map. 404 where Trek has no data."""
+    tile = get_imagery().tile_bytes(layer, z, row, col)
+    if tile is None:
+        return Response(status_code=404)
+    data, media_type = tile
+    return Response(content=data, media_type=media_type, headers={"Cache-Control": "public, max-age=86400"})

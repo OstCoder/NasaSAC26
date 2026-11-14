@@ -198,3 +198,24 @@ class TestModes:
         from app.core.errors import OutOfSupportedRangeError
         with pytest.raises(OutOfSupportedRangeError):
             calc.scenario(loc, start + timedelta(days=10), 24)
+
+
+class TestLiveSkyAndCraters:
+    def test_sky_now_is_current_and_names_its_source(self, client):
+        before = datetime.now(timezone.utc).replace(microsecond=0)
+        body = client.get("/api/sky/now?mode=demo").json()
+        assert before <= datetime.fromisoformat(body["time_utc"].replace("Z", "+00:00")) <= datetime.now(timezone.utc)
+        assert abs(body["sun"]["latitude_deg"]) < 2  # the Sun never strays far from the lunar equator
+        assert abs(body["earth"]["latitude_deg"]) < 8
+        assert body["source"]
+
+    def test_sky_now_reports_jpl_failure_instead_of_substituting(self, client):
+        r = client.get("/api/sky/now?mode=jpl")  # conftest points Horizons at a closed port
+        assert r.status_code >= 500 and "sun" not in r.json()
+
+    def test_craters_are_the_iau_values(self, client):
+        craters = {c["name"]: c for c in client.get("/api/craters").json()}
+        assert len(craters) > 1500
+        assert craters["Shackleton"]["latitude_deg"] == pytest.approx(-89.67, abs=0.01)
+        assert craters["Tycho"]["longitude_deg"] == pytest.approx(-11.2153, abs=0.01)  # 348.78 °E in the source
+        assert craters["Haworth"]["diameter_km"] == pytest.approx(51.4, abs=0.1)
