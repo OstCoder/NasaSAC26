@@ -23,6 +23,7 @@ OUT = ROOT / "data" / "demo" / "horizon_masks.json"
 # (base elevation, roughness) in degrees — purely illustrative choices so that
 # sites differ visibly in the demo. Ridge/peak sites get a low skyline.
 STYLE = {
+    "shackleton-rim": (0.3, 0.5),
     "connecting-ridge": (0.35, 0.45),
     "peak-near-shackleton": (0.25, 0.4),
     "de-gerlache-rim": (0.9, 0.9),

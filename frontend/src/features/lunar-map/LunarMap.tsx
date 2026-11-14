@@ -16,6 +16,7 @@ import { CHART_COLORS, LUNAR_TILE_ATTRIBUTION, LUNAR_TILE_URL } from '@/config/a
 import { fmtLat, fmtLon } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import { polarNightRings } from './night'
+import { usePsrs } from './psr'
 import { fromLeaflet, rhoForLat, toLeaflet } from './projection'
 import type { LunarMapProps, Slot } from './types'
 
@@ -87,6 +88,7 @@ export function LunarMap({
   sites, selections, activeSlot, onSelectSite, onPickCoordinates, className, imagery, onImageryError, craters, sun,
 }: LunarMapProps) {
   const [zoom, setZoom] = React.useState(0)
+  const { shapes: psrShapes } = usePsrs()
   const polarCraters = React.useMemo(() => (craters ?? []).filter((c) => c.latitude_deg <= -80), [craters])
   const night = React.useMemo(
     () => (sun ? polarNightRings(sun.latitude_deg, sun.longitude_deg).map((ring) => ring.map(([lat, lon]) => toLeaflet(lat, lon))) : null),
@@ -153,6 +155,15 @@ export function LunarMap({
             position={toLeaflet(-80.6, lon)}
             icon={textIcon(lon === 0 ? '0° (Earth-facing)' : lon === 180 ? '180°' : lon > 0 ? `${lon}°E` : `${-lon}°W`)}
             interactive={false}
+          />
+        ))}
+
+        {psrShapes.map(({ psr, positions }) => (
+          <Polygon
+            key={psr.psr_id}
+            positions={positions}
+            interactive={false}
+            pathOptions={{ color: '#41597e', weight: 1, dashArray: '2 3', opacity: 0.65, fillColor: '#0b1526', fillOpacity: 0.45 }}
           />
         ))}
 
@@ -232,7 +243,8 @@ export function LunarMap({
         {imagery && imgState === 'ok' && `${imagery.credit} Shadows in the image were captured by LRO; the shaded area is the night side.`}
         {imagery && imgState === 'loading' && 'Loading sharp imagery from NASA/JPL Moon Trek… (a first load downloads tiles and takes a few seconds)'}
         {imagery && imgState === 'error' && 'Imagery unavailable. Showing reference outlines only.'}
-        {!imagery && !LUNAR_TILE_URL && 'Reference map: graticule and IAU crater outlines.'}
+        {!imagery && !LUNAR_TILE_URL && 'Reference map: graticule, shaded PSR polygons and IAU crater outlines.'}
+        {psrShapes.length > 0 && 'Shaded polygons: permanently shadowed regions (LROC, >5 km²).'}
       </div>
     </div>
   )

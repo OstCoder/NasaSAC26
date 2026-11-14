@@ -67,7 +67,7 @@ class TestBasics:
         mission = client.get("/api/config").json()["mission"]
         assert [s["id"] for s in sites[: len(mission["candidate_sites"])]] == mission["candidate_sites"]
         for site in sites:
-            assert {"region", "source", "elevation_m", "nearby_psrs"} <= site.keys()
+            assert {"region", "source", "elevation_m", "nearest_psr", "sources"} <= site.keys()
         for site in sites[: len(mission["candidate_sites"])]:
             assert site["source"]
 

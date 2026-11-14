@@ -15,7 +15,7 @@ each number is in [METHODOLOGY.md](METHODOLOGY.md).
 | Minimum sunlight availability | ≥ 60 % of the mission window | `sun_visible_pct` | higher | Sun centre above the terrain skyline |
 | Minimum Earth visibility | ≥ 50 % of the mission window | `earth_visible_pct` | higher | Earth centre above the terrain skyline |
 | Maximum communication blackout | ≤ 12 h | `longest_earth_blackout_hours` | shorter | Longest single Earth outage, not a dropped link |
-| Proximity to PSRs | optional scientific preference | `nearby_psrs` | no direction | Names only; see section 4 |
+| Proximity to PSRs | optional scientific preference | `nearest_psr.distance_km`, `psrs_within_10_km` | no direction | Measured to mapped PSRs > 5 km²; see section 4 |
 
 Reported alongside the requirements, but not gates:
 
@@ -43,13 +43,36 @@ The thresholds, ids and definitions are the ones the app already computes
 - **Censored values.** A longest-blackout figure that touches the window edge is
   a lower bound and is shown as "≥". A 12 h limit against a censored value is
   *unproven*, not passed.
-- **Provisional until Task 1 lands.** All of these metrics are functions of the
-  site's coordinate and its terrain mask. Until Task 1's exact coordinates,
-  elevation and source are in `data/demo/sites.json`, every verdict is
-  provisional and must be labelled that way wherever it is shown.
+- **Task 1 has landed.** The candidates are Task 1's exact published coordinates
+  with recorded LOLA elevations, slopes, coordinate sources and PSR distances, so
+  no verdict is blocked on site data. Terrain is the remaining dependency: the
+  same coordinate can pass against one skyline and fail against another.
 - **Terrain quality is part of the answer.** In Demo Mode the skylines are
   synthetic; custom coordinates get a flat mask. A site can meet 60 % against an
   invented skyline. Verdicts carry the run's provenance level for that reason.
+
+### Worked example: the three candidates as measured today
+
+Demo Mode, 168 h from each landing date, 30 min step, Task 1's coordinates and
+**synthetic** skylines (`horizon_mask.source` says so on every response). This
+shows the criteria are computable from what the API already returns; it is not
+evidence about the real sites.
+
+| Site | Date | Sun ≥ 60 % | Earth ≥ 50 % | Blackout ≤ 12 h | `both_visible_pct` |
+| --- | --- | --- | --- | --- | --- |
+| `shackleton-rim` | 2026-12-01 | 100.0 % pass | 0.0 % fail | ≥ 168.0 h censored | 0.0 % |
+| `shackleton-rim` | 2026-12-11 | 100.0 % pass | 52.1 % pass | ≥ 80.4 h censored | 52.1 % |
+| `connecting-ridge` | 2026-12-01 | 100.0 % pass | 0.0 % fail | ≥ 168.0 h censored | 0.0 % |
+| `connecting-ridge` | 2026-12-11 | 36.2 % fail | 45.6 % fail | ≥ 91.5 h censored | 0.0 % |
+| `de-gerlache-rim` | 2026-12-01 | 84.6 % pass | 0.0 % fail | ≥ 168.0 h censored | 0.0 % |
+| `de-gerlache-rim` | 2026-12-11 | 0.0 % fail | 49.9 % fail | ≥ 84.2 h censored | 0.0 % |
+
+Read it as a demonstration of the procedure, not a ranking: no candidate clears
+all three gates on both dates, and the deciding factor is Earth sitting below
+invented terrain rather than a property of the site. Every blackout figure is
+censored by the window, so none of them can be shown to meet the 12 h limit.
+Repeating the same calls in Scientific Mode, where the horizon masks come from
+LOLA terrain, is what would turn this table into an actual qualification.
 
 ## 3. Sunlight is not power, and Earth visibility is not a link
 
@@ -69,16 +92,25 @@ The thresholds, ids and definitions are the ones the app already computes
 
 ## 4. Proximity to PSRs
 
-PSR proximity is a **preference, not a gate**. It is recorded as the feature
-names in `nearby_psrs` (Task 1's column), and the app displays them next to the
-site without scoring them. This build has no PSR geometry and no distance field,
-so "proximity" cannot be turned into a number such as "within 5 km" without new
-source data; `experimental_site_ranking` is off, and the project's rule is that
-nothing is ranked without visible, stated criteria.
+PSR proximity is a **preference, not a gate**. Task 1 records it two ways: the
+nearest mapped PSR with its boundary distance and area, and the count of mapped
+PSRs within 10 km, both filled at load time from the LROC south-pole PSR
+catalogue (`data/reference/psrs.json`). The planner prints them beside the site
+and does not score them.
 
-If PSR proximity is later made measurable, it needs (a) PSR outlines or a nearest-
-PSR distance per site, and (b) explicit weights shown in the UI. Until then it
-stays a scientific preference a planner reads, not a metric a machine applies.
+| Site | Nearest mapped PSR | Distance | Area | Mapped PSRs within 10 km |
+| --- | --- | --- | --- | --- |
+| `shackleton-rim` | PSR near Shackleton (`SP_896450_1282030`) | 2.48 km | 233.7 km² | 1 |
+| `connecting-ridge` | PSR near Spudis (`SP_895060_2806850`) | 11.52 km | 53.3 km² | 0 |
+| `de-gerlache-rim` | PSR near de Gerlache (`SP_883120_2691430`) | 12.11 km | 243.4 km² | 0 |
+
+That is a number, but not yet a criterion: no threshold says how close is close
+enough, and the product only maps PSRs larger than 5 km². Sub-kilometre PSRs next
+to the lit clusters — published values of 30–370 m at the Shackleton rim and
+70–100 m on the connecting ridge, quoted per site in [SITES.md](SITES.md) — fall
+below that threshold, so the 2.5 km and 11.5 km figures are gaps in the mapped
+product as much as they are separations. `experimental_site_ranking` stays off: a
+preference with no stated weights is read by a planner, not applied by the build.
 
 ## 5. Assumptions
 
@@ -96,10 +128,11 @@ stays a scientific preference a planner reads, not a metric a machine applies.
 
 ## 6. Limitations
 
-- Task 1's numbers are not final: coordinates are approximate, elevation is
-  unrecorded, and PSR proximity has no distance. Verdicts inherit all three gaps.
-- Site elevation is not yet added to the observer radius, and demo skylines are
-  invented, so illumination percentages are not flight-quality.
+- Site data are Task 1's published coordinates and LOLA elevations, but the
+  terrain is not: Demo Mode skylines are invented, so every percentage in the
+  worked example is terrain-limited and not flight-quality.
+- Only mapped PSRs larger than 5 km² carry a distance; smaller published PSRs are
+  a stated gap rather than a measured separation.
 - No power, thermal, communications-link, or Earth-station visibility model; no
   atmospheric refraction (there is no atmosphere).
 - The Sun moves only ~0.5°/day in elevation near the pole, so a small ephemeris

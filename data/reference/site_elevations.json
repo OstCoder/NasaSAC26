@@ -1,0 +1,197 @@
+{
+ "dataset": "LOLA 5 m/pix site-DEM samples at the candidate coordinates",
+ "generated_utc": "2026-11-14T17:55:16+00:00",
+ "source": {
+  "provider": "NASA GSFC Planetary Geodynamics Laboratory (PGDA)",
+  "product": "High-Resolution LOLA Topography for Lunar South Pole Sites (5 m/pix)",
+  "page": "https://pgda.gsfc.nasa.gov/products/78",
+  "data": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/",
+  "papers": [
+   "Mazarico et al. 2011, Icarus 211, 1066-1081 (site locations)",
+   "Barker et al. 2021, Planet. Space Sci. 203, 105119 (DEM production)"
+  ]
+ },
+ "method": {
+  "sampling": "median of a 25x25 pixel window (125 m x 125 m) centred on the site coordinate; 'center_px' is the single pixel containing the coordinate",
+  "projection": "app.core.coords.polar_stereographic_xy (radius 1737.4 km)",
+  "products": {
+   "surf": "surface height Z (m, relative to the 1737.4 km sphere)",
+   "slp": "slope (degrees)",
+   "toterr": "total height uncertainty, RMS (m)"
+  }
+ },
+ "samples": {
+  "shackleton-rim": {
+   "pgda_site": "Site04",
+   "latitude_deg": -89.78,
+   "longitude_deg": -155.73,
+   "xy_km": [
+    -2.742,
+    -6.082
+   ],
+   "products": {
+    "surf": {
+     "median": 1734.05,
+     "center_px": 1728.34,
+     "std": 3.5,
+     "min": 1726.0,
+     "max": 1739.12,
+     "pixels": 625
+    },
+    "slp": {
+     "median": 8.8,
+     "center_px": 10.38,
+     "std": 3.92,
+     "min": 0.35,
+     "max": 16.6,
+     "pixels": 625
+    },
+    "toterr": {
+     "median": 0.32,
+     "center_px": 0.75,
+     "std": 0.23,
+     "min": 0.1,
+     "max": 1.22,
+     "pixels": 625
+    }
+   },
+   "dem_center_km": [
+    -1.0,
+    -7.0
+   ],
+   "dem_center_offset_km": [
+    1.742,
+    -0.918
+   ]
+  },
+  "connecting-ridge": {
+   "pgda_site": "Site01",
+   "latitude_deg": -89.45,
+   "longitude_deg": -137.31,
+   "xy_km": [
+    -11.308,
+    -12.259
+   ],
+   "products": {
+    "surf": {
+     "median": 1955.23,
+     "center_px": 1954.85,
+     "std": 1.96,
+     "min": 1950.03,
+     "max": 1957.73,
+     "pixels": 625
+    },
+    "slp": {
+     "median": 3.79,
+     "center_px": 9.4,
+     "std": 2.35,
+     "min": 0.1,
+     "max": 12.93,
+     "pixels": 625
+    },
+    "toterr": {
+     "median": 0.29,
+     "center_px": 0.23,
+     "std": 0.13,
+     "min": 0.1,
+     "max": 1.01,
+     "pixels": 625
+    }
+   },
+   "dem_center_km": [
+    -11.0,
+    -12.0
+   ],
+   "dem_center_offset_km": [
+    0.308,
+    0.259
+   ]
+  },
+  "de-gerlache-rim": {
+   "pgda_site": "Site11",
+   "latitude_deg": -88.67,
+   "longitude_deg": -68.1,
+   "xy_km": [
+    -37.421,
+    15.043
+   ],
+   "products": {
+    "surf": {
+     "median": 1808.1,
+     "center_px": 1808.37,
+     "std": 2.11,
+     "min": 1801.87,
+     "max": 1810.64,
+     "pixels": 625
+    },
+    "slp": {
+     "median": 3.82,
+     "center_px": 6.67,
+     "std": 2.17,
+     "min": 0.3,
+     "max": 11.57,
+     "pixels": 625
+    },
+    "toterr": {
+     "median": 0.31,
+     "center_px": 0.3,
+     "std": 0.13,
+     "min": 0.1,
+     "max": 0.78,
+     "pixels": 625
+    }
+   },
+   "dem_center_km": [
+    -37.0,
+    15.0
+   ],
+   "dem_center_offset_km": [
+    0.421,
+    -0.043
+   ]
+  },
+  "peak-near-shackleton": {
+   "pgda_site": "Site07",
+   "latitude_deg": -88.81,
+   "longitude_deg": 123.64,
+   "xy_km": [
+    30.043,
+    -19.991
+   ],
+   "products": {
+    "surf": {
+     "median": 1645.39,
+     "center_px": 1645.71,
+     "std": 1.31,
+     "min": 1642.99,
+     "max": 1648.52,
+     "pixels": 625
+    },
+    "slp": {
+     "median": 3.05,
+     "center_px": 3.84,
+     "std": 1.75,
+     "min": 0.14,
+     "max": 8.64,
+     "pixels": 625
+    },
+    "toterr": {
+     "median": 0.29,
+     "center_px": 0.22,
+     "std": 0.12,
+     "min": 0.09,
+     "max": 0.77,
+     "pixels": 625
+    }
+   },
+   "dem_center_km": [
+    30.0,
+    -20.0
+   ],
+   "dem_center_offset_km": [
+    -0.043,
+    -0.009
+   ]
+  }
+ }
+}

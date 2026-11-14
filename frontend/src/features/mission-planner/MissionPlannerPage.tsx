@@ -287,9 +287,12 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                 <div className="space-y-1">
                   <p className="text-xs text-faint">
                     {site.region} · elevation{' '}
-                    {site.elevation_m != null ? `${Math.round(site.elevation_m)} m` : 'not yet recorded'} · source{' '}
-                    {site.source || 'not yet recorded'} · PSRs{' '}
-                    {site.nearby_psrs.length > 0 ? site.nearby_psrs.join(', ') : 'not yet recorded'}
+                    {site.elevation_m != null ? `${Math.round(site.elevation_m)} m` : 'not yet recorded'}
+                    {site.slope_deg != null && ` · slope ${site.slope_deg.toFixed(1)}°`} · source{' '}
+                    {site.source || 'not yet recorded'} · nearest PSR{' '}
+                    {site.nearest_psr
+                      ? `${site.nearest_psr.label} (${site.nearest_psr.distance_km.toFixed(1)} km, ${Math.round(site.nearest_psr.area_km2)} km²)`
+                      : 'not yet mapped'}
                   </p>
                   {site.coordinate_note && <p className="text-xs text-faint">Coordinates: {site.coordinate_note}</p>}
                 </div>

@@ -76,7 +76,9 @@ class VisibilityCalculator:
 
     def _geometry(self, loc: ResolvedLocation, times: list[datetime]):
         r = self.settings.reference_radius_km
-        h = loc.height_m / 1000.0
+        # Observer radius = reference sphere + site elevation (catalogue, LOLA)
+        # + observer height above local terrain (e.g. a 2 m mast).
+        h = loc.height_m / 1000.0 + (loc.elevation_m or 0.0) / 1000.0
         out = {}
         for body in ("sun", "earth"):
             vec = self.bundle.ephemeris.body_vectors_km(body, times)

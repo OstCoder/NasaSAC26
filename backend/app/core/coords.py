@@ -90,3 +90,38 @@ def angular_distance_deg(lat1, lon1, lat2, lon2) -> float:
     a = unit_vector(lat1, lon1)
     b = unit_vector(lat2, lon2)
     return float(np.degrees(np.arccos(np.clip(np.dot(a, b), -1.0, 1.0))))
+
+
+MOON_MEAN_RADIUS_KM = 1737.4
+
+
+def great_circle_km(
+    lat1: float, lon1: float, lat2: float, lon2: float,
+    radius_km: float = MOON_MEAN_RADIUS_KM,
+) -> float:
+    """Surface distance on a sphere via the haversine formula.
+
+    Numerically stable for small separations, where ``angular_distance_deg``
+    (arccos) loses precision. 1 m apart -> ~1 m; half a great circle -> pi*R.
+    """
+    p1, p2 = np.radians(lat1), np.radians(lat2)
+    dp = p2 - p1
+    dl = np.radians(lon2 - lon1)
+    a = np.sin(dp / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(dl / 2) ** 2
+    return float(2 * radius_km * np.arcsin(np.sqrt(np.clip(a, 0.0, 1.0))))
+
+
+def polar_stereographic_xy(
+    lat_deg: float, lon_deg: float, radius_km: float = MOON_MEAN_RADIUS_KM
+) -> tuple[float, float]:
+    """South-polar stereographic plane coordinates in km.
+
+    x = rho * sin(lon), y = rho * cos(lon), rho = 2R * tan((90 + lat) / 2).
+    This is the convention of the LOLA south-polar site DEMs and PSR products
+    (sphere radius 1737.4 km, standard parallel -90, central meridian 0) and of
+    the frontend map in ``features/lunar-map/projection.ts``. y points from the
+    pole toward longitude 0 (Earth-facing meridian at the top), x toward 90 E.
+    """
+    rho = 2.0 * radius_km * np.tan(np.radians(90.0 + lat_deg) / 2.0)
+    lon = np.radians(lon_deg)
+    return float(rho * np.sin(lon)), float(rho * np.cos(lon))

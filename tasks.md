@@ -12,26 +12,27 @@ visibility, and proximity to permanently shadowed regions (PSRs).
 
 ## Task 1: Select Three Lunar Landing Sites
 
-- [ ] Research lunar south-pole landing regions using NASA LROC QuickMap.
-- [ ] Investigate the following candidate regions:
+- [x] Research lunar south-pole landing regions using NASA LROC QuickMap.
+- [x] Investigate the following candidate regions:
   - Shackleton Crater Rim
   - Connecting Ridge
   - de Gerlache Crater Rim
-- [ ] Select one exact coordinate within each region.
-- [ ] Record the latitude and longitude of each site.
-- [ ] Record surface elevation, if available.
-- [ ] Record the source of each site's coordinates.
-- [ ] Identify nearby permanently shadowed regions (PSRs).
+- [x] Select one exact coordinate within each region.
+- [x] Record the latitude and longitude of each site.
+- [x] Record surface elevation, if available.
+- [x] Record the source of each site's coordinates.
+- [x] Identify nearby permanently shadowed regions (PSRs).
 
 ### Deliverable
 
-A table containing three candidate landing sites:
+A table containing three candidate landing sites (full provenance in
+[docs/SITES.md](docs/SITES.md)):
 
 | Site | Region | Latitude | Longitude | Elevation | Source |
 |------|--------|----------|-----------|-----------|--------|
-| A | Shackleton Rim | TBD | TBD | TBD | TBD |
-| B | Connecting Ridge | TBD | TBD | TBD | TBD |
-| C | de Gerlache Rim | TBD | TBD | TBD | TBD |
+| A | Shackleton Rim | −89.78° | 204.27°E | 1,734 m (LOLA) | Mazarico et al. 2011, point 4 = NASA 2020 site 004 |
+| B | Connecting Ridge | −89.45° | 222.69°E | 1,955 m (LOLA) | Mazarico et al. 2011, point 1 = NASA 2020 site 001 |
+| C | de Gerlache Rim | −88.67° | 291.90°E | 1,808 m (LOLA) | Mazarico et al. 2011, point 11 = NASA 2020 site 011 |
 
 Resource: https://quickmap.lroc.asu.edu/
 
@@ -90,8 +91,10 @@ Documented in `docs/SITE_REQUIREMENTS.md`. Each threshold is tied to a metric th
 app already computes (`sun_visible_pct`, `earth_visible_pct`,
 `longest_earth_blackout_hours`), so the criteria are measurable without new code:
 a site is judged over both landing dates, censored blackouts are reported as lower
-bounds rather than passes, and PSR proximity stays a stated preference because
-the catalogue records PSR names and no distances.
+bounds rather than passes, and PSR proximity is a measured distance from the LROC
+catalogue but stays a preference, because nothing is ranked without stated
+weights. The three candidates are evaluated against the thresholds there, using
+Task 1's coordinates.
 
 ### Proposed Requirements
 
@@ -128,8 +131,8 @@ A finalized mission specification shared with the team.
 
 ## Phase 1 Completion Checklist
 
-- [ ] Three exact lunar coordinates selected and verified.
-- [ ] Coordinate sources documented.
+- [x] Three exact lunar coordinates selected and verified.
+- [x] Coordinate sources documented.
 - [x] Mission objective defined.
 - [x] Mission duration and landing dates finalized.
 - [x] Sunlight and communication requirements finalized.
