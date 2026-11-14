@@ -23,3 +23,7 @@ python scripts/generate_site_series.py --verify-only  # re-check the committed f
 
 Formats and steps: `docs/ADAPTATION_GUIDE.md` sections 3 and 4, and
 `docs/JPL_CONNECTION.md` section 2.
+
+Terrain lives outside this folder: `data/reference/site_terrain.json` describes
+the LOLA DEMs (see [docs/TERRAIN.md](../docs/TERRAIN.md)), and the DEM files are
+cached under `data/cache/lola_5mpp/`.
