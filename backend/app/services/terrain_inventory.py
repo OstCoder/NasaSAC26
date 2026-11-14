@@ -37,6 +37,18 @@ PGDA_SITE_CODES = {
     "de-gerlache-rim": "Site11",
 }
 PGDA_BASE_URL = "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp"
+
+# Wide-area far tier (Phase 2 Task 6): the 5 m site DEMs are only 16 km across, so
+# masks used to stop 6-8 km out. This 80 m/pix product covers 80 S to the pole
+# (~304 km radius), enough to ray-march to 150 km.
+WIDE_DEM_FILE = "LDEM_80S_80MPP_ADJ.TIF"
+WIDE_DEM_URL = "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF"
+WIDE_LANDING_URL = "https://pgda.gsfc.nasa.gov/products/90"
+WIDE_PIXEL_M = 80.0
+WIDE_LAT_LIMIT_DEG = -80.0
+WIDE_MAX_RANGE_M = 150_000.0
+WIDE_REFERENCE = "data/reference/wide_dem.json"
+
 PRODUCTS = {
     "surf": "surface height Z (m above the 1737.4 km sphere)",
     "slp": "slope (degrees)",

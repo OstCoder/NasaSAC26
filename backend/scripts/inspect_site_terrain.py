@@ -55,9 +55,10 @@ PGDA_PAGE = "https://pgda.gsfc.nasa.gov/products/78"
 
 LIMITATIONS = {
     "extent": (
-        "Each 5 m/pix site DEM is 16 km x 16 km, so the ray-march radius is limited to the "
-        "distance from the site to the nearest edge (6-9 km). Terrain beyond that - including "
-        "the massifs and crater walls that matter at 20-100 km - is NOT in these files."
+        "Each 5 m/pix site DEM is 16 km x 16 km, so these near-field angles stop at the "
+        "distance from the site to the nearest edge (6-9 km). Terrain beyond that is carried by "
+        "the 80 m/pix wide polar DEM described in wide_dem.json; the committed masks combine "
+        "both tiers out to 150 km."
     ),
     "resolution": "5 m/pixel horizontal, ~0.3 m RMS height uncertainty (Barker et al. 2021).",
     "observer_height": (
@@ -67,9 +68,10 @@ LIMITATIONS = {
         "Use the masks, not these summary angles, for visibility."
     ),
     "wider_context": (
-        "For horizons beyond ~9 km use a wider LOLA polar product in the same stereographic "
-        "frame, e.g. LDEM_875S_20M (20 m/pix, south of 87.5 S) from the PDS Geosciences Node, "
-        "and record it here before quoting angles from it."
+        "Beyond ~9 km the masks use LDEM_80S_80MPP_ADJ (80 m/pix, 80 S to the pole, same "
+        "stereographic frame), documented with its checksum and site heights in "
+        "data/reference/wide_dem.json. Its 80 m cells can miss a ridge narrower than ~80 m, so "
+        "it is a lower bound on obstruction, not an exact skyline."
     ),
     "singularities": (
         "Heights are relative to the 1737.4 km sphere, not to a geoid (the Moon has none). "
@@ -210,11 +212,13 @@ def build(args) -> dict:
         {"id": "lroc-quickmap", "label": "LROC QuickMap (visual terrain inspection)",
          "provider": "NASA / Arizona State University LROC", "url": QUICKMAP_URL,
          "usage": "visual context for the same coordinates; no numeric values taken from it"},
-        {"id": "lola-polar-20m", "label": "LOLA 20 m/pix polar DEM (wider-area follow-up)",
-         "provider": "NASA PDS Geosciences Node",
-         "url": "https://pds-geosciences.wustl.edu/missions/lro/lola.htm",
-         "resolution": "20 m/pixel, south of 87.5 S",
-         "usage": "referenced for horizons beyond the 16 km site DEMs; not yet ingested"},
+        {"id": "pgda-lola-80m-wide", "label": "LOLA 80 m/pix wide polar DEM (far horizon tier)",
+         "provider": "NASA GSFC Planetary Geodynamics Laboratory (PGDA)",
+         "url": "https://pgda.gsfc.nasa.gov/products/90",
+         "data": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF",
+         "resolution": "80 m/pixel, 80 S to the pole (~304 km radius)",
+         "papers": ["Barker et al. 2023, Planet. Sci. J. 4, 183"],
+         "usage": "ray-marched from each site DEM's edge to 150 km; described in wide_dem.json"},
     ]
     return terrain_payload(
         generated_utc=dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat(),

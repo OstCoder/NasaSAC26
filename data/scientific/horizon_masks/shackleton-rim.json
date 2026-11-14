@@ -6,8 +6,8 @@
  "longitude_deg": -155.73,
  "elevation_m": 1728.34,
  "observer_height_m": 2.0,
- "source": "LOLA 5 m/pix Site04_final_adj_5mpp_surf.tif ray-march to 6.258 km, observer 2 m, lunar curvature included",
- "generated_utc": "2026-11-14T21:08:41Z",
+ "source": "two-tier LOLA ray-march: 5 m/pix site DEM to its edge, then 80 m/pix LDEM_80S to 150 km",
+ "generated_utc": "2026-11-14T21:21:33Z",
  "generator": "backend/scripts/build_site_horizon_masks.py",
  "dem": {
   "file": "Site04_final_adj_5mpp_surf.tif",
@@ -20,13 +20,44 @@
    "top": 1000.0
   }
  },
- "max_range_m": 6258.0,
+ "wide_dem": {
+  "file": "LDEM_80S_80MPP_ADJ.TIF",
+  "sha256": "82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a",
+  "pixel_m": 80.0,
+  "bounds_m": {
+   "left": -304000.0,
+   "bottom": -304000.0,
+   "right": 304000.0,
+   "top": 304000.0
+  },
+  "offset_m": 0.0
+ },
+ "max_range_m": 150000.0,
  "azimuth_step_deg": 1.0,
+ "tiers": {
+  "near": {
+   "dem": "Site04_final_adj_5mpp_surf.tif",
+   "pixel_m": 5.0,
+   "min_range_m": 0.0,
+   "max_range_m": 6258.0,
+   "max_obstruction_deg": 9.4281,
+   "max_obstruction_azimuth_deg": 236.0
+  },
+  "far": {
+   "dem": "LDEM_80S_80MPP_ADJ.TIF",
+   "pixel_m": 80.0,
+   "min_range_m": 6258.0,
+   "max_range_m": 150000.0,
+   "max_obstruction_deg": 1.0572,
+   "max_obstruction_azimuth_deg": 31.0
+  }
+ },
  "inventory": {
   "max_obstruction_deg": 12.6602,
   "max_obstruction_azimuth_deg": 229.0,
   "observer_height_m": 0.0
  },
+ "wide_site_difference_m": 2.674,
  "summary": {
   "max_obstruction_deg": 9.4281,
   "max_obstruction_azimuth_deg": 236.0,
@@ -758,9 +789,10 @@
   2.7476
  ],
  "limitations": [
-  "Radius is limited to the distance from the site to the nearest DEM edge (6.3-7.7 km): terrain beyond that - massifs and crater walls at 20-100 km - is not included, so the mask is a lower bound on obstruction.",
-  "5 m/pixel horizontal resolution, ~0.3 m RMS height uncertainty (Barker et al. 2021). Rocks and lander-scale roughness are not resolved.",
-  "Stereographic scale distortion (<0.2 % poleward of 85 S) and the 2 m observer height are the only approximations in the ray-march; lunar curvature is included.",
+  "Two tiers: 5 m/pixel to the site DEM edge (6.3-7.7 km), then 80 m/pixel to 150 km. The coarse far tier can miss a ridge narrower than ~80 m, so it is a lower bound beyond the near field, not an exact skyline.",
+  "5 m/pixel horizontal resolution and ~0.3 m RMS height uncertainty (Barker et al. 2021). Rocks and lander-scale roughness are not resolved.",
+  "Observer is 2 m above the sampled ground, matching the Sun/Earth track. A different lander height needs a rebuilt mask: near-field angles change by atan(delta_h / distance).",
+  "Stereographic scale distortion (<0.2 % poleward of 85 S) is ignored; lunar curvature is included in both tiers.",
   "A clear skyline is not a landing certification and says nothing about thermal conditions, surface hazards or power."
  ]
 }

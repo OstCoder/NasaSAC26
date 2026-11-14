@@ -17,7 +17,7 @@ outside a stored window.
 
 | Piece | Where | What it gives Phase 3 |
 | --- | --- | --- |
-| Horizon masks | `data/scientific/horizon_masks/*.json` (committed) | 360-point skyline per candidate, ray-marched from the 5 m/pix LOLA DEM |
+| Horizon masks | `data/scientific/horizon_masks/*.json` (committed) | 360-point skyline per candidate: 5 m/pix to the site DEM edge, then 80 m/pix to 150 km |
 | Mask builder | `backend/scripts/build_site_horizon_masks.py` | Rebuilds the masks from the cached DEMs; `--verify-only` checks the committed ones offline |
 | Data-access layer | `backend/app/services/site_data.py` | `load_series`, `sample_records`, `load_mask`, `apply_mask`, `build_readiness` |
 | HTTP access | `GET /api/series`, `GET /api/readiness` | The same records and readiness matrix for any client |
@@ -25,13 +25,16 @@ outside a stored window.
 
 The three masks:
 
-| Site | Azimuth points | Radius | Max obstruction (2 m eye) | At azimuth |
+| Site | Azimuth points | Near radius (5 m) | Far range (80 m) | Max obstruction (2 m eye) | At azimuth |
 | --- | --- | --- | --- | --- |
-| `shackleton-rim` | 360 | 6.258 km | 9.428° | 236° |
-| `connecting-ridge` | 360 | 7.692 km | 2.849° | 161° |
-| `de-gerlache-rim` | 360 | 7.579 km | 1.284° | 287° |
+| `shackleton-rim` | 360 | 6.258 km | 150 km | 9.428° | 236° |
+| `connecting-ridge` | 360 | 7.692 km | 150 km | 2.849° | 161° |
+| `de-gerlache-rim` | 360 | 7.579 km | 150 km | 1.284° | 287° |
 
-These are **lower** than the `terrain.max_obstruction_deg` values in
+The far tier alone peaks at +1.06°, −0.85° and −0.22°, below each near
+skyline, so the distant massifs add no higher obstruction at these points; the
+maxima above are the near tier's. The
+angles are **lower** than the `terrain.max_obstruction_deg` values in
 `data/reference/site_terrain.json` (12.66°, 10.63°, 5.95°) because those were
 measured from the ground (0 m eye). A 2 m eye sees a nearby rim lower, by
 `atan(2 m / distance)`: at `connecting-ridge`, azimuth 160°, the maximum comes
@@ -95,7 +98,7 @@ format whether it reads the JSON file or the API:
              "stop_utc": "2026-12-08T00:00:00Z"},
   "request": {"start_utc": "...", "stop_utc": "...", "step_minutes": 60.0,
               "native_step": "1 h", "interpolated": false, "samples": 169},
-  "mask": {"site_id": "shackleton-rim", "source": "LOLA 5 m/pix ...", "max_range_km": 6.258,
+  "mask": {"site_id": "shackleton-rim", "source": "two-tier LOLA ray-march ...", "max_range_km": 150.0,
            "max_obstruction_deg": 9.4281, "max_obstruction_azimuth_deg": 236.0, "...": "..."},
   "series": [{"site_id": "shackleton-rim", "timestamp_utc": "2026-12-01T00:00:00Z",
               "sun": {"azimuth_deg": 75.799377, "elevation_deg": 1.524114, "range_km": 147553095.89},
@@ -126,17 +129,18 @@ from the fields the client sends.
 
 ## Limits you must carry into Phase 3
 
-- **Radius.** Each mask stops at the nearest DEM edge (6.3–7.7 km). Obstruction
-  beyond that is unknown, so the mask is a lower bound: a real skyline can only
-  be higher, and a body that clears the mask can still be hidden by a massif
-  20 km away.
+- **Radius.** Each mask reaches 150 km: 5 m/pixel to the site DEM edge
+  (6.3–7.7 km), then 80 m/pixel to 150 km. Curvature puts even the highest lunar
+  terrain below the tangent plane past ~194 km, so no obstruction-capable
+  distance is left unsampled. Between 8 and 150 km the 80 m grid can miss a
+  ridge narrower than ~80 m, so the far tier is a lower bound there.
 - **Observer height.** 2 m, matching the Sun/Earth track. A different lander
   height needs a new mask: near-field angles change by `atan(Δh / distance)`.
 - **Sampling.** The stored track is hourly. `sample_records` interpolates, and
   `request.interpolated` says so; the interpolation is not a new measurement.
   Sunrise/Earthrise timing needs the finer sampling Phase 3 plans.
-- **Resolution.** 5 m/pixels and ~0.3 m height uncertainty: rocks and
-  lander-scale roughness are not resolved.
+- **Resolution.** 5 m/pixels near the site and 80 m/pixels beyond ~8 km, with
+  ~0.3 m height uncertainty: rocks and lander-scale roughness are not resolved.
 - **Visibility is a policy.** `above_skyline` uses the body's centre; whether
   the solar disk counts partially visible, and how Earth's 0.95° radius is
   treated, stays in the visibility service (`services/horizon.py`), not here.

@@ -42,6 +42,7 @@ SERIES = ROOT / "data" / "scientific" / "site_series"
 TERRAIN = json.loads((ROOT / "data" / "reference" / "site_terrain.json").read_text())
 MASK_SCRIPT = ROOT / "backend" / "scripts" / "build_site_horizon_masks.py"
 CACHE = ROOT / "data" / "cache" / "lola_5mpp"
+WIDE_CACHE = ROOT / "data" / "cache" / "lola_wide"
 CANDIDATES = json.loads((ROOT / "config" / "lunanav.config.json").read_text())["mission"]["candidate_sites"]
 
 
@@ -141,17 +142,28 @@ def test_masks_match_the_terrain_inventory():
         assert payload["schema"] == MASK_SCHEMA
         assert len(payload["azimuth_deg"]) == 360
         assert payload["azimuth_deg"][0] == 0.0 and payload["azimuth_deg"][-1] == 359.0
-        assert payload["max_range_m"] == pytest.approx(
-            TERRAIN["sites"][site_id]["coverage"]["radius_km"] * 1000.0, abs=1e-6)
+        # Two tiers: the 5 m DEM to its edge, then the 80 m wide DEM to 150 km.
+        near_radius = TERRAIN["sites"][site_id]["coverage"]["radius_km"] * 1000.0
+        assert payload["max_range_m"] == pytest.approx(150_000.0)
+        assert payload["tiers"]["near"]["max_range_m"] == pytest.approx(near_radius, abs=1e-6)
+        assert payload["tiers"]["far"]["min_range_m"] == pytest.approx(near_radius, abs=1e-6)
+        assert payload["tiers"]["far"]["max_range_m"] == pytest.approx(150_000.0)
+        assert payload["tiers"]["far"]["pixel_m"] == 80.0
         inventory = TERRAIN["sites"][site_id]["terrain"]["max_obstruction_deg"]
+        near_max = payload["tiers"]["near"]["max_obstruction_deg"]
         measured = payload["summary"]["max_obstruction_deg"]
         # The inventory was measured from the ground (0 m eye); a 2 m eye sees
-        # near-field rims lower, so the mask may be below it but never above.
+        # near-field rims lower, so the near tier may be below it but never above.
         assert payload["inventory"]["max_obstruction_deg"] == inventory
         assert payload["inventory"]["observer_height_m"] == 0.0
         assert payload["observer_height_m"] == 2.0
-        assert measured <= inventory + 1e-6
-        assert measured >= inventory - 15.0
+        assert near_max <= inventory + 1e-6
+        assert near_max >= inventory - 15.0
+        # The combined mask is the per-azimuth maximum, and the far tier may now
+        # add terrain the 16 km site DEM could not see.
+        assert measured >= near_max - 1e-9
+        assert measured >= payload["tiers"]["far"]["max_obstruction_deg"] - 1e-9
+        assert -5.0 < measured < 90.0
         assert payload["limitations"]
         mask = load_mask(site_id)
         assert mask.provenance.value == "scientific_sourced"
@@ -198,7 +210,7 @@ def test_readiness_covers_every_candidate():
         assert set(site["windows"]) == {"initial", "alternative"}
         assert site["windows"]["initial"]["records"] == 169
         assert site["windows"]["alternative"]["records"] == 169
-        assert site["mask"]["max_range_km"] > 6.0
+        assert site["mask"]["max_range_km"] == pytest.approx(150.0)
         assert site["ready"] is True and site["problems"] == []
 
 
@@ -249,7 +261,10 @@ def test_api_readiness(client):
     assert {site["site_id"] for site in body["sites"]} == set(CANDIDATES)
 
 
-@pytest.mark.skipif(not any(CACHE.glob("Site*_surf.tif")), reason="LOLA DEM cache is not present")
+@pytest.mark.skipif(
+    not (any(CACHE.glob("Site*_surf.tif")) and (WIDE_CACHE / "LDEM_80S_80MPP_ADJ.TIF").exists()),
+    reason="LOLA DEM cache (5 m and 80 m) is not present",
+)
 def test_mask_rebuilds_exactly_from_the_cached_dem(tmp_path):
     spec = importlib.util.spec_from_file_location("build_site_horizon_masks", MASK_SCRIPT)
     module = importlib.util.module_from_spec(spec)
@@ -262,6 +277,8 @@ def test_mask_rebuilds_exactly_from_the_cached_dem(tmp_path):
     assert fresh["elevation_deg"] == committed["elevation_deg"]
     assert fresh["summary"] == committed["summary"]
     assert fresh["dem"] == committed["dem"]
+    assert fresh["wide_dem"] == committed["wide_dem"]
+    assert fresh["tiers"] == committed["tiers"]
 
 
 def test_mask_builder_verifies_offline(capsys):

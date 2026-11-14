@@ -69,6 +69,7 @@ def build_horizon_mask_from_dem(
     obs_height_m: float = 2.0,
     north_unit: tuple[float, float] | None = None,
     azimuth_step_deg: float = 1.0,
+    min_range_m: float = 0.0,
     max_range_m: float = 150_000.0,
     radius_m: float = 1_737_400.0,
     source: str = "DEM ray-march",
@@ -86,6 +87,10 @@ def build_horizon_mask_from_dem(
         atan((h_t - drop(s) - h_obs) / s),   drop(s) = s^2 / (2R)
     The curvature drop makes far terrain sink below the tangent plane.
     Stereographic scale distortion (<0.2 % poleward of 85 deg S) is ignored.
+
+    ``min_range_m`` starts the march beyond a radius another (finer) DEM already
+    covers, so a two-tier mask can use 5 m pixels nearby and 80 m pixels farther
+    out without the coarse grid inventing near-field obstructions.
     """
     dem = np.asarray(dem_m, float)
     rows, cols = dem.shape
@@ -124,7 +129,9 @@ def build_horizon_mask_from_dem(
         raise ValueError("Observer lies outside the DEM")
 
     azimuths = np.arange(0.0, 360.0, azimuth_step_deg)
-    dists = np.arange(pixel_m, max_range_m, pixel_m * 0.5)
+    dists = np.arange(max(pixel_m, min_range_m), max_range_m, pixel_m * 0.5)
+    if dists.size == 0:
+        raise ValueError("max_range_m must be larger than min_range_m (or pixel_m)")
     out = np.empty_like(azimuths)
     for i, az in enumerate(np.radians(azimuths)):
         d = np.sin(az) * east + np.cos(az) * north

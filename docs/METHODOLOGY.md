@@ -55,7 +55,7 @@ The UI keeps these distinct everywhere.
 ### Building masks from LOLA
 `services/horizon.py::build_horizon_mask_from_dem` ray-marches a gridded DEM along each azimuth (default 1° steps, 150 km range, half-pixel sampling, bilinear interpolation). Terrain angle = atan((h − s²/2R − h_obs)/s), so **lunar curvature** is included. Stereographic scale distortion (<0.2% poleward of 85°S) is ignored. Tested with synthetic walls and flat plains (`tests/test_horizon_intervals.py`).
 
-The three mission candidates have committed masks in `data/scientific/horizon_masks/`, built by `scripts/build_site_horizon_masks.py` at 2 m observer height out to the DEM edge (6.3–7.7 km). `services/site_data.py::load_mask` loads them for Phase 3; a location without a mask gets no skyline rather than a fabricated one.
+The three mission candidates have committed two-tier masks in `data/scientific/horizon_masks/`, built by `scripts/build_site_horizon_masks.py` at 2 m observer height: the 5 m/pixel site DEM out to its edge (6.3–7.7 km), then the 80 m/pixel wide polar DEM to 150 km, taking the higher tier per azimuth. `services/site_data.py::load_mask` loads them for Phase 3; a location without a mask gets no skyline rather than a fabricated one.
 
 ### Demo skylines
 `data/demo/horizon_masks.json` is produced by `scripts/generate_demo_data.py` from seeded random harmonics plus Gaussian "massifs". **They are invented.** Custom coordinates in Demo Mode get a flat (0°) mask and are labelled `geometric_only`, which overestimates visibility near the poles.

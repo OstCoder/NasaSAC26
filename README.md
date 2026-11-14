@@ -34,13 +34,13 @@ The Vite dev server proxies `/api` to the backend, so no CORS or URL configurati
 ### Tests
 
 ```bash
-cd backend && pytest          # 211 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 214 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, mission config and site-catalogue validation,
                               # site provenance and PSR geometry, requirement checks, comparison,
                               # rescheduler, mode switching, topocentric Horizons site az/el (Task 1),
                               # Task 2 series assembly, terrain inventory (Task 3), Task 5 data
-                              # validation, Task 6 data access and horizon masks, JPL Horizons live
-                              # provider and Moon Trek imagery (mocked network)
+                              # validation, Task 6 data access, two-tier horizon masks and the wide
+                              # 80 m DEM, JPL Horizons live provider and Moon Trek imagery
 cd frontend && npm test       # projection round-trips
 cd frontend && npm run build  # strict TypeScript + production bundle
 ```
@@ -63,7 +63,7 @@ cd frontend && npm run build  # strict TypeScript + production bundle
 - Sun visibility is never presented as power; Earth visibility is never presented as a comms link.
 - Comparisons describe differences. They do not rank or recommend sites.
 - Candidate sites use exact published coordinates (Mazarico et al. 2011 / NASA 2020 site numbering) with LOLA elevations — see [docs/SITES.md](docs/SITES.md). Demo Mode horizon skylines are still synthetic.
-- **Terrain** (Phase 2 Tasks 3 and 6) is one 5 m/pixel LOLA DEM per candidate, 16 km on a side; only 6.3–7.7 km of that can feed a horizon. The three candidates now have committed horizon masks, so Scientific Mode applies real terrain; any other coordinate still says "terrain not applied".
+- **Terrain** (Phase 2 Tasks 3 and 6) is one 5 m/pixel LOLA DEM per candidate (16 km on a side) plus an 80 m/pixel wide polar DEM. Each mask uses 5 m pixels to the site DEM edge (6.3–7.7 km) and 80 m pixels from there to 150 km, past the distance where lunar curvature hides any remaining terrain. The three candidates have committed masks, so Scientific Mode applies real terrain; any other coordinate still says "terrain not applied".
 
 ## Repository layout
 
@@ -111,12 +111,12 @@ lunanav/
 | Demo terrain skylines | Working, **synthetic by design** |
 | JPL Horizons live provider (monthly cache, cross-check, status endpoint) and topocentric site az/el (Phase 2, Task 1) | Verified live on 2026-11-14: `check_jpl.py` passed (Horizons table, all three Moon Trek layers, monthly fetch + cross-check), and `scripts/horizons_site.py` agreed with the analytic model to 0.020° in elevation and 0.017° in azimuth. |
 | Phase 2 astronomy series (hourly Sun/Earth az/el, three candidates × 1–8 and 11–18 Dec 2026) | Generated live from JPL Horizons on 2026-11-14: 1,014 records, analytic cross-check within 0.032°; committed under `data/scientific/site_series/` and re-checkable with `--verify-only`. |
-| Phase 2 terrain data (LOLA 5 m/pix DEM per candidate, measured in code) | Retrieved from NASA PGDA on 2026-11-14 and verified by checksum: three 16 km × 16 km DEMs at 5 m/pix, 6.3–7.7 km of usable ray-march radius, skyline obstruction 6.0°–12.7° max; recorded in `data/reference/site_terrain.json`, documented in [docs/TERRAIN.md](docs/TERRAIN.md). |
+| Phase 2 terrain data (LOLA 5 m/pix DEM per candidate, measured in code) | Retrieved from NASA PGDA on 2026-11-14 and verified by checksum: three 16 km × 16 km DEMs at 5 m/pix plus a 7600 × 7600 px 80 m/pix wide polar DEM (±304 km); site heights agree to 3.2 m, near-field obstruction 6.0°–12.7° max. Recorded in `data/reference/site_terrain.json` and `data/reference/wide_dem.json`, documented in [docs/TERRAIN.md](docs/TERRAIN.md). |
 | Phase 2 data pipeline (one catalogue, cross-dataset checks, API access, cache visibility) | `GET /api/datasets` and `scripts/check_datasets.py` list all eleven datasets with units, longitude convention, sources and record counts, and fail if a site is a different point in the catalogue, the Task 2 series and the Task 3 terrain reference. Currently passes with no problems; see [docs/DATASETS.md](docs/DATASETS.md). |
 | Phase 2 validation (Task 5: independent model, Horizons reference, units, UTC, continuity) | `scripts/validate_nasa_data.py` checks the 1,014 records ten ways offline and can re-query Horizons (`--live`): coordinates, lunar observer, Sun/Earth positions (≤ 0.032° from an independent model), 180 reference rows reproduced exactly, units, UTC, continuity, same site/different dates and different sites/same time. `GET /api/validation` serves the report; [docs/VALIDATION.md](docs/VALIDATION.md) records the assumptions and ten known limitations. |
-| Phase 3 hand-off (Task 6: horizon masks, data access, format contract) | `scripts/build_site_horizon_masks.py` built 360-point LOLA skylines for all three candidates (6.3–7.7 km, 2 m observer, max 9.43°/2.85°/1.28°) and they are committed. `services/site_data.py` loads the Task 2 records under one field contract, resamples inside a stored window, and pairs them with the skyline (`apply_mask` → clearance). `GET /api/series` and `GET /api/readiness` expose it; [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md) documents loading and limits. |
+| Phase 3 hand-off (Task 6: horizon masks, data access, format contract) | `scripts/build_site_horizon_masks.py` built 360-point LOLA skylines for all three candidates (5 m/pix to the DEM edge, then 80 m/pix to 150 km; 2 m observer; max 9.43°/2.85°/1.28°) and they are committed. `services/site_data.py` loads the Task 2 records under one field contract, resamples inside a stored window, and pairs them with the skyline (`apply_mask` → clearance). `GET /api/series` and `GET /api/readiness` expose it; [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md) documents loading and limits. |
 | Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. All three layer paths were confirmed on 2026-10-30, and live LOLA tiles were fetched for all three candidate sites on 2026-11-14 — which exposed a wrong max zoom: the two LOLA layers stop at zoom 5, now corrected in the config. |
-| LOLA horizon masks (DEM ray-march with curvature) | Built for all three candidates on 2026-11-14 and verified offline: 360 azimuths each over 6.3–7.7 km at a 2 m observer, max skyline 9.43°/2.85°/1.28°; committed in `data/scientific/horizon_masks/`. |
+| LOLA horizon masks (DEM ray-march with curvature) | Built for all three candidates on 2026-11-14 and verified offline: 360 azimuths each, 5 m/pix to the site DEM edge and 80 m/pix to 150 km at a 2 m observer, max skyline 9.43°/2.85°/1.28° (far tier only 1.06°/−0.85°/−0.22°); committed in `data/scientific/horizon_masks/`. |
 | SPICE provider | Implemented, **not validated**: needs `spiceypy` + kernels |
 | 3D terrain, power model, link budget, rankings, AI explanations, report export | Extension points and feature flags only |
 

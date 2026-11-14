@@ -19,14 +19,14 @@ python scripts/check_datasets.py --json   # the full payload
 | --- | --- | --- | --- | --- |
 | `sites` | Landing-site catalogue (verified coordinates, elevation, slope, PSR) | `data/demo/sites.json` | 6 sites, 3 mission candidates | `services/sites.py` |
 | `site_series` | Hourly Sun/Earth azimuth + elevation (Phase 2 Task 2) | `data/scientific/site_series/` | 6 files, 1,014 records | `services/site_series.py` |
-| `site_terrain` | LOLA 5 m/pix DEM inventory: extents, CRS, checksums, skyline (Task 3) | `data/reference/site_terrain.json` | 3 sites | `services/terrain_inventory.py` |
+| `site_terrain` | LOLA 5 m/pix DEM inventory: extents, CRS, checksums, skyline (Task 3) | `data/reference/site_terrain.json` (the 80 m far-tier DEM is described in `data/reference/wide_dem.json`) | 3 sites | `services/terrain_inventory.py` |
 | `site_elevations` | LOLA 125 m-window elevation/slope evidence | `data/reference/site_elevations.json` | 4 sites | `scripts/sample_site_elevation.py` |
 | `psr_catalogue` | LROC/LOLA PSR polygons (> 5 km²) | `data/reference/psrs.json` | 653 | `scripts/build_psr_catalogue.py` |
 | `craters` | IAU Gazetteer crater centres | `data/reference/moon_craters.json` | gazetteer subset | `scripts/fetch_craters.py` |
 | `horizons_reference` | Independent 12 h Horizons sample the Task 5 checks compare against | `data/reference/horizons_reference.json` | 180 rows in 6 requests | `services/nasa_validation.py` |
 | `nasa_validation` | Task 5 report: ten checks, assumptions, limitations, last live evidence | `data/reference/nasa_validation.json` | 10 checks | `services/nasa_validation.py` |
 | `ephemeris` | Optional tabulated Horizons sub-points | `data/scientific/ephemeris/` | **absent by design** | `scripts/fetch_horizons.py` |
-| `horizon_masks` | LOLA-derived skyline masks (Task 6) | `data/scientific/horizon_masks/` | 3 masks, 360 points each | `scripts/build_site_horizon_masks.py` |
+| `horizon_masks` | Two-tier LOLA skyline masks (Task 6): 5 m/pix to the site DEM edge, 80 m/pix to 150 km | `data/scientific/horizon_masks/` | 3 masks, 360 points each | `scripts/build_site_horizon_masks.py` |
 | `cache` | Horizons monthly tables + Moon Trek tiles | `data/cache/` | months + tiles on this machine | providers |
 
 Absent datasets are listed with `available: false` and a reason; they are never
@@ -66,7 +66,11 @@ Cross-dataset, not just per-file:
 7. the cache is reported unavailable (not "empty") when its directory is absent;
 8. the Horizons reference rows are finite, name known sites and Sun/Earth, and add
    up to the row count the file claims; the validation report must say `pass`, or
-   the catalogue surfaces which check failed.
+   the catalogue surfaces which check failed;
+9. each horizon mask is a 360-point file for a mission candidate whose summary
+   matches its elevation array, its `max_range_m` reaches 100 km or more, both
+   tiers are recorded, and its wide-DEM checksum matches `wide_dem.json` — so a
+   stale or hand-edited mask is caught, not just counted.
 
 A failing check is reported by `problems[]` in the payload and by exit status 1
 from the script — the API still serves the catalogue so a UI can show what is
@@ -127,7 +131,7 @@ checksums and WGS-style descriptions, and both record when they were generated.
   hackathon repository — a reviewer can read every value.
 - Terrain rasters are ~41 MB each and stay in `data/cache/`, referenced by
   checksum; the repository stores the description, not the raster.
-- `ephemeris` is empty until a tabulated table is committed (Scientific Mode uses the live Horizons provider); `horizon_masks` holds the three candidate masks, built at a 2 m observer out to each DEM edge.
+- `ephemeris` is empty until a tabulated table is committed (Scientific Mode uses the live Horizons provider); `horizon_masks` holds the three candidate masks, built at a 2 m observer: 5 m/pixel to each DEM edge, then 80 m/pixel to 150 km.
 - `nasa_validation` describes the last run, including its live Horizons evidence.
   Re-run `scripts/validate_nasa_data.py --live` to refresh it; offline runs keep
   the recorded live block and say when it was taken.

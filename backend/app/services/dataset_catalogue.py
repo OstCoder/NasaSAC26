@@ -32,6 +32,8 @@ UNITS = {
 }
 COORD_TOLERANCE_DEG = 1e-6
 ELEVATION_TOLERANCE_M = 0.05
+MASK_SCHEMA = "lunanav.horizon_mask.v1"
+MASK_AZIMUTHS = 360
 
 
 # ---------------------------------------------------------------- helpers --
@@ -414,6 +416,107 @@ def _nasa_validation(settings, problems: list[str]) -> Dataset:
     return dataset
 
 
+def _horizon_masks(settings, problems: list[str]) -> Dataset:
+    """The committed masks, checked against both DEM references (Task 6).
+
+    A directory listing is not evidence: each file must be a 360-point mask for
+    a mission candidate, reach the far tier, and carry the wide DEM checksum it
+    was built from, so a stale or hand-edited mask is reported instead of served.
+    """
+    directory = Path(settings.datasets["scientific_horizon_dir"])
+    wide_path = Path(settings.datasets["wide_terrain"])
+    dataset = Dataset("horizon_masks", "LOLA two-tier horizon masks (Phase 2 Task 6)",
+                      "terrain", _rel(directory), schema=MASK_SCHEMA)
+    wide, wide_error = _read(wide_path)
+    if wide_error or wide is None:
+        problems.append(f"horizon_masks: {wide_error}")
+    files = sorted(directory.glob("*.json")) if directory.exists() else []
+    if not files:
+        dataset.available = False
+        dataset.records = 0
+        dataset.unavailable_reason = (
+            "no horizon masks yet (Phase 2 Task 6); Scientific Mode reports terrain unavailable")
+        dataset.details = {"files": [], "wide_dem": {"available": False}}
+        return dataset
+
+    candidates = list(settings.raw["mission"]["candidate_sites"])
+    sites: dict[str, dict] = {}
+    for path in files:
+        payload, error = _read(path)
+        if error or payload is None:
+            problems.append(f"horizon_masks: {path.name}: {error}")
+            continue
+        site_id = payload.get("site_id")
+        if site_id not in candidates:
+            problems.append(f"horizon_masks: {path.name} describes unknown site {site_id!r}")
+        if payload.get("schema") != MASK_SCHEMA:
+            problems.append(f"horizon_masks: {path.name} schema {payload.get('schema')!r}")
+        azimuth = payload.get("azimuth_deg") or []
+        elevation = payload.get("elevation_deg") or []
+        measured = None
+        if len(azimuth) != MASK_AZIMUTHS or len(elevation) != MASK_AZIMUTHS:
+            problems.append(
+                f"horizon_masks: {path.name} has {len(azimuth)} azimuths and {len(elevation)} "
+                f"elevations (expected {MASK_AZIMUTHS})")
+        elif not all(_finite(value) for value in elevation):
+            problems.append(f"horizon_masks: {path.name} has a non-finite elevation")
+        else:
+            measured = round(max(elevation), 4)
+            if not -90.0 < measured < 90.0:
+                problems.append(f"horizon_masks: {path.name} maximum {measured} deg is not physical")
+            if (payload.get("summary") or {}).get("max_obstruction_deg") != measured:
+                problems.append(
+                    f"horizon_masks: {path.name} summary disagrees with its elevation array")
+        far_range = payload.get("max_range_m")
+        if not (_finite(far_range) and far_range >= 100_000.0):
+            problems.append(
+                f"horizon_masks: {path.name} max_range_m {far_range!r} does not reach the far tier")
+        tiers = payload.get("tiers") or {}
+        for tier in ("near", "far"):
+            if not isinstance(tiers.get(tier), dict):
+                problems.append(f"horizon_masks: {path.name} records no {tier} tier")
+        if wide:
+            recorded = (payload.get("wide_dem") or {}).get("sha256")
+            if recorded != wide["dem"]["sha256"]:
+                problems.append(
+                    f"horizon_masks: {path.name} was built from a different wide DEM than "
+                    f"{_rel(wide_path)}")
+            elif (payload.get("wide_dem") or {}).get("pixel_m") != wide["dem"]["pixel_m"]:
+                problems.append(f"horizon_masks: {path.name} wide DEM pixel size disagrees")
+        if not payload.get("limitations"):
+            problems.append(f"horizon_masks: {path.name} records no limitations")
+        sites[site_id] = {
+            "max_obstruction_deg": measured,
+            "max_obstruction_azimuth_deg": (payload.get("summary") or {}).get(
+                "max_obstruction_azimuth_deg"),
+            "max_range_km": round(float(far_range) / 1000.0, 3) if _finite(far_range) else None,
+            "near_range_km": round(float((tiers.get("near") or {}).get("max_range_m", 0)) / 1000.0, 3),
+            "far_pixel_m": (tiers.get("far") or {}).get("pixel_m"),
+        }
+    for candidate in candidates:
+        if candidate not in sites:
+            problems.append(f"horizon_masks: no mask for mission candidate {candidate!r}")
+
+    dataset.records = len(files)
+    dataset.details = {
+        "files": [path.name for path in files],
+        "sites": sites,
+        "wide_dem": ({
+            "available": True,
+            "file": wide["dem"]["file"],
+            "pixel_m": wide["dem"]["pixel_m"],
+            "sha256": wide["dem"]["sha256"],
+            "range_km": round(float(wide.get("far_range_m", 0)) / 1000.0, 3),
+        } if wide else {"available": False, "reason": wide_error}),
+    }
+    dataset.sources = [
+        {"label": "NASA PGDA LOLA 5 m/pix site DEMs", "url": "https://pgda.gsfc.nasa.gov/products/78"},
+        {"label": "NASA PGDA LOLA 80 m/pix south polar DEM (Barker et al. 2023)",
+         "url": "https://pgda.gsfc.nasa.gov/products/90"},
+    ]
+    return dataset
+
+
 def _optional_directory(dataset_id: str, label: str, path: Path, reason: str,
                         schema: str) -> Dataset:
     files = sorted(path.glob("*.json")) if path.exists() else []
@@ -481,12 +584,7 @@ def build_catalogue(*, use_cache: bool = False) -> dict:
         "No tabulated ephemeris files; Scientific Mode uses the live Horizons provider instead.",
         "lunanav.ephemeris_table",
     )
-    masks = _optional_directory(
-        "horizon_masks", "LOLA horizon masks (Phase 2 Task 6)",
-        Path(settings.datasets["scientific_horizon_dir"]),
-        "No horizon masks yet (Phase 2 Task 6); Scientific Mode reports terrain unavailable.",
-        "lunanav.horizon_mask",
-    )
+    masks = _horizon_masks(settings, problems)
     cache = _cache(settings)
 
     declared = str(settings.raw["coordinates"]["longitude_convention"])

@@ -100,6 +100,7 @@
     "site_elevations": "data/reference/site_elevations.json",
     "site_series_index": "data/scientific/site_series/index.json",
     "site_terrain": "data/reference/site_terrain.json",
+    "wide_terrain": "data/reference/wide_dem.json",
     "horizons_reference": "data/reference/horizons_reference.json",
     "nasa_validation": "data/reference/nasa_validation.json",
     "demo_horizon_masks": "data/demo/horizon_masks.json",

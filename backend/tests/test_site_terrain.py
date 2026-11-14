@@ -121,7 +121,8 @@ def test_data_gaps_are_counted_not_substituted():
 
 def test_sources_and_limitations_are_documented():
     assert "16 km" in TERRAIN["limitations"]["extent"]
-    assert "LDEM_875S_20M" in TERRAIN["limitations"]["wider_context"]
+    assert "LDEM_80S_80MPP_ADJ" in TERRAIN["limitations"]["wider_context"]
+    assert "150 km" in TERRAIN["limitations"]["extent"]
     source_ids = {s["id"] for s in TERRAIN["sources"]}
     assert {"pgda-lola-5mpp", "moon-trek-lola", "lroc-quickmap"} <= source_ids
     names = " ".join(r["name"] for r in TERRAIN["resources_checked"]).lower()

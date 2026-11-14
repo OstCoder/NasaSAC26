@@ -292,7 +292,8 @@ extrapolating, and loads the LOLA skyline so `apply_mask` yields clearance per
 body. `GET /api/series` and `GET /api/readiness` expose the same data, mirrored
 in `frontend/src/types/api.ts` so the frontend reads the exact file fields.
 Task 6 also built the three horizon masks (`scripts/build_site_horizon_masks.py`,
-360 azimuths each, 6.3-7.7 km range, 2 m observer) and committed them, so
+360 azimuths each, two tiers: 5 m/pix to the DEM edge and 80 m/pix to 150 km,
+2 m observer) and committed them, so
 Scientific Mode now applies real terrain. How to load and query everything is in
 [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md).
 

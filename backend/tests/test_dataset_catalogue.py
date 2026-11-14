@@ -53,6 +53,15 @@ def test_datasets_that_do_not_exist_say_so_instead_of_vanishing(catalogue):
     assert masks["available"] is True
     assert masks["records"] == 3
     assert len(masks["details"]["files"]) == 3
+    # The masks are checked, not just counted: 360 points, far tier, wide DEM.
+    assert masks["details"]["wide_dem"]["available"] is True
+    assert masks["details"]["wide_dem"]["pixel_m"] == 80.0
+    assert set(masks["details"]["sites"]) == {"shackleton-rim", "connecting-ridge",
+                                               "de-gerlache-rim"}
+    for entry in masks["details"]["sites"].values():
+        assert entry["max_range_km"] == 150.0
+        assert entry["far_pixel_m"] == 80.0
+        assert 0.0 <= entry["max_obstruction_deg"] < 90.0
     assert by_id["site_series"]["details"]["step"] == "1 h"
 
 

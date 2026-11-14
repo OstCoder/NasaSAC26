@@ -1,0 +1,87 @@
+{
+ "schema": "lunanav.wide_terrain.v1",
+ "dataset": "Wide-area LOLA south-polar DEM (far horizon tier)",
+ "generated_utc": "2026-11-14T21:21:27+00:00",
+ "generator": "backend/scripts/inspect_wide_terrain.py",
+ "source": {
+  "label": "LOLA 80 m/pix south polar DEM, LDEM_80S_80MPP_ADJ (80 S to the pole)",
+  "provider": "NASA GSFC Planetary Geodynamics Laboratory (PGDA)",
+  "url": "https://pgda.gsfc.nasa.gov/products/90",
+  "data": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF",
+  "citation": "Barker et al. 2023, Planet. Sci. J. 4, 183",
+  "data_doi": "10.60903/gsfcpgda-lola-spole",
+  "coverage": "80 S to the south pole (stereographic radius ~304 km)"
+ },
+ "dem": {
+  "file": "LDEM_80S_80MPP_ADJ.TIF",
+  "driver": "GTiff",
+  "width": 7600,
+  "height": 7600,
+  "dtype": "float32",
+  "pixel_m": 80.0,
+  "extent_km": [
+   608.0,
+   608.0
+  ],
+  "bounds_m": {
+   "left": -304000.0,
+   "bottom": -304000.0,
+   "right": 304000.0,
+   "top": 304000.0
+  },
+  "crs_wkt": "PROJCS[\"Moon (2015) - Sphere / Ocentric / South Polar\",GEOGCS[\"Moon (2015) - Sphere / Ocentric\",DATUM[\"Moon (2015) - Sphere\",SPHEROID[\"Moon (2015) - Sphere\",1737400,0,AUTHORITY[\"IAU\",\"30100\"]],AUTHORITY[\"IAU\",\"30100\"]],PRIMEM[\"Reference Meridian\",0,AUTHORITY[\"IAU\",\"30100\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"IAU\",\"30100\"]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH],AUTHORITY[\"IAU\",\"30135\"]]",
+  "nodata": "nan",
+  "elevation_preview_range_m": [
+   -7254.04,
+   7006.88
+  ],
+  "bytes": 189158392,
+  "sha256": "82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a",
+  "url": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF"
+ },
+ "height": {
+  "raw_sample_m": 1805.2,
+  "convention": "metres above the 1737.4 km reference sphere",
+  "offset_m": 0.0
+ },
+ "sites": {
+  "shackleton-rim": {
+   "xy_km": [
+    -2.742,
+    -6.082
+   ],
+   "wide_elevation_m": 1731.014,
+   "near_elevation_m": 1728.34,
+   "difference_m": 2.674,
+   "sample": "nearest 80 m cell row 3876, col 3765"
+  },
+  "connecting-ridge": {
+   "xy_km": [
+    -11.308,
+    -12.259
+   ],
+   "wide_elevation_m": 1953.652,
+   "near_elevation_m": 1954.85,
+   "difference_m": -1.198,
+   "sample": "nearest 80 m cell row 3953, col 3658"
+  },
+  "de-gerlache-rim": {
+   "xy_km": [
+    -37.421,
+    15.043
+   ],
+   "wide_elevation_m": 1805.203,
+   "near_elevation_m": 1808.37,
+   "difference_m": -3.167,
+   "sample": "nearest 80 m cell row 3611, col 3332"
+  }
+ },
+ "far_range_m": 150000.0,
+ "limitations": {
+  "resolution": "80 m/pixel, so the far tier resolves hills, crater rims and massifs hundreds of metres across, not boulders or the landing ellipse.",
+  "range": "The ray-march stops at 150 km. Terrain beyond that can still block a body at the horizon, but at these sites its elevation angle is below the near-field skyline.",
+  "datum": "Heights are metres above the 1737.4 km sphere (the Moon has no geoid). The file's height convention is detected from the data and recorded in `height`.",
+  "two_tiers": "The mask takes the maximum of the 5 m near tier (to the site DEM edge) and this 80 m far tier (to 150 km). A coarser grid can miss a narrow ridge, so the far tier is a lower bound on obstruction beyond ~8 km, not an exact skyline.",
+  "scope": "Terrain obstruction only; no power, communications, thermal or hazard meaning."
+ }
+}

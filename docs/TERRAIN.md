@@ -5,10 +5,13 @@ measured from the files themselves. The deliverable is:
 
 - three **5 m/pixel LOLA digital elevation models** (one per candidate, 16 km ×
   16 km each), downloaded from NASA PGDA and verified by checksum;
-- a committed description of what each file contains and what it can answer —
-  `data/reference/site_terrain.json` (`schema: lunanav.site_terrain.v1`);
+- one **80 m/pixel wide polar DEM** (`LDEM_80S_80MPP_ADJ`, 7600 × 7600 px, 80°S
+  to the pole) that carries the masks from the end of each site DEM to 150 km;
+- committed descriptions of both: `data/reference/site_terrain.json`
+  (`schema: lunanav.site_terrain.v1`) and `data/reference/wide_dem.json`
+  (`schema: lunanav.wide_terrain.v1`);
 - the skyline obstruction angle per azimuth out to the edge of each DEM, and
-  the 360-point horizon masks built from those angles (Phase 2 Task 6).
+  the two-tier 360-point horizon masks built from them (Phase 2 Task 6).
 
 This is the data layer. The masks built from these DEMs are in
 `data/scientific/horizon_masks/` and described in
@@ -31,7 +34,9 @@ Read the obstruction column as a fact about the 6–8 km of ground in the file,
 measured from a ground-level observer, not about the whole skyline. The Phase 3
 masks sample the same terrain from the 2 m eye the Sun/Earth track uses, which
 lowers near-field angles (by `atan(2 m / distance)`); their maxima are 9.43°,
-2.85° and 1.28°. At Shackleton the crest of the rim itself stands
+2.85° and 1.28°. Each mask also covers 8–150 km at 80 m/pixel; the far tier's
+own maxima are +1.06°, −0.85° and −0.22°, all below the near skyline, so the
+distant massifs do not out-top the local rim at these three points. At Shackleton the crest of the rim itself stands
 12.7° above the landing point to the south-west; the connecting ridge is blocked
 to 10.6° toward 160° (the ridge falls away north, so the horizon there is
 negative, i.e. below the tangent plane). For comparison, the Sun never rises
@@ -47,7 +52,7 @@ does.
 | Same sites, `*_slp.tif` (slope, degrees) and `*_toterr.tif` (RMS height error, m) | 5 m/pixel | same | same | same | Available and referenced in `data/reference/site_elevations.json`; not re-sampled here |
 | Moon Trek LRO LOLA global layer (`LRO_LOLA_DEM_Global_128ppd_v04`) | 128 pixels/degree (~237 m at the equator), 8-bit display tiles, zoom ≤ 5 | global | equirectangular tiles, no height values | NASA/JPL [Moon Trek](https://trek.nasa.gov/moon/) | **Coverage check only** at each site (tile present at zoom 5); never used for numbers |
 | LROC QuickMap | imagery (WAC/NAC) and topographic basemaps | south pole | visual | NASA/ASU [quickmap.lroc.asu.edu](https://quickmap.lroc.asu.edu/) | Visual-inspection entry point; no numeric value in this document comes from it |
-| LOLA 20 m/pix polar DEM, `LDEM_875S_20M` | 20 m/pixel | south of 87.5°S | same stereographic frame | NASA [PDS Geosciences Node](https://pds-geosciences.wustl.edu/missions/lro/lola.htm) | **Not ingested** — the documented way to extend horizons past ~8 km |
+| LOLA 80 m/pix wide polar DEM, `LDEM_80S_80MPP_ADJ` | 80 m/pixel, 7600 × 7600 | 80°S to the pole (~608 km across, ±304 km) | same stereographic frame; surface height in metres above the 1737.4 km sphere | NASA PGDA [products/90](https://pgda.gsfc.nasa.gov/products/90), data at [LOLA_20mpp](https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/); Barker et al. 2023, *PSJ* 4, 183 | **Far tier** — ray-march from each site DEM's edge out to 150 km, 2 m eye |
 
 ## Coordinate reference system and height datum
 
@@ -75,8 +80,10 @@ does.
 
 ```bash
 cd backend
-python scripts/inspect_site_terrain.py --download    # fetch missing DEMs (~41 MB each), write the reference
-python scripts/inspect_site_terrain.py --verify-only # re-derive from the cached DEMs and compare
+python scripts/inspect_site_terrain.py --download     # 5 m site DEMs (~41 MB each), write the reference
+python scripts/inspect_site_terrain.py --verify-only  # re-derive from the cached DEMs and compare
+python scripts/inspect_wide_terrain.py --download     # 80 m wide DEM (~181 MB), write its reference
+python scripts/inspect_wide_terrain.py --verify-only  # same, offline
 ```
 
 The script downloads only what is missing into `data/cache/lola_5mpp/` (git
@@ -103,6 +110,9 @@ DEMs with no network access at all and matches the committed file):
   `data/reference/site_elevations.json` `center_px` values to 0.01 m — the DEM
   files are the same products Phase 1 sampled;
 - all three sites fall inside their DEMs, 6.3–7.7 km from the nearest edge;
+- the wide DEM is 7600 × 7600 px at 80 m covering ±304 km, its checksum is
+  recorded, and its heights at the three sites agree with the 5 m pixels to
+  3.2 m — the expected difference between an 80 m cell and a 5 m pixel;
 - the raster WKT matches the projection in `core/coords.py` (sphere 1737.4 km,
   latitude of origin −90, central meridian 0);
 - Moon Trek returns a tile at zoom 5 for all three sites, and LROC QuickMap,
@@ -116,14 +126,15 @@ now 5 for both LOLA layers (LROC WAC still reaches 8).
 
 ## Limitations and missing coverage
 
-1. **16 km wide is not the whole skyline.** Each DEM ends 6.3–7.7 km from its
-   site. Massifs and crater walls at 20–100 km are not in these files, so the
-   angles above are a *lower bound* on obstruction in some directions and say
-   nothing at all about more distant terrain.
-2. **The mask only reaches 6.3–7.7 km.** The three masks exist and are committed,
-   but they stop at the DEM edge, so terrain beyond that is unknown and the mask
-   is a lower bound on obstruction. Phase 3 can clear a skyline that a massif
-   20 km away would still block.
+1. **The 16 km site DEM is the near field only.** Its angles are exact at 5 m
+   resolution out to 6.3–7.7 km; the masks switch to the 80 m wide DEM there, so
+   a ridge narrower than ~80 m between 8 and 150 km can be missed (the far tier
+   is a lower bound, not an exact skyline).
+2. **Beyond 150 km is below the horizon anyway.** Terrain at 150 km on the
+   1737.4 km sphere sits ~6.5 km below the tangent plane, and the last obstruction
+   capable of clearing it (a 10.8 km peak) would lie at ~194 km. The masks
+   therefore cover every distance from which terrain can block a body at these
+   sites; only local (sub-80 m) roughness remains unresolved.
 3. **Observer height changes the answer.** These summary angles use a 0 m
    observer; the masks use the 2 m eye of the Sun/Earth track. At
    `connecting-ridge`, azimuth 160°, the ground-level maximum (10.63°) comes from
@@ -139,8 +150,9 @@ now 5 for both LOLA layers (LROC WAC still reaches 8).
 ## Use in Phase 3
 
 ```text
-LOLA 5 m/pix DEM ──► build_horizon_mask_from_dem(max_range = usable radius, 2 m eye)
-                  └─► data/scientific/horizon_masks/<site>.json ──► apply_mask → clearance
+LOLA 5 m/pix DEM  (0 → 6–8 km) ─┐
+                                ├─ max per azimuth, 2 m eye ─► horizon_masks/<site>.json ─► apply_mask → clearance
+LOLA 80 m/pix DEM (6–8 → 150 km)┘
 ```
 
 - The committed reference gives Phase 3 the DEM path, the site's pixel, the
@@ -162,4 +174,7 @@ LOLA 5 m/pix DEM ──► build_horizon_mask_from_dem(max_range = usable radius
   <https://doi.org/10.1016/j.icarus.2010.10.030>
 - Moon Trek: <https://trek.nasa.gov/moon/>
 - LROC QuickMap: <https://quickmap.lroc.asu.edu/>
-- LOLA 20 m/pix polar DEMs: <https://pds-geosciences.wustl.edu/missions/lro/lola.htm>
+- LOLA 80 m/pix wide polar DEM: NASA PGDA products/90,
+  <https://pgda.gsfc.nasa.gov/products/90>, data at
+  <https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/> (Barker et al. 2023, *Planet.
+  Sci. J.* 4, 183), <https://doi.org/10.3847/PSJ/acf3e1>
