@@ -27,11 +27,12 @@ export interface TerrainSceneProps {
   exaggeration: number
   ariaLabel: string
   illumination: TerrainIllumination | null
+  wireframe?: boolean
 }
 
 /** Lazy-loaded Three.js renderer. Kept separate from the panel's data hooks. */
 export default function TerrainScene({
-  dem, skyline, sun, earth, exaggeration, ariaLabel, illumination,
+  dem, skyline, sun, earth, exaggeration, ariaLabel, illumination, wireframe = false,
 }: TerrainSceneProps) {
   const mount = React.useRef<HTMLDivElement>(null)
 
@@ -77,7 +78,7 @@ export default function TerrainScene({
     }
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
     const material = new THREE.MeshStandardMaterial({
-      vertexColors: true, roughness: 1, metalness: 0,
+      vertexColors: true, roughness: 1, metalness: 0, wireframe,
     })
     const mesh = new THREE.Mesh(geometry, material)
     scene.add(mesh)
@@ -162,7 +163,16 @@ export default function TerrainScene({
       renderer.forceContextLoss()
       node.removeChild(renderer.domElement)
     }
-  }, [dem, skyline, sun, earth, exaggeration, illumination])
+  }, [dem, skyline, sun, earth, exaggeration, illumination, wireframe])
 
-  return <div ref={mount} className="h-[360px] w-full" role="img" aria-label={ariaLabel} />
+  return (
+    <div className="relative h-[360px] w-full">
+      <div ref={mount} className="h-full w-full" role="img" aria-label={ariaLabel} />
+      <div className="pointer-events-none absolute left-3 top-3 rounded-md bg-night/70 px-2 py-1 text-[11px] text-muted backdrop-blur">
+        <span className="font-medium text-ink">N</span>
+        <span className="ml-1">↑</span>
+        <span className="ml-2 text-faint">{(dem.grid.extent_m.east_west / 1000).toFixed(1)} km across</span>
+      </div>
+    </div>
+  )
 }

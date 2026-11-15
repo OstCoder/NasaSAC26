@@ -61,6 +61,7 @@ export function SiteTerrain3DPanel({
   const [siteId, setSiteId] = React.useState(requestedSiteId ?? sites[0]?.id ?? '')
   const [window, setWindow] = React.useState<WindowKey>('initial')
   const [exaggeration, setExaggeration] = React.useState(3)
+  const [wireframe, setWireframe] = React.useState(false)
 
   React.useEffect(() => {
     if (requestedSiteId && sites.some((site) => site.id === requestedSiteId)) {
@@ -159,6 +160,14 @@ export function SiteTerrain3DPanel({
                 />
                 <span className="num text-ink">{exaggeration}x</span>
               </label>
+              <button
+                type="button"
+                onClick={() => setWireframe((w) => !w)}
+                aria-pressed={wireframe}
+                className="ml-2 rounded-md border border-rule-soft px-2 py-1 text-xs text-muted transition-colors hover:text-ink"
+              >
+                {wireframe ? 'Shaded' : 'Wireframe'}
+              </button>
             </div>
             {dem.data && !dem.error && webglAvailable() && (
               <div className="relative">
@@ -171,6 +180,7 @@ export function SiteTerrain3DPanel({
                     exaggeration={exaggeration}
                     ariaLabel={aria}
                     illumination={illumination}
+                    wireframe={wireframe}
                   />
                 </React.Suspense>
                 <div className="pointer-events-none absolute left-2 bottom-2 rounded bg-night/85 px-2 py-1.5 text-[11px] leading-snug text-faint">

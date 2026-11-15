@@ -1016,7 +1016,7 @@ flight-certified NASA mission system.
 - [ ] Phase 1: progressive disclosure for long descriptions.
 - [x] Phase 2: mobile bottom tab bar.
 - [ ] Phase 3: loading skeletons for imagery/PSR.
-- [ ] Phase 4: 3D terrain enhancement (lighting, scale bar, wireframe toggle).
+- [x] Phase 4: 3D terrain enhancement (lighting, scale bar, wireframe toggle).
 - [ ] Phase 5: accessibility audit (aria-labels, color-blind safe status).
 - [ ] Phase 6: micro-interactions (count-up, marker pulse, panel collapse).
 - [ ] Phase 7: verification + docs.
