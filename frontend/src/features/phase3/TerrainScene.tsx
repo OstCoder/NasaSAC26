@@ -19,6 +19,25 @@ function enuDirection(azimuthDeg: number, elevationDeg: number): THREE.Vector3 {
   )
 }
 
+
+
+function kmToLatLon(centerLat: number, centerLon: number, xKm: number, zKm: number) {
+  const northKm = -zKm
+  const lat = centerLat + northKm / 111.32
+  const lon = centerLon + xKm / (111.32 * Math.cos((centerLat * Math.PI) / 180))
+  return { lat, lon }
+}
+
+function haversineKm(a: { lat: number; lon: number }, b: { lat: number; lon: number }) {
+  const R = 6371
+  const dLat = ((b.lat - a.lat) * Math.PI) / 180
+  const dLon = ((b.lon - a.lon) * Math.PI) / 180
+  const la1 = (a.lat * Math.PI) / 180
+  const la2 = (b.lat * Math.PI) / 180
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(la1) * Math.cos(la2) * Math.sin(dLon / 2) ** 2
+  return 2 * R * Math.asin(Math.sqrt(h))
+}
+
 export interface TerrainSceneProps {
   dem: TerrainDem
   skyline: { az: number; el: number }[]
@@ -36,7 +55,11 @@ export default function TerrainScene({
 }: TerrainSceneProps) {
   const mount = React.useRef<HTMLDivElement>(null)
   const meshRef = React.useRef<THREE.Mesh | null>(null)
-  const [inspect, setInspect] = React.useState<{ x: number; z: number; h: number } | null>(null)
+  const [inspect, setInspect] = React.useState<{ x: number; z: number; h: number; lat: number; lon: number } | null>(null)
+  const [measureMode, setMeasureMode] = React.useState(false)
+  const [measurePts, setMeasurePts] = React.useState<{ x: number; z: number }[]>([])
+  const measureModeRef = React.useRef(measureMode)
+  React.useEffect(() => { measureModeRef.current = measureMode }, [measureMode])
 
   const exportPng = React.useCallback(() => {
     const canvas = mount.current?.querySelector('canvas') as HTMLCanvasElement | null
@@ -182,7 +205,12 @@ export default function TerrainScene({
       const row = Math.round((-point.z / nsKm + 0.5) * (size - 1))
       if (row < 0 || row >= size || col < 0 || col >= size) { setInspect(null); return }
       const height = dem.heights_m[row][col]
-      setInspect({ x: point.x, z: point.z, h: height })
+      const ll = kmToLatLon(dem.site.latitude_deg, dem.site.longitude_deg, point.x, point.z)
+      if (measureModeRef.current) {
+        setMeasurePts((pts) => (pts.length >= 2 ? [{ x: point.x, z: point.z }] : [...pts, { x: point.x, z: point.z }]))
+        return
+      }
+      setInspect({ x: point.x, z: point.z, h: height, lat: ll.lat, lon: ll.lon })
     }
     renderer.domElement.addEventListener('click', onClick)
     renderer.domElement.style.cursor = 'crosshair'
@@ -215,17 +243,40 @@ export default function TerrainScene({
       </div>
       {inspect && (
         <div className="pointer-events-none absolute left-3 bottom-3 rounded-md bg-night/80 px-2 py-1 text-[11px] text-ink backdrop-blur">
-          x {inspect.x.toFixed(2)} km · z {inspect.z.toFixed(2)} km · height {Math.round(inspect.h)} m
+          x {inspect.x.toFixed(2)} km · z {inspect.z.toFixed(2)} km · height {Math.round(inspect.h)} m · {inspect.lat.toFixed(3)}°, {inspect.lon.toFixed(3)}°
         </div>
       )}
-      <button
-        type="button"
-        onClick={exportPng}
-        className="absolute right-3 top-3 rounded-md border border-rule-soft bg-night/80 px-2 py-1 text-[11px] text-muted backdrop-blur transition-colors hover:text-ink"
-        title="Save the current 3D view as PNG"
-      >
-        Save PNG
-      </button>
+      {measureMode && measurePts.length > 0 && (
+        <div className="pointer-events-none absolute left-3 bottom-12 rounded-md bg-night/80 px-2 py-1 text-[11px] text-ink backdrop-blur">
+          {measurePts.map((p, i) => `P${i + 1}: ${p.x.toFixed(2)}, ${p.z.toFixed(2)} km`).join('  ·  ')}
+          {measurePts.length === 2 && (
+            <> · distance {(() => {
+              const a = kmToLatLon(dem.site.latitude_deg, dem.site.longitude_deg, measurePts[0].x, measurePts[0].z)
+              const b = kmToLatLon(dem.site.latitude_deg, dem.site.longitude_deg, measurePts[1].x, measurePts[1].z)
+              return haversineKm(a, b).toFixed(2)
+            })()} km</>
+          )}
+        </div>
+      )}
+      <div className="absolute right-3 top-3 flex gap-1.5">
+        <button
+          type="button"
+          onClick={() => { setMeasureMode((m) => !m); setMeasurePts([]) }}
+          className="rounded-md border border-rule-soft bg-night/80 px-2 py-1 text-[11px] text-muted backdrop-blur transition-colors hover:text-ink"
+          aria-pressed={measureMode}
+          title="Click two points on the terrain to measure distance"
+        >
+          {measureMode ? 'Measuring…' : 'Measure'}
+        </button>
+        <button
+          type="button"
+          onClick={exportPng}
+          className="rounded-md border border-rule-soft bg-night/80 px-2 py-1 text-[11px] text-muted backdrop-blur transition-colors hover:text-ink"
+          title="Save the current 3D view as PNG"
+        >
+          Save PNG
+        </button>
+      </div>
     </div>
   )
 }
