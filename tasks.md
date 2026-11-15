@@ -274,7 +274,7 @@ demonstrates the central NASA challenge.
 - [x] Provide clear errors when requests fail.
 - [x] Confirm the application handles
       multiple consecutive user interactions.
-- [ ] Test the application on slower connections.
+- [x] Test the application on slower connections.
 - [x] Ensure advanced features do not block
       the core mission dashboard.
 
@@ -427,7 +427,7 @@ containing the project's code and resources.
 - [x] Include installation instructions.
 - [x] Include local development commands.
 - [ ] Include the deployment URL.
-- [ ] Add screenshots of the website.
+- [x] Add screenshots of the website.
 - [x] Include team contribution information.
 - [x] Include license and attribution information.
 

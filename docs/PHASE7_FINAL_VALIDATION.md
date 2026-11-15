@@ -8,7 +8,7 @@ This document records what was actually run against the final repository state. 
 
 | Check | Command | Result |
 | --- | --- | --- |
-| Backend suite | `cd backend && ./.venv/bin/python -m pytest -q` | **348 passed**; one non-failing Starlette/httpx deprecation warning |
+| Backend suite | `cd backend && ./.venv/bin/python -m pytest -q` | **349 tests** — 345 passed + 4 skipped on Python 3.14 (the 4 need the local LOLA DEM cache, absent in a fresh clone; they passed in the earlier 3.12.8 run that recorded 348). Includes the new top-level `/health` test. One non-failing Starlette/httpx deprecation warning. |
 | Frontend suite | `cd frontend && npm test -- --run` | **52 passed** in 13 files |
 | TypeScript | `cd frontend && npm run typecheck` | passed |
 | Production build | `cd frontend && npm run build` | passed; entry chunk 1,051.67 kB / 312.56 kB gzip |
@@ -22,6 +22,8 @@ This document records what was actually run against the final repository state. 
 | Secret scan | tracked-file scan for env files, common token/private-key patterns and credential filenames | no matches |
 | Debug scan | `console.log`, `console.debug`, `debugger`, `TODO`, `FIXME`, `XXX` under `frontend/src` and `backend/app` | no matches |
 | Generated-file scan | tracked `.tmp`, `.log`, `__pycache__`, `.DS_Store`, `node_modules`, `dist` | no matches |
+| Slow-connection check (Task 5) | throttled API link via `scripts/slow_connection_proxy.py` (400 kbit/s, 600 ms RTT) | all analysis endpoints < 1 s; repeat-visit boot interactive ≈ 8.7 s; zero errors; see [PHASE6_PERFORMANCE.md](PHASE6_PERFORMANCE.md) |
+| README screenshots (Task 8) | 8 captured views in `assets/screenshots/`, linked from the README | done |
 
 The browser matrices use the installed Google Chrome through Playwright and the real FastAPI backend; they do not mock analysis responses. The Phase 6 science page rendered in **3.117 s** with a **641 ms** navigation load in this run. The 390 px layout had no horizontal overflow.
 
@@ -91,13 +93,15 @@ The Phase 4–6 matrices cover the complete workflow:
 
 ## 5. Open release gates
 
+Completed on 14 Nov 2026 (no longer open): **gate 3 — final screenshots captured and added
+to the README** (`assets/screenshots/`, 8 views).
+
 These are deliberately **not** marked complete because they need an external account, a public URL, recorded media or human sign-off:
 
 1. Deploy the backend to Render and the frontend to Vercel using [DEPLOYMENT.md](DEPLOYMENT.md).
 2. Record the public URLs and run the complete workflow from a second device.
-3. Capture final screenshots and add them to the README.
-4. Record and upload the demonstration video.
-5. Rehearse the pitch with the team and confirm the event time limit.
-6. Complete the current official Project tab, submit, and verify the submission in a private window.
+3. Record and upload the demonstration video.
+4. Rehearse the pitch with the team and confirm the event time limit.
+5. Complete the current official Project tab, submit, and verify the submission in a private window.
 
 Until those steps are done, Phase 7 is a verified local release candidate, not a completed submission.

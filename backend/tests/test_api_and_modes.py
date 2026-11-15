@@ -26,6 +26,13 @@ def scenario(site="malapert-massif", landing=LANDING, hours=336, **extra):
 
 
 class TestBasics:
+    def test_top_level_health(self, client):
+        """render.yaml healthCheckPath and docs/DEPLOYMENT.md both use /health."""
+        top = client.get("/health")
+        assert top.status_code == 200
+        assert top.json() == {"status": "ok"}
+        assert client.get("/api/health").json() == top.json()
+
     def test_config_and_sites(self, client):
         cfg = client.get("/api/config").json()
         assert cfg["features"]["rescheduler"] is True

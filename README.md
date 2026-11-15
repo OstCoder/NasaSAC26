@@ -52,7 +52,7 @@ Deployment is prepared for a Vercel static frontend and a Render Python API, wit
 ### Tests
 
 ```bash
-cd backend && pytest          # 348 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 349 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, mission config and site-catalogue validation,
                               # site provenance and PSR geometry, requirement checks, comparison,
                               # rescheduler, mode switching, topocentric Horizons site az/el (Task 1),
@@ -106,6 +106,34 @@ never filled with synthetic terrain or extrapolated ephemeris.
 | **Reschedule a mission** | Same site and duration, original vs proposed date: changes in sunlight, Earth visibility, simultaneous visibility, longest blackouts, requirement verdicts and — for the two committed windows — power and minimum-battery deltas. |
 | **Lunar viewer** | Moon Trek imagery (LROC WAC, LOLA shaded relief or LOLA elevation) on three views: south polar map; zoomable whole-Moon 2D map with the night side and the Sun and Earth sub-points; 3D Moon shaped by LOLA elevation. All are lit by the Sun's position right now, or at the inspected mission time, and label craters from the IAU gazetteer. |
 | **Data & methodology** | Calculation pipeline, providers per mode and their availability, which physical effects each includes, conventions, and what results do not mean. |
+
+## Screenshots
+
+Captured on 14 Nov 2026 from the local JPL-live build (see `assets/screenshots/`):
+
+![Mission planner — polar map](assets/screenshots/planner-polar-map.jpeg)
+*Mission planner: the south-polar map with candidate sites, mapped PSRs, Moon Trek LRO imagery and slot pins.*
+
+![Mission planner — Sun/Earth conditions](assets/screenshots/planner-conditions.jpeg)
+*Terrain-adjusted Sun/Earth conditions with provenance labels and Moon Trek source credits.*
+
+![Mission planner — clearance timeline](assets/screenshots/planner-clearance-timeline.jpeg)
+*Clearance timeline: Sun and Earth tracks against the LOLA skyline, with visibility bands and playback controls.*
+
+![Mission planner — landing-delay comparison](assets/screenshots/planner-delay-comparison.jpeg)
+*Landing-delay comparison: what changes if the 1 Dec landing slips to 11 Dec.*
+
+![Mission planner — power budget](assets/screenshots/planner-power-budget.jpeg)
+*Phase 5 power & link budget at Connecting Ridge: vertical azimuth-tracking array (~708 W peak) vs fixed horizontal, battery state of charge and direct-to-Earth link verdicts.*
+
+![Compare scenarios](assets/screenshots/compare-scenarios.jpeg)
+*Compare scenarios: two site/date scenarios side by side with aligned visibility bands and change highlighting.*
+
+![Decision support](assets/screenshots/decision-support.jpeg)
+*Decision support: requirement checks per candidate with transparent reasons — the honest "no eligible candidate" verdict is shown, not hidden.*
+
+![Science exploration — PSRs](assets/screenshots/science-psr.jpeg)
+*Science exploration: mapped PSR layer with the nearest-region outline, distances and explicit water-ice "not assessed" labelling.*
 
 ## Data honesty, in short
 

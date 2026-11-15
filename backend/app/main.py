@@ -27,6 +27,12 @@ app = FastAPI(
     "Every result carries a provenance block; Demo Mode data is synthetic.",
 )
 
+
+@app.get("/health", include_in_schema=True)
+def health():
+    """Top-level liveness probe (Render healthCheckPath). Mirrors /api/health."""
+    return {"status": "ok"}
+
 # The PSR catalogue (~2 MB) and the crater gazetteer (~140 kB) are JSON that
 # gzip to a fraction of their size. Threshold keeps small payloads uncompressed,
 # where framing costs more than it saves.
