@@ -1008,6 +1008,15 @@ flight-certified NASA mission system.
 - [~] Keyboard accessibility for site markers — superseded: site selection already goes through the keyboard-accessible Landing-site `<select>` in ScenarioEditor; global `:focus-visible` ring is in place. Map markers remain click-to-inspect.
 - [x] Methodology page now lists the committed dataset catalogue (availability, records, sources).
 
-### Docs
+### UI overhaul (in progress)
 
-- [x] README note + PHASE7 doc entry for the night upgrades.
+- [x] Phase 0: motion tokens + utility classes (fade-in, slide-up, press, lift, skeleton) in index.css; reduced-motion guard already present.
+- [x] Phase 0: Button press feedback; Card interactive lift prop.
+- [x] Phase 1/2: skip-to-main link, view-change fade-in, main landmark + tabIndex.
+- [ ] Phase 1: progressive disclosure for long descriptions.
+- [ ] Phase 2: mobile bottom tab bar.
+- [ ] Phase 3: loading skeletons for imagery/PSR.
+- [ ] Phase 4: 3D terrain enhancement (lighting, scale bar, wireframe toggle).
+- [ ] Phase 5: accessibility audit (aria-labels, color-blind safe status).
+- [ ] Phase 6: micro-interactions (count-up, marker pulse, panel collapse).
+- [ ] Phase 7: verification + docs.

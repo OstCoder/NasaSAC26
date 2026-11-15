@@ -2,8 +2,8 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 
 /** Panel surface. Radius is intentionally small: these are instrument panels, not cards in a feed. */
-export function Card({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
-  return <section className={cn('rounded-lg border border-rule-soft bg-panel', className)} {...props} />
+export function Card({ className, interactive, ...props }: React.HTMLAttributes<HTMLElement> & { interactive?: boolean }) {
+  return <section className={cn('rounded-lg border border-rule-soft bg-panel', interactive && 'lift', className)} {...props} />
 }
 
 export function CardHeader({

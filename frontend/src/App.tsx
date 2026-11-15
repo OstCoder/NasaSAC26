@@ -71,17 +71,25 @@ function Shell() {
   const [view, setView] = useHashView()
   return (
     <div className="min-h-full">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1200] focus:rounded-md focus:bg-raised focus:px-3 focus:py-2 focus:text-sm focus:text-ink"
+      >
+        Skip to main content
+      </a>
       <TopNav view={view} onView={setView} />
-      <main className="mx-auto max-w-[1500px] px-4 py-4">
-        {view === 'planner' && <MissionPlannerPage onCompare={() => setView('compare')} />}
-        {view === 'science' && (
-          <React.Suspense fallback={<p className="text-sm text-muted">Loading science context…</p>}>
-            <SciencePage />
-          </React.Suspense>
-        )}
-        {view === 'decision' && <DecisionDashboard />}
-        {view === 'compare' && <ComparisonPage />}
-        {view === 'methodology' && <MethodologyPage />}
+      <main id="main" tabIndex={-1} className="mx-auto max-w-[1500px] px-4 py-4 outline-none">
+        <div key={view} className="fade-in">
+          {view === 'planner' && <MissionPlannerPage onCompare={() => setView('compare')} />}
+          {view === 'science' && (
+            <React.Suspense fallback={<p className="text-sm text-muted">Loading science context…</p>}>
+              <SciencePage />
+            </React.Suspense>
+          )}
+          {view === 'decision' && <DecisionDashboard />}
+          {view === 'compare' && <ComparisonPage />}
+          {view === 'methodology' && <MethodologyPage />}
+        </div>
       </main>
       <Footer />
     </div>
