@@ -2,6 +2,7 @@ import * as React from 'react'
 import { ErrorNotice } from '@/components/ErrorNotice'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { CountUp } from '@/components/ui/countup'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Field, Input } from '@/components/ui/field'
 import { useApp } from '@/hooks/useAppContext'
@@ -204,7 +205,7 @@ export function EngineeringBudgetPanel() {
                             <span className="ml-1 text-[10px] text-faint">recommended</span>
                           )}
                         </td>
-                        <td className="py-1 pr-3 num text-right text-ink">{num(design.peak_w)} W</td>
+                        <td className="py-1 pr-3 num text-right text-ink"><CountUp value={design.peak_w} decimals={0} /> W</td>
                         <td className="py-1 pr-3 num text-right text-ink">{num(design.energy_wh)} Wh</td>
                         <td className="py-1 num text-right text-muted">{num(design.capacity_factor_pct, 1)}%</td>
                       </tr>
