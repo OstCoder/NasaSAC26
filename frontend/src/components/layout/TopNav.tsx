@@ -36,8 +36,10 @@ function LunaMark() {
 export function TopNav({ view, onView }: { view: View; onView: (v: View) => void }) {
   const { features, mode, setMode, config } = useApp()
   const [dataSaver, setDataSaver] = useDataSaver()
+  const dataSaverRef = React.useRef(dataSaver)
+  React.useEffect(() => { dataSaverRef.current = dataSaver }, [dataSaver])
   React.useEffect(() => {
-    const on = () => setDataSaver(!dataSaver)
+    const on = () => setDataSaver(!dataSaverRef.current)
     window.addEventListener('lunanav:toggle-data-saver', on)
     return () => window.removeEventListener('lunanav:toggle-data-saver', on)
   }, [setDataSaver])

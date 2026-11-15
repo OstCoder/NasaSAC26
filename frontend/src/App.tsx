@@ -78,6 +78,7 @@ function Shell() {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement | null
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return
+      if (e.metaKey || e.ctrlKey || e.altKey) return
       if (e.key === '?') { setHelpOpen((o) => !o); return }
       if (e.key === 'Escape') { setHelpOpen(false); return }
       const views: View[] = ['planner', 'science', 'decision', 'compare', 'methodology']
