@@ -1037,3 +1037,15 @@ flight-certified NASA mission system.
 - [x] Phase 10: CSV export of visibility data.
 - [x] Phase 11: "Now" mode (live Sun/Earth, 60s refresh) already present; verified.
 - [x] Phase 7: verification + docs (tests + typecheck green).
+
+## Task B — Presentation, content & deployment (this clone)
+
+Files owned: README.md, docs/SUBMISSION_PACKET.md, frontend/src/components/layout/TopNav.tsx, frontend/src/App.tsx, docs/DEPLOYMENT.md. The other agent owns Task A (DecisionDashboard, ScenarioEditor, MissionPlannerPage, EngineeringBudgetPanel) — untouched.
+
+- [x] B1: Public/educator mode toggle (usePublicMode hook + localStorage; App state passed to TopNav; TopNav toggle; .public-mode CSS text scaling)
+- [x] B2: README status line keeps local-release-candidate wording (no public URL yet)
+- [x] B3: README "How this addresses the challenge" — 5 bullets after "Our solution"
+- [x] B4: SUBMISSION_PACKET.md — team + validation date present; local API verification recorded; public URL/video left pending (not deployed/recorded)
+- [x] B5: Deployment verification — `/health` ok, `/api/config` ok, `/ready` all checks true, CORS allows configured origin/rejects others on 127.0.0.1:8002; public deployment & second-device/Project-tab checks pending hosting
+
+Protocol: fetch before push; backend `pytest -q` (349 passed + 4 skipped) and frontend `typecheck` + `test` (52 passed) green before each commit; do not touch ports 8000/5173 (other agent) or 8002/5180 (this clone).

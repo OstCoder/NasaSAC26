@@ -13,6 +13,7 @@
 | Scientific validation | Passed (10/10 data checks; 13/13 + 6/6 + 8/8 browser matrices) |
 | GitHub repository | Public |
 | Public deployment | **Not yet deployed** |
+| Local API verification (127.0.0.1:8002) | `/health` `{"status":"ok"}`; `/ready` all checks true; CORS allows configured origin, rejects others |
 | Demonstration video | **Not yet recorded** |
 | Official Project tab | **Not yet submitted** |
 | Submission confirmation | **Not yet available** |
