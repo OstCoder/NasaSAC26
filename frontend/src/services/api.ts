@@ -206,6 +206,7 @@ export const api = {
       return e instanceof ApiError ? e : null
     }
   },
+  datasets: () => request<unknown>('/api/datasets'),
   compare: (a: ScenarioInput, b: ScenarioInput) => post<ComparisonResult>('/api/compare', { a, b }),
   /** Phase 4: every candidate x both windows against the Phase 1 requirements (offline). */
   feasibilityMatrix: (signal?: AbortSignal) => request<FeasibilityMatrix>('/api/feasibility', { signal }),

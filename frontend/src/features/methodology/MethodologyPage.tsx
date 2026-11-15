@@ -7,6 +7,19 @@ import { fmtUtc } from '@/lib/format'
 import { api } from '@/services/api'
 import type { EffectsIncluded, ProviderInfo } from '@/types/api'
 
+interface DatasetEntry {
+  id: string
+  label: string
+  available: boolean
+  records: number | null
+  sources: { label: string; url: string | null }[]
+  unavailable_reason: string | null
+}
+interface DatasetCatalogue {
+  datasets: DatasetEntry[]
+  problems: unknown[]
+}
+
 const PIPELINE = [
   ['Ephemeris', 'Sub-solar and sub-Earth points on the Moon, with distances, from the active ephemeris provider.'],
   ['Local sky position', 'Converted to azimuth and elevation in the site’s East-North-Up frame, including parallax from the site’s offset from the Moon’s centre.'],
@@ -51,6 +64,7 @@ export function MethodologyPage() {
   const demo = useApiResource<ProviderInfo[]>('demo', () => api.providers('demo'), 0)
   const jpl = useApiResource<ProviderInfo[]>('jpl', () => api.providers('jpl'), 0)
   const sci = useApiResource<ProviderInfo[]>('scientific', () => api.providers('scientific'), 0)
+  const catalogue = useApiResource<DatasetCatalogue>('datasets', () => api.datasets() as Promise<DatasetCatalogue>, 0)
   const all = [...(demo.data ?? []), ...(jpl.data ?? []), ...(sci.data ?? [])].filter(
     (p, i, arr) => arr.findIndex((q) => q.id === p.id) === i,
   )
@@ -185,6 +199,45 @@ export function MethodologyPage() {
           <p><strong className="text-ink">SIMPLIFIED ENERGY MODEL</strong> — the power and link budgets use configured array, battery and communications assumptions. They are not hardware performance predictions.</p>
           <p><strong className="text-ink">GEOMETRIC ONLY</strong> — no terrain mask covers this site or date. The result is the unobstructed geometric horizon and is not a terrain-adjusted visibility claim.</p>
           <p><strong className="text-ink">UNAVAILABLE / NOT ASSESSED</strong> — the committed data does not contain the value. It is left unknown, never imputed. A nearby PSR is not evidence of water ice, and no result here is a landing-safety or NASA-approval verdict.</p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader title="Committed datasets" description="Every dataset the backend loads, with availability and source. Problems list is empty when all cross-dataset checks pass." />
+        <CardContent className="overflow-x-auto">
+          {catalogue.loading && <p className="text-sm text-muted">Loading dataset catalogue…</p>}
+          {catalogue.error && <p className="text-sm text-alert">{catalogue.error.message}</p>}
+          {catalogue.data && (
+            <table className="w-full min-w-[640px] text-sm">
+              <thead>
+                <tr className="border-b border-rule text-[13px] text-muted">
+                  <th className="py-2 pr-3 text-left font-medium">Dataset</th>
+                  <th className="px-2 py-2 text-center font-medium">Records</th>
+                  <th className="px-2 py-2 text-center font-medium">Available</th>
+                  <th className="px-2 py-2 text-left font-medium">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {catalogue.data.datasets.map((d) => (
+                  <tr key={d.id} className="border-b border-rule-soft">
+                    <td className="py-2 pr-3">
+                      <p className="font-medium text-ink">{d.label}</p>
+                      <p className="text-xs text-faint">{d.id}</p>
+                      {d.unavailable_reason && <p className="text-xs text-alert">{d.unavailable_reason}</p>}
+                    </td>
+                    <td className="px-2 py-2 text-center num">{d.records ?? '—'}</td>
+                    <td className="px-2 py-2 text-center">{d.available ? 'yes' : 'no'}</td>
+                    <td className="px-2 py-2 text-xs text-muted">
+                      {d.sources.map((s) => s.label).join('; ')}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {catalogue.data && catalogue.data.problems.length > 0 && (
+            <p className="mt-2 text-xs text-alert">{catalogue.data.problems.length} cross-dataset problem(s).</p>
+          )}
         </CardContent>
       </Card>
     </div>

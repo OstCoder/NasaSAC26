@@ -1006,6 +1006,7 @@ flight-certified NASA mission system.
 - [x] TopNav toggle for data-saver mode.
 - [x] Shareable scenario links: "Copy scenario link" button + URL-param prefill on load.
 - [~] Keyboard accessibility for site markers — superseded: site selection already goes through the keyboard-accessible Landing-site `<select>` in ScenarioEditor; global `:focus-visible` ring is in place. Map markers remain click-to-inspect.
+- [x] Methodology page now lists the committed dataset catalogue (availability, records, sources).
 
 ### Docs
 
