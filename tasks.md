@@ -1,798 +1,986 @@
 
-# Phase 6 — Scientific Exploration & Advanced Visualization
+# Phase 7 — Final Validation, Deployment & Submission
 
-> **Status (14 Nov 2026): complete.** PSR/science context, map layers, education, 3D terrain shadows, playback and transparency are implemented and browser-checked. The Phase 6 acceptance matrix passes **8/8**; see [docs/PHASE6_ACCEPTANCE.md](docs/PHASE6_ACCEPTANCE.md), [docs/PHASE6_SCIENCE.md](docs/PHASE6_SCIENCE.md) and [docs/PHASE6_PERFORMANCE.md](docs/PHASE6_PERFORMANCE.md). Water ice remains explicitly unassessed.
+> **Status (14 Nov 2026): local release validation complete.** Application readiness, scientific validation, automated tests, performance, repository cleanup and presentation materials have been verified locally. Public deployment, a recorded video, team rehearsal and the official NASA submission remain open because they require hosting credentials, recorded media or the registered team account. See [docs/PHASE7_FINAL_VALIDATION.md](docs/PHASE7_FINAL_VALIDATION.md).
 
 ## Objective
 
-Enhance our NASA Space Apps Challenge 2026 Lunar
-Landing Site Navigator with scientific exploration
-features, advanced lunar visualizations, and
-improved educational experiences.
+Finalize, validate, deploy, demonstrate, and submit
+our Lunar Landing Site Navigator for the
+NASA Space Apps Challenge 2026.
 
-Build upon the astronomical calculations from
-Phase 3, the interactive website from Phase 4,
-and the mission decision-support system from Phase 5.
+Combine the work completed in Phases 1–6 into
+one reliable, publicly accessible application.
 
-Focus on helping users understand the relationship
-between:
+Ensure that the final project:
 
-1. Lunar south-pole geography.
-2. Sunlight and shadow conditions.
-3. Direct-to-Earth communication opportunities.
-4. Permanently shadowed regions (PSRs).
-5. Potential water-ice exploration.
-6. Landing-site engineering constraints.
+1. Addresses NASA's lunar landing-site challenge.
+2. Uses scientifically grounded astronomical data.
+3. Provides accurate and understandable visualizations.
+4. Supports landing-site and date comparisons.
+5. Explains mission-planning trade-offs.
+6. Clearly documents scientific assumptions.
+7. Includes a working demonstration.
+8. Meets official NASA Space Apps submission requirements.
 
-By the end of Phase 6, our website should provide
-a more complete understanding of why some lunar
-locations are scientifically interesting but
-operationally challenging.
+By the end of Phase 7, our project should be
+deployed, documented, demonstrated, and submitted.
 
 ---
 
-## Task 1: Research Permanently Shadowed Regions (PSRs)
+## Task 1: Finalize the Core Application
 
-- [x] Research what permanently shadowed regions are.
-- [x] Understand why PSRs exist near the lunar poles.
-- [x] Research how low solar elevation and crater
-      geometry create long-term shadowing.
-- [x] Investigate why PSRs may preserve water ice.
-- [x] Identify PSRs near our three candidate sites.
-- [x] Find verified NASA datasets showing PSR boundaries.
-- [x] Review dataset resolution and coordinate systems.
-- [x] Record sources and scientific limitations.
-- [x] Distinguish permanent shadowing from temporary
-      darkness during the selected mission period.
-- [x] Document why PSRs are scientifically valuable.
+- [x] Review all completed features from Phases 1–6.
+- [x] Identify unfinished or unstable functionality.
+- [x] Prioritize fixing critical issues over adding features.
+- [x] Confirm all three landing sites are supported.
+- [x] Verify landing-site selection works.
+- [x] Verify date selection works.
+- [x] Verify mission duration controls work.
+- [x] Verify Sun position calculations are displayed.
+- [x] Verify Earth position calculations are displayed.
+- [x] Verify sunlight and communication timelines work.
+- [x] Verify site comparisons work.
+- [x] Verify mission-delay comparisons work.
+- [x] Verify mission requirements can be evaluated.
+- [x] Remove or disable incomplete features.
+- [x] Ensure the application operates without crashes.
 
-### Key Scientific Concepts
+### Required Core Features
 
-Permanently Shadowed Region (PSR):
-A location where direct sunlight does not reach
-the surface over the relevant long-term solar
-illumination cycle because of local geometry.
+The final application should allow users to:
 
-Water Ice:
-Some permanently shadowed regions may contain
-water ice or other volatile materials.
-
-Scientific Importance:
-Studying these regions could help scientists
-understand lunar water, volatile preservation,
-and resources for future exploration.
+1. Select a lunar landing site.
+2. Choose a landing date and mission duration.
+3. View Sun and Earth positions.
+4. Examine visibility windows.
+5. Compare different landing sites.
+6. Compare different landing dates.
+7. Understand relevant mission constraints.
 
 ### Important
 
-Not every PSR contains confirmed water ice.
+A reliable application with fewer features
+is preferable to a visually impressive
+application that produces incorrect results.
 
-Our application must not claim that a location
-contains accessible ice solely because it
-is permanently shadowed.
-
-### Deliverable
-
-A documented collection of verified PSR datasets,
-scientific references, and candidate exploration
-regions near our selected landing sites.
-
-### Resources
-
-NASA LROC QuickMap:
-https://quickmap.lroc.asu.edu/
-
-NASA Moon Trek:
-https://trek.nasa.gov/moon/
-
-NASA Science:
-https://science.nasa.gov/
-
----
-
-## Task 2: Integrate PSR Data Into the Lunar Map
-
-- [x] Obtain a usable PSR boundary dataset.
-- [x] Check the dataset's geographic coverage.
-- [x] Confirm its lunar coordinate reference system.
-- [x] Convert PSR data into a frontend-compatible format.
-- [x] Align PSR boundaries with the lunar map projection.
-- [x] Display PSRs as a separate map layer.
-- [x] Add a toggle to enable or disable the layer.
-- [x] Highlight PSRs near the selected landing sites.
-- [x] Display PSR boundaries with appropriate labels.
-- [x] Add a legend explaining the layer.
-- [x] Verify map alignment against source data.
-- [x] Display attribution for the scientific dataset.
-
-### Suggested Map Layers
-
-Layer 1:
-Lunar Surface Imagery
-
-Layer 2:
-Candidate Landing Sites
-
-Layer 3:
-Terrain Elevation
-
-Layer 4:
-Permanently Shadowed Regions
-
-Layer 5:
-Sunlight and Earth Visibility Information
-
-### Important
-
-PSR boundaries must come from verified scientific
-data rather than manually drawn approximations
-presented as factual boundaries.
-
-Ensure overlays align correctly with the
-lunar map's coordinate system and projection.
+Do not add unfinished capabilities to the
+final presentation as if they are working.
 
 ### Deliverable
 
-An interactive lunar map with verified PSR
-boundaries displayed alongside candidate
-landing sites.
+A feature-complete and stable version
+of the Lunar Landing Site Navigator.
 
 ---
 
-## Task 3: Calculate Proximity to PSRs
+## Task 2: Validate Scientific Accuracy
 
-- [x] Load the selected landing site coordinates.
-- [x] Load verified PSR boundaries.
-- [x] Identify nearby permanently shadowed regions.
-- [x] Calculate the minimum surface distance from
-      each landing site to nearby PSR boundaries.
-- [x] Use lunar surface geometry for distance estimates.
-- [x] Identify the nearest mapped PSR.
-- [x] Display proximity measurements in kilometers.
-- [x] Compare PSR proximity across landing sites.
-- [x] Handle sites with no nearby mapped PSRs.
-- [x] Record uncertainty caused by dataset resolution.
-- [x] Clearly distinguish distance from accessibility.
+- [x] Verify all landing coordinates.
+- [x] Verify coordinate reference systems.
+- [x] Verify lunar longitude conventions.
+- [x] Confirm observer locations are on the Moon.
+- [x] Verify JPL Horizons integration.
+- [x] Check Sun azimuth and elevation calculations.
+- [x] Check Earth azimuth and elevation calculations.
+- [x] Verify UTC timestamp handling.
+- [x] Test geometric horizon calculations.
+- [x] Test terrain horizon calculations if supported.
+- [x] Validate sunlight availability percentages.
+- [x] Validate Earth visibility percentages.
+- [x] Validate longest darkness calculations.
+- [x] Validate maximum communication blackouts.
+- [x] Validate simultaneous visibility calculations.
+- [x] Validate mission-delay comparisons.
+- [x] Verify missing-data handling.
+- [x] Check model assumptions and limitations.
 
-### Simplified Lunar Surface Distance
+### Scientific Validation Requirements
 
-For two positions on an ideal spherical Moon:
+For each selected landing site:
 
-d = R × c
+- Confirm coordinates against the recorded source.
+- Compare sample ephemeris values with JPL Horizons.
+- Check that azimuth and elevation conventions match.
+- Ensure time intervals are calculated consistently.
+- Verify visibility transitions when possible.
+- Verify terrain-adjusted calculations separately.
 
-Where:
+### Important Distinctions
 
-d = Surface distance
-R = Approximate lunar radius
-c = Central angular separation between positions
+Sun Visibility:
+Indicates whether the Sun is geometrically
+or terrain-wise visible.
 
-Using the haversine relationship:
+Solar Power:
+Depends on panel orientation, efficiency,
+incident sunlight, and spacecraft hardware.
 
-a =
-sin²(Δlatitude / 2) +
-cos(latitude1) × cos(latitude2) ×
-sin²(Δlongitude / 2)
+Earth Visibility:
+Indicates whether a direct line of sight
+toward Earth is geometrically available.
 
-c = 2 × atan2(sqrt(a), sqrt(1 - a))
+Communication Availability:
+Also depends on the spacecraft antenna,
+radio hardware, link budget, and other factors.
 
-All angular inputs must be in radians.
+PSR Proximity:
+Indicates geographic distance to a mapped
+permanently shadowed region.
 
-A commonly used mean lunar radius is
-approximately 1737.4 kilometers.
-
-For proximity to a PSR polygon, calculate
-the minimum distance to its boundary or
-interior rather than only to its center.
-
-### Important
-
-Surface distance does not indicate whether
-a rover can safely travel between locations.
-
-Actual accessibility depends on:
-
-- Terrain slope
-- Crater walls
-- Obstacles
-- Surface conditions
-- Rover capabilities
-- Thermal and power constraints
+Water-Ice Confirmation:
+Requires separate scientific evidence.
 
 ### Deliverable
 
-A PSR proximity analysis function that
-reports distances from candidate landing
-sites to nearby mapped PSRs.
+A scientifically validated application
+with documented calculation methods,
+sources, assumptions, and limitations.
 
 ---
 
-## Task 4: Create a Water-Ice Exploration Mode
+## Task 3: Run Automated Backend Tests
 
-- [x] Add an optional science exploration mode.
-- [x] Allow users to prioritize proximity to PSRs.
-- [x] Display nearby scientifically interesting regions.
-- [x] Combine PSR proximity with sunlight metrics.
-- [x] Combine PSR proximity with Earth visibility metrics.
-- [x] Compare candidate sites based on these factors.
-- [x] Display conflicts between engineering and
-      scientific exploration priorities.
-- [x] Identify sites that satisfy selected constraints.
-- [x] Explain why a nearby PSR may be interesting.
-- [x] Clearly identify unsupported scientific claims.
-- [x] Avoid claiming confirmed water ice without evidence.
+- [x] Run all astronomy data integration tests.
+- [x] Run Sun visibility calculation tests.
+- [x] Run Earth visibility calculation tests.
+- [x] Run terrain horizon tests when supported.
+- [x] Run visibility window detection tests.
+- [x] Run simultaneous visibility tests.
+- [x] Run mission constraint evaluation tests.
+- [x] Run mission-delay comparison tests.
+- [x] Run solar power simulation tests if implemented.
+- [x] Run battery simulation tests if implemented.
+- [x] Run PSR proximity tests if implemented.
+- [x] Fix failing tests.
+- [x] Confirm no hardcoded demonstration values
+      are presented as actual scientific results.
+- [x] Record the final test outcomes.
 
-### Example User Scenario
+### Suggested Commands
 
-A mission planner wants to investigate potential
-water ice near the Moon's south pole.
+```bash
+cd backend
 
-The spacecraft requires:
+python -m pytest
+```
 
-- Adequate solar illumination.
-- Acceptable direct-to-Earth visibility.
-- Suitable battery reserves.
-- Proximity to a scientifically interesting PSR.
+If using unittest:
 
-Our application compares potential landing sites
-and explains the trade-offs.
+```bash
+python -m unittest discover
+```
 
-### Example Output
+Use the test framework actually configured
+in the project.
 
-Site A:
-Strong sunlight availability but relatively
-far from the nearest mapped PSR.
+### Important Test Cases
 
-Site B:
-Moderate sunlight availability with a
-closer mapped PSR.
+Test 1:
+Sun elevation above the applicable horizon.
 
-Site C:
-Potentially interesting science location,
-but extended Earth visibility blackouts.
+Expected:
+Sun visibility is True.
 
-These are illustrative descriptions,
-not calculated results.
+Test 2:
+Earth elevation below the applicable horizon.
 
-### Important
+Expected:
+Earth visibility is False.
 
-The best site is not necessarily the closest
-site to a permanently shadowed region.
+Test 3:
+Communication blackout exceeds allowed duration.
 
-Engineering constraints must still be evaluated.
+Expected:
+Mission communication constraint fails.
+
+Test 4:
+Required scientific data is missing.
+
+Expected:
+The result is UNKNOWN or unavailable.
+
+Test 5:
+Mission date changes.
+
+Expected:
+The application evaluates the new date range
+rather than reusing outdated results.
 
 ### Deliverable
 
-A science-focused mission planning mode that
-combines PSR proximity with operational metrics.
+A backend test suite with no unresolved
+critical failures and documented results.
 
 ---
 
-## Task 5: Develop Advanced 3D Lunar Terrain Visualization
+## Task 4: Test the Complete Website
 
-- [x] Review available elevation data for selected sites.
-- [x] Choose Three.js or React Three Fiber.
-- [x] Create a 3D terrain mesh from elevation data.
-- [x] Apply appropriate lunar surface textures.
-- [x] Place landing-site markers on the terrain.
-- [x] Add camera rotation and zoom controls.
-- [x] Display realistic relative terrain elevations.
-- [x] Add a terrain scale or elevation legend.
-- [x] Indicate when vertical exaggeration is applied.
-- [x] Optimize terrain resolution for browser performance.
-- [x] Ensure markers align with their real coordinates.
-- [x] Provide a 2D fallback when 3D rendering is unavailable.
+- [x] Open the website in a browser.
+- [x] Select Site A and run an analysis.
+- [x] Select Site B and run an analysis.
+- [x] Select Site C and run an analysis.
+- [x] Change the landing date.
+- [x] Change the mission duration.
+- [x] Test Sun and Earth position visualizations.
+- [x] Test visibility timelines.
+- [x] Test site comparison charts.
+- [x] Test mission requirement controls.
+- [x] Test mission-delay comparisons.
+- [x] Test the time slider and animations.
+- [x] Test PSR map overlays if implemented.
+- [x] Test optional 3D terrain functionality.
+- [x] Test unavailable datasets.
+- [x] Test invalid user inputs.
+- [x] Test frontend loading states.
+- [x] Test API failure handling.
+- [x] Test mobile and desktop layouts.
+- [x] Check browser console errors.
 
-### Suggested 3D Features
+### Critical End-to-End Test
 
-- Rotatable terrain view
-- Zoomable lunar surface
-- Landing-site markers
-- Crater and ridge geometry
-- Terrain elevation visualization
-- Optional PSR overlay
-- Sun and Earth direction indicators
+1. Open the Lunar Landing Site Navigator.
+2. Select Shackleton Rim.
+3. Set the landing date to December 1, 2026.
+4. Set the mission duration to seven days.
+5. Run the mission analysis.
+6. Examine Sun and Earth visibility results.
+7. Compare Shackleton Rim with Connecting Ridge.
+8. Change the landing date to December 11, 2026.
+9. Compare the original and delayed scenarios.
+10. Review mission feasibility results.
 
-### Important
-
-Scientific accuracy is more important than
-creating a visually dramatic but incorrect
-representation of lunar terrain.
-
-Do not claim that a decorative 3D Moon
-is a scientifically accurate elevation model.
+All supported interactions should function
+without crashes or misleading measurements.
 
 ### Deliverable
 
-An interactive 3D visualization of at least
-one selected lunar landing region using
-verified elevation data.
-
-### Resources
-
-NASA Moon Trek:
-https://trek.nasa.gov/moon/
-
-NASA LROC QuickMap:
-https://quickmap.lroc.asu.edu/
+An end-to-end tested website that successfully
+demonstrates the central NASA challenge.
 
 ---
 
-## Task 6: Add Sunlight and Shadow Visualization
+## Task 5: Optimize Website Performance
 
-- [x] Use verified Sun position data from Phase 2.
-- [x] Use terrain data for supported landing sites.
-- [x] Determine the Sun direction at selected timestamps.
-- [x] Display the direction of incoming sunlight.
-- [x] Implement terrain-based shadow rendering.
-- [x] Update shadows when the timestamp changes.
-- [x] Clearly distinguish modeled shadows from
-      actual observed lunar imagery.
-- [x] Synchronize shadow rendering with the timeline.
-- [x] Test low-elevation Sun conditions.
-- [x] Validate representative shadows against
-      available NASA reference observations.
-- [x] Document limitations of the rendering model.
-
-### Suggested Visualization
-
-Display a 3D lunar terrain model where:
-
-- The Sun's position changes over time.
-- Crater walls cast shadows.
-- Sunlit surfaces are visually distinguishable.
-- Landing markers remain visible.
-- Users can inspect how illumination changes.
-
-### Important
-
-Accurate shadow rendering requires correct
-solar geometry and terrain data.
-
-A simplified lighting effect should be labeled
-as illustrative rather than scientifically exact.
-
-Do not automatically classify temporarily
-shadowed terrain as a permanent PSR.
-
-### Deliverable
-
-A time-controlled terrain illumination
-visualization for a supported lunar site.
-
----
-
-## Task 7: Create a Mission Time Animation
-
-- [x] Add an interactive mission time slider.
-- [x] Allow users to select a specific UTC timestamp.
-- [x] Add play and pause functionality.
-- [x] Add adjustable animation playback speed.
-- [x] Update Sun and Earth position markers over time.
-- [x] Update visibility status during playback.
-- [x] Synchronize the sky view with the timeline.
-- [x] Synchronize terrain illumination when available.
-- [x] Update mission metrics or selected-time details.
-- [x] Highlight visibility transitions.
-- [x] Prevent animation outside available data ranges.
-- [x] Handle gaps in astronomical data.
-- [x] Test playback across different mission periods.
-
-### Expected User Experience
-
-1. Select a landing site.
-2. Choose a seven-day mission period.
-3. Open the mission timeline.
-4. Press Play.
-5. Watch the Sun and Earth positions change.
-6. Observe changes in visibility.
-7. Pause at an interesting timestamp.
-8. Inspect the exact scientific measurements.
-
-### Important
-
-Interpolate positions carefully.
-
-Do not invent visibility transitions between
-large observation gaps without a documented
-interpolation method or refined calculations.
-
-### Deliverable
-
-An interactive mission-time animation
-synchronized with astronomical measurements
-and available terrain visualizations.
-
----
-
-## Task 8: Build Educational Information Panels
-
-- [x] Create an explanation of lunar south-pole geography.
-- [x] Explain why the Sun stays near the polar horizon.
-- [x] Explain why some lunar craters remain shadowed.
-- [x] Explain the scientific importance of PSRs.
-- [x] Explain how lunar water ice may be preserved.
-- [x] Explain Earth visibility and lunar libration.
-- [x] Explain why sunlight affects spacecraft power.
-- [x] Explain why Earth visibility affects communication.
-- [x] Explain the purpose of landing-site comparisons.
-- [x] Include relevant scientific references.
-- [x] Make terminology understandable to non-specialists.
-- [x] Provide tooltips for technical measurements.
-
-### Suggested Educational Topics
-
-Topic 1:
-Why Is the Lunar South Pole Important?
-
-Topic 2:
-What Are Permanently Shadowed Regions?
-
-Topic 3:
-Why Does Sunlight Matter for Spacecraft?
-
-Topic 4:
-How Do Lunar Spacecraft Communicate With Earth?
-
-Topic 5:
-Why Can Mission Delays Change Landing Conditions?
-
-Topic 6:
-Why Are Water-Ice Deposits Scientifically Important?
-
-### Deliverable
-
-A collection of educational panels that
-explain the scientific principles behind
-the application's calculations.
-
----
-
-## Task 9: Improve Scientific Transparency
-
-- [x] Identify which data comes from JPL Horizons.
-- [x] Identify which data comes from lunar terrain datasets.
-- [x] Display the observation time range.
-- [x] Display dataset resolution when relevant.
-- [x] Identify geometric-only visibility calculations.
-- [x] Identify terrain-adjusted visibility calculations.
-- [x] Identify simplified power and battery models.
-- [x] Identify hypothetical mission parameters.
-- [x] Document coordinate systems and conventions.
-- [x] Document uncertainty and data limitations.
-- [x] Add source attribution to the website.
-- [x] Avoid unsupported scientific conclusions.
-
-### Suggested Model Labels
-
-GEOMETRIC MODEL
-
-Visibility determined from astronomical
-positions without terrain obstruction.
-
-TERRAIN-AWARE MODEL
-
-Visibility calculated using a local terrain
-horizon derived from elevation data.
-
-SIMPLIFIED ENERGY MODEL
-
-Power and battery estimates based on
-documented hypothetical spacecraft parameters.
-
-UNAVAILABLE DATA
-
-Insufficient verified data to calculate
-the requested measurement.
-
-### Important
-
-The website should make it clear which
-results are verified measurements,
-model-derived estimates, or hypothetical
-mission assumptions.
-
-### Deliverable
-
-A transparent scientific methodology
-and data-source information section.
-
----
-
-## Task 10: Optimize Website Performance
-
-- [x] Measure initial page loading time.
-- [x] Optimize large lunar terrain datasets.
-- [x] Reduce unnecessary API requests.
-- [x] Cache previously calculated results.
-- [x] Optimize chart rendering.
-- [x] Reduce unnecessary React re-renders.
-- [x] Test animation performance.
-- [x] Optimize 3D terrain meshes.
-- [x] Implement loading indicators.
-- [x] Handle network failures gracefully.
-- [x] Provide fallbacks for unsupported 3D rendering.
-- [x] Verify the application remains usable
-      on slower devices.
+- [x] Measure application loading performance.
+- [x] Optimize unnecessary backend requests.
+- [x] Cache previously computed ephemeris results.
+- [x] Optimize large lunar imagery assets.
+- [x] Optimize terrain data loading.
+- [x] Reduce unnecessary React rendering.
+- [x] Ensure charts remain responsive.
+- [x] Test animation performance if implemented.
+- [x] Provide loading indicators.
+- [x] Provide clear errors when requests fail.
+- [x] Confirm the application handles
+      multiple consecutive user interactions.
+- [ ] Test the application on slower connections.
+- [x] Ensure advanced features do not block
+      the core mission dashboard.
 
 ### Performance Priorities
 
-1. Fast initial dashboard loading.
+1. Reliable initial page loading.
 2. Responsive site selection.
-3. Smooth timestamp changes.
-4. Reliable comparison charts.
-5. Stable 3D rendering when enabled.
+3. Accurate and timely analysis results.
+4. Smooth interaction with charts.
+5. Stable mission comparison functionality.
+
+### Deliverable
+
+A responsive website suitable for
+public demonstration and judging.
+
+---
+
+## Task 6: Deploy the Application
+
+- [x] Choose a frontend hosting platform.
+- [x] Choose a backend hosting platform.
+- [ ] Configure production environment variables.
+- [ ] Deploy the backend application.
+- [ ] Deploy the frontend application.
+- [ ] Configure the production API URL.
+- [ ] Configure CORS for the deployed frontend.
+- [x] Verify all required scientific data is available.
+- [ ] Confirm production API endpoints respond.
+- [ ] Test the complete application after deployment.
+- [x] Check for exposed secrets or API credentials.
+- [ ] Confirm the public website requires no login.
+- [ ] Test the website from another device.
+- [ ] Verify the deployment URL is stable.
+- [x] Prepare a fallback demonstration if necessary.
+
+### Suggested Hosting
+
+Frontend:
+Vercel or Netlify
+
+Backend:
+Render, Railway, or another Python-compatible host
+
+Repository:
+GitHub
+
+### Example Environment Configuration
+
+```text
+Frontend:
+VITE_API_BASE_URL=<production-backend-url>
+
+Backend:
+ALLOWED_ORIGINS=<production-frontend-url>
+```
+
+Set real deployment values in environment
+configuration rather than committing secrets.
 
 ### Important
 
-Do not compromise scientific accuracy
-to improve visual performance.
+A deployment is not complete simply because
+the hosting platform reports success.
 
-If detailed terrain processing is expensive,
-precompute terrain meshes and horizon profiles
-where practical.
+Open the public URL and run the actual
+mission-analysis workflow.
 
-### Deliverable
-
-A responsive website that handles scientific
-datasets and visualizations efficiently.
-
----
-
-## Task 11: Validate Scientific Features
-
-- [x] Verify PSR boundaries against source data.
-- [x] Verify landing-site map alignment.
-- [x] Test PSR distance calculations.
-- [x] Validate lunar surface distance formulas.
-- [x] Verify 3D terrain elevation consistency.
-- [x] Verify solar direction calculations.
-- [x] Verify Earth direction calculations.
-- [x] Test shadow geometry at known timestamps.
-- [x] Validate mission animation synchronization.
-- [x] Test missing terrain data behavior.
-- [x] Confirm all scientific units are correct.
-- [x] Confirm explanations match calculated results.
-- [x] Document unresolved scientific limitations.
-
-### Example Test Cases
-
-Test 1:
-A landing site is inside a mapped PSR.
-
-Expected:
-Distance to that PSR = 0 km.
-
-Test 2:
-A landing site is outside all mapped PSRs.
-
-Expected:
-Calculate the distance to the nearest
-mapped PSR boundary.
-
-Test 3:
-Sun elevation is lower than the terrain horizon
-in the Sun's azimuth direction.
-
-Expected:
-The Sun is obstructed.
-
-Test 4:
-Terrain data is unavailable.
-
-Expected:
-Do not show terrain-adjusted visibility
-as a verified result.
-
-Test 5:
-A mission animation timestamp changes.
-
-Expected:
-Sky positions, visibility indicators, and
-available terrain visuals remain synchronized.
+If the backend has cold starts or external
+API dependencies, ensure the demo remains
+usable under expected conditions.
 
 ### Deliverable
 
-Validated scientific exploration features
-with tests and documented limitations.
+A publicly accessible deployment of
+the Lunar Landing Site Navigator.
 
 ---
 
-## Task 12: Integrate and Test Advanced Features
+## Task 7: Finalize the GitHub Repository
 
-- [x] Connect the PSR map layer to site selection.
-- [x] Connect PSR proximity results to site comparison.
-- [x] Connect science preferences to mission evaluation.
-- [x] Connect 3D terrain to the selected landing site.
-- [x] Connect mission time controls to position data.
-- [x] Synchronize animations and visibility timelines.
-- [x] Connect educational panels to relevant features.
-- [x] Verify source attribution across the website.
-- [x] Test combined frontend and backend workflows.
-- [x] Test unsupported sites and missing datasets.
-- [x] Verify advanced features do not break core analysis.
-- [x] Confirm all advanced features can be disabled
-      independently when necessary.
+- [x] Ensure the latest working code is committed.
+- [x] Confirm frontend and backend code is included.
+- [x] Remove unnecessary temporary files.
+- [x] Remove debugging code where appropriate.
+- [x] Verify no credentials are committed.
+- [x] Verify the .gitignore configuration.
+- [x] Add or verify dependency files.
+- [x] Add clear installation instructions.
+- [x] Document how to run the backend.
+- [x] Document how to run the frontend.
+- [x] Document how to execute tests.
+- [ ] Add the public deployment link.
+- [x] Add scientific data-source references.
+- [x] Add license information.
+- [x] Confirm all team contributions are preserved.
+- [x] Make the repository publicly accessible
+      if required by official submission rules.
 
-### Suggested API Endpoints
+### Suggested Repository Structure
 
-GET /api/science/psrs
-
-Returns mapped PSR information.
-
-GET /api/science/nearest-psr?site_id=A
-
-Returns the nearest mapped PSR and
-its estimated surface distance.
-
-GET /api/terrain/mesh?site_id=A
-
-Returns or references a terrain mesh
-when supported.
-
-GET /api/science/site-context?site_id=A
-
-Returns scientific context and
-available exploration information.
-
-These are proposed application endpoints,
-not official NASA APIs.
-
-### Example Science Response
-
-```json
-{
-  "site_id": "A",
-  "nearest_psr": {
-    "id": null,
-    "distance_km": null,
-    "source": null
-  },
-  "terrain": {
-    "available": false,
-    "resolution_m": null
-  },
-  "science": {
-    "water_ice_confirmed": null,
-    "notes": []
-  },
-  "status": "not_calculated"
-}
+```text
+lunar-landing-site-navigator/
+├── frontend/
+│   ├── src/
+│   └── package.json
+│
+├── backend/
+│   ├── services/
+│   ├── data/
+│   ├── tests/
+│   └── requirements.txt
+│
+├── docs/
+│   ├── PHASE_1.md
+│   ├── PHASE_2.md
+│   ├── PHASE_3.md
+│   ├── PHASE_4.md
+│   ├── PHASE_5.md
+│   ├── PHASE_6.md
+│   └── PHASE_7.md
+│
+├── assets/
+│   └── screenshots/
+│
+├── LICENSE
+├── .gitignore
+└── README.md
 ```
 
-Null values indicate that verified results
-have not yet been populated.
+### Deliverable
 
-Unknown water-ice status must not be
-interpreted as confirmed absence.
+A clean, documented GitHub repository
+containing the project's code and resources.
+
+---
+
+## Task 8: Write the Final Project README
+
+- [x] Add the project name.
+- [x] Add a concise project description.
+- [x] Explain the lunar landing-site problem.
+- [x] Describe the proposed solution.
+- [x] List the application's main features.
+- [x] Explain the technology stack.
+- [x] Describe the architecture.
+- [x] Document NASA data sources.
+- [x] Explain key scientific calculations.
+- [x] List assumptions and limitations.
+- [x] Include installation instructions.
+- [x] Include local development commands.
+- [ ] Include the deployment URL.
+- [ ] Add screenshots of the website.
+- [x] Include team contribution information.
+- [x] Include license and attribution information.
+
+### Suggested README Sections
+
+# Lunar Landing Site Navigator
+
+## Overview
+
+## The Problem
+
+## Our Solution
+
+## Key Features
+
+## Scientific Methodology
+
+## NASA Data Sources
+
+## Technology Stack
+
+## System Architecture
+
+## Installation
+
+## Running Locally
+
+## Testing
+
+## Screenshots
+
+## Limitations
+
+## Team
+
+## License and Credits
+
+### Suggested Project Description
+
+Lunar Landing Site Navigator is an interactive
+mission-planning application that helps users
+compare lunar south-pole landing sites and
+mission dates.
+
+The application uses NASA-derived astronomical
+data to visualize Sun and Earth positions,
+estimate visibility windows, and evaluate
+hypothetical operational requirements.
+
+It helps users understand trade-offs between
+solar illumination, direct-to-Earth communication,
+and scientific exploration opportunities.
 
 ### Deliverable
 
-Advanced scientific exploration and visualization
-features integrated into the website.
+A complete, professional README that allows
+judges and developers to understand and
+reproduce the project's main functionality.
 
 ---
 
-## Phase 6 Completion Checklist
+## Task 9: Document Scientific Sources and Attribution
 
-### Core Scientific Features
+- [x] List all NASA datasets used.
+- [x] List all space agency partner resources used.
+- [x] Document JPL Horizons usage.
+- [x] Document lunar imagery sources.
+- [x] Document terrain elevation sources.
+- [x] Document PSR data sources if applicable.
+- [x] Include relevant dataset names and versions.
+- [x] Include access dates when applicable.
+- [x] Document third-party software dependencies.
+- [x] Check licenses for images and datasets.
+- [x] Check licenses for libraries and other assets.
+- [x] Include appropriate scientific references.
+- [x] Distinguish NASA data from our own calculations.
+- [x] Avoid suggesting NASA endorses the application.
 
-- [x] Permanently shadowed regions researched.
-- [x] Reliable PSR data sources identified.
-- [x] PSR data integrated into the application.
-- [x] PSR map layer implemented.
-- [x] PSR proximity calculations implemented.
-- [x] Scientific exploration preferences supported.
-- [x] Scientific information panels created.
-- [x] Scientific data sources documented.
-- [x] Scientific limitations clearly displayed.
+### Primary Scientific Resources
 
-### Application Improvements
+NASA JPL Horizons:
+https://ssd.jpl.nasa.gov/horizons/
 
-- [x] Mission-time visualization improved.
-- [x] Map interaction tested.
-- [x] Existing visibility charts verified.
-- [x] Mission comparison remains functional.
-- [x] Application performance optimized.
-- [x] Missing-data behavior tested.
-- [x] Advanced features integrated successfully.
+NASA LROC QuickMap:
+https://quickmap.lroc.asu.edu/
 
-### Advanced Completion Criteria
+NASA Moon Trek:
+https://trek.nasa.gov/moon/
 
-- [x] Interactive 3D lunar terrain implemented.
-- [x] Terrain-based shadow rendering implemented.
-- [x] Animated sunlight conditions supported.
-- [x] Animated Earth positions supported.
-- [x] Science-focused mission recommendations added.
-- [x] Scientific model cross-validation completed.
-- [x] Advanced visualization performance optimized.
+NASA LOLA Topography:
+https://pgda.gsfc.nasa.gov/products/78
+
+Canadian Space Agency Moon Exploration:
+https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/
+
+### Important
+
+Only claim to have used a dataset if it was
+actually integrated into the project.
+
+Do not list a resource as a computational data
+source if it was only consulted for background
+research.
+
+Properly attribute all third-party materials
+and follow their license and usage requirements.
+
+### Deliverable
+
+A complete scientific references,
+data attribution, and licensing section.
 
 ---
 
-## Phase 7 — Next Steps
+## Task 10: Prepare the Demonstration Scenario
 
-Prepare the Lunar Landing Site Navigator
-for final demonstration and submission.
+- [x] Choose a representative landing site.
+- [x] Choose the initial mission date.
+- [x] Choose the delayed mission date.
+- [x] Select at least one alternative landing site.
+- [x] Generate validated analysis results.
+- [x] Identify meaningful differences between scenarios.
+- [x] Prepare the exact demonstration sequence.
+- [x] Verify every visualization used in the demo.
+- [x] Prepare a backup set of precomputed results.
+- [x] Avoid using invented measurements as real data.
+- [ ] Practice navigating the website.
+- [ ] Test the demonstration on the deployed version.
 
-Planned activities:
+### Recommended Demo Scenario
 
-1. Complete end-to-end application testing.
-2. Review scientific data and calculations.
-3. Fix critical bugs.
-4. Deploy the website.
-5. Prepare the final project demonstration.
-6. Record a walkthrough video if required.
-7. Complete project documentation.
-8. Add scientific credits and data sources.
-9. Explain the project's real-world impact.
-10. Submit the project through NASA Space Apps.
+Mission:
+Polar Ice Scout
 
-Phase 7 will focus on final validation,
-deployment, demonstration, and submission.
+Mission Duration:
+7 Earth days
+
+Original Landing Date:
+December 1, 2026
+
+Delayed Landing Date:
+December 11, 2026
+
+Landing Sites:
+Shackleton Rim, Connecting Ridge,
+and de Gerlache Rim.
+
+### Demonstration Sequence
+
+Step 1:
+Introduce the lunar south-pole landing challenge.
+
+Step 2:
+Select the original landing site and date.
+
+Step 3:
+Display Sun and Earth visibility windows.
+
+Step 4:
+Show sunlight and communication metrics.
+
+Step 5:
+Introduce a ten-day landing delay.
+
+Step 6:
+Compare the changed conditions.
+
+Step 7:
+Evaluate alternative landing locations.
+
+Step 8:
+Explain the operational trade-offs.
+
+Step 9:
+Show nearby PSRs if the science layer is ready.
+
+Step 10:
+Summarize what the mission planner learned.
+
+### Important
+
+Use results actually produced by the
+application during the demonstration.
+
+If the analysis reveals no meaningful difference
+for a selected example, use another verified
+scenario rather than manipulating measurements.
+
+### Deliverable
+
+A complete, repeatable demonstration that
+shows the practical value of the application.
+
+---
+
+## Task 11: Create a Project Demonstration Video
+
+- [ ] Verify current video requirements in the
+      official NASA Space Apps submission form.
+- [ ] Choose the appropriate video length.
+- [ ] Prepare a concise presentation script.
+- [ ] Record the working website.
+- [ ] Demonstrate landing-site selection.
+- [ ] Demonstrate Sun and Earth visualization.
+- [ ] Demonstrate landing-site comparison.
+- [ ] Demonstrate mission-delay analysis.
+- [ ] Explain the scientific data sources.
+- [ ] Explain what makes the application useful.
+- [ ] Include optional PSR analysis if completed.
+- [ ] Edit for clarity and pacing.
+- [ ] Add readable captions if possible.
+- [ ] Verify audio and video quality.
+- [ ] Upload the video if required or useful.
+- [ ] Confirm judges can access the video link.
+- [ ] Review applicable NASA media and
+      minor-participant rules.
+
+### Suggested 2–3 Minute Demo Structure
+
+0:00–0:20
+Explain the problem.
+
+0:20–0:40
+Introduce the Lunar Landing Site Navigator.
+
+0:40–1:20
+Demonstrate landing-site selection and
+Sun/Earth visibility.
+
+1:20–1:50
+Compare landing dates and alternatives.
+
+1:50–2:15
+Explain mission feasibility and recommendations.
+
+2:15–2:40
+Discuss scientific value and unique features.
+
+2:40–3:00
+Summarize impact and limitations.
+
+This is a suggested presentation structure,
+not an official NASA video duration requirement.
+
+### Deliverable
+
+A clear demonstration video that communicates
+the project's purpose, implementation, and impact.
+
+---
+
+## Task 12: Prepare the Final Pitch
+
+- [x] Explain the problem in simple language.
+- [x] Identify the intended users.
+- [x] Explain how the application solves the problem.
+- [x] Describe the scientific foundation.
+- [x] Highlight key features.
+- [x] Demonstrate actual functionality.
+- [x] Explain what differentiates the project.
+- [x] Describe potential real-world impact.
+- [x] Acknowledge current limitations.
+- [x] Prepare answers to technical questions.
+- [ ] Practice as a team.
+- [ ] Verify the pitch fits any local event time limit.
+
+### Suggested Pitch Structure
+
+1. The Problem
+2. Why the Lunar South Pole Is Challenging
+3. Our Solution
+4. How the System Works
+5. Live Demonstration
+6. Scientific Validation
+7. Impact and Future Improvements
+
+### Questions Judges May Ask
+
+- Why is landing near the lunar south pole difficult?
+- How does your website calculate Sun positions?
+- How do you calculate Earth visibility?
+- Does your model account for lunar terrain?
+- How accurate are your visibility predictions?
+- Why is your application better for rapid comparisons?
+- How do you evaluate mission delays?
+- How do you determine which site is preferable?
+- How does the application support water-ice research?
+- What are your biggest scientific limitations?
+- What would you improve with more time?
+
+### Important
+
+Be prepared to explain the difference between
+a scientifically informed decision-support tool
+and a flight-certified mission planning system.
+
+Do not claim NASA approval, certification,
+or operational adoption.
+
+### Deliverable
+
+A practiced project pitch supported by
+a reliable working demonstration.
+
+---
+
+## Task 13: Complete the Official NASA Submission
+
+- [ ] Log in to the NASA Space Apps website.
+- [ ] Open the registered team page.
+- [ ] Navigate to the Project tab.
+- [ ] Review the current submission instructions.
+- [ ] Confirm the project title.
+- [ ] Confirm the selected challenge.
+- [ ] Confirm all team members are listed.
+- [ ] Complete required project description fields.
+- [ ] Explain the problem and proposed solution.
+- [ ] Describe how the application works.
+- [ ] Provide the public website URL.
+- [ ] Provide the GitHub repository URL.
+- [ ] Add video or presentation links as requested.
+- [ ] Include scientific references and data sources.
+- [ ] Complete all required licensing fields.
+- [ ] Verify any additional required information.
+- [ ] Review the entire submission.
+- [ ] Submit before the official deadline.
+- [ ] Verify the submission status afterward.
+
+### Official Event Information
+
+Event:
+NASA Space Apps Challenge 2026
+
+Hackathon:
+November 14–15, 2026
+
+Submission Deadline:
+November 15, 2026, 11:59 PM local time
+
+Submission Location:
+Project tab on the registered team's page.
+
+Official Website:
+https://www.spaceappschallenge.org/2026/
+
+### Important
+
+The current official Project tab determines
+the exact required fields and accepted media.
+
+Do not assume requirements from older
+NASA Space Apps submission guides.
+
+Submitting successfully is separate from
+deploying the application or pushing code.
+
+### Deliverable
+
+A completed NASA Space Apps project submission,
+with accessible project materials and verified
+submission status.
+
+---
+
+## Task 14: Verify the Final Submission
+
+- [ ] Confirm the project appears on the team page.
+- [ ] Confirm the submission is marked appropriately.
+- [ ] Open the public website link.
+- [ ] Open the GitHub repository link.
+- [ ] Open the demonstration video link.
+- [ ] Test links in a private browser window.
+- [ ] Confirm no login is required to view public materials.
+- [ ] Confirm all required project fields are complete.
+- [ ] Verify references and credits are present.
+- [ ] Check the final project description for errors.
+- [ ] Check all team members are included.
+- [ ] Save the submission confirmation.
+- [ ] Keep a backup of the final project materials.
+
+### Final Verification Questions
+
+1. Can judges open our website?
+2. Can judges access our GitHub repository?
+3. Can judges understand what problem we solved?
+4. Can judges see the application working?
+5. Are our scientific measurements supported by data?
+6. Are our assumptions and limitations clear?
+7. Are all required submission fields complete?
+8. Has the project actually been submitted?
+
+### Deliverable
+
+A verified final submission with all necessary
+project links and documentation accessible.
+
+---
+
+## Phase 7 Completion Checklist
+
+### Application Readiness
+
+- [x] Core application complete.
+- [x] Astronomical calculations verified.
+- [x] Landing-site comparisons working.
+- [x] Mission-delay comparisons working.
+- [x] Scientific assumptions documented.
+- [x] No unresolved critical bugs.
+- [x] Backend tests passing.
+- [x] Frontend testing completed.
+
+### Deployment Readiness
+
+- [ ] Frontend deployed.
+- [ ] Backend deployed.
+- [ ] Production API connected.
+- [ ] Public website tested.
+- [x] No exposed secrets.
+- [ ] Deployment URL confirmed.
+- [x] Fallback demo available.
+
+### Documentation Readiness
+
+- [x] README completed.
+- [x] Architecture documented.
+- [x] Data sources cited.
+- [x] Scientific methodology documented.
+- [x] Limitations documented.
+- [x] License information included.
+- [x] Repository prepared for judging.
+
+### Presentation Readiness
+
+- [x] Demonstration scenario prepared.
+- [ ] Live demo tested.
+- [ ] Video created if required.
+- [x] Pitch prepared.
+- [ ] Team members understand the project.
+- [x] Technical questions reviewed.
+
+### Submission Readiness
+
+- [ ] Official requirements checked.
+- [ ] Project page completed.
+- [ ] Team members listed.
+- [x] GitHub link included.
+- [ ] Deployment link included.
+- [ ] Required media links included.
+- [x] References included.
+- [ ] Final submission completed.
+- [ ] Submission status verified.
+
+---
+
+## Project Success Criteria
+
+Our Lunar Landing Site Navigator should
+successfully demonstrate the following:
+
+1. Select real lunar south-pole locations.
+
+2. Retrieve or use verified Sun and Earth
+   ephemeris data from JPL Horizons.
+
+3. Visualize Sun and Earth positions
+   relative to the lunar horizon.
+
+4. Calculate sunlight and Earth
+   visibility windows.
+
+5. Compare multiple landing locations
+   and mission dates.
+
+6. Evaluate selected mission constraints.
+
+7. Explain operational trade-offs
+   using understandable measurements.
+
+8. Optionally connect landing-site choices
+   with nearby permanently shadowed regions.
+
+9. Clearly communicate data quality,
+   assumptions, and scientific limitations.
+
+10. Provide a working, publicly accessible
+    demonstration and complete submission.
 
 ---
 
 ## Official NASA Space Apps Resources
 
+### NASA Space Apps Challenge 2026
+https://www.spaceappschallenge.org/2026/
+
+Official event information and project submission.
+
 ### NASA LROC QuickMap
 https://quickmap.lroc.asu.edu/
 
-Used for lunar imagery, surface mapping,
-terrain exploration, and PSR investigation.
+Lunar imagery, site selection, and terrain data.
 
 ### NASA Moon Trek
 https://trek.nasa.gov/moon/
 
-Used for 3D lunar terrain exploration
-and geographic visualization references.
+Lunar terrain visualization and geographic context.
 
 ### NASA JPL Horizons
 https://ssd.jpl.nasa.gov/horizons/
 
-Used to obtain astronomical positions
-of the Sun and Earth from lunar sites.
+Astronomical calculations for the Sun and Earth.
 
 ### NASA LOLA South-Pole Topography
 https://pgda.gsfc.nasa.gov/products/78
 
-Used for terrain elevations and
-terrain horizon calculations.
+Lunar elevation data for terrain analysis.
 
 ### Canadian Space Agency — Moon Exploration
 https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/
 
-Used for lunar exploration background
-and scientific education.
+Lunar exploration background and mission context.
 
-### NASA Science
-https://science.nasa.gov/
+### NASA Space Apps Legal Information
+https://www.spaceappschallenge.org/legal/
 
-Used for additional scientific information
-about the Moon and lunar exploration.
+Licensing, references, and submission-related terms.
 
 ---
 
 ## Expected Final Outcome
 
-By completing Phase 6, our team should have:
+By completing Phase 7, our team should have:
 
-1. Verified PSR information integrated into the map.
-2. PSR proximity analysis for supported landing sites.
-3. A science-focused exploration mode.
-4. Improved lunar terrain and geographic visualization.
-5. Enhanced Sun and Earth time-based visualizations.
-6. Educational explanations of lunar polar conditions.
-7. Clear scientific data attribution.
-8. Documented modeling assumptions and limitations.
-9. Optimized application performance.
-10. Tested and integrated scientific features.
+1. A stable Lunar Landing Site Navigator website.
+2. Scientifically validated visibility calculations.
+3. Functional lunar site and date comparisons.
+4. Mission-planning decision-support features.
+5. Clear scientific data attribution.
+6. A public deployment.
+7. A documented GitHub repository.
+8. A prepared project demonstration.
+9. A concise presentation of the project's impact.
+10. A verified NASA Space Apps submission.
 
-Phase 6 is complete when the application can
-help users understand how lunar geography,
-Sunlight, Earth connectivity, and scientific
-exploration opportunities interact.
+Phase 7 is complete only when the project
+has been tested, deployed, documented,
+and successfully submitted.
 
-Advanced 3D terrain and shadow animations
-are optional enhancements.
+The final application should demonstrate
+how NASA-derived data can help users
+understand the trade-offs between lunar
+sunlight conditions, Earth communication,
+mission schedules, and scientific exploration.
 
-The application must remain useful and
-scientifically transparent even if advanced
-visualizations are not completed.
+Our project is a prototype decision-support
+tool, not an officially approved or
+flight-certified NASA mission system.

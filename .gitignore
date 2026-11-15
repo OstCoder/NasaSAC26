@@ -10,3 +10,10 @@ data/scientific/spice/
 .DS_Store
 data/cache/
 backend/outputs/
+
+# Local secrets and generated acceptance artifacts
+.env
+.env.*
+!.env.example
+.tmp-acceptance-*
+*.log

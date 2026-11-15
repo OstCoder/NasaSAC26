@@ -25,8 +25,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Make ``python scripts/analyze_mission.py`` work from backend/ without a
+# separate PYTHONPATH, matching the command documented in the README.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app.core.errors import LunaNavError
 from app.core.settings import Settings, get_settings

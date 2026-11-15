@@ -1,6 +1,8 @@
-# LunaNav
+# LunaNav — Lunar Landing Site Navigator
 
-A lunar landing-site visibility explorer, built as a foundation for the NASA Space Apps Challenge 2026 problem *Lunar Landing Site Navigator*.
+> **Status (14 Nov 2026):** verified local release candidate. The backend, frontend, scientific checks and Phase 4–6 browser matrices pass. A public deployment, demonstration video and official NASA submission are still pending — see [docs/PHASE7_FINAL_VALIDATION.md](docs/PHASE7_FINAL_VALIDATION.md).
+
+A lunar landing-site visibility explorer, built for the NASA Space Apps Challenge 2026 problem *Lunar Landing Site Navigator*.
 
 Pick a site near the lunar south pole (or click anywhere on the polar map), choose a landing date and mission length, and LunaNav shows when the Sun and Earth are above the **terrain** horizon, not just above a flat one. You can compare two site/date scenarios side by side, or see what changes if a landing slips.
 
@@ -9,6 +11,18 @@ Every result carries a provenance label. Three modes:
 - **JPL live** (default): Sun/Earth positions fetched live from **NASA JPL Horizons**, plus LRO imagery and LOLA elevation from **NASA/JPL Moon Trek** on the polar map, the whole-Moon map and a **3D Moon** lit by the real Sun direction. Visibility calculations apply terrain only where LOLA masks exist; otherwise results say "geometric only".
 - **Demo data**: built-in approximate ephemeris over **synthetic** terrain skylines. Works offline.
 - **Scientific**: JPL Horizons + LOLA terrain masks, and refuses to compute if either is missing.
+
+### The problem
+
+Near the lunar south pole the Sun stays close to the horizon, so terrain can hide it for long periods. Earth can also be below the local skyline even when a flat-horizon model says it is visible. A useful landing-site tool must compare sunlight, direct-to-Earth geometry, mission timing and science context without pretending those measurements are a flight-certification or landing-safety decision.
+
+### Our solution
+
+LunaNav puts the measured trade-offs in one browser workspace: select a site and date, inspect terrain-adjusted visibility, compare sites or a delayed landing, tune mission requirements, and explore nearby PSRs with explicit uncertainty and water-ice limits. Every result carries its source and model label, and missing data stays missing.
+
+### Technology
+
+FastAPI, Pydantic and NumPy on the backend; React 19, TypeScript and Vite on the frontend; Leaflet for maps, Recharts for charts, and lazy-loaded Three.js for the optional 3D terrain and Moon views. Data stays as inspectable JSON; there is no database and no hidden service key.
 
 For details on the JPL connection, see [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md). To check it: `cd backend && python scripts/check_jpl.py`.
 
@@ -30,6 +44,10 @@ npm run dev
 ```
 
 The Vite dev server proxies `/api` to the backend, so no CORS or URL configuration is needed locally. Or run `./scripts/dev.sh`, which installs dependencies on first run and starts both.
+
+### Deployment
+
+Deployment is prepared for a Vercel static frontend and a Render Python API, with environment variables and a public-workflow checklist in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). No public URL is recorded yet. Once deployed, set the frontend's `VITE_API_BASE` to the backend origin and the backend's `LUNANAV_CORS` to the frontend origin.
 
 ### Tests
 
@@ -143,6 +161,11 @@ lunanav/
     ├── PHASE6_SCIENCE.md     # PSR provenance, distances, water-ice contract, 3D/shadow limits
     ├── PHASE6_PERFORMANCE.md # measured build split and browser timings
     ├── PHASE6_ACCEPTANCE.md  # executed 8-test Phase 6 browser/API matrix
+    ├── PHASE7_FINAL_VALIDATION.md # final local release checks and open gates
+    ├── DEPLOYMENT.md         # Render + Vercel setup, CORS and public verification
+    ├── DEMO_AND_PITCH.md     # validated demo, video script and judge Q&A
+    ├── SUBMISSION_PACKET.md  # project text, links and remaining submission fields
+    ├── ATTRIBUTION.md        # NASA data provenance, references and licenses
     ├── JPL_CONNECTION.md
     └── ADAPTATION_GUIDE.md   # read this when NASA publishes new details
 ```
@@ -196,6 +219,11 @@ lunanav/
 - [docs/PHASE6_SCIENCE.md](docs/PHASE6_SCIENCE.md): PSR catalogue provenance, boundary/centroid distance methods, water-ice unknowns and 3D shadow limits
 - [docs/PHASE6_PERFORMANCE.md](docs/PHASE6_PERFORMANCE.md): measured route/Three.js split and Science-page timings
 - [docs/PHASE6_ACCEPTANCE.md](docs/PHASE6_ACCEPTANCE.md): the executed 8-test Phase 6 matrix — PSR API/map, 390 px, playback, 3D shadows and transparency
+- [docs/PHASE7_FINAL_VALIDATION.md](docs/PHASE7_FINAL_VALIDATION.md): final local test, data and mission-window evidence, plus the external release gates
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md): Render/Vercel deployment, environment variables, CORS and public verification
+- [docs/DEMO_AND_PITCH.md](docs/DEMO_AND_PITCH.md): the validated 1 Dec vs 11 Dec demonstration, video script and pitch Q&A
+- [docs/SUBMISSION_PACKET.md](docs/SUBMISSION_PACKET.md): proposed submission text, links and remaining official fields
+- [docs/ATTRIBUTION.md](docs/ATTRIBUTION.md): NASA data provenance, scientific references, dependency licenses and no-endorsement language
 - [docs/VALIDATION.md](docs/VALIDATION.md): how the Phase 2 data was validated, what each check proves, and its known limitations
 - [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md): loading the time-series and terrain data from Python or HTTP, the field contract, and the limits Phase 3 must carry
 - [docs/SITE_REQUIREMENTS.md](docs/SITE_REQUIREMENTS.md): the measurable criteria a site must meet, and what those numbers do not prove
@@ -203,3 +231,7 @@ lunanav/
 - [docs/METHODOLOGY.md](docs/METHODOLOGY.md): the math, conventions, accuracy, what is and isn't modelled
 - [docs/ADAPTATION_GUIDE.md](docs/ADAPTATION_GUIDE.md): how to respond when NASA releases more information
 - [docs/JPL_CONNECTION.md](docs/JPL_CONNECTION.md): connecting to JPL Horizons and Moon Trek, troubleshooting
+
+## Team and license
+
+LunaNav was built by **OstCoder** and **Aarush Gutha**; the public history is at <https://github.com/OstCoder/NasaSAC26>. The source code is released under the [MIT License](LICENSE). NASA-derived data and third-party dependencies remain subject to their own terms; see [docs/ATTRIBUTION.md](docs/ATTRIBUTION.md). This is a prototype decision-support tool, not a NASA-approved, flight-certified or landing-safety system.
