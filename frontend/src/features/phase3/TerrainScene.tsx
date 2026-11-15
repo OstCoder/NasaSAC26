@@ -35,6 +35,22 @@ export default function TerrainScene({
   dem, skyline, sun, earth, exaggeration, ariaLabel, illumination, wireframe = false,
 }: TerrainSceneProps) {
   const mount = React.useRef<HTMLDivElement>(null)
+  const meshRef = React.useRef<THREE.Mesh | null>(null)
+  const [inspect, setInspect] = React.useState<{ x: number; z: number; h: number } | null>(null)
+
+  const exportPng = React.useCallback(() => {
+    const canvas = mount.current?.querySelector('canvas') as HTMLCanvasElement | null
+    if (!canvas) return
+    canvas.toBlob((blob) => {
+      if (!blob) return
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'lunanav-terrain.png'
+      a.click()
+      URL.revokeObjectURL(url)
+    })
+  }, [])
 
   React.useEffect(() => {
     const node = mount.current
@@ -81,6 +97,7 @@ export default function TerrainScene({
       vertexColors: true, roughness: 1, metalness: 0, wireframe,
     })
     const mesh = new THREE.Mesh(geometry, material)
+    meshRef.current = mesh
     scene.add(mesh)
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.55))
@@ -148,7 +165,30 @@ export default function TerrainScene({
     }
     loop()
 
+    const onClick = (event: MouseEvent) => {
+      const currentMesh = meshRef.current
+      if (!currentMesh) return
+      const rect = renderer.domElement.getBoundingClientRect()
+      const mouse = new THREE.Vector2(
+        ((event.clientX - rect.left) / rect.width) * 2 - 1,
+        -((event.clientY - rect.top) / rect.height) * 2 + 1,
+      )
+      const raycaster = new THREE.Raycaster()
+      raycaster.setFromCamera(mouse, camera)
+      const hits = raycaster.intersectObject(currentMesh)
+      if (hits.length === 0) { setInspect(null); return }
+      const point = hits[0].point
+      const col = Math.round((point.x / ewKm + 0.5) * (size - 1))
+      const row = Math.round((-point.z / nsKm + 0.5) * (size - 1))
+      if (row < 0 || row >= size || col < 0 || col >= size) { setInspect(null); return }
+      const height = dem.heights_m[row][col]
+      setInspect({ x: point.x, z: point.z, h: height })
+    }
+    renderer.domElement.addEventListener('click', onClick)
+    renderer.domElement.style.cursor = 'crosshair'
+
     return () => {
+      renderer.domElement.removeEventListener('click', onClick)
       window.cancelAnimationFrame(raf)
       observer.disconnect()
       controls.dispose()
@@ -173,6 +213,19 @@ export default function TerrainScene({
         <span className="ml-1">↑</span>
         <span className="ml-2 text-faint">{(dem.grid.extent_m.east_west / 1000).toFixed(1)} km across</span>
       </div>
+      {inspect && (
+        <div className="pointer-events-none absolute left-3 bottom-3 rounded-md bg-night/80 px-2 py-1 text-[11px] text-ink backdrop-blur">
+          x {inspect.x.toFixed(2)} km · z {inspect.z.toFixed(2)} km · height {Math.round(inspect.h)} m
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={exportPng}
+        className="absolute right-3 top-3 rounded-md border border-rule-soft bg-night/80 px-2 py-1 text-[11px] text-muted backdrop-blur transition-colors hover:text-ink"
+        title="Save the current 3D view as PNG"
+      >
+        Save PNG
+      </button>
     </div>
   )
 }
