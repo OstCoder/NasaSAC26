@@ -20,6 +20,14 @@ Near the lunar south pole the Sun stays close to the horizon, so terrain can hid
 
 LunaNav puts the measured trade-offs in one browser workspace: select a site and date, inspect terrain-adjusted visibility, compare sites or a delayed landing, tune mission requirements, and explore nearby PSRs with explicit uncertainty and water-ice limits. Every result carries its source and model label, and missing data stays missing.
 
+### How this addresses the challenge
+
+- **Rapid site & date comparison:** pick from six published south-pole sites or click custom coordinates; switch between the 1–8 and 11–18 Dec 2026 windows instantly; see terrain-adjusted Sun/Earth visibility in one view.
+- **Terrain-aware horizons:** LOLA DEM masks mean Sun/Earth are shown against the real skyline, not a flat sphere — the key differentiator vs Quickmap/Moon Trek for rapid planning.
+- **Operational metrics:** time-to-sunset/Earthset, sunlight %, Earth visibility %, longest blackout, simultaneous visibility, power and link-budget estimates.
+- **Delay resilience:** same site, original vs delayed date — see exactly what a schedule slip changes (the core NASA scenario).
+- **Dual audience:** planner mode (metrics, requirements, exports) + public/education mode (plain-language PSR and lighting explanations).
+
 ### Technology
 
 FastAPI, Pydantic and NumPy on the backend; React 19, TypeScript and Vite on the frontend; Leaflet for maps, Recharts for charts, and lazy-loaded Three.js for the optional 3D terrain and Moon views. Data stays as inspectable JSON; there is no database and no hidden service key.
