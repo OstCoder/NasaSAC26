@@ -10,6 +10,11 @@ import { fmtLat, fmtLon, fmtUtc } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { ScienceSiteContext, Site } from '@/types/api'
 
+const WINDOW_NAME: Record<string, string> = {
+  initial: '1–8 Dec 2026',
+  alternative: '11–18 Dec 2026',
+}
+
 function km(value: number): string {
   if (value === 0) return '0 km (inside)'
   return `${value.toFixed(value < 10 ? 2 : 1)} km`
@@ -114,10 +119,6 @@ function ContextBody({ context }: { context: ScienceSiteContext }) {
         <p className="mt-1 max-w-[90ch] text-sm leading-relaxed text-muted">
           {science.psr_interpretation}
         </p>
-        <p className="mt-2 text-xs leading-relaxed text-faint">
-          LunaNav can map the cold trap. It cannot detect ice or estimate its concentration, depth,
-          temperature or rover access here.
-        </p>
       </div>
 
       <div>
@@ -125,7 +126,7 @@ function ContextBody({ context }: { context: ScienceSiteContext }) {
         <div className="grid gap-2 sm:grid-cols-2">
           {Object.entries(context.visibility_windows).map(([key, window]) => (
             <div key={key} className="rounded border border-rule-soft p-2 text-xs">
-              <p className="font-medium text-ink">{window.label ?? key}</p>
+              <p className="font-medium text-ink">{window.label ?? WINDOW_NAME[key] ?? key}</p>
               {window.available ? (
                 <>
                   <p className="num mt-1 text-muted">
