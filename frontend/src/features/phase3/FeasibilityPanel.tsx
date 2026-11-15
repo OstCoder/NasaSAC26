@@ -21,7 +21,11 @@ const CHECK_METRIC: Record<string, string> = {
   min_sun_visible_pct: 'sun_visible_pct',
   min_earth_visible_pct: 'earth_visible_pct',
   max_earth_blackout_hours: 'longest_earth_blackout_hours',
+  max_darkness_hours: 'longest_sun_blackout_hours',
 }
+
+const fmtCheck = (value: number | null, unit: string) =>
+  value == null ? '—' : unit === '%' ? pct(value) : `${value.toFixed(1)} h`
 
 function StatusCell({ check }: { check: RequirementCheck }) {
   return (
@@ -33,7 +37,7 @@ function StatusCell({ check }: { check: RequirementCheck }) {
         {STATUS_WORD[check.status]}
       </span>
       <span className="block text-[10px] text-faint">
-        {pct(check.value)} / {check.comparison === 'at_least' ? '≥' : '≤'} {check.threshold}
+        {fmtCheck(check.value, check.unit)} / {check.comparison === 'at_least' ? '≥' : '≤'} {check.threshold}
       </span>
     </td>
   )
@@ -90,7 +94,7 @@ export function FeasibilityPanel() {
         title="Feasibility matrix"
         description={
           thresholds
-            ? `Phase 1 targets: ≥ ${thresholds.min_sun_visible_pct}% Sun, ≥ ${thresholds.min_earth_visible_pct}% Earth, ≤ ${thresholds.max_earth_blackout_hours} h blackout — per candidate and window`
+            ? `Phase 1 targets: ≥ ${thresholds.min_sun_visible_pct}% Sun, ≥ ${thresholds.min_earth_visible_pct}% Earth, ≤ ${thresholds.max_earth_blackout_hours} h Earth blackout, ≤ ${thresholds.max_darkness_hours} h darkness — per candidate and window`
             : 'Loading Phase 1 targets…'
         }
       />
@@ -112,6 +116,9 @@ export function FeasibilityPanel() {
                   <th className="px-2 py-1.5 text-center font-medium" title="Longest Earth blackout">
                     Blackout ≤ {thresholds?.max_earth_blackout_hours} h
                   </th>
+                  <th className="px-2 py-1.5 text-center font-medium" title="Longest Sun outage">
+                    Darkness ≤ {thresholds?.max_darkness_hours} h
+                  </th>
                   <th className="px-2 py-1.5 text-center font-medium">Verdict</th>
                   <th className="px-2 py-1.5 font-medium">Terrain vs geometric</th>
                 </tr>
@@ -127,7 +134,7 @@ export function FeasibilityPanel() {
                         <span className="block text-faint">{windowLabel}</span>
                       </td>
                       {row.available === false ? (
-                        <td colSpan={5} className="border-t border-rule-soft px-2 py-1.5 text-faint">
+                        <td colSpan={6} className="border-t border-rule-soft px-2 py-1.5 text-faint">
                           {row.reason ?? 'not available'}
                         </td>
                       ) : (
@@ -135,6 +142,7 @@ export function FeasibilityPanel() {
                           <StatusCell check={checks.get('min_sun_visible_pct')!} />
                           <StatusCell check={checks.get('min_earth_visible_pct')!} />
                           <StatusCell check={checks.get('max_earth_blackout_hours')!} />
+                          <StatusCell check={checks.get('max_darkness_hours')!} />
                           <VerdictCell satisfied={row.satisfied} />
                         </>
                       )}

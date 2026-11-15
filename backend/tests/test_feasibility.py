@@ -16,7 +16,8 @@ from app.services.sites import get_site_repository
 
 client = TestClient(app)
 
-CHECK_IDS = {"min_sun_visible_pct", "min_earth_visible_pct", "max_earth_blackout_hours"}
+CHECK_IDS = {"min_sun_visible_pct", "min_earth_visible_pct", "max_earth_blackout_hours",
+             "max_darkness_hours"}
 
 
 def _matrix():
@@ -34,7 +35,7 @@ def test_matrix_covers_every_candidate_and_window():
     ]
 
 
-def test_every_row_has_all_three_requirement_checks_with_config_thresholds():
+def test_every_row_has_all_requirement_checks_with_config_thresholds():
     thresholds = get_settings().requirements
     for row in _matrix()["rows"]:
         assert row.get("available", True)
@@ -43,6 +44,7 @@ def test_every_row_has_all_three_requirement_checks_with_config_thresholds():
         assert checks["min_sun_visible_pct"]["threshold"] == thresholds.min_sun_visible_pct
         assert checks["min_earth_visible_pct"]["threshold"] == thresholds.min_earth_visible_pct
         assert checks["max_earth_blackout_hours"]["threshold"] == thresholds.max_earth_blackout_hours
+        assert checks["max_darkness_hours"]["threshold"] == thresholds.max_darkness_hours
         assert checks["min_sun_visible_pct"]["comparison"] == "at_least"
         assert checks["max_earth_blackout_hours"]["comparison"] == "at_most"
 
@@ -132,7 +134,8 @@ def test_api_contract():
     assert payload["schema"] == "lunanav.feasibility_matrix.v1"
     assert payload["requirements_source"].endswith("-> requirements")
     assert set(payload["thresholds"]) == {
-        "min_sun_visible_pct", "min_earth_visible_pct", "max_earth_blackout_hours"}
+        "min_sun_visible_pct", "min_earth_visible_pct", "max_earth_blackout_hours",
+        "max_darkness_hours"}
     assert len(payload["rows"]) == 6
     for row in payload["rows"]:
         assert row["satisfied"] in (True, False, None)

@@ -29,6 +29,8 @@ CHECKS: tuple[tuple[str, str, str, str, str, str], ...] = (
      "earth_visible_pct", "%", "min_earth_visible_pct", "at_least"),
     ("max_earth_blackout_hours", "Maximum Earth communication blackout",
      "longest_earth_blackout_hours", "h", "max_earth_blackout_hours", "at_most"),
+    ("max_darkness_hours", "Maximum darkness",
+     "longest_sun_blackout_hours", "h", "max_darkness_hours", "at_most"),
 )
 
 

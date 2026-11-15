@@ -43,11 +43,13 @@ export function RequirementTuner() {
   const [sun, setSun] = React.useState(String(defaults.min_sun_visible_pct))
   const [earth, setEarth] = React.useState(String(defaults.min_earth_visible_pct))
   const [blackout, setBlackout] = React.useState(String(defaults.max_earth_blackout_hours))
+  const [darkness, setDarkness] = React.useState(String(defaults.max_darkness_hours ?? 16))
   const [requested, setRequested] = React.useState(false)
 
   const sunNum = Number(sun)
   const earthNum = Number(earth)
   const blackoutNum = Number(blackout)
+  const darknessNum = Number(darkness)
   const problem =
     sun.trim() === '' || !Number.isFinite(sunNum) || sunNum < 0 || sunNum > 100
       ? 'Minimum sunlight must be between 0 and 100%.'
@@ -55,12 +57,14 @@ export function RequirementTuner() {
         ? 'Minimum Earth visibility must be between 0 and 100%.'
         : blackout.trim() === '' || !Number.isFinite(blackoutNum) || blackoutNum < 0
           ? 'Maximum blackout must be zero or more hours.'
-          : null
+          : darkness.trim() === '' || !Number.isFinite(darknessNum) || darknessNum < 0
+            ? 'Maximum darkness must be zero or more hours.'
+            : null
 
   // Any edit invalidates the previous verdict rather than letting it look current.
   React.useEffect(() => {
     setRequested(false)
-  }, [draftA, sun, earth, blackout])
+  }, [draftA, sun, earth, blackout, darkness])
 
   const body = draftToInput(draftA, mode)
   const key =
@@ -76,6 +80,7 @@ export function RequirementTuner() {
           min_sun_visible_pct: sunNum,
           min_earth_visible_pct: earthNum,
           max_earth_blackout_hours: blackoutNum,
+          max_darkness_hours: darknessNum,
         },
         signal,
       ),
@@ -86,6 +91,7 @@ export function RequirementTuner() {
     setSun(String(defaults.min_sun_visible_pct))
     setEarth(String(defaults.min_earth_visible_pct))
     setBlackout(String(defaults.max_earth_blackout_hours))
+    setDarkness(String(defaults.max_darkness_hours ?? 16))
     setRequested(false)
   }
 
@@ -120,7 +126,7 @@ export function RequirementTuner() {
         }
       />
       <CardContent className="space-y-4">
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Field label="Minimum sunlight (%)" hint="Share of the window with the Sun above the skyline">
             <Input
               type="number"
@@ -153,6 +159,16 @@ export function RequirementTuner() {
               onChange={(e) => setBlackout(e.target.value)}
             />
           </Field>
+          <Field label="Maximum darkness (h)" hint="Longest continuous Sun outage allowed">
+            <Input
+              type="number"
+              min={0}
+              step={1}
+              value={darkness}
+              aria-invalid={problem !== null && (!Number.isFinite(darknessNum) || darknessNum < 0)}
+              onChange={(e) => setDarkness(e.target.value)}
+            />
+          </Field>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -161,7 +177,7 @@ export function RequirementTuner() {
           </Button>
           <p className="text-xs text-muted">
             Defaults: ≥ {defaults.min_sun_visible_pct}% Sun, ≥ {defaults.min_earth_visible_pct}% Earth, ≤{' '}
-            {defaults.max_earth_blackout_hours} h blackout.
+            {defaults.max_earth_blackout_hours} h Earth blackout, ≤ {defaults.max_darkness_hours ?? 16} h darkness.
           </p>
         </div>
         {problem && <p className="text-xs text-alert">{problem}</p>}

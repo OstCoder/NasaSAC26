@@ -8,6 +8,8 @@ import type {
   ApiErrorBody,
   AppConfig,
   ComparisonResult,
+  DecisionRequest,
+  DecisionResult,
   FeasibilityMatrix,
   JplStatus,
   LocationInput,
@@ -109,11 +111,28 @@ export const api = {
     return request<TerrainHorizon>(`/api/terrain-horizon?${q.toString()}`, { signal })
   },
   /** Phase 5: solar-power and link budgets from the committed track (offline). */
-  engineering: (opts: { siteId: string; window?: string }, signal?: AbortSignal) => {
+  engineering: (
+    opts: {
+      siteId: string
+      window?: string
+      loadW?: number
+      panelDesign?: 'horizontal' | 'vertical_tracking' | 'fixed'
+      panelTiltDeg?: number
+      panelAzimuthDeg?: number
+    },
+    signal?: AbortSignal,
+  ) => {
     const q = new URLSearchParams({ site_id: opts.siteId })
     if (opts.window) q.set('window', opts.window)
+    if (opts.loadW !== undefined) q.set('load_w', String(opts.loadW))
+    if (opts.panelDesign) q.set('panel_design', opts.panelDesign)
+    if (opts.panelTiltDeg !== undefined) q.set('panel_tilt_deg', String(opts.panelTiltDeg))
+    if (opts.panelAzimuthDeg !== undefined) q.set('panel_azimuth_deg', String(opts.panelAzimuthDeg))
     return request<EngineeringBudget>(`/api/engineering?${q.toString()}`, { signal })
   },
+  /** Phase 5: evaluate and transparently rank every mission candidate. */
+  decision: (body: DecisionRequest, signal?: AbortSignal) =>
+    post<DecisionResult>('/api/decision', body, signal),
   /** Phase 5 Task 3: the deterministic Markdown mission report, for download. */
   missionReportUrl: (opts: { siteId: string; window?: string }) => {
     const q = new URLSearchParams({ site_id: opts.siteId })

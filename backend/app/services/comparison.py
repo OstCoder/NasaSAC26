@@ -8,12 +8,17 @@ because the inputs (especially in Demo Mode) cannot support that.
 from __future__ import annotations
 
 from app.core.settings import Settings, get_settings
+from app.core.errors import DataUnavailableError
 from app.models.schemas import (
     ComparisonResult,
+    DecisionPower,
+    DelayPowerComparison,
+    DelayRequirementComparison,
     LocationInput,
     MetricDelta,
     Mode,
     ProvenanceLevel,
+    RequirementStatus,
     RescheduleResult,
     ScenarioInput,
     ScenarioResult,
@@ -21,7 +26,9 @@ from app.models.schemas import (
 )
 from app.providers.registry import get_bundle
 
+from .engineering import engineering_response, window_for_landing
 from .metrics import REGISTRY
+from .requirements import RequirementService
 from .sites import get_site_repository
 from .visibility import VisibilityCalculator
 
@@ -187,8 +194,112 @@ class ScenarioComparisonService:
                           step_minutes=step_minutes, mode=mode, label="Proposed")
         cmp = self.compare(a, b)
         by_id = {d.id: d for d in cmp.deltas}
+        settings = self.scenarios.settings
+
+        requirements = RequirementService(settings)
+        original_requirements = requirements.evaluate(cmp.a)
+        proposed_requirements = requirements.evaluate(cmp.b)
+        original_status = {check.id: check.status for check in original_requirements.checks}
+        new_failures = [
+            check.label for check in proposed_requirements.checks
+            if check.status is RequirementStatus.not_met
+            and original_status.get(check.id) is not RequirementStatus.not_met
+        ]
+        improvements = [
+            check.label for check in proposed_requirements.checks
+            if check.status is RequirementStatus.met
+            and original_status.get(check.id) is RequirementStatus.not_met
+        ]
+        requirement_summary = (
+            "No requirement verdict changes."
+            if not new_failures and not improvements
+            else f"New failures: {', '.join(new_failures) or 'none'}. "
+                 f"Improvements: {', '.join(improvements) or 'none'}."
+        )
+        requirement_comparison = DelayRequirementComparison(
+            original=original_requirements,
+            proposed=proposed_requirements,
+            new_failures=new_failures,
+            improvements=improvements,
+            summary=requirement_summary,
+        )
+
+        original_window = window_for_landing(original, settings)
+        proposed_window = window_for_landing(proposed, settings)
+        site_id = location.site_id
+        power_reason = None
+        if site_id is None:
+            power_reason = "Power comparison needs a catalogue site; custom coordinates have no committed power series."
+        elif original_window is None or proposed_window is None:
+            power_reason = (
+                "Power comparison is available only when both landing dates are the committed windows "
+                "(1 Dec and 11 Dec 2026 UTC)."
+            )
+        elif abs(duration_hours - settings.simulation.default_duration_hours) > 1e-6:
+            power_reason = (
+                "Power comparison uses the committed 168 h window; the requested mission duration is "
+                f"{duration_hours:g} h, so the trace would not be aligned."
+            )
+
+        if power_reason is None:
+            try:
+                original_report = engineering_response(
+                    site_id=site_id, window=original_window, settings=settings)
+                proposed_report = engineering_response(
+                    site_id=site_id, window=proposed_window, settings=settings)
+            except DataUnavailableError as exc:
+                power_reason = str(exc)
+            else:
+                original_budget = original_report["power"]["budget"]
+                proposed_budget = proposed_report["power"]["budget"]
+                original_battery = original_budget["battery"]
+                proposed_battery = proposed_budget["battery"]
+                original_power = DecisionPower(
+                    available=True, window=original_window,
+                    load_w=original_budget["load_w"], load_wh=original_budget["load_wh"],
+                    array_energy_wh=original_budget["array_energy_wh"],
+                    net_wh=original_budget["net_wh"], battery=original_battery,
+                )
+                proposed_power = DecisionPower(
+                    available=True, window=proposed_window,
+                    load_w=proposed_budget["load_w"], load_wh=proposed_budget["load_wh"],
+                    array_energy_wh=proposed_budget["array_energy_wh"],
+                    net_wh=proposed_budget["net_wh"], battery=proposed_battery,
+                )
+                deltas = {
+                    "array_energy_wh": round(proposed_budget["array_energy_wh"] - original_budget["array_energy_wh"], 3),
+                    "net_wh": round(proposed_budget["net_wh"] - original_budget["net_wh"], 3),
+                    "min_soc_pct": round(proposed_battery["min_soc_pct"] - original_battery["min_soc_pct"], 3),
+                    "unserved_wh": round(proposed_battery["unserved_wh"] - original_battery["unserved_wh"], 3),
+                }
+                power = DelayPowerComparison(
+                    available=True,
+                    original=original_power,
+                    proposed=proposed_power,
+                    deltas=deltas,
+                    summary=(
+                        f"Array energy {original_budget['array_energy_wh']:.0f} → "
+                        f"{proposed_budget['array_energy_wh']:.0f} Wh; minimum battery "
+                        f"{original_battery['min_soc_pct']:.1f}% → {proposed_battery['min_soc_pct']:.1f}%; "
+                        f"unserved {original_battery['unserved_wh']:.0f} → {proposed_battery['unserved_wh']:.0f} Wh."
+                    ),
+                    notes=[
+                        "Power is reported for the recommended vertical azimuth-tracking array and the configured load.",
+                        "The comparison uses the committed 168 h window on each landing date, not an interpolated power curve.",
+                    ],
+                )
+
+        if power_reason is not None:
+            unavailable = DecisionPower(available=False, reason=power_reason)
+            power = DelayPowerComparison(
+                available=False, original=unavailable, proposed=unavailable,
+                summary=power_reason, notes=[power_reason],
+            )
+
         return RescheduleResult(
             shift_hours=round((proposed - original).total_seconds() / 3600.0, 3),
             comparison=cmp,
             headline_changes=[by_id[i] for i in HEADLINE_METRICS if i in by_id],
+            power=power,
+            requirements=requirement_comparison,
         )

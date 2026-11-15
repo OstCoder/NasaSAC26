@@ -21,6 +21,7 @@ const CHECK_IDS = {
   sun: 'min_sun_visible_pct',
   earth: 'min_earth_visible_pct',
   blackout: 'max_earth_blackout_hours',
+  darkness: 'max_darkness_hours',
 } as const
 
 const STATUS_STYLE: Record<RequirementStatus, string> = {
@@ -113,11 +114,13 @@ export function CandidateComparison() {
   const [sun, setSun] = React.useState(String(defaults.min_sun_visible_pct))
   const [earth, setEarth] = React.useState(String(defaults.min_earth_visible_pct))
   const [blackout, setBlackout] = React.useState(String(defaults.max_earth_blackout_hours))
+  const [darkness, setDarkness] = React.useState(String(defaults.max_darkness_hours ?? 16))
   const [requested, setRequested] = React.useState(false)
 
   const sunNum = Number(sun)
   const earthNum = Number(earth)
   const blackoutNum = Number(blackout)
+  const darknessNum = Number(darkness)
   const thresholdProblem =
     sun.trim() === '' || !Number.isFinite(sunNum) || sunNum < 0 || sunNum > 100
       ? 'Minimum sunlight must be between 0 and 100%.'
@@ -125,7 +128,9 @@ export function CandidateComparison() {
         ? 'Minimum Earth visibility must be between 0 and 100%.'
         : blackout.trim() === '' || !Number.isFinite(blackoutNum) || blackoutNum < 0
           ? 'Maximum blackout must be zero or more hours.'
-          : null
+          : darkness.trim() === '' || !Number.isFinite(darknessNum) || darknessNum < 0
+            ? 'Maximum darkness must be zero or more hours.'
+            : null
 
   const windowDraft = { ...draftA, landing_utc: landing, duration_hours: duration }
   const rangeError = rangeProblem(windowDraft, sim.supported_start_utc, sim.supported_end_utc)
@@ -133,12 +138,13 @@ export function CandidateComparison() {
 
   React.useEffect(() => {
     setRequested(false)
-  }, [landing, duration, sun, earth, blackout, mode])
+  }, [landing, duration, sun, earth, blackout, darkness, mode])
 
   const thresholds = {
     min_sun_visible_pct: sunNum,
     min_earth_visible_pct: earthNum,
     max_earth_blackout_hours: blackoutNum,
+    max_darkness_hours: darknessNum,
   }
   const key =
     requested && !problem && candidates.length > 0
@@ -214,6 +220,7 @@ export function CandidateComparison() {
     setSun(String(defaults.min_sun_visible_pct))
     setEarth(String(defaults.min_earth_visible_pct))
     setBlackout(String(defaults.max_earth_blackout_hours))
+    setDarkness(String(defaults.max_darkness_hours ?? 16))
     setRequested(false)
   }
 
@@ -233,7 +240,7 @@ export function CandidateComparison() {
           showSite={false}
         />
 
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Field label="Minimum sunlight" hint="Share of the window with Sun above the skyline">
             <div className="flex items-center gap-1.5">
               <Input
@@ -278,6 +285,20 @@ export function CandidateComparison() {
               <span className="shrink-0 text-sm text-muted">h</span>
             </div>
           </Field>
+          <Field label="Maximum darkness" hint="Longest continuous Sun outage allowed">
+            <div className="flex items-center gap-1.5">
+              <Input
+                type="number"
+                min={0}
+                step={1}
+                value={darkness}
+                aria-label="Maximum darkness hours"
+                aria-invalid={thresholdProblem !== null && (!Number.isFinite(darknessNum) || darknessNum < 0)}
+                onChange={(e) => setDarkness(e.target.value)}
+              />
+              <span className="shrink-0 text-sm text-muted">h</span>
+            </div>
+          </Field>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -306,13 +327,14 @@ export function CandidateComparison() {
                 const sunCheck = checkFor(outcome.evaluation, CHECK_IDS.sun)
                 const earthCheck = checkFor(outcome.evaluation, CHECK_IDS.earth)
                 const blackoutCheck = checkFor(outcome.evaluation, CHECK_IDS.blackout)
+                const darknessCheck = checkFor(outcome.evaluation, CHECK_IDS.darkness)
                 return (
                   <div key={outcome.site.id} className="rounded-md border border-rule-soft p-2.5">
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-sm font-medium text-ink">{outcome.site.name}</p>
                       <Verdict outcome={outcome} />
                     </div>
-                    <dl className="mt-2 grid grid-cols-3 gap-2 text-xs">
+                    <dl className="mt-2 grid grid-cols-2 gap-2 text-xs">
                       <div>
                         <dt className="text-faint">Sun visible</dt>
                         <dd className="num text-ink">{fmtValue(sunCheck)}</dd>
@@ -328,22 +350,29 @@ export function CandidateComparison() {
                         <dd className="num text-ink">{fmtValue(blackoutCheck)}</dd>
                         <dd><StatusChip check={blackoutCheck} /></dd>
                       </div>
+                      <div>
+                        <dt className="text-faint">Darkness</dt>
+                        <dd className="num text-ink">{fmtValue(darknessCheck)}</dd>
+                        <dd><StatusChip check={darknessCheck} /></dd>
+                      </div>
                     </dl>
                   </div>
                 )
               })}
             </div>
             <div className="hidden overflow-x-auto sm:block">
-              <table className="w-full min-w-[820px] text-left text-xs">
+              <table className="w-full min-w-[980px] text-left text-xs">
                 <thead>
                   <tr className="text-faint">
                     <th className="px-2 py-1.5 font-medium">Candidate</th>
                     <th className="px-2 py-1.5 text-right font-medium" title="Share of the window with the Sun above the skyline">Sun visible</th>
                     <th className="px-2 py-1.5 text-right font-medium" title="Share of the window with Earth above the skyline">Earth visible</th>
                     <th className="px-2 py-1.5 text-right font-medium" title="Longest continuous Earth outage">Longest Earth blackout</th>
+                    <th className="px-2 py-1.5 text-right font-medium" title="Longest continuous Sun outage">Longest darkness</th>
                     <th className="px-2 py-1.5 font-medium">Sun target</th>
                     <th className="px-2 py-1.5 font-medium">Earth target</th>
                     <th className="px-2 py-1.5 font-medium">Blackout target</th>
+                    <th className="px-2 py-1.5 font-medium">Darkness target</th>
                     <th className="px-2 py-1.5 font-medium">Overall</th>
                   </tr>
                 </thead>
@@ -352,6 +381,7 @@ export function CandidateComparison() {
                     const sunCheck = checkFor(outcome.evaluation, CHECK_IDS.sun)
                     const earthCheck = checkFor(outcome.evaluation, CHECK_IDS.earth)
                     const blackoutCheck = checkFor(outcome.evaluation, CHECK_IDS.blackout)
+                    const darknessCheck = checkFor(outcome.evaluation, CHECK_IDS.darkness)
                     const best = (id: string | null, check?: RequirementCheck) =>
                       check?.value != null && id === outcome.site.id
                     return (
@@ -369,9 +399,11 @@ export function CandidateComparison() {
                           {fmtValue(blackoutCheck)}
                           {best(blackoutLeaderId, blackoutCheck) && <span className="ml-1.5 rounded bg-both/15 px-1 py-0.5 text-[10px] text-both">shortest</span>}
                         </td>
+                        <td className="num border-t border-rule-soft px-2 py-2 text-right text-ink">{fmtValue(darknessCheck)}</td>
                         <td className="border-t border-rule-soft px-2 py-2"><StatusChip check={sunCheck} /></td>
                         <td className="border-t border-rule-soft px-2 py-2"><StatusChip check={earthCheck} /></td>
                         <td className="border-t border-rule-soft px-2 py-2"><StatusChip check={blackoutCheck} /></td>
+                        <td className="border-t border-rule-soft px-2 py-2"><StatusChip check={darknessCheck} /></td>
                         <td className="border-t border-rule-soft px-2 py-2"><Verdict outcome={outcome} /></td>
                       </tr>
                     )

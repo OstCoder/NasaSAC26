@@ -534,9 +534,11 @@ async function main() {
     const sunInput = page.getByLabel('Minimum sunlight (%)')
     const earthInput = page.getByLabel('Minimum Earth visibility (%)')
     const blackoutInput = page.getByLabel('Maximum communication blackout (h)')
+    const darknessInput = page.getByLabel('Maximum darkness (h)')
     await sunInput.fill('0')
     await earthInput.fill('0')
     await blackoutInput.fill('200')
+    await darknessInput.fill('200')
     await page.getByRole('button', { name: 'Check requirements' }).click()
     await page.waitForFunction(
       () => document.querySelector('[aria-label="Mission requirement results"]')?.textContent?.includes('Undecided'),
@@ -551,6 +553,7 @@ async function main() {
       min_sun_visible_pct: 0,
       min_earth_visible_pct: 0,
       max_earth_blackout_hours: 200,
+      max_darkness_hours: 200,
     })
     assert.equal(relaxed.satisfied, null)
     const censored = relaxed.checks.find((c) => c.id === 'max_earth_blackout_hours')
@@ -558,7 +561,7 @@ async function main() {
     await sunInput.fill('101')
     assert.ok((await text(page.locator('body'))).includes('Minimum sunlight must be between 0 and 100%.'))
     assert.equal(await page.getByRole('button', { name: 'Check requirements' }).isDisabled(), true)
-    return 'Site A at 60/50/12 produced three FAILs matching the API; relaxing to 0/0/200 updated the checks to PASS/PASS/UNDECIDED because the 168 h blackout touches the window edge; 101% is blocked before sending.'
+    return 'Site A at 60/50/12 produced three FAILs matching the API; relaxing to 0/0/200/200 updated the checks to PASS/PASS/UNDECIDED because the 168 h blackout touches the window edge; 101% is blocked before sending.'
   })
 
   await test('T11', 'Error handling and retry', async () => {

@@ -10,7 +10,13 @@ vi.mock('@/services/api', async (importOriginal) => {
 })
 
 const config = {
-  requirements: { min_sun_visible_pct: 60, min_earth_visible_pct: 50, max_earth_blackout_hours: 12 },
+  requirements: {
+    min_sun_visible_pct: 60,
+    min_earth_visible_pct: 50,
+    max_earth_blackout_hours: 12,
+    max_darkness_hours: 16,
+    power_demand_w: 40,
+  },
 } as unknown as AppConfig
 
 const draftA = {
@@ -88,7 +94,10 @@ describe('RequirementTuner', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Check requirements' }))
 
     await waitFor(() => expect(requirementsMock).toHaveBeenCalledTimes(1))
-    expect(requirementsMock.mock.calls[0][1]).toMatchObject({ min_sun_visible_pct: 75 })
+    expect(requirementsMock.mock.calls[0][1]).toMatchObject({
+      min_sun_visible_pct: 75,
+      max_darkness_hours: 16,
+    })
     await screen.findByText('One or more constraints fail')
     expect(screen.getByText('FAIL')).toBeTruthy()
   })

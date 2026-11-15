@@ -249,10 +249,29 @@ export interface ComparisonResult {
   comparability_notes: string[]
 }
 
+export interface DelayPowerComparison {
+  available: boolean
+  original: DecisionPower
+  proposed: DecisionPower
+  deltas: Record<string, number | null>
+  summary: string
+  notes: string[]
+}
+
+export interface DelayRequirementComparison {
+  original: RequirementEvaluation
+  proposed: RequirementEvaluation
+  new_failures: string[]
+  improvements: string[]
+  summary: string
+}
+
 export interface RescheduleResult {
   shift_hours: number
   comparison: ComparisonResult
   headline_changes: MetricDelta[]
+  power?: DelayPowerComparison | null
+  requirements?: DelayRequirementComparison | null
 }
 
 export interface LandingPreset {
@@ -267,6 +286,8 @@ export interface MissionRequirements {
   min_sun_visible_pct: number
   min_earth_visible_pct: number
   max_earth_blackout_hours: number
+  max_darkness_hours: number
+  power_demand_w: number
   psr_proximity: string
   basis: string
 }
@@ -281,6 +302,8 @@ export interface RequirementCheck {
   threshold: number
   value: number | null
   status: RequirementStatus
+  /** False when the caller made this check advisory; it is shown but does not gate ranking. */
+  required?: boolean
   detail: string
 }
 
@@ -288,6 +311,7 @@ export interface RequirementThresholdsInput {
   min_sun_visible_pct?: number
   min_earth_visible_pct?: number
   max_earth_blackout_hours?: number
+  max_darkness_hours?: number
 }
 
 export interface RequirementEvaluation {
@@ -616,6 +640,7 @@ export interface FeasibilityThresholds {
   min_sun_visible_pct: number
   min_earth_visible_pct: number
   max_earth_blackout_hours: number
+  max_darkness_hours: number
 }
 
 export interface FeasibilityMatrix {
@@ -647,6 +672,26 @@ export interface TerrainDem {
   notes: string[]
 }
 
+export interface PowerSeries {
+  times_utc: string[]
+  solar_w: number[]
+  load_w: number[]
+  battery_wh: number[]
+  battery_soc_pct: number[]
+  sun_visible: boolean[]
+  charging: boolean[]
+  discharging: boolean[]
+  unserved_wh: number[]
+}
+
+export interface PowerExtremes {
+  min_battery_wh: number
+  min_battery_soc_pct: number
+  min_battery_index: number
+  shortage_samples: number
+  shortage_hours: number
+}
+
 /** Phase 5 Task 1-2: solar-power and direct-to-Earth budgets — GET /api/engineering. */
 export interface LinkCase {
   range_km: number
@@ -657,13 +702,38 @@ export interface LinkCase {
 }
 
 export interface PowerDesign {
-  id: 'horizontal' | 'vertical_tracking'
+  id: 'horizontal' | 'vertical_tracking' | 'fixed'
   label: string
   incidence_rule: string
+  tilt_deg: number
+  azimuth_deg: number | null
+  tracking: boolean
   peak_w: number
   mean_w: number
   energy_wh: number
   capacity_factor_pct: number
+}
+
+export interface PowerSensitivityCase {
+  id: string
+  label: string
+  parameter: string
+  factor: number
+  load_w: number
+  array_energy_wh: number
+  min_soc_pct: number
+  unserved_wh: number
+  reserve_respected: boolean
+}
+
+export interface PowerSensitivity {
+  method: string
+  design: string
+  base_energy_wh: number
+  cases: PowerSensitivityCase[]
+  min_soc_range_pct: [number, number]
+  max_unserved_wh: number
+  limits: string[]
 }
 
 export interface EngineeringBudget {
@@ -687,30 +757,32 @@ export interface EngineeringBudget {
       battery_capacity_wh: number
       battery_max_depth_of_discharge: number
       initial_state_of_charge: number
+      default_panel_design: string
+      default_panel_tilt_deg: number
+      default_panel_azimuth_deg: number
       basis: string
       derived: { dc_w_per_m2_at_normal_incidence: number; conversion_factor: number; irradiance_au: number }
     }
-    design: { recommended: string; reason: string }
+    design: {
+      recommended: string
+      selected: 'horizontal' | 'vertical_tracking' | 'fixed'
+      tilt_deg: number
+      azimuth_deg: number | null
+      tracking: boolean
+      reason: string
+    }
     designs: PowerDesign[]
+    sensitivity: PowerSensitivity
     window: { hours: number; sunlit_hours: number; dark_hours: number; sunlit_pct: number }
     budget: {
       load_w: number
       load_wh: number
       array_energy_wh: number
       net_wh: number
-      battery: {
-        capacity_wh: number
-        usable_wh: number
-        initial_soc_pct: number
-        min_soc_pct: number
-        final_soc_pct: number
-        unserved_wh: number
-        depleted: boolean
-        reserve_pct: number
-        reserve_respected: boolean
-        verdict: string
-      }
+      battery: DecisionBattery
     }
+    series: PowerSeries
+    extremes: PowerExtremes
     limits: string[]
   }
   link: {
@@ -740,5 +812,101 @@ export interface EngineeringBudget {
     limits: string[]
   }
   provenance: Record<string, string>
+  notes: string[]
+}
+
+/** Phase 5 Tasks 1-12: one decision-support evaluation and ranking — POST /api/decision. */
+export interface DecisionThresholdsInput extends RequirementThresholdsInput {
+  power_demand_w?: number
+}
+
+export interface DecisionWeights {
+  sunlight: number
+  earth_visibility: number
+  communication: number
+  science: number
+}
+
+export interface DecisionRequest {
+  landing_utc: string
+  duration_hours: number
+  mode?: Mode | null
+  site_ids?: string[]
+  thresholds?: DecisionThresholdsInput
+  weights?: Partial<DecisionWeights>
+  panel_design?: 'horizontal' | 'vertical_tracking' | 'fixed'
+  panel_tilt_deg?: number
+  panel_azimuth_deg?: number
+  optional_checks?: string[]
+}
+
+export interface DecisionBattery {
+  capacity_wh: number
+  usable_wh: number
+  initial_soc_pct: number
+  min_soc_pct: number
+  final_soc_pct: number
+  unserved_wh: number
+  depleted: boolean
+  reserve_pct: number
+  reserve_respected: boolean
+  verdict: string
+}
+
+export interface DecisionPower {
+  available: boolean
+  window: 'initial' | 'alternative' | null
+  load_w: number | null
+  load_wh: number | null
+  array_energy_wh: number | null
+  net_wh: number | null
+  battery: DecisionBattery | null
+  panel_design?: string | null
+  panel_tilt_deg?: number | null
+  panel_azimuth_deg?: number | null
+  reason: string | null
+}
+
+export interface DecisionSite {
+  site_id: string
+  name: string
+  latitude_deg: number
+  longitude_deg: number
+  status: 'pass' | 'fail' | 'unknown'
+  satisfied: boolean | null
+  checks: RequirementCheck[]
+  metrics: Record<string, number | null>
+  rank: number | null
+  score: number | null
+  score_components: Record<string, number>
+  power: DecisionPower
+  nearest_psr: PsrProximity | null
+  psrs_within_10_km: number | null
+  reasons: string[]
+  risks: string[]
+  provenance: string
+}
+
+export interface DecisionResult {
+  schema: 'lunanav.mission_decision.v1'
+  landing_utc: string
+  duration_hours: number
+  mode: Mode
+  thresholds: {
+    min_sun_visible_pct: number
+    min_earth_visible_pct: number
+    max_earth_blackout_hours: number
+    max_darkness_hours: number
+    power_demand_w: number
+  }
+  weights: DecisionWeights
+  recommendation: {
+    status: 'ranked' | 'no_eligible_site'
+    top_site_id: string | null
+    top_site_name: string | null
+    ranked_site_ids: string[]
+    summary: string
+  }
+  sites: DecisionSite[]
   notes: string[]
 }

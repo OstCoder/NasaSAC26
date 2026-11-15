@@ -164,7 +164,7 @@ For Site A, 1–8 Dec, displayed values matched `/api/scenario` exactly:
 - [x] Maximum blackout requirement result: FAIL (168 h).
 - [x] Failed requirements are marked by text and icons, not colour alone.
 - [x] PASS/FAIL results match the measured metrics and API.
-- [x] Changed requirements and reran: 0/0/200 produced Sun PASS, Earth PASS, blackout **UNDECIDED** because the 168 h value touches the window edge and is a lower bound.
+- [x] Changed requirements and reran: 0/0/200/200 produced Sun PASS, Earth PASS, darkness PASS, and blackout **UNDECIDED** because the 168 h value touches the window edge and is a lower bound.
 - [x] Feasibility results updated correctly.
 - [x] The UI states these are demonstration targets, not NASA flight requirements, and never calls a site NASA-approved or fully safe.
 

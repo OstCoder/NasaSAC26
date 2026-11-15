@@ -5,11 +5,12 @@ import { TopNav, type View } from '@/components/layout/TopNav'
 import { Button } from '@/components/ui/button'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ComparisonPage } from '@/features/comparison'
+import { DecisionDashboard } from '@/features/decision'
 import { MethodologyPage } from '@/features/methodology/MethodologyPage'
 import { MissionPlannerPage } from '@/features/mission-planner/MissionPlannerPage'
 import { AppProvider } from '@/hooks/useAppContext'
 
-const VIEWS: View[] = ['planner', 'compare', 'methodology']
+const VIEWS: View[] = ['planner', 'decision', 'compare', 'methodology']
 
 const DATA_SOURCES = [
   { label: 'NASA LROC QuickMap', href: 'https://quickmap.lroc.asu.edu/' },
@@ -71,6 +72,7 @@ function Shell() {
       <TopNav view={view} onView={setView} />
       <main className="mx-auto max-w-[1500px] px-4 py-4">
         {view === 'planner' && <MissionPlannerPage onCompare={() => setView('compare')} />}
+        {view === 'decision' && <DecisionDashboard />}
         {view === 'compare' && <ComparisonPage />}
         {view === 'methodology' && <MethodologyPage />}
       </main>

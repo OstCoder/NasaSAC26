@@ -1,6 +1,11 @@
 
 # Phase 5 — Mission Planning Intelligence & Decision Support
 
+> **Status (14 Nov 2026):** Core Tasks 1–12 and every Advanced Completion Criterion are implemented. Automated coverage is 341 backend tests and 45
+> frontend tests; the Phase 4 browser matrix remains 13/13, and the Phase 5 browser/API matrix passes 6/6
+> (`npm run acceptance:phase5`, evidence in `docs/PHASE5_ACCEPTANCE.md`). The key milestone is covered by a
+> backend date/load test and a live browser date/load check.
+
 ## Objective
 
 Develop the decision-support features for our NASA
@@ -24,17 +29,17 @@ for a hypothetical mission.
 
 ## Task 1: Develop Adjustable Mission Requirements
 
-- [ ] Create a mission requirements configuration.
-- [ ] Allow users to define minimum sunlight availability.
-- [ ] Allow users to define minimum Earth visibility.
-- [ ] Allow users to define maximum communication blackout.
-- [ ] Allow users to define maximum darkness duration.
-- [ ] Allow users to choose mission duration.
-- [ ] Allow users to set spacecraft power requirements.
-- [ ] Validate all user-provided values.
-- [ ] Store requirements in a consistent format.
-- [ ] Connect the requirements to the backend.
-- [ ] Update mission evaluations when requirements change.
+- [x] Create a mission requirements configuration.
+- [x] Allow users to define minimum sunlight availability.
+- [x] Allow users to define minimum Earth visibility.
+- [x] Allow users to define maximum communication blackout.
+- [x] Allow users to define maximum darkness duration.
+- [x] Allow users to choose mission duration.
+- [x] Allow users to set spacecraft power requirements.
+- [x] Validate all user-provided values.
+- [x] Store requirements in a consistent format.
+- [x] Connect the requirements to the backend.
+- [x] Update mission evaluations when requirements change.
 
 ### Default Mission Requirements
 
@@ -76,18 +81,18 @@ against different operational constraints.
 
 ## Task 2: Build the Mission Feasibility Evaluator
 
-- [ ] Load calculated mission metrics from Phase 3.
-- [ ] Load the user's selected mission requirements.
-- [ ] Compare each metric against its requirement.
-- [ ] Evaluate sunlight availability.
-- [ ] Evaluate Earth visibility.
-- [ ] Evaluate maximum darkness duration.
-- [ ] Evaluate maximum communication blackout.
-- [ ] Evaluate energy requirements when modeled.
-- [ ] Identify failed requirements.
-- [ ] Identify unavailable or incomplete measurements.
-- [ ] Generate a feasibility explanation.
-- [ ] Return structured results to the frontend.
+- [x] Load calculated mission metrics from Phase 3.
+- [x] Load the user's selected mission requirements.
+- [x] Compare each metric against its requirement.
+- [x] Evaluate sunlight availability.
+- [x] Evaluate Earth visibility.
+- [x] Evaluate maximum darkness duration.
+- [x] Evaluate maximum communication blackout.
+- [x] Evaluate energy requirements when modeled.
+- [x] Identify failed requirements.
+- [x] Identify unavailable or incomplete measurements.
+- [x] Generate a feasibility explanation.
+- [x] Return structured results to the frontend.
 
 ### Evaluation Logic
 
@@ -146,19 +151,19 @@ which requirements pass, fail, or remain unknown.
 
 ## Task 3: Develop Solar Power Estimation
 
-- [ ] Read Sun elevation and azimuth data.
-- [ ] Read terrain-adjusted Sun visibility when available.
-- [ ] Define the solar panel area.
-- [ ] Define the solar panel efficiency.
-- [ ] Define the solar panel orientation.
-- [ ] Set a documented solar irradiance assumption.
-- [ ] Calculate the angle of sunlight incidence.
-- [ ] Estimate instantaneous solar power generation.
-- [ ] Set direct solar generation to zero when
+- [x] Read Sun elevation and azimuth data.
+- [x] Read terrain-adjusted Sun visibility when available.
+- [x] Define the solar panel area.
+- [x] Define the solar panel efficiency.
+- [x] Define the solar panel orientation.
+- [x] Set a documented solar irradiance assumption.
+- [x] Calculate the angle of sunlight incidence.
+- [x] Estimate instantaneous solar power generation.
+- [x] Set direct solar generation to zero when
       the Sun is fully obstructed.
-- [ ] Calculate estimated energy generation over time.
-- [ ] Account for varying observation time intervals.
-- [ ] Document model assumptions and limitations.
+- [x] Calculate estimated energy generation over time.
+- [x] Account for varying observation time intervals.
+- [x] Document model assumptions and limitations.
 
 ### Solar Power Model
 
@@ -217,18 +222,18 @@ generation over the mission timeline.
 
 ## Task 4: Implement Battery Survival Simulation
 
-- [ ] Define battery capacity in watt-hours.
-- [ ] Define initial battery charge.
-- [ ] Define spacecraft power consumption.
-- [ ] Use estimated solar power from Task 3.
-- [ ] Simulate battery charge over time.
-- [ ] Prevent battery charge from exceeding capacity.
-- [ ] Identify periods when generation is below demand.
-- [ ] Identify periods when battery reserves decrease.
-- [ ] Identify minimum battery charge.
-- [ ] Calculate energy shortfall when applicable.
-- [ ] Identify potential power-loss events.
-- [ ] Display battery status throughout the mission.
+- [x] Define battery capacity in watt-hours.
+- [x] Define initial battery charge.
+- [x] Define spacecraft power consumption.
+- [x] Use estimated solar power from Task 3.
+- [x] Simulate battery charge over time.
+- [x] Prevent battery charge from exceeding capacity.
+- [x] Identify periods when generation is below demand.
+- [x] Identify periods when battery reserves decrease.
+- [x] Identify minimum battery charge.
+- [x] Calculate energy shortfall when applicable.
+- [x] Identify potential power-loss events.
+- [x] Display battery status throughout the mission.
 
 ### Simplified Battery Model
 
@@ -287,17 +292,17 @@ its power demand throughout a selected mission.
 
 ## Task 5: Create a Mission Energy Timeline
 
-- [ ] Display estimated solar power generation.
-- [ ] Display spacecraft power consumption.
-- [ ] Display estimated battery energy over time.
-- [ ] Highlight periods without direct sunlight.
-- [ ] Highlight periods of battery discharge.
-- [ ] Highlight periods of battery charging.
-- [ ] Show minimum estimated battery energy.
-- [ ] Identify potential power shortages.
-- [ ] Synchronize the timeline with mission timestamps.
-- [ ] Add tooltips explaining energy calculations.
-- [ ] Display the assumed panel and battery parameters.
+- [x] Display estimated solar power generation.
+- [x] Display spacecraft power consumption.
+- [x] Display estimated battery energy over time.
+- [x] Highlight periods without direct sunlight.
+- [x] Highlight periods of battery discharge.
+- [x] Highlight periods of battery charging.
+- [x] Show minimum estimated battery energy.
+- [x] Identify potential power shortages.
+- [x] Synchronize the timeline with mission timestamps.
+- [x] Add tooltips explaining energy calculations.
+- [x] Display the assumed panel and battery parameters.
 
 ### Suggested Charts
 
@@ -328,19 +333,19 @@ affect hypothetical spacecraft operations.
 
 ## Task 6: Develop Mission Delay Analysis
 
-- [ ] Load the original landing-date scenario.
-- [ ] Load the delayed landing-date scenario.
-- [ ] Run the same mission requirements for both.
-- [ ] Compare sunlight availability.
-- [ ] Compare Earth visibility.
-- [ ] Compare maximum darkness duration.
-- [ ] Compare maximum communication blackout.
-- [ ] Compare estimated energy generation.
-- [ ] Compare minimum battery reserves.
-- [ ] Identify new failed requirements.
-- [ ] Identify requirements that improve.
-- [ ] Display changes in the frontend.
-- [ ] Generate a clear explanation of the differences.
+- [x] Load the original landing-date scenario.
+- [x] Load the delayed landing-date scenario.
+- [x] Run the same mission requirements for both.
+- [x] Compare sunlight availability.
+- [x] Compare Earth visibility.
+- [x] Compare maximum darkness duration.
+- [x] Compare maximum communication blackout.
+- [x] Compare estimated energy generation.
+- [x] Compare minimum battery reserves.
+- [x] Identify new failed requirements.
+- [x] Identify requirements that improve.
+- [x] Display changes in the frontend.
+- [x] Generate a clear explanation of the differences.
 
 ### Example Scenario
 
@@ -371,17 +376,17 @@ using consistent scientific calculations.
 
 ## Task 7: Build Landing-Site Ranking and Recommendations
 
-- [ ] Load mission results for all selected sites.
-- [ ] Evaluate each site's mission constraints.
-- [ ] Separate sites that pass, fail, or are unknown.
-- [ ] Allow users to prioritize sunlight or communication.
-- [ ] Define a transparent ranking method.
-- [ ] Normalize metrics before combining them.
-- [ ] Apply penalties for undesirable conditions.
-- [ ] Avoid ranking missing data as favorable.
-- [ ] Show the measurements behind each ranking.
-- [ ] Explain why sites are ranked differently.
-- [ ] Update rankings when requirements change.
+- [x] Load mission results for all selected sites.
+- [x] Evaluate each site's mission constraints.
+- [x] Separate sites that pass, fail, or are unknown.
+- [x] Allow users to prioritize sunlight or communication.
+- [x] Define a transparent ranking method.
+- [x] Normalize metrics before combining them.
+- [x] Apply penalties for undesirable conditions.
+- [x] Avoid ranking missing data as favorable.
+- [x] Show the measurements behind each ranking.
+- [x] Explain why sites are ranked differently.
+- [x] Update rankings when requirements change.
 
 ### Suggested Ranking Approach
 
@@ -436,16 +441,16 @@ user-defined mission requirements.
 
 ## Task 8: Generate Explainable Mission Recommendations
 
-- [ ] Identify the strongest advantages of each site.
-- [ ] Identify the most significant operational risks.
-- [ ] Explain which constraints caused a failure.
-- [ ] Explain changes caused by landing-date delays.
-- [ ] Generate a short summary for each site.
-- [ ] Generate an overall comparison summary.
-- [ ] Connect explanations to calculated measurements.
-- [ ] Include uncertainty and model limitations.
-- [ ] Avoid unsupported scientific conclusions.
-- [ ] Display explanations in understandable language.
+- [x] Identify the strongest advantages of each site.
+- [x] Identify the most significant operational risks.
+- [x] Explain which constraints caused a failure.
+- [x] Explain changes caused by landing-date delays.
+- [x] Generate a short summary for each site.
+- [x] Generate an overall comparison summary.
+- [x] Connect explanations to calculated measurements.
+- [x] Include uncertainty and model limitations.
+- [x] Avoid unsupported scientific conclusions.
+- [x] Display explanations in understandable language.
 
 ### Example Recommendation
 
@@ -482,17 +487,17 @@ understand the trade-offs behind each result.
 
 ## Task 9: Add Scientific Exploration Preferences
 
-- [ ] Define optional scientific priorities.
-- [ ] Allow users to prioritize proximity to PSRs.
-- [ ] Identify potential scientific exploration regions.
-- [ ] Obtain verified PSR location or boundary data.
-- [ ] Calculate distance to nearby PSRs when supported.
-- [ ] Display PSRs on the lunar map when data is available.
-- [ ] Compare scientific proximity with operational conditions.
-- [ ] Explain conflicts between solar power,
+- [x] Define optional scientific priorities.
+- [x] Allow users to prioritize proximity to PSRs.
+- [x] Identify potential scientific exploration regions.
+- [x] Obtain verified PSR location or boundary data.
+- [x] Calculate distance to nearby PSRs when supported.
+- [x] Display PSRs on the lunar map when data is available.
+- [x] Compare scientific proximity with operational conditions.
+- [x] Explain conflicts between solar power,
       Earth communication, and scientific objectives.
-- [ ] Clearly distinguish PSRs from confirmed water-ice deposits.
-- [ ] Avoid treating straight-line distance as
+- [x] Clearly distinguish PSRs from confirmed water-ice deposits.
+- [x] Avoid treating straight-line distance as
       proof of rover accessibility.
 
 ### Scientific Mission Example
@@ -532,18 +537,18 @@ interesting lunar regions.
 
 ## Task 10: Build the Mission Decision Dashboard
 
-- [ ] Create a dedicated mission evaluation panel.
-- [ ] Display selected mission requirements.
-- [ ] Show PASS, FAIL, and UNKNOWN statuses.
-- [ ] Display sunlight and communication metrics.
-- [ ] Display estimated power and battery status.
-- [ ] Display recommended landing sites.
-- [ ] Show alternative dates when supported.
-- [ ] Provide explanations for recommendations.
-- [ ] Highlight critical mission risks.
-- [ ] Link each result to the relevant data.
-- [ ] Allow users to adjust requirements.
-- [ ] Refresh recommendations when inputs change.
+- [x] Create a dedicated mission evaluation panel.
+- [x] Display selected mission requirements.
+- [x] Show PASS, FAIL, and UNKNOWN statuses.
+- [x] Display sunlight and communication metrics.
+- [x] Display estimated power and battery status.
+- [x] Display recommended landing sites.
+- [x] Show alternative dates when supported.
+- [x] Provide explanations for recommendations.
+- [x] Highlight critical mission risks.
+- [x] Link each result to the relevant data.
+- [x] Allow users to adjust requirements.
+- [x] Refresh recommendations when inputs change.
 
 ### Suggested Dashboard Layout
 
@@ -578,18 +583,18 @@ with practical mission requirements.
 
 ## Task 11: Integrate Decision Support With the Backend
 
-- [ ] Connect mission requirement controls to the backend.
-- [ ] Integrate the feasibility evaluation engine.
-- [ ] Integrate solar energy calculations.
-- [ ] Integrate battery simulations.
-- [ ] Integrate mission-delay comparisons.
-- [ ] Integrate site ranking calculations.
-- [ ] Integrate explanation generation.
-- [ ] Integrate scientific preferences when supported.
-- [ ] Return consistent structured JSON results.
-- [ ] Handle invalid mission configurations.
-- [ ] Handle unavailable astronomical data.
-- [ ] Prevent stale analysis results from being displayed.
+- [x] Connect mission requirement controls to the backend.
+- [x] Integrate the feasibility evaluation engine.
+- [x] Integrate solar energy calculations.
+- [x] Integrate battery simulations.
+- [x] Integrate mission-delay comparisons.
+- [x] Integrate site ranking calculations.
+- [x] Integrate explanation generation.
+- [x] Integrate scientific preferences when supported.
+- [x] Return consistent structured JSON results.
+- [x] Handle invalid mission configurations.
+- [x] Handle unavailable astronomical data.
+- [x] Prevent stale analysis results from being displayed.
 
 ### Suggested API Endpoints
 
@@ -646,22 +651,22 @@ and recommendations to the frontend.
 
 ## Task 12: Test and Validate Mission Recommendations
 
-- [ ] Test sunlight requirement evaluation.
-- [ ] Test Earth visibility requirement evaluation.
-- [ ] Test communication blackout limits.
-- [ ] Test maximum darkness limits.
-- [ ] Test solar power calculations.
-- [ ] Test battery charging calculations.
-- [ ] Test battery discharging calculations.
-- [ ] Test battery capacity limits.
-- [ ] Test scenarios with insufficient energy.
-- [ ] Test mission-delay comparisons.
-- [ ] Test site ranking logic.
-- [ ] Test recommendations with missing data.
-- [ ] Test conflicting mission priorities.
-- [ ] Verify explanations match numerical results.
-- [ ] Confirm scientific limitations are displayed.
-- [ ] Verify no unsupported NASA endorsement claims.
+- [x] Test sunlight requirement evaluation.
+- [x] Test Earth visibility requirement evaluation.
+- [x] Test communication blackout limits.
+- [x] Test maximum darkness limits.
+- [x] Test solar power calculations.
+- [x] Test battery charging calculations.
+- [x] Test battery discharging calculations.
+- [x] Test battery capacity limits.
+- [x] Test scenarios with insufficient energy.
+- [x] Test mission-delay comparisons.
+- [x] Test site ranking logic.
+- [x] Test recommendations with missing data.
+- [x] Test conflicting mission priorities.
+- [x] Verify explanations match numerical results.
+- [x] Confirm scientific limitations are displayed.
+- [x] Verify no unsupported NASA endorsement claims.
 
 ### Example Test Cases
 
@@ -705,30 +710,33 @@ and documented assumptions.
 
 ## Phase 5 Completion Checklist
 
-- [ ] Adjustable mission requirements implemented.
-- [ ] Mission feasibility evaluator functional.
-- [ ] PASS, FAIL, and UNKNOWN results supported.
-- [ ] Mission-delay analysis functional.
-- [ ] Multiple landing sites evaluated.
-- [ ] Transparent site comparison implemented.
-- [ ] Site ranking implemented.
-- [ ] Recommendation explanations generated.
-- [ ] Scientific assumptions documented.
-- [ ] Mission decision dashboard connected.
-- [ ] Backend integrations tested.
-- [ ] End-to-end mission evaluation validated.
+- [x] Adjustable mission requirements implemented.
+- [x] Mission feasibility evaluator functional.
+- [x] PASS, FAIL, and UNKNOWN results supported.
+- [x] Mission-delay analysis functional.
+- [x] Multiple landing sites evaluated.
+- [x] Transparent site comparison implemented.
+- [x] Site ranking implemented.
+- [x] Recommendation explanations generated.
+- [x] Scientific assumptions documented.
+- [x] Mission decision dashboard connected.
+- [x] Backend integrations tested.
+- [x] End-to-end mission evaluation validated.
 
 ### Advanced Completion Criteria
 
-- [ ] Solar power estimation implemented.
-- [ ] Battery survival simulation implemented.
-- [ ] Interactive battery energy timeline created.
-- [ ] Adjustable solar panel orientation supported.
-- [ ] Power model assumptions documented.
-- [ ] PSR proximity analysis implemented.
-- [ ] Scientific exploration mode functional.
-- [ ] Terrain-aware results incorporated into rankings.
-- [ ] Uncertainty or sensitivity analysis included.
+- [x] Solar power estimation implemented.
+- [x] Battery survival simulation implemented.
+- [x] Interactive battery energy timeline created.
+- [x] Adjustable solar panel orientation supported.
+- [x] Power model assumptions documented.
+- [x] PSR proximity analysis implemented.
+- [x] Scientific exploration mode functional.
+- [x] Terrain-aware results incorporated into rankings.
+- [x] Uncertainty or sensitivity analysis included.
+
+Advanced items are covered by the power, decision, timeline and acceptance tests. Arbitrary orientation is a selectable fixed tilt/azimuth design; science
+exploration is an explicit ranking mode; sensitivity is a seven-case one-at-a-time table. There is no AI-generated recommendation path.
 
 ---
 

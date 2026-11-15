@@ -17,7 +17,13 @@ const sites = [
 
 const config = {
   mission: { candidate_sites: ['A', 'B', 'C'] },
-  requirements: { min_sun_visible_pct: 60, min_earth_visible_pct: 50, max_earth_blackout_hours: 12 },
+  requirements: {
+    min_sun_visible_pct: 60,
+    min_earth_visible_pct: 50,
+    max_earth_blackout_hours: 12,
+    max_darkness_hours: 16,
+    power_demand_w: 40,
+  },
   simulation: {
     supported_start_utc: '2026-12-01T00:00:00Z',
     supported_end_utc: '2026-12-18T23:59:59Z',
@@ -138,6 +144,7 @@ describe('CandidateComparison', () => {
       min_sun_visible_pct: 60,
       min_earth_visible_pct: 50,
       max_earth_blackout_hours: 12,
+      max_darkness_hours: 16,
     })
     expect(requirementsMock.mock.calls[1][0].location.site_id).toBe('B')
     expect(requirementsMock.mock.calls[2][0].location.site_id).toBe('C')

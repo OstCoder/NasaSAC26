@@ -3,6 +3,8 @@ import { ApiError } from '@/services/api'
 
 export interface Resource<T> {
   data: T | null
+  /** The request key that produced `data`; null while loading, failed or idle. */
+  dataKey: string | null
   error: ApiError | null
   loading: boolean
   /** Re-run the current request without changing its inputs. */
@@ -19,7 +21,12 @@ export function useApiResource<T>(
   fetcher: (signal: AbortSignal) => Promise<T>,
   debounceMs = 250,
 ): Resource<T> {
-  const [state, setState] = React.useState<Omit<Resource<T>, 'retry'>>({ data: null, error: null, loading: false })
+  const [state, setState] = React.useState<Omit<Resource<T>, 'retry'>>({
+    data: null,
+    dataKey: null,
+    error: null,
+    loading: false,
+  })
   const [attempt, setAttempt] = React.useState(0)
   const fetchRef = React.useRef(fetcher)
   fetchRef.current = fetcher
@@ -27,18 +34,18 @@ export function useApiResource<T>(
   React.useEffect(() => {
     if (key === null) {
       // No request now: drop old data so nothing from a previous mode/input is shown as current.
-      setState({ data: null, error: null, loading: false })
+      setState({ data: null, dataKey: null, error: null, loading: false })
       return
     }
     const ctrl = new AbortController()
     setState((s) => ({ ...s, loading: true }))
     const timer = window.setTimeout(() => {
       fetchRef.current(ctrl.signal)
-        .then((data) => setState({ data, error: null, loading: false }))
+        .then((data) => setState({ data, dataKey: key, error: null, loading: false }))
         .catch((e: unknown) => {
           if (ctrl.signal.aborted) return
           const err = e instanceof ApiError ? e : new ApiError(0, { code: 'UNKNOWN', message: String(e), details: {} })
-          setState({ data: null, error: err, loading: false })
+          setState({ data: null, dataKey: null, error: err, loading: false })
         })
     }, debounceMs)
     return () => {

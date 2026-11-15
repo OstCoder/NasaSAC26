@@ -44,7 +44,8 @@ def test_document_carries_every_candidate_and_requirement():
     for report in document["sites"]:
         assert report["schema"] == "lunanav.mission_report.v1"
         assert [check["id"] for check in report["requirements"]["checks"]] == [
-            "min_sun_visible_pct", "min_earth_visible_pct", "max_earth_blackout_hours"]
+                "min_sun_visible_pct", "min_earth_visible_pct", "max_earth_blackout_hours",
+                "max_darkness_hours"]
         assert report["requirements"]["satisfied"] in {True, False, None}
         assert report["terrain"]["geometric_only"] is False
     assert len(document["delay"]) == len(CANDIDATES)

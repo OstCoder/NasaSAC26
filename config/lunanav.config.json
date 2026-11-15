@@ -63,6 +63,8 @@
     "min_sun_visible_pct": 60,
     "min_earth_visible_pct": 50,
     "max_earth_blackout_hours": 12,
+    "max_darkness_hours": 16,
+    "power_demand_w": 40,
     "psr_proximity": "preferred",
     "basis": "Hypothetical demonstration requirements for the 7-day Polar Ice Scout scenario, not official NASA mission specifications."
   },
@@ -126,6 +128,9 @@
     "battery_capacity_wh": 1200.0,
     "battery_max_depth_of_discharge": 0.8,
     "initial_state_of_charge": 1.0,
+    "default_panel_design": "vertical_tracking",
+    "default_panel_tilt_deg": 90.0,
+    "default_panel_azimuth_deg": 180.0,
     "basis": "Hypothetical 2 m2 triple-junction array at 30% cell efficiency, 40 W continuous housekeeping load, 1200 Wh battery at 80% depth of discharge. Not measured hardware and not a flight power budget."
   },
   "link": {
@@ -151,9 +156,10 @@
     "experimental_3d_terrain": false,
     "experimental_power_model": true,
     "experimental_comm_link_budget": true,
-    "experimental_site_ranking": false,
+    "experimental_site_ranking": true,
     "experimental_ai_explanations": false,
     "experimental_report_export": true,
+    "decision_support": true,
     "lunar_imagery": true,
     "lunar_globe_3d": true
   },

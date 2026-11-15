@@ -54,6 +54,8 @@ class TestSharedSpecification:
         assert req["min_sun_visible_pct"] == settings.requirements.min_sun_visible_pct == 60
         assert req["min_earth_visible_pct"] == settings.requirements.min_earth_visible_pct == 50
         assert req["max_earth_blackout_hours"] == settings.requirements.max_earth_blackout_hours == 12
+        assert req["max_darkness_hours"] == settings.requirements.max_darkness_hours == 16
+        assert req["power_demand_w"] == settings.requirements.power_demand_w == 40
         assert req["psr_proximity"] == "preferred"
         assert "not official NASA mission specifications" in req["basis"]
 
@@ -108,7 +110,8 @@ class TestRequirementChecks:
         assert r.status_code == 200, r.text
         body = r.json()
         assert [c["id"] for c in body["checks"]] == [
-            "min_sun_visible_pct", "min_earth_visible_pct", "max_earth_blackout_hours"]
+            "min_sun_visible_pct", "min_earth_visible_pct", "max_earth_blackout_hours",
+            "max_darkness_hours"]
         assert {c["comparison"] for c in body["checks"]} == {"at_least", "at_most"}
         assert body["requirements_source"].endswith("requirements")
         assert body["satisfied"] in (True, False, None)
@@ -120,17 +123,19 @@ class TestRequirementChecks:
         for check in body["checks"]:
             metric = metrics[{"min_sun_visible_pct": "sun_visible_pct",
                               "min_earth_visible_pct": "earth_visible_pct",
-                              "max_earth_blackout_hours": "longest_earth_blackout_hours"}[check["id"]]]
+                              "max_earth_blackout_hours": "longest_earth_blackout_hours",
+                              "max_darkness_hours": "longest_sun_blackout_hours"}[check["id"]]]
             assert check["value"] == metric["value"]
 
     def test_thresholds_come_from_the_caller_not_the_code(self):
         result = ScenarioService().run(ScenarioInput(**SCENARIO))
         strict = RequirementThresholds(
             min_sun_visible_pct=99.0, min_earth_visible_pct=99.0,
-            max_earth_blackout_hours=0.0, psr_proximity="optional", basis="test",
+            max_earth_blackout_hours=0.0, max_darkness_hours=0.0,
+            psr_proximity="optional", basis="test",
         )
         ev = RequirementService().evaluate(result, strict)
-        assert [c.threshold for c in ev.checks] == [99.0, 99.0, 0.0]
+        assert [c.threshold for c in ev.checks] == [99.0, 99.0, 0.0, 0.0]
         assert ev.satisfied is False
         assert any(c.status is RequirementStatus.not_met for c in ev.checks)
 
@@ -151,7 +156,7 @@ class TestRequirementChecks:
             },
         }
         body = client.post("/api/requirements", json=payload).json()
-        assert [c["threshold"] for c in body["checks"]] == [100.0, 100.0, 0.0]
+        assert [c["threshold"] for c in body["checks"]] == [100.0, 100.0, 0.0, 16.0]
         assert "user-adjusted" in body["requirements_source"]
         assert body["satisfied"] is False
         assert any("not NASA flight requirements" in n for n in body["notes"])
@@ -163,6 +168,7 @@ class TestRequirementChecks:
         ).json()
         by_id = {c["id"]: c for c in body["checks"]}
         assert by_id["max_earth_blackout_hours"]["threshold"] == 0
+        assert by_id["max_darkness_hours"]["threshold"] == settings.requirements.max_darkness_hours
         assert by_id["min_sun_visible_pct"]["threshold"] == settings.requirements.min_sun_visible_pct
         assert by_id["min_earth_visible_pct"]["threshold"] == settings.requirements.min_earth_visible_pct
 

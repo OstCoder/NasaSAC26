@@ -1,13 +1,14 @@
-import { BookOpen, GitCompare, Map } from 'lucide-react'
+import { BookOpen, Compass, GitCompare, Map } from 'lucide-react'
 import { JplStatusPill } from '@/components/JplStatus'
 import { useApp } from '@/hooks/useAppContext'
 import { cn } from '@/lib/utils'
 import type { Mode } from '@/types/api'
 
-export type View = 'planner' | 'compare' | 'methodology'
+export type View = 'planner' | 'decision' | 'compare' | 'methodology'
 
 const NAV: { id: View; label: string; icon: typeof Map; flag: string }[] = [
   { id: 'planner', label: 'Mission planner', icon: Map, flag: 'mission_planner' },
+  { id: 'decision', label: 'Decision support', icon: Compass, flag: 'decision_support' },
   { id: 'compare', label: 'Compare scenarios', icon: GitCompare, flag: 'scenario_comparison' },
   { id: 'methodology', label: 'Data & methodology', icon: BookOpen, flag: 'methodology_page' },
 ]

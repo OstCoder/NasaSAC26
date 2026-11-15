@@ -55,6 +55,11 @@ class RequirementThresholds:
     max_earth_blackout_hours: float
     psr_proximity: str
     basis: str
+    # Phase 5 demonstration defaults. Kept on the dataclass so callers that
+    # construct thresholds directly (tests, scripts) keep their previous
+    # five-field form working.
+    max_darkness_hours: float = 16.0
+    power_demand_w: float = 40.0
 
 
 @dataclass(frozen=True)
@@ -230,6 +235,8 @@ def load_settings(path: Path | None = None) -> Settings:
             min_sun_visible_pct=float(req["min_sun_visible_pct"]),
             min_earth_visible_pct=float(req["min_earth_visible_pct"]),
             max_earth_blackout_hours=float(req["max_earth_blackout_hours"]),
+            max_darkness_hours=float(req.get("max_darkness_hours", 16.0)),
+            power_demand_w=float(req.get("power_demand_w", 40.0)),
             psr_proximity=str(req.get("psr_proximity", "optional")),
             basis=str(req.get("basis", "")),
         ),

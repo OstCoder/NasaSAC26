@@ -17,6 +17,8 @@ from app.core.settings import get_settings
 from app.models.schemas import (
     ComparisonResult,
     CompareRequest,
+    DecisionRequest,
+    DecisionResult,
     Crater,
     HorizonMaskOut,
     LocationInput,
@@ -47,6 +49,7 @@ from app.services.geometric import sun_visibility_response
 from app.services.geometric_earth import earth_visibility_response
 from app.services.mission_report import mission_report
 from app.services.report_export import mission_report_markdown
+from app.services.decision import decide
 from app.services.engineering import engineering_response
 from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
@@ -241,20 +244,42 @@ def mission_report_route(site_id: str, window: str = "initial"):
     return mission_report(site_id=site_id, window=window)
 
 
+@router.post("/decision", response_model=DecisionResult)
+def decision(req: DecisionRequest):
+    """Phase 5 Tasks 6-11: evaluate, explain and rank mission candidates.
+
+    The evaluator composes the scenario metrics, the shared requirement checks,
+    maximum darkness and the Phase 5 power/battery model with the caller's
+    average power demand. Only candidates that pass every selected check are
+    ranked; FAIL and UNDECIDED stay visible and are never scored as favorable.
+    """
+    return decide(req)
+
+
 @router.get("/engineering")
-def engineering(site_id: str, window: str = "initial"):
+def engineering(site_id: str, window: str = "initial",
+               load_w: Optional[float] = Query(None, ge=0, le=100_000),
+               panel_design: Optional[str] = None,
+               panel_tilt_deg: Optional[float] = Query(None, ge=0, le=90),
+               panel_azimuth_deg: Optional[float] = Query(None, ge=0, lt=360)):
     """Phase 5 Tasks 1-2: solar-power and direct-to-Earth budgets.
 
     Both budgets use only committed numbers: the hourly Sun/Earth track and Earth
     range from the Phase 2 series, and the terrain-adjusted visibility flags from
-    ``/api/phase3``. The power side reports a fixed horizontal array and a vertical
-    azimuth-tracking array (the polar case), then steps the battery; the link side
-    reports a representative X-band free-space budget with C/N0, supported rate
-    and margin. Assumptions live in ``config -> power / link``, are echoed in the
-    response and are not measured hardware: engineering estimates, not flight
-    budgets.
+    ``/api/phase3``. The power side reports a fixed horizontal array, a vertical
+    azimuth-tracking array (the polar case), and optionally an arbitrary fixed
+    tilt/azimuth design selected with ``panel_design=fixed``. The selected design
+    drives the battery, trace and one-at-a-time sensitivity; the other designs
+    remain visible for comparison. The link side reports a representative X-band
+    free-space budget with C/N0, supported rate and margin. Assumptions live in
+    ``config -> power / link``, are echoed in the response and are not measured
+    hardware: engineering estimates, not flight budgets.
     """
-    return engineering_response(site_id=site_id, window=window)
+    return engineering_response(
+        site_id=site_id, window=window, load_w=load_w,
+        panel_design=panel_design, panel_tilt_deg=panel_tilt_deg,
+        panel_azimuth_deg=panel_azimuth_deg,
+    )
 
 
 @router.get("/mission-report.md", response_class=Response)

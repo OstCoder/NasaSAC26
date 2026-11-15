@@ -11,7 +11,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Literal, Optional
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class Mode(str, Enum):
@@ -354,12 +354,6 @@ class RescheduleRequest(BaseModel):
     mode: Optional[Mode] = None
 
 
-class RescheduleResult(BaseModel):
-    shift_hours: float
-    comparison: ComparisonResult
-    headline_changes: list[MetricDelta]
-
-
 # ------------------------------------------------------- requirements ----
 
 
@@ -379,6 +373,7 @@ class RequirementCheck(BaseModel):
     threshold: float
     value: Optional[float]
     status: RequirementStatus
+    required: bool = Field(True, description="False when the caller made this check advisory")
     detail: str
 
 
@@ -412,12 +407,151 @@ class RequirementThresholdsInput(BaseModel):
     min_sun_visible_pct: Optional[float] = Field(None, ge=0, le=100)
     min_earth_visible_pct: Optional[float] = Field(None, ge=0, le=100)
     max_earth_blackout_hours: Optional[float] = Field(None, ge=0, le=8760)
+    max_darkness_hours: Optional[float] = Field(None, ge=0, le=8760)
 
 
 class RequirementRequest(ScenarioInput):
     """A scenario plus optional threshold overrides (defaults from the config)."""
 
     thresholds: Optional[RequirementThresholdsInput] = None
+
+
+class DecisionThresholdsInput(RequirementThresholdsInput):
+    """Phase 5 requirements, including the power demand used by the power model."""
+
+    power_demand_w: Optional[float] = Field(None, ge=0, le=100_000)
+
+
+class DecisionWeights(BaseModel):
+    """Transparent demonstration weights; they are not a NASA suitability score."""
+
+    sunlight: float = Field(0.4, ge=0)
+    earth_visibility: float = Field(0.3, ge=0)
+    communication: float = Field(0.2, ge=0)
+    science: float = Field(0.0, ge=0)
+
+    @model_validator(mode="after")
+    def _positive_weight(self):
+        if sum((self.sunlight, self.earth_visibility, self.communication, self.science)) <= 0:
+            raise ValueError("At least one decision weight must be greater than zero")
+        return self
+
+
+class DecisionRequest(BaseModel):
+    landing_utc: datetime
+    duration_hours: float = Field(..., gt=0)
+    mode: Optional[Mode] = None
+    site_ids: list[str] = Field(default_factory=list)
+    thresholds: Optional[DecisionThresholdsInput] = None
+    weights: DecisionWeights = Field(default_factory=DecisionWeights)
+    panel_design: Optional[Literal["horizontal", "vertical_tracking", "fixed"]] = None
+    panel_tilt_deg: Optional[float] = Field(None, ge=0, le=90)
+    panel_azimuth_deg: Optional[float] = Field(None, ge=0, lt=360)
+    optional_checks: list[str] = Field(
+        default_factory=list,
+        description="Check ids shown for context but not allowed to gate eligibility",
+    )
+
+    @field_validator("landing_utc")
+    @classmethod
+    def _aware(cls, v: datetime) -> datetime:
+        if v.tzinfo is None:
+            raise ValueError("landing_utc must include a timezone (use Z for UTC)")
+        return v
+
+
+class DecisionBattery(BaseModel):
+    capacity_wh: float
+    usable_wh: float
+    initial_soc_pct: float
+    min_soc_pct: float
+    final_soc_pct: float
+    unserved_wh: float
+    depleted: bool
+    reserve_pct: float
+    reserve_respected: bool
+    verdict: str
+
+
+class DecisionPower(BaseModel):
+    available: bool
+    window: Optional[Literal["initial", "alternative"]] = None
+    load_w: Optional[float] = None
+    load_wh: Optional[float] = None
+    array_energy_wh: Optional[float] = None
+    net_wh: Optional[float] = None
+    battery: Optional[DecisionBattery] = None
+    panel_design: Optional[str] = None
+    panel_tilt_deg: Optional[float] = None
+    panel_azimuth_deg: Optional[float] = None
+    reason: Optional[str] = None
+
+
+class DecisionSite(BaseModel):
+    site_id: str
+    name: str
+    latitude_deg: float
+    longitude_deg: float
+    status: Literal["pass", "fail", "unknown"]
+    satisfied: Optional[bool]
+    checks: list[RequirementCheck]
+    metrics: dict[str, Optional[float]]
+    rank: Optional[int] = None
+    score: Optional[float] = None
+    score_components: dict[str, float] = Field(default_factory=dict)
+    power: DecisionPower
+    nearest_psr: Optional[PsrProximity] = None
+    psrs_within_10_km: Optional[int] = None
+    reasons: list[str] = Field(default_factory=list)
+    risks: list[str] = Field(default_factory=list)
+    provenance: str
+
+
+class DecisionRecommendation(BaseModel):
+    status: Literal["ranked", "no_eligible_site"]
+    top_site_id: Optional[str] = None
+    top_site_name: Optional[str] = None
+    ranked_site_ids: list[str] = Field(default_factory=list)
+    summary: str
+
+
+class DecisionResult(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    schema_id: str = Field(alias="schema")
+    landing_utc: datetime
+    duration_hours: float
+    mode: str
+    thresholds: dict[str, float]
+    weights: dict[str, float]
+    recommendation: DecisionRecommendation
+    sites: list[DecisionSite]
+    notes: list[str] = Field(default_factory=list)
+
+
+class DelayPowerComparison(BaseModel):
+    available: bool
+    original: DecisionPower
+    proposed: DecisionPower
+    deltas: dict[str, Optional[float]] = Field(default_factory=dict)
+    summary: str
+    notes: list[str] = Field(default_factory=list)
+
+
+class DelayRequirementComparison(BaseModel):
+    original: RequirementEvaluation
+    proposed: RequirementEvaluation
+    new_failures: list[str] = Field(default_factory=list)
+    improvements: list[str] = Field(default_factory=list)
+    summary: str
+
+
+class RescheduleResult(BaseModel):
+    shift_hours: float
+    comparison: ComparisonResult
+    headline_changes: list[MetricDelta]
+    power: Optional[DelayPowerComparison] = None
+    requirements: Optional[DelayRequirementComparison] = None
 
 
 class ApiError(BaseModel):

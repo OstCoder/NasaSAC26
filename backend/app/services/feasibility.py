@@ -177,6 +177,7 @@ def feasibility_matrix(settings: Settings | None = None) -> dict:
             "min_sun_visible_pct": thresholds.min_sun_visible_pct,
             "min_earth_visible_pct": thresholds.min_earth_visible_pct,
             "max_earth_blackout_hours": thresholds.max_earth_blackout_hours,
+            "max_darkness_hours": thresholds.max_darkness_hours,
         },
         "rows": rows,
         "notes": NOTES,

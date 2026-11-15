@@ -2,6 +2,8 @@ import * as React from 'react'
 import { api } from '@/services/api'
 import type {
   Crater,
+  DecisionRequest,
+  DecisionResult,
   EngineeringBudget,
   FeasibilityMatrix,
   Mode,
@@ -89,10 +91,37 @@ export function useCraters() {
 }
 
 /** Phase 5: the power and link budgets for one candidate and window. */
-export function useSiteEngineering(siteId: string, window: string) {
+export function useSiteEngineering(
+  siteId: string,
+  window: string,
+  options?: {
+    panelDesign?: 'horizontal' | 'vertical_tracking' | 'fixed'
+    panelTiltDeg?: number
+    panelAzimuthDeg?: number
+    enabled?: boolean
+  },
+) {
+  const enabled = options?.enabled !== false
   return useApiResource<EngineeringBudget>(
-    `engineering:${siteId}:${window}`,
-    (signal) => api.engineering({ siteId, window }, signal),
+    enabled
+      ? `engineering:${siteId}:${window}:${options?.panelDesign ?? 'default'}:${options?.panelTiltDeg ?? ''}:${options?.panelAzimuthDeg ?? ''}`
+      : null,
+    (signal) => api.engineering({
+      siteId,
+      window,
+      panelDesign: options?.panelDesign,
+      panelTiltDeg: options?.panelTiltDeg,
+      panelAzimuthDeg: options?.panelAzimuthDeg,
+    }, signal),
     0,
+  )
+}
+
+/** Phase 5: the decision evaluator and transparent candidate ranking. */
+export function useDecision(body: DecisionRequest | null) {
+  return useApiResource<DecisionResult>(
+    body ? JSON.stringify(body) : null,
+    (signal) => api.decision(body!, signal),
+    300,
   )
 }

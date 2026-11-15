@@ -3,11 +3,13 @@ import { ErrorNotice } from '@/components/ErrorNotice'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Field, Input } from '@/components/ui/field'
 import { useApp } from '@/hooks/useAppContext'
 import { useReadiness, useSiteEngineering } from '@/hooks/useScenario'
 import { api } from '@/services/api'
 import { cn } from '@/lib/utils'
 import type { LinkCase } from '@/types/api'
+import { EnergyTimeline } from './EnergyTimeline'
 
 const WINDOWS = [
   { key: 'initial', label: '1–8 Dec 2026' },
@@ -15,6 +17,7 @@ const WINDOWS = [
 ] as const
 
 type WindowKey = (typeof WINDOWS)[number]['key']
+type PanelDesign = 'horizontal' | 'vertical_tracking' | 'fixed'
 
 const num = (value: number | null | undefined, digits = 0) =>
   value == null ? '—' : value.toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits })
@@ -49,7 +52,24 @@ export function EngineeringBudgetPanel() {
   const [picked, setPicked] = React.useState<string | null>(null)
   const siteId = picked ?? candidates[0]?.site_id ?? 'shackleton-rim'
   const [window, setWindow] = React.useState<WindowKey>('initial')
-  const engineering = useSiteEngineering(siteId, window)
+  const [panelDesign, setPanelDesign] = React.useState<PanelDesign>('vertical_tracking')
+  const [tilt, setTilt] = React.useState('45')
+  const [azimuth, setAzimuth] = React.useState('180')
+  const tiltNum = Number(tilt)
+  const azimuthNum = Number(azimuth)
+  const panelProblem = panelDesign !== 'fixed'
+    ? null
+    : tilt.trim() === '' || !Number.isFinite(tiltNum) || tiltNum < 0 || tiltNum > 90
+      ? 'Panel tilt must be between 0° (horizontal) and 90° (vertical).'
+      : azimuth.trim() === '' || !Number.isFinite(azimuthNum) || azimuthNum < 0 || azimuthNum >= 360
+        ? 'Panel azimuth must be between 0° and 359.9° (0° = north, clockwise).'
+        : null
+  const engineering = useSiteEngineering(siteId, window, {
+    panelDesign,
+    panelTiltDeg: panelDesign === 'fixed' ? tiltNum : undefined,
+    panelAzimuthDeg: panelDesign === 'fixed' ? azimuthNum : undefined,
+    enabled: panelProblem === null,
+  })
 
   const data = engineering.data
   const power = data?.power
@@ -58,8 +78,9 @@ export function EngineeringBudgetPanel() {
   const siteName = data?.site.name ?? siteId
   const aria = data
     ? `${siteName}, ${WINDOWS.find((w) => w.key === window)?.label ?? window}. ` +
-      `Vertical array energy ${num(power?.budget.array_energy_wh)} watt-hours against a ` +
-      `${num(power?.budget.load_wh)} watt-hour load; battery minimum ${num(battery?.min_soc_pct, 1)} percent. ` +
+      `Selected ${power?.design.selected ?? 'array'} energy ${num(power?.budget.array_energy_wh)} ` +
+      `watt-hours against a ${num(power?.budget.load_wh)} watt-hour load; battery minimum ` +
+      `${num(battery?.min_soc_pct, 1)} percent. ` +
       (link?.closes
         ? `Link closes with ${num(link.worst_case?.margin_db, 1)} dB margin at ${num((link.worst_case?.supported_rate_bps ?? 0) / 1e6, 2)} Mbps worst case.`
         : 'Link does not close on the committed geometry.')
@@ -101,8 +122,60 @@ export function EngineeringBudgetPanel() {
           </Tabs>
         </div>
 
+        <div className="space-y-2 rounded border border-rule-soft bg-panel-raised/30 p-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[13px] text-muted">Array design</span>
+            {([
+              ['horizontal', 'Horizontal'],
+              ['vertical_tracking', 'Vertical tracking'],
+              ['fixed', 'Fixed tilt/azimuth'],
+            ] as const).map(([id, label]) => (
+              <Button
+                key={id}
+                size="sm"
+                variant={panelDesign === id ? 'secondary' : 'ghost'}
+                aria-pressed={panelDesign === id}
+                onClick={() => setPanelDesign(id)}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
+          {panelDesign === 'fixed' && (
+            <div className="grid gap-2 sm:grid-cols-2">
+              <Field label="Panel tilt (°)" hint="0° horizontal, 90° vertical">
+                <Input
+                  type="number"
+                  min={0}
+                  max={90}
+                  step={1}
+                  value={tilt}
+                  aria-invalid={panelProblem !== null}
+                  onChange={(e) => setTilt(e.target.value)}
+                />
+              </Field>
+              <Field label="Panel azimuth (°)" hint="0° north, clockwise; direction the panel faces">
+                <Input
+                  type="number"
+                  min={0}
+                  max={359.9}
+                  step={1}
+                  value={azimuth}
+                  aria-invalid={panelProblem !== null}
+                  onChange={(e) => setAzimuth(e.target.value)}
+                />
+              </Field>
+            </div>
+          )}
+          {panelProblem && <p className="text-xs text-alert">{panelProblem}</p>}
+          <p className="text-xs text-faint">
+            The selected design drives the battery, energy timeline and sensitivity cases. The other
+            designs remain in the comparison table. A fixed orientation is user-chosen, not optimised.
+          </p>
+        </div>
+
         {!data ? (
-          !engineering.error && <p className="text-sm text-muted">Loading engineering budget…</p>
+          !engineering.error && !panelProblem && <p className="text-sm text-muted">Loading engineering budget…</p>
         ) : (
           <>
             <div className="grid gap-4 md:grid-cols-2">
@@ -122,10 +195,13 @@ export function EngineeringBudgetPanel() {
                       <tr key={design.id}>
                         <td className="py-1 pr-3 text-muted">
                           {design.label}
-                          {design.id === power.design.recommended && (
+                          {design.id === power.design.selected && (
                             <span className="ml-1 rounded-full border border-both/50 bg-both/10 px-1.5 text-[10px] text-both">
-                              used
+                              selected
                             </span>
+                          )}
+                          {design.id === power.design.recommended && design.id !== power.design.selected && (
+                            <span className="ml-1 text-[10px] text-faint">recommended</span>
                           )}
                         </td>
                         <td className="py-1 pr-3 num text-right text-ink">{num(design.peak_w)} W</td>
@@ -177,6 +253,46 @@ export function EngineeringBudgetPanel() {
               </section>
             </div>
 
+            {power && <EnergyTimeline power={power} />}
+
+            {power?.sensitivity && (
+              <details className="rounded border border-rule-soft bg-panel-raised/40 px-3 py-2 text-xs">
+                <summary className="cursor-pointer text-muted">
+                  Sensitivity · minimum battery range{' '}
+                  <span className="num text-ink">
+                    {num(power.sensitivity.min_soc_range_pct[0], 1)}–{num(power.sensitivity.min_soc_range_pct[1], 1)}%
+                  </span>
+                </summary>
+                <div className="mt-2 overflow-x-auto">
+                  <table className="w-full min-w-[520px] text-left">
+                    <thead>
+                      <tr className="text-faint">
+                        <th className="px-2 py-1 font-medium">Case</th>
+                        <th className="px-2 py-1 text-right font-medium">Load</th>
+                        <th className="px-2 py-1 text-right font-medium">Array</th>
+                        <th className="px-2 py-1 text-right font-medium">Min SOC</th>
+                        <th className="px-2 py-1 text-right font-medium">Unserved</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {power.sensitivity.cases.map((item) => (
+                        <tr key={item.id}>
+                          <td className="border-t border-rule-soft px-2 py-1 text-muted">{item.label}</td>
+                          <td className="num border-t border-rule-soft px-2 py-1 text-right">{num(item.load_w)} W</td>
+                          <td className="num border-t border-rule-soft px-2 py-1 text-right">{num(item.array_energy_wh)} Wh</td>
+                          <td className={cn('num border-t border-rule-soft px-2 py-1 text-right', item.reserve_respected ? 'text-both' : 'text-sun')}>
+                            {num(item.min_soc_pct, 1)}%
+                          </td>
+                          <td className="num border-t border-rule-soft px-2 py-1 text-right">{num(item.unserved_wh)} Wh</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-1 text-[11px] text-faint">{power.sensitivity.method} {power.sensitivity.limits.join(' ')}</p>
+              </details>
+            )}
+
             {battery && (
               <p className={cn('text-xs', battery.depleted ? 'text-sun' : 'text-muted')}>{battery.verdict}</p>
             )}
@@ -186,6 +302,25 @@ export function EngineeringBudgetPanel() {
               <summary className="cursor-pointer text-muted">Assumptions behind these numbers</summary>
               <ul className="mt-2 list-disc space-y-1 pl-4 text-faint">
                 <li>Power: {power?.assumptions.basis}</li>
+                {power && (
+                  <li>
+                    Selected array: {power.design.selected}
+                    {power.design.selected === 'fixed'
+                      ? `, tilt ${num(power.design.tilt_deg, 1)}°, facing ${num(power.design.azimuth_deg, 1)}°`
+                      : power.design.tracking ? ', azimuth-tracking' : ''}.
+                  </li>
+                )}
+                {power && (
+                  <li>
+                    Array: {num(power.assumptions.panel_area_m2, 1)} m²,{' '}
+                    {num(power.assumptions.cell_efficiency * 100, 0)}% cell efficiency,{' '}
+                    {num(power.assumptions.packing_factor * 100, 0)}% packing,{' '}
+                    {num(power.assumptions.harness_and_soiling_factor * 100, 0)}% harness/soiling.
+                    Battery: {num(power.assumptions.battery_capacity_wh)} Wh,{' '}
+                    {num(power.assumptions.battery_max_depth_of_discharge * 100, 0)}% usable depth,
+                    initial {num(power.assumptions.initial_state_of_charge * 100, 0)}% SOC.
+                  </li>
+                )}
                 <li>Link: {link?.assumptions.basis}</li>
               </ul>
             </details>

@@ -204,6 +204,34 @@ class TestReschedule:
         assert b["comparison"]["a"]["label"] == "Original"
 
 
+class TestReschedulePower:
+    def test_reschedule_compares_power_and_requirement_verdicts(self, client):
+        r = client.post("/api/reschedule", json={
+            "location": {"site_id": "de-gerlache-rim"},
+            "original_landing_utc": "2026-12-01T00:00:00Z",
+            "proposed_landing_utc": "2026-12-11T00:00:00Z",
+            "duration_hours": 168,
+        })
+        assert r.status_code == 200, r.text
+        body = r.json()
+        power = body["power"]
+        assert power["available"] is True
+        assert power["original"]["window"] == "initial"
+        assert power["proposed"]["window"] == "alternative"
+        assert power["original"]["battery"]["capacity_wh"] > 0
+        assert power["proposed"]["battery"]["capacity_wh"] > 0
+        assert power["deltas"]["array_energy_wh"] == pytest.approx(
+            power["proposed"]["array_energy_wh"] - power["original"]["array_energy_wh"], abs=1e-2)
+        assert "Array energy" in power["summary"]
+
+        requirements = body["requirements"]
+        assert {check["id"] for check in requirements["original"]["checks"]} == {
+            "min_sun_visible_pct", "min_earth_visible_pct",
+            "max_earth_blackout_hours", "max_darkness_hours",
+        }
+        assert requirements["summary"]
+
+
 class TestModes:
     def test_scientific_mode_without_data_returns_503(self, client):
         r = client.post("/api/scenario", json=scenario(mode="scientific"))
