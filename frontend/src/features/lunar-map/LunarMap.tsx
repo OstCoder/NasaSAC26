@@ -86,6 +86,7 @@ const IMAGERY_BOUNDS = L.latLngBounds([-OUTER, -OUTER], [OUTER, OUTER])
 
 export function LunarMap({
   sites, selections, activeSlot, onSelectSite, onPickCoordinates, className, imagery, onImageryError, craters, sun,
+  showPsrs = true, highlightPsrId = null,
 }: LunarMapProps) {
   const [zoom, setZoom] = React.useState(0)
   const { shapes: psrShapes } = usePsrs()
@@ -158,14 +159,25 @@ export function LunarMap({
           />
         ))}
 
-        {psrShapes.map(({ psr, positions }) => (
-          <Polygon
-            key={psr.psr_id}
-            positions={positions}
-            interactive={false}
-            pathOptions={{ color: '#41597e', weight: 1, dashArray: '2 3', opacity: 0.65, fillColor: '#0b1526', fillOpacity: 0.45 }}
-          />
-        ))}
+        {showPsrs && psrShapes.map(({ psr, positions }) => {
+          const nearest = psr.psr_id === highlightPsrId
+          return (
+            <Polygon
+              key={psr.psr_id}
+              positions={positions}
+              interactive={nearest}
+              pathOptions={nearest
+                ? { color: CHART_COLORS.sun, weight: 2, dashArray: '4 2', opacity: 0.95, fillColor: CHART_COLORS.sun, fillOpacity: 0.18 }
+                : { color: '#41597e', weight: 1, dashArray: '2 3', opacity: 0.65, fillColor: '#0b1526', fillOpacity: 0.45 }}
+            >
+              {nearest && (
+                <Tooltip permanent direction="top" className="lunanav-tip">
+                  Nearest mapped PSR · {psr.near_crater || psr.psr_id} · {psr.area_km2.toFixed(0)} km²
+                </Tooltip>
+              )}
+            </Polygon>
+          )
+        })}
 
         {night && (
           <Polygon
@@ -244,8 +256,16 @@ export function LunarMap({
         {imagery && imgState === 'loading' && 'Loading sharp imagery from NASA/JPL Moon Trek… (a first load downloads tiles and takes a few seconds)'}
         {imagery && imgState === 'error' && 'Imagery unavailable. Showing reference outlines only.'}
         {!imagery && !LUNAR_TILE_URL && 'Reference map: graticule, shaded PSR polygons and IAU crater outlines.'}
-        {psrShapes.length > 0 && 'Shaded polygons: permanently shadowed regions (LROC, >5 km²).'}
       </div>
+      {showPsrs && psrShapes.length > 0 && (
+        <div className="pointer-events-none absolute top-2 right-2 z-[500] rounded bg-night/85 px-2 py-1.5 text-[11px] leading-snug text-faint">
+          <p className="flex items-center gap-1.5 text-muted">
+            <i className="size-2.5 rounded-sm border border-[#41597e] bg-[#0b1526]" aria-hidden />
+            PSR · LROC/LOLA &gt;5 km²
+          </p>
+          {highlightPsrId && <p className="mt-0.5 text-sun">Gold outline: nearest to selected site</p>}
+        </div>
+      )}
     </div>
   )
 }

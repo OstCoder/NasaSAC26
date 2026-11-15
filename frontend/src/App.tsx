@@ -10,7 +10,9 @@ import { MethodologyPage } from '@/features/methodology/MethodologyPage'
 import { MissionPlannerPage } from '@/features/mission-planner/MissionPlannerPage'
 import { AppProvider } from '@/hooks/useAppContext'
 
-const VIEWS: View[] = ['planner', 'decision', 'compare', 'methodology']
+const VIEWS: View[] = ['planner', 'science', 'decision', 'compare', 'methodology']
+
+const SciencePage = React.lazy(() => import('@/features/science/SciencePage'))
 
 const DATA_SOURCES = [
   { label: 'NASA LROC QuickMap', href: 'https://quickmap.lroc.asu.edu/' },
@@ -72,6 +74,11 @@ function Shell() {
       <TopNav view={view} onView={setView} />
       <main className="mx-auto max-w-[1500px] px-4 py-4">
         {view === 'planner' && <MissionPlannerPage onCompare={() => setView('compare')} />}
+        {view === 'science' && (
+          <React.Suspense fallback={<p className="text-sm text-muted">Loading science context…</p>}>
+            <SciencePage />
+          </React.Suspense>
+        )}
         {view === 'decision' && <DecisionDashboard />}
         {view === 'compare' && <ComparisonPage />}
         {view === 'methodology' && <MethodologyPage />}

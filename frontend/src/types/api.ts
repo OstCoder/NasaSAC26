@@ -111,6 +111,110 @@ export interface PsrOut {
   rings: number[][][]
 }
 
+/** Phase 6 science context. Distance is geometry, never a traverse or ice detection. */
+export interface SciencePsrEntry {
+  psr_id: string
+  label: string
+  near_crater: string | null
+  area_km2: number
+  perimeter_km: number
+  boundary_distance_km: number
+  centroid_distance_km: number
+  inside: boolean
+  distance_uncertainty_km: number
+  centroid_latitude_deg: number
+  centroid_longitude_deg: number
+}
+
+export interface SciencePsrCatalogue {
+  schema: 'lunanav.science_psr_catalogue.v1'
+  count: number
+  catalogue_count: number
+  area_threshold_km2: number
+  max_latitude_deg: number
+  projection: Record<string, unknown> | null
+  source: Record<string, unknown> | null
+  psrs: (PsrOut & { boundary_distance_km?: number })[]
+  limits: string[]
+}
+
+export interface ScienceNearestPsr {
+  schema: 'lunanav.science_context.v1'
+  query: {
+    site_id: string | null
+    name: string
+    latitude_deg: number
+    longitude_deg: number
+    radius_km: number
+  }
+  nearest_psr: SciencePsrEntry
+  nearby_psrs: SciencePsrEntry[]
+  nearby_count: number
+  status: 'inside' | 'mapped'
+  water_ice: {
+    confirmed: null
+    status: 'not_assessed'
+    evidence: string[]
+    interpretation: string
+  }
+  distance_basis: string
+  source: Record<string, unknown>
+  limits: string[]
+  notes: string[]
+}
+
+export interface ScienceSiteContext {
+  schema: 'lunanav.science_context.v1'
+  site: {
+    site_id: string
+    name: string
+    latitude_deg: number
+    longitude_deg: number
+    elevation_m: number | null
+    slope_deg: number | null
+    region: string
+    description: string
+    sources: SourceRef[]
+  }
+  nearest_psr: SciencePsrEntry
+  nearby_psrs: SciencePsrEntry[]
+  nearby_count: number
+  terrain: {
+    available: boolean
+    basis: 'terrain' | 'geometric'
+    geometric_only: boolean
+    source: string
+    provenance: string
+    observer_height_m: number
+    coverage: TerrainCoverage
+    uncertainty: TerrainUncertainty
+    limits: string[]
+  }
+  visibility_windows: Record<string, {
+    available: boolean
+    label?: string
+    start_utc?: string
+    stop_utc?: string
+    sun_visible_pct?: number | null
+    earth_visible_pct?: number | null
+    longest_sun_blackout_hours?: number | null
+    longest_earth_blackout_hours?: number | null
+    reason?: string
+  }>
+  science: {
+    water_ice_confirmed: null
+    water_ice_status: 'not_assessed'
+    water_ice_evidence: string[]
+    psr_interpretation: string
+    temperature: null
+    temperature_note: string
+  }
+  status: 'calculated' | 'partial'
+  provenance: Record<string, string | null>
+  limits: string[]
+  notes: string[]
+}
+
 export interface ScenarioInput {
   location: LocationInput
   landing_utc: string

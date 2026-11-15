@@ -27,6 +27,10 @@ export interface LunarMapProps {
   craters?: Crater[] | null
   /** Sub-solar point used to shade the night side. */
   sun?: SubPoint | null
+  /** Phase 6: show the verified LROC/LOLA PSR polygons. */
+  showPsrs?: boolean
+  /** Phase 6: draw this PSR as the nearest mapped region to the selected site. */
+  highlightPsrId?: string | null
   className?: string
 }
 

@@ -44,6 +44,11 @@ from app.services.nasa_validation import build_report as build_validation_report
 from app.services.imagery import get_imagery
 from app.services.jpl_status import jpl_status
 from app.services.psr import get_psr_catalogue
+from app.services.science import (
+    nearest_psr_response,
+    psr_catalogue_response,
+    site_context_response,
+)
 from app.services.feasibility import feasibility_matrix
 from app.services.geometric import sun_visibility_response
 from app.services.geometric_earth import earth_visibility_response
@@ -348,6 +353,59 @@ def psrs(
             rings=[[list(pt) for pt in ring] for ring in p.rings],
         ))
     return out
+
+
+@router.get("/science/psrs")
+def science_psrs(
+    min_area_km2: float = Query(5.0, ge=0),
+    max_latitude_deg: float = Query(-80.0, le=0, gt=-90),
+    near_site_id: Optional[str] = None,
+    radius_km: float = Query(30.0, ge=0, le=200),
+):
+    """Phase 6: verified PSR polygons plus their source and geometry metadata.
+
+    Same LROC/LOLA catalogue as ``GET /api/psrs``; the envelope keeps the
+    dataset provenance next to the geometry so a client can show attribution
+    without hardcoding it.
+    """
+    return psr_catalogue_response(
+        min_area_km2=min_area_km2, max_latitude_deg=max_latitude_deg,
+        near_site_id=near_site_id, radius_km=radius_km)
+
+
+@router.get("/science/nearest-psr")
+def science_nearest_psr(
+    site_id: Optional[str] = None,
+    latitude_deg: Optional[float] = Query(None, ge=-90, le=90),
+    longitude_deg: Optional[float] = Query(None, ge=-360, le=360),
+    radius_km: float = Query(10.0, ge=0, le=200),
+    limit: int = Query(5, ge=1, le=50),
+):
+    """Phase 6: nearest mapped PSR and nearby PSRs for a site or coordinate.
+
+    ``boundary_distance_km`` is the minimum point-to-polygon distance (zero
+    inside). ``centroid_distance_km`` is the haversine value. Neither is a
+    traverse distance, and neither proves water ice.
+    """
+    return nearest_psr_response(
+        site_id=site_id, latitude_deg=latitude_deg, longitude_deg=longitude_deg,
+        radius_km=radius_km, limit=limit)
+
+
+@router.get("/science/site-context")
+def science_site_context(site_id: str):
+    """Phase 6: PSR, terrain and visibility context for one landing site.
+
+    The water-ice field is explicitly withheld (``confirmed: null`` with status
+    ``not_assessed``) because the committed data contains no ice detection.
+    """
+    return site_context_response(site_id=site_id)
+
+
+@router.get("/terrain/mesh")
+def terrain_mesh(site_id: str):
+    """Phase 6 alias for the committed pooled site DEM used by the 3D view."""
+    return terrain_dem_response(site_id=site_id)
 
 
 @router.get("/horizon-mask", response_model=HorizonMaskOut)

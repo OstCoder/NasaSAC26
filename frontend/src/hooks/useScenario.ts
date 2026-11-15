@@ -10,6 +10,7 @@ import type {
   Phase3Windows,
   ReadinessReport,
   ScenarioResult,
+  ScienceSiteContext,
   SiteSeries,
   SkyNow,
   Snapshot,
@@ -113,6 +114,15 @@ export function useSiteEngineering(
       panelTiltDeg: options?.panelTiltDeg,
       panelAzimuthDeg: options?.panelAzimuthDeg,
     }, signal),
+    0,
+  )
+}
+
+/** Phase 6: verified PSR, terrain and visibility context for one candidate. */
+export function useScienceSiteContext(siteId: string | null) {
+  return useApiResource<ScienceSiteContext>(
+    siteId ? `science-context:${siteId}` : null,
+    (signal) => api.scienceSiteContext(siteId!, signal),
     0,
   )
 }

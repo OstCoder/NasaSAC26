@@ -27,6 +27,9 @@ import type {
   Site,
   SiteSeries,
   Snapshot,
+  ScienceNearestPsr,
+  SciencePsrCatalogue,
+  ScienceSiteContext,
   TerrainDem,
   TerrainHorizon,
 } from '@/types/api'
@@ -148,6 +151,32 @@ export const api = {
     signal?: AbortSignal,
   ) => post<Snapshot>('/api/snapshot', body, signal),
   craters: (signal?: AbortSignal) => request<Crater[]>('/api/craters', { signal }),
+  /** Phase 6: verified PSR catalogue with source metadata. */
+  sciencePsrs: (opts?: { minAreaKm2?: number; maxLat?: number; nearSiteId?: string; radiusKm?: number }, signal?: AbortSignal) => {
+    const q = new URLSearchParams()
+    if (opts?.minAreaKm2 !== undefined) q.set('min_area_km2', String(opts.minAreaKm2))
+    if (opts?.maxLat !== undefined) q.set('max_latitude_deg', String(opts.maxLat))
+    if (opts?.nearSiteId) q.set('near_site_id', opts.nearSiteId)
+    if (opts?.radiusKm !== undefined) q.set('radius_km', String(opts.radiusKm))
+    const qs = q.toString()
+    return request<SciencePsrCatalogue>(`/api/science/psrs${qs ? `?${qs}` : ''}`, { signal })
+  },
+  /** Phase 6: nearest mapped PSR and nearby mapped regions. */
+  scienceNearestPsr: (
+    opts: { siteId?: string; latitudeDeg?: number; longitudeDeg?: number; radiusKm?: number; limit?: number },
+    signal?: AbortSignal,
+  ) => {
+    const q = new URLSearchParams()
+    if (opts.siteId) q.set('site_id', opts.siteId)
+    if (opts.latitudeDeg !== undefined) q.set('latitude_deg', String(opts.latitudeDeg))
+    if (opts.longitudeDeg !== undefined) q.set('longitude_deg', String(opts.longitudeDeg))
+    if (opts.radiusKm !== undefined) q.set('radius_km', String(opts.radiusKm))
+    if (opts.limit !== undefined) q.set('limit', String(opts.limit))
+    return request<ScienceNearestPsr>(`/api/science/nearest-psr?${q.toString()}`, { signal })
+  },
+  /** Phase 6: PSR, terrain and visibility context for one candidate. */
+  scienceSiteContext: (siteId: string, signal?: AbortSignal) =>
+    request<ScienceSiteContext>(`/api/science/site-context?site_id=${encodeURIComponent(siteId)}`, { signal }),
   /** PSR polygons (LROC/LOLA); rings in south polar stereographic km. */
   psrs: (opts?: { minAreaKm2?: number; maxLat?: number; nearSiteId?: string; radiusKm?: number }, signal?: AbortSignal) => {
     const q = new URLSearchParams()

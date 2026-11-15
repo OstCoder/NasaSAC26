@@ -82,6 +82,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
   const shownEarth = (live ? skyNow.data?.earth : snapshot.data?.earth.sub_point) ?? null
   const [imageryLayer, setImageryLayer] = React.useState<string>(features.lunar_imagery ? config.imagery.default_layer : '')
   const [imageryError, setImageryError] = React.useState<string | null>(null)
+  const [showPsrs, setShowPsrs] = React.useState(true)
   const imageryCredit = imageryLayer ? (config.imagery.layers[imageryLayer]?.credit ?? '') : ''
 
   return (
@@ -125,6 +126,8 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                 onImageryError={(url) => api.imageryError(url).then((e) => setImageryError(e?.message ?? 'Image failed to load.'))}
                 craters={craters}
                 sun={shownSun}
+                showPsrs={showPsrs}
+                highlightPsrId={site?.nearest_psr?.psr_id ?? null}
                 onSelectSite={(s, which) => (which === 'A' ? setDraftA : setDraftB)((d) => ({ ...d, ...siteDraftLocation(s) }))}
                 onPickCoordinates={
                   features.custom_coordinates
@@ -215,6 +218,10 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
             </div>
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+              <label className="flex items-center gap-2 text-[13px] text-muted">
+                <input type="checkbox" checked={showPsrs} onChange={(e) => setShowPsrs(e.target.checked)} />
+                PSR layer
+              </label>
               {features.lunar_imagery && (
                 <label className="flex items-center gap-2 text-[13px] text-muted">
                   Imagery

@@ -160,6 +160,7 @@
     "experimental_ai_explanations": false,
     "experimental_report_export": true,
     "decision_support": true,
+    "science_exploration": true,
     "lunar_imagery": true,
     "lunar_globe_3d": true
   },
