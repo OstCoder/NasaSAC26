@@ -157,6 +157,19 @@
   color: #dde5f0;
   text-shadow: 0 0 3px #000, 0 0 2px #000;
 }
-.leaflet-image-layer {
-  image-rendering: auto;
+/* Print: clean mission report output */
+@media print {
+  body { background: #fff; color: #000; }
+  header, nav, footer, .no-print { display: none !important; }
+  main { max-width: 100% !important; padding: 0 !important; }
+  .card, section { break-inside: avoid; border: 1px solid #ccc !important; background: #fff !important; }
+}
+
+/* Print stylesheet (mission report). */
+@media print {
+  nav, header, footer, .no-print { display: none !important; }
+  body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+  main { max-width: 100% !important; padding: 0 !important; }
+  .card, [class*="rounded"] { box-shadow: none !important; border: 1px solid #ccc !important; }
+  a { color: #000 !important; text-decoration: none !important; }
 }

@@ -160,6 +160,9 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
 
   return (
     <div className="space-y-4">
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {scenario.loading ? 'Calculating visibility…' : result ? 'Visibility data ready.' : ''}
+      </span>
       {result && <ProvenanceCallout provenance={result.provenance} />}
       <div className="flex flex-wrap items-center justify-end gap-2">
         {savedScenarios.length > 0 && (

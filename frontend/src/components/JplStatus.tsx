@@ -18,6 +18,10 @@ export function JplStatusPill() {
       .finally(() => setChecking(false))
   }, [])
   React.useEffect(() => check(false), [check])
+  React.useEffect(() => {
+    const id = window.setInterval(() => check(true), 5 * 60 * 1000)
+    return () => window.clearInterval(id)
+  }, [check])
 
   const up = status ? [status.horizons.reachable, status.trek.reachable].filter(Boolean).length : 0
   const tone = checking && !status ? 'checking' : !status ? 'down' : up === 2 ? 'up' : up === 1 ? 'partial' : 'down'
