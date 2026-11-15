@@ -1,823 +1,796 @@
 
-# Phase 5 — Mission Planning Intelligence & Decision Support
-
-> **Status (14 Nov 2026):** Core Tasks 1–12 and every Advanced Completion Criterion are implemented. Automated coverage is 341 backend tests and 45
-> frontend tests; the Phase 4 browser matrix remains 13/13, and the Phase 5 browser/API matrix passes 6/6
-> (`npm run acceptance:phase5`, evidence in `docs/PHASE5_ACCEPTANCE.md`). The key milestone is covered by a
-> backend date/load test and a live browser date/load check.
+# Phase 6 — Scientific Exploration & Advanced Visualization
 
 ## Objective
 
-Develop the decision-support features for our NASA
-Space Apps Challenge 2026 Lunar Landing Site Navigator.
+Enhance our NASA Space Apps Challenge 2026 Lunar
+Landing Site Navigator with scientific exploration
+features, advanced lunar visualizations, and
+improved educational experiences.
 
-Build upon the scientific calculations from Phase 3
-and the interactive website developed in Phase 4.
+Build upon the astronomical calculations from
+Phase 3, the interactive website from Phase 4,
+and the mission decision-support system from Phase 5.
 
-Enable users to define spacecraft requirements,
-evaluate landing-site suitability, compare mission
-scenarios, and understand the trade-offs between
-sunlight availability, Earth communication, and
-scientific exploration opportunities.
+Focus on helping users understand the relationship
+between:
 
-By the end of Phase 5, our website should help
-users understand not only what conditions exist
-at a lunar site, but what those conditions mean
-for a hypothetical mission.
+1. Lunar south-pole geography.
+2. Sunlight and shadow conditions.
+3. Direct-to-Earth communication opportunities.
+4. Permanently shadowed regions (PSRs).
+5. Potential water-ice exploration.
+6. Landing-site engineering constraints.
+
+By the end of Phase 6, our website should provide
+a more complete understanding of why some lunar
+locations are scientifically interesting but
+operationally challenging.
 
 ---
 
-## Task 1: Develop Adjustable Mission Requirements
+## Task 1: Research Permanently Shadowed Regions (PSRs)
 
-- [x] Create a mission requirements configuration.
-- [x] Allow users to define minimum sunlight availability.
-- [x] Allow users to define minimum Earth visibility.
-- [x] Allow users to define maximum communication blackout.
-- [x] Allow users to define maximum darkness duration.
-- [x] Allow users to choose mission duration.
-- [x] Allow users to set spacecraft power requirements.
-- [x] Validate all user-provided values.
-- [x] Store requirements in a consistent format.
-- [x] Connect the requirements to the backend.
-- [x] Update mission evaluations when requirements change.
+- [ ] Research what permanently shadowed regions are.
+- [ ] Understand why PSRs exist near the lunar poles.
+- [ ] Research how low solar elevation and crater
+      geometry create long-term shadowing.
+- [ ] Investigate why PSRs may preserve water ice.
+- [ ] Identify PSRs near our three candidate sites.
+- [ ] Find verified NASA datasets showing PSR boundaries.
+- [ ] Review dataset resolution and coordinate systems.
+- [ ] Record sources and scientific limitations.
+- [ ] Distinguish permanent shadowing from temporary
+      darkness during the selected mission period.
+- [ ] Document why PSRs are scientifically valuable.
 
-### Default Mission Requirements
+### Key Scientific Concepts
 
-| Requirement | Example Value |
-|-------------|---------------|
-| Mission Duration | 168 hours |
-| Minimum Sunlight | 60% |
-| Minimum Earth Visibility | 50% |
-| Maximum Communication Blackout | 12 hours |
-| Maximum Darkness | 16 hours |
-| Average Spacecraft Power Demand | 40 W |
+Permanently Shadowed Region (PSR):
+A location where direct sunlight does not reach
+the surface over the relevant long-term solar
+illumination cycle because of local geometry.
 
-These are hypothetical demonstration requirements,
-not official NASA mission specifications.
+Water Ice:
+Some permanently shadowed regions may contain
+water ice or other volatile materials.
 
-### Example Configuration
+Scientific Importance:
+Studying these regions could help scientists
+understand lunar water, volatile preservation,
+and resources for future exploration.
 
-```json
-{
-  "mission_name": "Polar Ice Scout",
-  "duration_hours": 168,
-  "requirements": {
-    "min_sunlight_percent": 60,
-    "min_earth_visibility_percent": 50,
-    "max_communication_blackout_hours": 12,
-    "max_darkness_hours": 16,
-    "average_power_demand_watts": 40
-  }
-}
-```
+### Important
+
+Not every PSR contains confirmed water ice.
+
+Our application must not claim that a location
+contains accessible ice solely because it
+is permanently shadowed.
 
 ### Deliverable
 
-A configurable mission requirements system that
-allows users to evaluate lunar landing sites
-against different operational constraints.
+A documented collection of verified PSR datasets,
+scientific references, and candidate exploration
+regions near our selected landing sites.
+
+### Resources
+
+NASA LROC QuickMap:
+https://quickmap.lroc.asu.edu/
+
+NASA Moon Trek:
+https://trek.nasa.gov/moon/
+
+NASA Science:
+https://science.nasa.gov/
 
 ---
 
-## Task 2: Build the Mission Feasibility Evaluator
+## Task 2: Integrate PSR Data Into the Lunar Map
 
-- [x] Load calculated mission metrics from Phase 3.
-- [x] Load the user's selected mission requirements.
-- [x] Compare each metric against its requirement.
-- [x] Evaluate sunlight availability.
-- [x] Evaluate Earth visibility.
-- [x] Evaluate maximum darkness duration.
-- [x] Evaluate maximum communication blackout.
-- [x] Evaluate energy requirements when modeled.
-- [x] Identify failed requirements.
-- [x] Identify unavailable or incomplete measurements.
-- [x] Generate a feasibility explanation.
-- [x] Return structured results to the frontend.
+- [ ] Obtain a usable PSR boundary dataset.
+- [ ] Check the dataset's geographic coverage.
+- [ ] Confirm its lunar coordinate reference system.
+- [ ] Convert PSR data into a frontend-compatible format.
+- [ ] Align PSR boundaries with the lunar map projection.
+- [ ] Display PSRs as a separate map layer.
+- [ ] Add a toggle to enable or disable the layer.
+- [ ] Highlight PSRs near the selected landing sites.
+- [ ] Display PSR boundaries with appropriate labels.
+- [ ] Add a legend explaining the layer.
+- [ ] Verify map alignment against source data.
+- [ ] Display attribution for the scientific dataset.
 
-### Evaluation Logic
+### Suggested Map Layers
 
-Each requirement should have one of three statuses:
+Layer 1:
+Lunar Surface Imagery
 
-- PASS — The modeled condition meets the requirement.
-- FAIL — The modeled condition violates the requirement.
-- UNKNOWN — Data is insufficient to evaluate the requirement.
+Layer 2:
+Candidate Landing Sites
 
-Overall mission constraint status:
+Layer 3:
+Terrain Elevation
 
-PASS:
-All required constraints pass.
+Layer 4:
+Permanently Shadowed Regions
 
-FAIL:
-At least one required constraint fails.
+Layer 5:
+Sunlight and Earth Visibility Information
 
-UNKNOWN:
-No constraint fails, but one or more required
-constraints cannot be evaluated.
+### Important
 
-### Example Evaluation
+PSR boundaries must come from verified scientific
+data rather than manually drawn approximations
+presented as factual boundaries.
+
+Ensure overlays align correctly with the
+lunar map's coordinate system and projection.
+
+### Deliverable
+
+An interactive lunar map with verified PSR
+boundaries displayed alongside candidate
+landing sites.
+
+---
+
+## Task 3: Calculate Proximity to PSRs
+
+- [ ] Load the selected landing site coordinates.
+- [ ] Load verified PSR boundaries.
+- [ ] Identify nearby permanently shadowed regions.
+- [ ] Calculate the minimum surface distance from
+      each landing site to nearby PSR boundaries.
+- [ ] Use lunar surface geometry for distance estimates.
+- [ ] Identify the nearest mapped PSR.
+- [ ] Display proximity measurements in kilometers.
+- [ ] Compare PSR proximity across landing sites.
+- [ ] Handle sites with no nearby mapped PSRs.
+- [ ] Record uncertainty caused by dataset resolution.
+- [ ] Clearly distinguish distance from accessibility.
+
+### Simplified Lunar Surface Distance
+
+For two positions on an ideal spherical Moon:
+
+d = R × c
+
+Where:
+
+d = Surface distance
+R = Approximate lunar radius
+c = Central angular separation between positions
+
+Using the haversine relationship:
+
+a =
+sin²(Δlatitude / 2) +
+cos(latitude1) × cos(latitude2) ×
+sin²(Δlongitude / 2)
+
+c = 2 × atan2(sqrt(a), sqrt(1 - a))
+
+All angular inputs must be in radians.
+
+A commonly used mean lunar radius is
+approximately 1737.4 kilometers.
+
+For proximity to a PSR polygon, calculate
+the minimum distance to its boundary or
+interior rather than only to its center.
+
+### Important
+
+Surface distance does not indicate whether
+a rover can safely travel between locations.
+
+Actual accessibility depends on:
+
+- Terrain slope
+- Crater walls
+- Obstacles
+- Surface conditions
+- Rover capabilities
+- Thermal and power constraints
+
+### Deliverable
+
+A PSR proximity analysis function that
+reports distances from candidate landing
+sites to nearby mapped PSRs.
+
+---
+
+## Task 4: Create a Water-Ice Exploration Mode
+
+- [ ] Add an optional science exploration mode.
+- [ ] Allow users to prioritize proximity to PSRs.
+- [ ] Display nearby scientifically interesting regions.
+- [ ] Combine PSR proximity with sunlight metrics.
+- [ ] Combine PSR proximity with Earth visibility metrics.
+- [ ] Compare candidate sites based on these factors.
+- [ ] Display conflicts between engineering and
+      scientific exploration priorities.
+- [ ] Identify sites that satisfy selected constraints.
+- [ ] Explain why a nearby PSR may be interesting.
+- [ ] Clearly identify unsupported scientific claims.
+- [ ] Avoid claiming confirmed water ice without evidence.
+
+### Example User Scenario
+
+A mission planner wants to investigate potential
+water ice near the Moon's south pole.
+
+The spacecraft requires:
+
+- Adequate solar illumination.
+- Acceptable direct-to-Earth visibility.
+- Suitable battery reserves.
+- Proximity to a scientifically interesting PSR.
+
+Our application compares potential landing sites
+and explains the trade-offs.
+
+### Example Output
 
 Site A:
+Strong sunlight availability but relatively
+far from the nearest mapped PSR.
 
-| Requirement | Result |
-|-------------|--------|
-| Minimum Sunlight | PASS |
-| Minimum Earth Visibility | PASS |
-| Maximum Darkness | PASS |
-| Maximum Communication Blackout | FAIL |
+Site B:
+Moderate sunlight availability with a
+closer mapped PSR.
 
-Overall Result:
-FAIL
+Site C:
+Potentially interesting science location,
+but extended Earth visibility blackouts.
 
-Reason:
-Site A exceeds the maximum allowed direct-to-Earth
-visibility blackout duration.
-
-### Important
-
-Passing the selected constraints does not mean a
-landing site is safe, approved, or flight-ready.
-
-The evaluator does not automatically account for
-landing hazards, radiation, all thermal constraints,
-communications link budgets, or other mission risks.
-
-### Deliverable
-
-A constraint-based feasibility engine that
-evaluates landing sites and clearly explains
-which requirements pass, fail, or remain unknown.
-
----
-
-## Task 3: Develop Solar Power Estimation
-
-- [x] Read Sun elevation and azimuth data.
-- [x] Read terrain-adjusted Sun visibility when available.
-- [x] Define the solar panel area.
-- [x] Define the solar panel efficiency.
-- [x] Define the solar panel orientation.
-- [x] Set a documented solar irradiance assumption.
-- [x] Calculate the angle of sunlight incidence.
-- [x] Estimate instantaneous solar power generation.
-- [x] Set direct solar generation to zero when
-      the Sun is fully obstructed.
-- [x] Calculate estimated energy generation over time.
-- [x] Account for varying observation time intervals.
-- [x] Document model assumptions and limitations.
-
-### Solar Power Model
-
-A simplified solar power equation is:
-
-P = S × A × efficiency × max(0, cos(theta))
-
-Where:
-
-P = Estimated solar power output (W)
-S = Solar irradiance (W/m²)
-A = Solar panel area (m²)
-theta = Angle between sunlight direction
-        and the panel's surface normal
-
-For a horizontal panel:
-
-P = S × A × efficiency × max(0, sin(elevation))
-
-For other panel orientations, calculate the
-angle of incidence using both solar elevation
-and azimuth.
-
-### Example Spacecraft Assumptions
-
-| Parameter | Example |
-|-----------|---------|
-| Solar Panel Area | 2 m² |
-| Panel Efficiency | 25% |
-| Solar Irradiance | 1361 W/m² |
-| Panel Orientation | Horizontal |
-| Power Demand | 40 W |
-
-These are hypothetical demonstration values.
+These are illustrative descriptions,
+not calculated results.
 
 ### Important
 
-Actual spacecraft power depends on solar
-array orientation, temperature, degradation,
-electrical losses, and hardware design.
+The best site is not necessarily the closest
+site to a permanently shadowed region.
 
-Near the lunar poles, fixed vertical or
-Sun-tracking solar panels may perform
-differently from horizontal panels.
-
-Do not use Sun visibility percentage alone
-as a substitute for energy calculations.
+Engineering constraints must still be evaluated.
 
 ### Deliverable
 
-A simplified, documented solar power estimation
-module that calculates estimated electrical
-generation over the mission timeline.
+A science-focused mission planning mode that
+combines PSR proximity with operational metrics.
 
 ---
 
-## Task 4: Implement Battery Survival Simulation
+## Task 5: Develop Advanced 3D Lunar Terrain Visualization
 
-- [x] Define battery capacity in watt-hours.
-- [x] Define initial battery charge.
-- [x] Define spacecraft power consumption.
-- [x] Use estimated solar power from Task 3.
-- [x] Simulate battery charge over time.
-- [x] Prevent battery charge from exceeding capacity.
-- [x] Identify periods when generation is below demand.
-- [x] Identify periods when battery reserves decrease.
-- [x] Identify minimum battery charge.
-- [x] Calculate energy shortfall when applicable.
-- [x] Identify potential power-loss events.
-- [x] Display battery status throughout the mission.
+- [ ] Review available elevation data for selected sites.
+- [ ] Choose Three.js or React Three Fiber.
+- [ ] Create a 3D terrain mesh from elevation data.
+- [ ] Apply appropriate lunar surface textures.
+- [ ] Place landing-site markers on the terrain.
+- [ ] Add camera rotation and zoom controls.
+- [ ] Display realistic relative terrain elevations.
+- [ ] Add a terrain scale or elevation legend.
+- [ ] Indicate when vertical exaggeration is applied.
+- [ ] Optimize terrain resolution for browser performance.
+- [ ] Ensure markers align with their real coordinates.
+- [ ] Provide a 2D fallback when 3D rendering is unavailable.
 
-### Simplified Battery Model
+### Suggested 3D Features
 
-Battery energy at the next time step:
-
-E_next = E_current + (P_solar - P_load) × delta_t
-
-Where:
-
-E_current = Current battery energy (Wh)
-P_solar = Generated electrical power (W)
-P_load = Spacecraft power demand (W)
-delta_t = Time interval in hours
-
-For the simulation:
-
-- Limit stored energy to battery capacity.
-- Account for charge and discharge efficiencies
-  if supported.
-- Stop treating the spacecraft as operational
-  once its usable energy has been exhausted.
-- Document whether battery reserve limits
-  and depth-of-discharge are included.
-
-### Example Scenario
-
-Battery capacity: 2000 Wh
-
-Initial charge: 2000 Wh
-
-Spacecraft power demand: 40 W
-
-No solar generation for 20 hours.
-
-Energy consumed:
-
-40 W × 20 h = 800 Wh
-
-Remaining energy, ignoring losses:
-
-2000 Wh - 800 Wh = 1200 Wh
+- Rotatable terrain view
+- Zoomable lunar surface
+- Landing-site markers
+- Crater and ridge geometry
+- Terrain elevation visualization
+- Optional PSR overlay
+- Sun and Earth direction indicators
 
 ### Important
 
-The model is an educational engineering
-approximation, not a flight-qualified
-spacecraft power simulation.
+Scientific accuracy is more important than
+creating a visually dramatic but incorrect
+representation of lunar terrain.
+
+Do not claim that a decorative 3D Moon
+is a scientifically accurate elevation model.
 
 ### Deliverable
 
-A battery simulation that estimates whether
-the hypothetical spacecraft can sustain
-its power demand throughout a selected mission.
+An interactive 3D visualization of at least
+one selected lunar landing region using
+verified elevation data.
+
+### Resources
+
+NASA Moon Trek:
+https://trek.nasa.gov/moon/
+
+NASA LROC QuickMap:
+https://quickmap.lroc.asu.edu/
 
 ---
 
-## Task 5: Create a Mission Energy Timeline
+## Task 6: Add Sunlight and Shadow Visualization
 
-- [x] Display estimated solar power generation.
-- [x] Display spacecraft power consumption.
-- [x] Display estimated battery energy over time.
-- [x] Highlight periods without direct sunlight.
-- [x] Highlight periods of battery discharge.
-- [x] Highlight periods of battery charging.
-- [x] Show minimum estimated battery energy.
-- [x] Identify potential power shortages.
-- [x] Synchronize the timeline with mission timestamps.
-- [x] Add tooltips explaining energy calculations.
-- [x] Display the assumed panel and battery parameters.
+- [ ] Use verified Sun position data from Phase 2.
+- [ ] Use terrain data for supported landing sites.
+- [ ] Determine the Sun direction at selected timestamps.
+- [ ] Display the direction of incoming sunlight.
+- [ ] Implement terrain-based shadow rendering.
+- [ ] Update shadows when the timestamp changes.
+- [ ] Clearly distinguish modeled shadows from
+      actual observed lunar imagery.
+- [ ] Synchronize shadow rendering with the timeline.
+- [ ] Test low-elevation Sun conditions.
+- [ ] Validate representative shadows against
+      available NASA reference observations.
+- [ ] Document limitations of the rendering model.
 
-### Suggested Charts
+### Suggested Visualization
 
-Chart 1:
-Solar Power Generation vs. Spacecraft Demand
+Display a 3D lunar terrain model where:
 
-Chart 2:
-Battery Energy Remaining Over Time
-
-Chart 3:
-Sun Visibility vs. Battery Status
+- The Sun's position changes over time.
+- Crater walls cast shadows.
+- Sunlit surfaces are visually distinguishable.
+- Landing markers remain visible.
+- Users can inspect how illumination changes.
 
 ### Important
 
-The energy timeline should use the same UTC
-timestamps as the astronomical calculations.
+Accurate shadow rendering requires correct
+solar geometry and terrain data.
 
-Avoid displaying an energy curve based on
-fabricated sunlight observations.
+A simplified lighting effect should be labeled
+as illustrative rather than scientifically exact.
 
-### Deliverable
-
-Interactive power and battery visualizations
-that explain how changing solar conditions
-affect hypothetical spacecraft operations.
-
----
-
-## Task 6: Develop Mission Delay Analysis
-
-- [x] Load the original landing-date scenario.
-- [x] Load the delayed landing-date scenario.
-- [x] Run the same mission requirements for both.
-- [x] Compare sunlight availability.
-- [x] Compare Earth visibility.
-- [x] Compare maximum darkness duration.
-- [x] Compare maximum communication blackout.
-- [x] Compare estimated energy generation.
-- [x] Compare minimum battery reserves.
-- [x] Identify new failed requirements.
-- [x] Identify requirements that improve.
-- [x] Display changes in the frontend.
-- [x] Generate a clear explanation of the differences.
-
-### Example Scenario
-
-Original Landing:
-December 1, 2026
-
-Delayed Landing:
-December 11, 2026
-
-Mission Duration:
-7 Earth days
-
-### Example Questions
-
-- Does the delayed landing receive less sunlight?
-- Does the delay increase communication blackouts?
-- Can the battery support the new darkness intervals?
-- Does the original site still meet the mission criteria?
-- Would an alternative site be more suitable?
+Do not automatically classify temporarily
+shadowed terrain as a permanent PSR.
 
 ### Deliverable
 
-A mission-delay evaluator that compares
-the original and delayed mission scenarios
-using consistent scientific calculations.
+A time-controlled terrain illumination
+visualization for a supported lunar site.
 
 ---
 
-## Task 7: Build Landing-Site Ranking and Recommendations
+## Task 7: Create a Mission Time Animation
 
-- [x] Load mission results for all selected sites.
-- [x] Evaluate each site's mission constraints.
-- [x] Separate sites that pass, fail, or are unknown.
-- [x] Allow users to prioritize sunlight or communication.
-- [x] Define a transparent ranking method.
-- [x] Normalize metrics before combining them.
-- [x] Apply penalties for undesirable conditions.
-- [x] Avoid ranking missing data as favorable.
-- [x] Show the measurements behind each ranking.
-- [x] Explain why sites are ranked differently.
-- [x] Update rankings when requirements change.
+- [ ] Add an interactive mission time slider.
+- [ ] Allow users to select a specific UTC timestamp.
+- [ ] Add play and pause functionality.
+- [ ] Add adjustable animation playback speed.
+- [ ] Update Sun and Earth position markers over time.
+- [ ] Update visibility status during playback.
+- [ ] Synchronize the sky view with the timeline.
+- [ ] Synchronize terrain illumination when available.
+- [ ] Update mission metrics or selected-time details.
+- [ ] Highlight visibility transitions.
+- [ ] Prevent animation outside available data ranges.
+- [ ] Handle gaps in astronomical data.
+- [ ] Test playback across different mission periods.
 
-### Suggested Ranking Approach
+### Expected User Experience
 
-First:
-Filter sites using required mission constraints.
-
-Second:
-Rank sites that pass the constraints using
-the selected mission priorities.
-
-Possible ranking factors:
-
-- Sunlight availability
-- Earth visibility
-- Longest darkness duration
-- Longest communication blackout
-- Estimated battery energy margin
-- Simultaneous visibility
-
-### Example Weighted Score
-
-Score =
-0.30 × Sunlight Score +
-0.30 × Earth Visibility Score +
-0.20 × Battery Margin Score +
-0.20 × Communication Reliability Score
-
-Each component must be normalized to the
-same scale before applying weights.
-
-These weights are hypothetical and should
-be adjustable or clearly documented.
+1. Select a landing site.
+2. Choose a seven-day mission period.
+3. Open the mission timeline.
+4. Press Play.
+5. Watch the Sun and Earth positions change.
+6. Observe changes in visibility.
+7. Pause at an interesting timestamp.
+8. Inspect the exact scientific measurements.
 
 ### Important
 
-Do not invent a universal NASA-approved
-landing-site suitability score.
+Interpolate positions carefully.
 
-Different missions have different priorities.
-
-Sites that fail critical requirements should
-not be recommended simply because their
-weighted score is high.
+Do not invent visibility transitions between
+large observation gaps without a documented
+interpolation method or refined calculations.
 
 ### Deliverable
 
-A transparent landing-site ranking engine
-that recommends alternatives based on
-user-defined mission requirements.
+An interactive mission-time animation
+synchronized with astronomical measurements
+and available terrain visualizations.
 
 ---
 
-## Task 8: Generate Explainable Mission Recommendations
+## Task 8: Build Educational Information Panels
 
-- [x] Identify the strongest advantages of each site.
-- [x] Identify the most significant operational risks.
-- [x] Explain which constraints caused a failure.
-- [x] Explain changes caused by landing-date delays.
-- [x] Generate a short summary for each site.
-- [x] Generate an overall comparison summary.
-- [x] Connect explanations to calculated measurements.
-- [x] Include uncertainty and model limitations.
-- [x] Avoid unsupported scientific conclusions.
-- [x] Display explanations in understandable language.
+- [ ] Create an explanation of lunar south-pole geography.
+- [ ] Explain why the Sun stays near the polar horizon.
+- [ ] Explain why some lunar craters remain shadowed.
+- [ ] Explain the scientific importance of PSRs.
+- [ ] Explain how lunar water ice may be preserved.
+- [ ] Explain Earth visibility and lunar libration.
+- [ ] Explain why sunlight affects spacecraft power.
+- [ ] Explain why Earth visibility affects communication.
+- [ ] Explain the purpose of landing-site comparisons.
+- [ ] Include relevant scientific references.
+- [ ] Make terminology understandable to non-specialists.
+- [ ] Provide tooltips for technical measurements.
 
-### Example Recommendation
+### Suggested Educational Topics
 
-Site B is preferable under the selected
-demonstration requirements because:
+Topic 1:
+Why Is the Lunar South Pole Important?
 
-- It satisfies the minimum sunlight threshold.
-- It offers more Earth visibility than Site A.
-- Its longest communication blackout is shorter.
-- Its modeled battery reserves remain above
-  the required minimum.
+Topic 2:
+What Are Permanently Shadowed Regions?
 
-Site A may still be useful for missions that
-prioritize sunlight over frequent communication.
+Topic 3:
+Why Does Sunlight Matter for Spacecraft?
+
+Topic 4:
+How Do Lunar Spacecraft Communicate With Earth?
+
+Topic 5:
+Why Can Mission Delays Change Landing Conditions?
+
+Topic 6:
+Why Are Water-Ice Deposits Scientifically Important?
+
+### Deliverable
+
+A collection of educational panels that
+explain the scientific principles behind
+the application's calculations.
+
+---
+
+## Task 9: Improve Scientific Transparency
+
+- [ ] Identify which data comes from JPL Horizons.
+- [ ] Identify which data comes from lunar terrain datasets.
+- [ ] Display the observation time range.
+- [ ] Display dataset resolution when relevant.
+- [ ] Identify geometric-only visibility calculations.
+- [ ] Identify terrain-adjusted visibility calculations.
+- [ ] Identify simplified power and battery models.
+- [ ] Identify hypothetical mission parameters.
+- [ ] Document coordinate systems and conventions.
+- [ ] Document uncertainty and data limitations.
+- [ ] Add source attribution to the website.
+- [ ] Avoid unsupported scientific conclusions.
+
+### Suggested Model Labels
+
+GEOMETRIC MODEL
+
+Visibility determined from astronomical
+positions without terrain obstruction.
+
+TERRAIN-AWARE MODEL
+
+Visibility calculated using a local terrain
+horizon derived from elevation data.
+
+SIMPLIFIED ENERGY MODEL
+
+Power and battery estimates based on
+documented hypothetical spacecraft parameters.
+
+UNAVAILABLE DATA
+
+Insufficient verified data to calculate
+the requested measurement.
 
 ### Important
 
-Use deterministic, measurement-based
-explanations as the default.
-
-AI-generated natural-language explanations
-are optional and should only summarize
-verified calculations.
-
-Never allow an AI model to invent site
-measurements or mission results.
+The website should make it clear which
+results are verified measurements,
+model-derived estimates, or hypothetical
+mission assumptions.
 
 ### Deliverable
 
-An explanation system that helps non-specialists
-understand the trade-offs behind each result.
+A transparent scientific methodology
+and data-source information section.
 
 ---
 
-## Task 9: Add Scientific Exploration Preferences
+## Task 10: Optimize Website Performance
 
-- [x] Define optional scientific priorities.
-- [x] Allow users to prioritize proximity to PSRs.
-- [x] Identify potential scientific exploration regions.
-- [x] Obtain verified PSR location or boundary data.
-- [x] Calculate distance to nearby PSRs when supported.
-- [x] Display PSRs on the lunar map when data is available.
-- [x] Compare scientific proximity with operational conditions.
-- [x] Explain conflicts between solar power,
-      Earth communication, and scientific objectives.
-- [x] Clearly distinguish PSRs from confirmed water-ice deposits.
-- [x] Avoid treating straight-line distance as
-      proof of rover accessibility.
+- [ ] Measure initial page loading time.
+- [ ] Optimize large lunar terrain datasets.
+- [ ] Reduce unnecessary API requests.
+- [ ] Cache previously calculated results.
+- [ ] Optimize chart rendering.
+- [ ] Reduce unnecessary React re-renders.
+- [ ] Test animation performance.
+- [ ] Optimize 3D terrain meshes.
+- [ ] Implement loading indicators.
+- [ ] Handle network failures gracefully.
+- [ ] Provide fallbacks for unsupported 3D rendering.
+- [ ] Verify the application remains usable
+      on slower devices.
 
-### Scientific Mission Example
+### Performance Priorities
 
-Mission Objective:
-Investigate potential water ice near the
-Moon's south pole.
-
-Operational Preferences:
-
-- Sufficient sunlight for solar power
-- Acceptable Earth communication windows
-- Reasonable proximity to a PSR
+1. Fast initial dashboard loading.
+2. Responsive site selection.
+3. Smooth timestamp changes.
+4. Reliable comparison charts.
+5. Stable 3D rendering when enabled.
 
 ### Important
 
-Permanently shadowed regions may preserve
-water ice, but not every PSR contains
-confirmed accessible water ice.
+Do not compromise scientific accuracy
+to improve visual performance.
 
-A solar-powered lander may operate on
-better-illuminated terrain while a
-specially equipped rover or instrument
-investigates nearby shadowed areas.
-
-Distance to a PSR alone does not guarantee
-a safe or practical route.
+If detailed terrain processing is expensive,
+precompute terrain meshes and horizon profiles
+where practical.
 
 ### Deliverable
 
-An optional science-focused comparison mode
-that helps users examine operational feasibility
-alongside proximity to scientifically
-interesting lunar regions.
+A responsive website that handles scientific
+datasets and visualizations efficiently.
 
 ---
 
-## Task 10: Build the Mission Decision Dashboard
+## Task 11: Validate Scientific Features
 
-- [x] Create a dedicated mission evaluation panel.
-- [x] Display selected mission requirements.
-- [x] Show PASS, FAIL, and UNKNOWN statuses.
-- [x] Display sunlight and communication metrics.
-- [x] Display estimated power and battery status.
-- [x] Display recommended landing sites.
-- [x] Show alternative dates when supported.
-- [x] Provide explanations for recommendations.
-- [x] Highlight critical mission risks.
-- [x] Link each result to the relevant data.
-- [x] Allow users to adjust requirements.
-- [x] Refresh recommendations when inputs change.
-
-### Suggested Dashboard Layout
-
-Section 1:
-Mission Requirements
-
-Section 2:
-Landing-Site Feasibility
-
-Section 3:
-Solar Power and Battery Analysis
-
-Section 4:
-Communication Availability
-
-Section 5:
-Site Rankings and Recommendations
-
-Section 6:
-Mission Delay Comparison
-
-Section 7:
-Scientific Exploration Preferences
-
-### Deliverable
-
-An interactive mission decision dashboard
-that combines the scientific analysis
-with practical mission requirements.
-
----
-
-## Task 11: Integrate Decision Support With the Backend
-
-- [x] Connect mission requirement controls to the backend.
-- [x] Integrate the feasibility evaluation engine.
-- [x] Integrate solar energy calculations.
-- [x] Integrate battery simulations.
-- [x] Integrate mission-delay comparisons.
-- [x] Integrate site ranking calculations.
-- [x] Integrate explanation generation.
-- [x] Integrate scientific preferences when supported.
-- [x] Return consistent structured JSON results.
-- [x] Handle invalid mission configurations.
-- [x] Handle unavailable astronomical data.
-- [x] Prevent stale analysis results from being displayed.
-
-### Suggested API Endpoints
-
-POST /api/mission/evaluate
-
-Evaluates a selected site against
-the user's mission requirements.
-
-POST /api/mission/power
-
-Calculates estimated power generation
-and battery behavior.
-
-POST /api/mission/compare
-
-Compares sites and mission dates.
-
-POST /api/mission/recommend
-
-Returns ranked sites and explanations.
-
-These are proposed application endpoints,
-not official NASA endpoints.
-
-### Example Response
-
-```json
-{
-  "site_id": "A",
-  "mission": "Polar Ice Scout",
-  "status": "not_calculated",
-  "constraints": [],
-  "power": {
-    "min_battery_wh": null,
-    "energy_shortfall_wh": null
-  },
-  "recommendation": {
-    "rank": null,
-    "reasons": []
-  }
-}
-```
-
-Replace placeholder values with real
-calculations from the backend.
-
-### Deliverable
-
-A connected decision-support system
-that returns structured mission evaluations
-and recommendations to the frontend.
-
----
-
-## Task 12: Test and Validate Mission Recommendations
-
-- [x] Test sunlight requirement evaluation.
-- [x] Test Earth visibility requirement evaluation.
-- [x] Test communication blackout limits.
-- [x] Test maximum darkness limits.
-- [x] Test solar power calculations.
-- [x] Test battery charging calculations.
-- [x] Test battery discharging calculations.
-- [x] Test battery capacity limits.
-- [x] Test scenarios with insufficient energy.
-- [x] Test mission-delay comparisons.
-- [x] Test site ranking logic.
-- [x] Test recommendations with missing data.
-- [x] Test conflicting mission priorities.
-- [x] Verify explanations match numerical results.
-- [x] Confirm scientific limitations are displayed.
-- [x] Verify no unsupported NASA endorsement claims.
+- [ ] Verify PSR boundaries against source data.
+- [ ] Verify landing-site map alignment.
+- [ ] Test PSR distance calculations.
+- [ ] Validate lunar surface distance formulas.
+- [ ] Verify 3D terrain elevation consistency.
+- [ ] Verify solar direction calculations.
+- [ ] Verify Earth direction calculations.
+- [ ] Test shadow geometry at known timestamps.
+- [ ] Validate mission animation synchronization.
+- [ ] Test missing terrain data behavior.
+- [ ] Confirm all scientific units are correct.
+- [ ] Confirm explanations match calculated results.
+- [ ] Document unresolved scientific limitations.
 
 ### Example Test Cases
 
 Test 1:
-Sunlight availability = 70%
-Minimum requirement = 60%
-Expected = PASS
+A landing site is inside a mapped PSR.
+
+Expected:
+Distance to that PSR = 0 km.
 
 Test 2:
-Longest communication blackout = 15 hours
-Maximum allowed = 12 hours
-Expected = FAIL
+A landing site is outside all mapped PSRs.
+
+Expected:
+Calculate the distance to the nearest
+mapped PSR boundary.
 
 Test 3:
-Battery capacity = 2000 Wh
-Initial energy = 2000 Wh
-Power load = 40 W
-No solar generation for 20 hours
-Expected remaining energy = 1200 Wh
-(ignoring losses)
+Sun elevation is lower than the terrain horizon
+in the Sun's azimuth direction.
+
+Expected:
+The Sun is obstructed.
 
 Test 4:
-Required metric is unavailable.
-Expected status = UNKNOWN
+Terrain data is unavailable.
+
+Expected:
+Do not show terrain-adjusted visibility
+as a verified result.
 
 Test 5:
-Site A meets all constraints.
-Site B fails one critical constraint.
-Expected result:
-Site A is preferred over Site B
-regardless of Site B's weighted score.
+A mission animation timestamp changes.
+
+Expected:
+Sky positions, visibility indicators, and
+available terrain visuals remain synchronized.
 
 ### Deliverable
 
-A tested mission evaluation engine
-with reproducible calculations,
-transparent recommendations,
-and documented assumptions.
+Validated scientific exploration features
+with tests and documented limitations.
 
 ---
 
-## Phase 5 Completion Checklist
+## Task 12: Integrate and Test Advanced Features
 
-- [x] Adjustable mission requirements implemented.
-- [x] Mission feasibility evaluator functional.
-- [x] PASS, FAIL, and UNKNOWN results supported.
-- [x] Mission-delay analysis functional.
-- [x] Multiple landing sites evaluated.
-- [x] Transparent site comparison implemented.
-- [x] Site ranking implemented.
-- [x] Recommendation explanations generated.
-- [x] Scientific assumptions documented.
-- [x] Mission decision dashboard connected.
-- [x] Backend integrations tested.
-- [x] End-to-end mission evaluation validated.
+- [ ] Connect the PSR map layer to site selection.
+- [ ] Connect PSR proximity results to site comparison.
+- [ ] Connect science preferences to mission evaluation.
+- [ ] Connect 3D terrain to the selected landing site.
+- [ ] Connect mission time controls to position data.
+- [ ] Synchronize animations and visibility timelines.
+- [ ] Connect educational panels to relevant features.
+- [ ] Verify source attribution across the website.
+- [ ] Test combined frontend and backend workflows.
+- [ ] Test unsupported sites and missing datasets.
+- [ ] Verify advanced features do not break core analysis.
+- [ ] Confirm all advanced features can be disabled
+      independently when necessary.
+
+### Suggested API Endpoints
+
+GET /api/science/psrs
+
+Returns mapped PSR information.
+
+GET /api/science/nearest-psr?site_id=A
+
+Returns the nearest mapped PSR and
+its estimated surface distance.
+
+GET /api/terrain/mesh?site_id=A
+
+Returns or references a terrain mesh
+when supported.
+
+GET /api/science/site-context?site_id=A
+
+Returns scientific context and
+available exploration information.
+
+These are proposed application endpoints,
+not official NASA APIs.
+
+### Example Science Response
+
+```json
+{
+  "site_id": "A",
+  "nearest_psr": {
+    "id": null,
+    "distance_km": null,
+    "source": null
+  },
+  "terrain": {
+    "available": false,
+    "resolution_m": null
+  },
+  "science": {
+    "water_ice_confirmed": null,
+    "notes": []
+  },
+  "status": "not_calculated"
+}
+```
+
+Null values indicate that verified results
+have not yet been populated.
+
+Unknown water-ice status must not be
+interpreted as confirmed absence.
+
+### Deliverable
+
+Advanced scientific exploration and visualization
+features integrated into the website.
+
+---
+
+## Phase 6 Completion Checklist
+
+### Core Scientific Features
+
+- [ ] Permanently shadowed regions researched.
+- [ ] Reliable PSR data sources identified.
+- [ ] PSR data integrated into the application.
+- [ ] PSR map layer implemented.
+- [ ] PSR proximity calculations implemented.
+- [ ] Scientific exploration preferences supported.
+- [ ] Scientific information panels created.
+- [ ] Scientific data sources documented.
+- [ ] Scientific limitations clearly displayed.
+
+### Application Improvements
+
+- [ ] Mission-time visualization improved.
+- [ ] Map interaction tested.
+- [ ] Existing visibility charts verified.
+- [ ] Mission comparison remains functional.
+- [ ] Application performance optimized.
+- [ ] Missing-data behavior tested.
+- [ ] Advanced features integrated successfully.
 
 ### Advanced Completion Criteria
 
-- [x] Solar power estimation implemented.
-- [x] Battery survival simulation implemented.
-- [x] Interactive battery energy timeline created.
-- [x] Adjustable solar panel orientation supported.
-- [x] Power model assumptions documented.
-- [x] PSR proximity analysis implemented.
-- [x] Scientific exploration mode functional.
-- [x] Terrain-aware results incorporated into rankings.
-- [x] Uncertainty or sensitivity analysis included.
-
-Advanced items are covered by the power, decision, timeline and acceptance tests. Arbitrary orientation is a selectable fixed tilt/azimuth design; science
-exploration is an explicit ranking mode; sensitivity is a seven-case one-at-a-time table. There is no AI-generated recommendation path.
+- [ ] Interactive 3D lunar terrain implemented.
+- [ ] Terrain-based shadow rendering implemented.
+- [ ] Animated sunlight conditions supported.
+- [ ] Animated Earth positions supported.
+- [ ] Science-focused mission recommendations added.
+- [ ] Scientific model cross-validation completed.
+- [ ] Advanced visualization performance optimized.
 
 ---
 
-## Phase 6 — Next Steps
+## Phase 7 — Next Steps
 
-Improve the application's scientific exploration
-capabilities and presentation quality.
+Prepare the Lunar Landing Site Navigator
+for final demonstration and submission.
 
-Planned features:
+Planned activities:
 
-1. Detailed permanently shadowed region mapping.
-2. Water-ice exploration context and scientific layers.
-3. Advanced 3D lunar terrain visualization.
-4. Improved temporal animations.
-5. Educational explanations.
-6. Scientific model validation.
-7. Final website optimization.
-8. Hackathon demonstration and documentation.
+1. Complete end-to-end application testing.
+2. Review scientific data and calculations.
+3. Fix critical bugs.
+4. Deploy the website.
+5. Prepare the final project demonstration.
+6. Record a walkthrough video if required.
+7. Complete project documentation.
+8. Add scientific credits and data sources.
+9. Explain the project's real-world impact.
+10. Submit the project through NASA Space Apps.
 
-Phase 6 will focus on making the project more
-scientifically informative, visually compelling,
-and ready for public demonstration.
+Phase 7 will focus on final validation,
+deployment, demonstration, and submission.
 
 ---
 
 ## Official NASA Space Apps Resources
 
-### NASA JPL Horizons
-https://ssd.jpl.nasa.gov/horizons/
-
-Provides astronomical position data used
-for Sun and Earth visibility calculations.
-
 ### NASA LROC QuickMap
 https://quickmap.lroc.asu.edu/
 
-Provides lunar imagery and geographic
-information for landing-site investigation.
+Used for lunar imagery, surface mapping,
+terrain exploration, and PSR investigation.
 
 ### NASA Moon Trek
 https://trek.nasa.gov/moon/
 
-Provides interactive lunar terrain visualization
-and supports understanding of lunar geography.
+Used for 3D lunar terrain exploration
+and geographic visualization references.
+
+### NASA JPL Horizons
+https://ssd.jpl.nasa.gov/horizons/
+
+Used to obtain astronomical positions
+of the Sun and Earth from lunar sites.
 
 ### NASA LOLA South-Pole Topography
 https://pgda.gsfc.nasa.gov/products/78
 
-Provides lunar elevation information used
-for terrain and horizon calculations.
+Used for terrain elevations and
+terrain horizon calculations.
 
 ### Canadian Space Agency — Moon Exploration
 https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/
 
-Provides background information about lunar
-missions and exploration technologies.
+Used for lunar exploration background
+and scientific education.
+
+### NASA Science
+https://science.nasa.gov/
+
+Used for additional scientific information
+about the Moon and lunar exploration.
 
 ---
 
 ## Expected Final Outcome
 
-By completing Phase 5, our team should have:
+By completing Phase 6, our team should have:
 
-1. Configurable mission requirements.
-2. A mission feasibility evaluation system.
-3. Sunlight and communication constraint checks.
-4. Mission-delay comparisons.
-5. Landing-site ranking and recommendations.
-6. Explainable mission-planning results.
-7. Optional solar power and battery simulations.
-8. Optional PSR proximity and science analysis.
-9. A fully integrated mission decision dashboard.
-10. Tested and documented scientific assumptions.
+1. Verified PSR information integrated into the map.
+2. PSR proximity analysis for supported landing sites.
+3. A science-focused exploration mode.
+4. Improved lunar terrain and geographic visualization.
+5. Enhanced Sun and Earth time-based visualizations.
+6. Educational explanations of lunar polar conditions.
+7. Clear scientific data attribution.
+8. Documented modeling assumptions and limitations.
+9. Optimized application performance.
+10. Tested and integrated scientific features.
 
-Phase 5 is complete when users can select
-lunar landing sites, specify mission requirements,
-and receive transparent evaluations explaining
-which locations and dates best satisfy
-their selected operational constraints.
+Phase 6 is complete when the application can
+help users understand how lunar geography,
+Sunlight, Earth connectivity, and scientific
+exploration opportunities interact.
 
-The website must distinguish between
-verified NASA-derived measurements,
-simplified engineering estimates,
-and hypothetical mission assumptions.
+Advanced 3D terrain and shadow animations
+are optional enhancements.
+
+The application must remain useful and
+scientifically transparent even if advanced
+visualizations are not completed.
