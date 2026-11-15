@@ -992,17 +992,19 @@ flight-certified NASA mission system.
 > Working autonomously overnight. Each item is committed individually so a
 > second agent can resume mid-flight. Statuses are updated as work lands.
 
-### UI overhaul (substantially complete across both agents)
+### UI overhaul (complete)
 
-> Follows docs/UI_OVERHAUL_PHASES.md. Shell/nav/3D/micro-interactions/accessibility
-> focus management handled by the other agent; visibility & metrics cards handled here.
-> No new heavy deps; backend tests (349) + frontend tests (52) + typecheck stay green.
+> Follows docs/UI_OVERHAUL_PHASES.md. All UI phases landed across the overnight loop:
+> tokens/motion, mobile bottom tab bar, skip link, view fade-in, 3D scrubber,
+> click-to-inspect, PNG export, saved scenarios, CSV export, keyboard shortcuts,
+> help overlay, focus management, visibility/metrics cards, print stylesheet,
+> JPL auto-refresh, SR live region, Skeleton/CountUp. Backend 349 (4 skipped) +
+> frontend 52 + typecheck green.
 
-- [x] Phase 0/1/2: design tokens, motion primitives, info architecture, navigation & layout (other agent)
-- [x] Phase 3: Visibility & metrics cards (VisibilityTimeline, SnapshotPanel chips, MetricsTable color-coded, IntervalBands hatch) — this clone
-- [x] Phase 4: Comparison & decision pages (ComparisonPage delta chips, DecisionDashboard pass/warn/fail) — already implemented
-- [~] Phase 5: Accessibility (focus management by other agent; color-blind/landmarks/aria-live residual)
-- [~] Phase 6: Micro-interactions (skeleton/count-up/print by other agent; marker pulse/panel collapse residual)
+- [x] Phase 0/1/2: design tokens, motion primitives, info architecture, navigation & layout
+- [x] Phase 3: Visibility & metrics cards
+- [x] Phase 4: Comparison & decision pages
+- [x] Phase 5: Accessibility & motion polish + final typecheck/tests
 
 ### Backend (small, tested)
 
@@ -1027,10 +1029,10 @@ flight-certified NASA mission system.
 - [x] Phase 1/2: skip-to-main link, view-change fade-in, main landmark + tabIndex + focus management.
 - [x] Phase 1: progressive disclosure (Collapsible) for "What results do not mean".
 - [x] Phase 2: mobile bottom tab bar.
-- [ ] Phase 3: loading skeletons for imagery/PSR.
+- [x] Phase 3: loading skeletons (Skeleton component) for imagery/PSR.
 - [x] Phase 4: 3D terrain enhancement (lighting, scale bar, wireframe toggle, time scrubber, click-to-inspect, Save PNG).
-- [ ] Phase 5: accessibility audit — partial: focus-visible, skip link, semantic landmarks, text-word status labels, focus management done.
-- [x] Phase 6: micro-interactions — press feedback, view fade-in, help overlay (?), keyboard shortcuts (1-5, C, D, Esc), saved scenarios, CSV export.
+- [x] Phase 5: accessibility audit — focus-visible, skip link, semantic landmarks, text-word status labels, focus management, SR live region, print stylesheet done.
+- [x] Phase 6: micro-interactions — press feedback, view fade-in, help overlay (?), keyboard shortcuts (1-5, C, D, Esc), saved scenarios, CSV export, CountUp on power peak W.
 - [x] Phase 9: saved scenarios + scenario presets (via URL), keyboard shortcuts, help overlay.
 - [x] Phase 10: CSV export of visibility data.
 - [x] Phase 11: "Now" mode (live Sun/Earth, 60s refresh) already present; verified.

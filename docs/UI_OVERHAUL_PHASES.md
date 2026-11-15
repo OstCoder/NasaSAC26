@@ -165,14 +165,22 @@ Completed:
 - Phase 0: motion tokens, .fade-in/.slide-up/.press/.lift/.skeleton, Button press, Card lift, skip link, view fade-in.
 - Phase 1: Collapsible disclosure (methodology "What results do not mean").
 - Phase 2: mobile bottom tab bar.
-- Phase 4: 3D terrain wireframe toggle + north/scale overlay.
+- Phase 3: visibility & metrics cards; Skeleton component.
+- Phase 4: 3D terrain wireframe toggle + north/scale overlay; time scrubber; click-to-inspect (lat/lon/height); distance measurement tool; Save PNG.
+- Phase 5: accessibility — focus-visible, skip link, semantic landmarks, text-word status labels, focus management, SR live region.
+- Phase 6: micro-interactions — press feedback, view fade-in, help overlay, keyboard shortcuts, saved scenarios, CSV export, CountUp.
+- Phase 9: saved scenarios, keyboard shortcuts, help overlay.
+- Phase 10: CSV export of visibility data.
+- Phase 11: "Now" mode (live Sun/Earth, 60s refresh); JPL status auto-refresh (5 min).
+- Phase 12: focus management, SR live region, print stylesheet.
 
 Partial / deferred (deliberately, to keep scope sane):
-- Phase 1: further progressive disclosure for dense panels.
-- Phase 3: loading skeletons — the app already shows spinners/opacity + blur-up imagery.
-- Phase 5: accessibility — focus-visible, skip link, semantic landmarks, text-word status labels already in place; full audit deferred.
-- Phase 6: micro-interactions — press feedback done; count-up/marker pulse/panel collapse deferred.
-- Phase 7: this verification pass.
+- Phase 1: further progressive disclosure for dense panels (methodology datasets table is already compact).
+- Phase 8: multi-site markers, Earth visibility cone, contour lines (optional) deferred; click-to-inspect + distance measurement + Save PNG done.
+- Phase 9: drag-to-place visual feedback + adjustable observer height deferred.
+- Phase 10: QR code + batch export deferred (print stylesheet covers PDF).
+- Phase 11: staleness indicator deferred.
+- Phase 13: final docs (this pass).
 
 ## Commit protocol
 
