@@ -1035,4 +1035,4 @@ flight-certified NASA mission system.
 - [x] Phase 9: saved scenarios + scenario presets (via URL), keyboard shortcuts, help overlay.
 - [x] Phase 10: CSV export of visibility data.
 - [x] Phase 11: "Now" mode (live Sun/Earth, 60s refresh) already present; verified.
-- [ ] Phase 7: verification + docs.
+- [x] Phase 7: verification + docs (tests + typecheck green).
