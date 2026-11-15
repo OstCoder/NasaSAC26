@@ -18,6 +18,7 @@ import type {
   ReadinessReport,
   RequirementEvaluation,
   RequirementThresholdsInput,
+  EngineeringBudget,
   RescheduleResult,
   ScenarioInput,
   ScenarioResult,
@@ -106,6 +107,18 @@ export const api = {
     if (opts.longitudeDeg !== undefined) q.set('longitude_deg', String(opts.longitudeDeg))
     if (opts.window) q.set('window', opts.window)
     return request<TerrainHorizon>(`/api/terrain-horizon?${q.toString()}`, { signal })
+  },
+  /** Phase 5: solar-power and link budgets from the committed track (offline). */
+  engineering: (opts: { siteId: string; window?: string }, signal?: AbortSignal) => {
+    const q = new URLSearchParams({ site_id: opts.siteId })
+    if (opts.window) q.set('window', opts.window)
+    return request<EngineeringBudget>(`/api/engineering?${q.toString()}`, { signal })
+  },
+  /** Phase 5 Task 3: the deterministic Markdown mission report, for download. */
+  missionReportUrl: (opts: { siteId: string; window?: string }) => {
+    const q = new URLSearchParams({ site_id: opts.siteId })
+    if (opts.window) q.set('window', opts.window)
+    return `${BASE}/api/mission-report.md?${q.toString()}`
   },
   scenario: (input: ScenarioInput, signal?: AbortSignal) => post<ScenarioResult>('/api/scenario', input, signal),
   /** Check one scenario against optional user-adjusted thresholds (defaults from /api/config). */

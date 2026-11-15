@@ -16,6 +16,7 @@ import {
 } from '@/features/visibility'
 import { Phase3Panel } from '@/features/phase3/Phase3Panel'
 import { TerrainHorizonPanel } from '@/features/phase3/TerrainHorizonPanel'
+import { EngineeringBudgetPanel } from '@/features/phase3/EngineeringBudgetPanel'
 import { FeasibilityPanel } from '@/features/phase3/FeasibilityPanel'
 import { RequirementTuner } from '@/features/phase3/RequirementTuner'
 import { DelayComparisonPanel } from '@/features/phase3/DelayComparisonPanel'
@@ -378,6 +379,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
 
       <Phase3Panel />
       <TerrainHorizonPanel />
+      <EngineeringBudgetPanel />
       <FeasibilityPanel />
       <RequirementTuner />
       <DelayComparisonPanel />

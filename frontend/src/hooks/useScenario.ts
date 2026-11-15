@@ -2,6 +2,7 @@ import * as React from 'react'
 import { api } from '@/services/api'
 import type {
   Crater,
+  EngineeringBudget,
   FeasibilityMatrix,
   Mode,
   Phase3Windows,
@@ -77,4 +78,13 @@ export function useSiteDem(siteId: string) {
 
 export function useCraters() {
   return useApiResource<Crater[]>('craters', (signal) => api.craters(signal), 0)
+}
+
+/** Phase 5: the power and link budgets for one candidate and window. */
+export function useSiteEngineering(siteId: string, window: string) {
+  return useApiResource<EngineeringBudget>(
+    `engineering:${siteId}:${window}`,
+    (signal) => api.engineering({ siteId, window }, signal),
+    0,
+  )
 }

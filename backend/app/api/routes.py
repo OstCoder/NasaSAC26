@@ -46,6 +46,8 @@ from app.services.feasibility import feasibility_matrix
 from app.services.geometric import sun_visibility_response
 from app.services.geometric_earth import earth_visibility_response
 from app.services.mission_report import mission_report
+from app.services.report_export import mission_report_markdown
+from app.services.engineering import engineering_response
 from app.services.phase3 import all_windows_summary, visibility_response
 from app.services.site_data import build_readiness, series_response
 from app.services.requirements import RequirementService
@@ -237,6 +239,40 @@ def mission_report_route(site_id: str, window: str = "initial"):
     there is no wall clock, so a re-run reproduces it. Geometry only.
     """
     return mission_report(site_id=site_id, window=window)
+
+
+@router.get("/engineering")
+def engineering(site_id: str, window: str = "initial"):
+    """Phase 5 Tasks 1-2: solar-power and direct-to-Earth budgets.
+
+    Both budgets use only committed numbers: the hourly Sun/Earth track and Earth
+    range from the Phase 2 series, and the terrain-adjusted visibility flags from
+    ``/api/phase3``. The power side reports a fixed horizontal array and a vertical
+    azimuth-tracking array (the polar case), then steps the battery; the link side
+    reports a representative X-band free-space budget with C/N0, supported rate
+    and margin. Assumptions live in ``config -> power / link``, are echoed in the
+    response and are not measured hardware: engineering estimates, not flight
+    budgets.
+    """
+    return engineering_response(site_id=site_id, window=window)
+
+
+@router.get("/mission-report.md", response_class=Response)
+def mission_report_markdown_route(site_id: str, window: str = "initial"):
+    """Phase 5 Task 3: the mission report as deterministic Markdown.
+
+    Same numbers as ``/api/mission-report`` plus the Phase 5 engineering budgets,
+    rendered as tables with assumptions, provenance and limitations. No wall
+    clock, so the same committed inputs produce the same bytes.
+    """
+    body = mission_report_markdown(site_id=site_id, window=window)
+    return Response(
+        content=body,
+        media_type="text/markdown; charset=utf-8",
+        headers={
+            "Content-Disposition": f'attachment; filename="lunanav-{site_id}-{window}.md"',
+        },
+    )
 
 
 @router.get("/sites", response_model=list[Site])

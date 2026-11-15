@@ -759,3 +759,56 @@ real scientific data.
 The application should clearly distinguish
 between verified calculations, estimates,
 and hypothetical mission assumptions.
+
+---
+
+# Phase 5 — Engineering and Mission Readiness
+
+Phase 4 delivered the interactive explorer. Phase 5 answers the next two
+questions a reviewer asks: **can the lander keep running**, and **can it talk** —
+and turns the report from an API response into a document.
+
+Every number here is built from committed data (the hourly Sun/Earth track, its
+Earth range, and the terrain-adjusted visibility flags). Assumptions live in
+`config/lunanav.config.json -> power / link`, are echoed in every response and are
+never presented as measured hardware. Claim a task here before starting it.
+
+## Task 1: Solar power and battery budget
+
+- [x] Compute array power from irradiance, incidence, panel area and conversion
+      losses, zeroing any sample the terrain blocks.
+- [x] Report a fixed horizontal array and a vertical azimuth-tracking array side
+      by side, because at the pole the Sun never exceeds ~2°.
+- [x] Step the battery through the window with a depth-of-discharge floor, and
+      count charge below it as unserved load instead of spending it.
+- [x] Echo every assumption and its basis in the response.
+
+## Task 2: Direct-to-Earth link budget
+
+- [x] Free-space path loss from the committed Earth range, with EIRP, dish gain,
+      G/T and Boltzmann.
+- [x] Supported data rate and link margin per visible sample, and a closing
+      verdict that separates "no line of sight" from "budget does not close".
+- [x] Data-volume bound with the recorder and station-scheduling limits stated.
+
+## Task 3: Export the mission report
+
+- [x] One deterministic Markdown document with terrain basis, visibility,
+      requirements, both budgets, assumptions, provenance and limits.
+- [x] Downloadable from the UI and reproducible byte for byte.
+
+## Task 4: Transparent ranking with sensitivity
+
+- [ ] Score each candidate and window from the metric registry with weights that
+      live in the config, showing the weight vector and each contribution.
+- [ ] Leave-one-metric-out sensitivity: show whether the order changes, and say
+      that a ranking is a decision aid, not a measurement.
+- [ ] Never rank on a metric whose value came from a `geometric_only` basis
+      without saying so.
+
+## Task 5: Scenario permalink and shareable state
+
+- [ ] Encode site, window, mode and feature flags in the URL so a reviewer opens
+      exactly the view that was discussed.
+- [ ] Keep the link readable and degrade to the default scenario when a field is
+      unknown, instead of failing.

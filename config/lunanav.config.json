@@ -115,6 +115,32 @@
     "sun_visibility_rule": "center_above_terrain",
     "earth_visibility_rule": "center_above_terrain"
   },
+  "power": {
+    "$comment": "Phase 5 solar-power assumptions. Fixed engineering inputs for the hypothetical 7-day Polar Ice Scout lander, not measured hardware: edit here, never in code, and the API, tests and docs all pick the change up.",
+    "solar_constant_w_m2": 1361.0,
+    "panel_area_m2": 2.0,
+    "cell_efficiency": 0.3,
+    "packing_factor": 0.9,
+    "harness_and_soiling_factor": 0.93,
+    "load_w": 40.0,
+    "battery_capacity_wh": 1200.0,
+    "battery_max_depth_of_discharge": 0.8,
+    "initial_state_of_charge": 1.0,
+    "basis": "Hypothetical 2 m2 triple-junction array at 30% cell efficiency, 40 W continuous housekeeping load, 1200 Wh battery at 80% depth of discharge. Not measured hardware and not a flight power budget."
+  },
+  "link": {
+    "$comment": "Phase 5 direct-to-Earth link assumptions. Representative X-band small-spacecraft downlink to a 34 m DSN-class dish, not a negotiated DSN service and not an RF analysis.",
+    "frequency_ghz": 8.4,
+    "transmit_power_w": 5.0,
+    "transmit_antenna_gain_dbi": 18.0,
+    "receive_dish_diameter_m": 34.0,
+    "receive_aperture_efficiency": 0.65,
+    "system_noise_temperature_k": 25.0,
+    "implementation_loss_db": 3.0,
+    "required_ebno_db": 9.6,
+    "modulation": "BPSK with rate-1/2 coding, representative of a small-spacecraft X-band downlink",
+    "basis": "5 W transmit into an 18 dBi spacecraft antenna, 34 m dish at 65% aperture efficiency, 25 K system noise, 3 dB implementation loss and 9.6 dB required Eb/N0. Representative assumptions, not a link budget for flown hardware."
+  },
   "features": {
     "mission_planner": true,
     "scenario_comparison": true,
@@ -123,11 +149,11 @@
     "horizon_panorama": true,
     "methodology_page": true,
     "experimental_3d_terrain": false,
-    "experimental_power_model": false,
-    "experimental_comm_link_budget": false,
+    "experimental_power_model": true,
+    "experimental_comm_link_budget": true,
     "experimental_site_ranking": false,
     "experimental_ai_explanations": false,
-    "experimental_report_export": false,
+    "experimental_report_export": true,
     "lunar_imagery": true,
     "lunar_globe_3d": true
   },

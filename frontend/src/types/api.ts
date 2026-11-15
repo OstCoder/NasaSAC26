@@ -646,3 +646,99 @@ export interface TerrainDem {
   provenance: string
   notes: string[]
 }
+
+/** Phase 5 Task 1-2: solar-power and direct-to-Earth budgets — GET /api/engineering. */
+export interface LinkCase {
+  range_km: number
+  fspl_db: number
+  cn0_db_hz: number
+  supported_rate_bps: number
+  margin_db: number
+}
+
+export interface PowerDesign {
+  id: 'horizontal' | 'vertical_tracking'
+  label: string
+  incidence_rule: string
+  peak_w: number
+  mean_w: number
+  energy_wh: number
+  capacity_factor_pct: number
+}
+
+export interface EngineeringBudget {
+  schema: 'lunanav.engineering_budget.v1'
+  site: {
+    site_id: string
+    name: string | null
+    latitude_deg: number | null
+    longitude_deg: number | null
+    elevation_m: number | null
+  }
+  window: { key: string; label?: string; start_utc?: string; stop_utc?: string; step?: string; samples?: number }
+  power: {
+    assumptions: {
+      solar_constant_w_m2: number
+      panel_area_m2: number
+      cell_efficiency: number
+      packing_factor: number
+      harness_and_soiling_factor: number
+      load_w: number
+      battery_capacity_wh: number
+      battery_max_depth_of_discharge: number
+      initial_state_of_charge: number
+      basis: string
+      derived: { dc_w_per_m2_at_normal_incidence: number; conversion_factor: number; irradiance_au: number }
+    }
+    design: { recommended: string; reason: string }
+    designs: PowerDesign[]
+    window: { hours: number; sunlit_hours: number; dark_hours: number; sunlit_pct: number }
+    budget: {
+      load_w: number
+      load_wh: number
+      array_energy_wh: number
+      net_wh: number
+      battery: {
+        capacity_wh: number
+        usable_wh: number
+        initial_soc_pct: number
+        min_soc_pct: number
+        final_soc_pct: number
+        unserved_wh: number
+        depleted: boolean
+        reserve_pct: number
+        reserve_respected: boolean
+        verdict: string
+      }
+    }
+    limits: string[]
+  }
+  link: {
+    assumptions: {
+      frequency_ghz: number
+      transmit_power_w: number
+      transmit_antenna_gain_dbi: number
+      receive_dish_diameter_m: number
+      receive_aperture_efficiency: number
+      system_noise_temperature_k: number
+      implementation_loss_db: number
+      required_ebno_db: number
+      modulation: string
+      basis: string
+      derived: {
+        wavelength_m: number
+        eirp_dbw: number
+        receive_gain_dbi: number
+        g_over_t_db_k: number
+      }
+    }
+    window: { hours: number; visible_hours: number; data_volume_bound_mb: number; outage_hours: number }
+    best_case: LinkCase | null
+    worst_case: LinkCase | null
+    closes: boolean
+    verdict: string
+    limits: string[]
+  }
+  provenance: Record<string, string>
+  notes: string[]
+}

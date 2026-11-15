@@ -43,7 +43,8 @@ cd backend && pytest          # 309 tests: coordinates, time, ephemeris vs Meeus
                               # 80 m DEM, Phase 3 geometric Sun visibility and terrain-adjusted
                               # visibility from the committed data, the terrain horizon profile
                               # and the reproducible mission-report envelope, the Phase 4
-                              # feasibility matrix, pooled site DEM previews, JPL Horizons
+                              # feasibility matrix, pooled site DEM previews, the Phase 5
+                              # power and link budgets and Markdown report, JPL Horizons
                               # live provider and Moon Trek imagery
 cd frontend && npm test       # 33 Vitest/jsdom tests: projection, night, craters, PSR, zoom,
                               # interval bands, date validation, thresholds, candidate comparison
@@ -125,6 +126,7 @@ lunanav/
     ├── DATA_ACCESS.md        # Task 6 data access: how to load and query, and its limits
     ├── TERRAIN_HORIZON.md    # Task 3 skyline, the horizon panel and the feature-flagged 3D view
     ├── MISSION_REPORT.md     # Task 11 result envelope: every field, its unit, reproducibility
+    ├── ENGINEERING.md        # Phase 5 power and link budgets, assumptions and limits
     ├── JPL_CONNECTION.md
     └── ADAPTATION_GUIDE.md   # read this when NASA publishes new details
 ```
@@ -149,11 +151,14 @@ lunanav/
 | Phase 4 Mission Planner and comparison panels (horizon profile, feasibility, delay, adjustable targets) | Working and browser-checked: the horizon profile draws the committed skyline with Sun/Earth tracks from `GET /api/terrain-horizon` and `GET /api/series` ([docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md)); the feasibility matrix reads every candidate × both windows against the Phase 1 requirements from `GET /api/feasibility`; the landing-delay panel shows before/after metrics and requirement verdicts from `POST /api/reschedule` and the matrix. The requirement tuner runs one scenario against adjustable demonstration targets through `POST /api/requirements`; the comparison view evaluates all three candidates over one shared user-set window and threshold set, with stacked cards on phones. The visibility timeline offers 3 d / 24 h / 6 h zoom, and the footer links the NASA source catalogues. |
 | Phase 3 result envelope (Task 11) | `GET /api/mission-report` returns one deterministic document per site and window — terrain basis and coverage, sunlight/Earth/simultaneous windows, the metric list and the Phase 1 requirement checks; [docs/MISSION_REPORT.md](docs/MISSION_REPORT.md) lists every field and unit. |
 | Experimental site 3D terrain (Phase 4 Task 6, feature-flagged) | Working and off by default: `GET /api/terrain-dem` serves committed 128 × 128 pooled LOLA height grids with SHA-256 provenance (503 `DEM_UNAVAILABLE` rather than a fabricated mesh), and `SiteTerrain3DPanel` renders them with three.js behind `experimental_3d_terrain` and an in-panel enable button. The 2D profile stays the source of truth. |
-| Power model, link budget, rankings, AI explanations, report export | Extension points only |
+| Phase 5 power budget (Task 1) | Working and tested: `GET /api/engineering` turns the committed Sun track and terrain flags into array energy for a fixed horizontal and a vertical azimuth-tracking array, then steps the battery with a depth-of-discharge floor. At these sites the vertical array makes ~118 kWh where the horizontal one makes ~3 kWh — the polar design trade, made visible. Assumptions are config, not hardware. |
+| Phase 5 direct-to-Earth link budget (Task 2) | Working and tested: the same endpoint computes a free-space X-band budget from the committed Earth range, keeping the best and worst case, the supported rate, the margin and a data-volume bound. Earth above the terrain does not guarantee a link — the verdict says which one failed. |
+| Phase 5 mission report export (Task 3) | `GET /api/mission-report.md` renders the envelope plus both budgets as one deterministic Markdown file (no wall clock); downloadable from the Mission Planner and tested byte for byte. |
+| Rankings, scenario permalinks, AI explanations | Planned as Phase 5 Tasks 4–5, flags stay false |
 
 ## API
 
-`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/geometric-sun`, `GET /api/geometric-earth`, `GET /api/phase3`, `GET /api/phase3/windows`, `GET /api/terrain-horizon`, `GET /api/mission-report`, `GET /api/feasibility`, `GET /api/terrain-dem`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. `POST /api/requirements` also accepts optional `thresholds` (`min_sun_visible_pct`, `min_earth_visible_pct`, `max_earth_blackout_hours`) for user-adjusted demonstration targets; omitted fields keep the configured defaults. Errors share one shape: `{code, message, details}`.
+`GET /api/config`, `GET /api/datasets`, `GET /api/validation`, `GET /api/series`, `GET /api/readiness`, `GET /api/geometric-sun`, `GET /api/geometric-earth`, `GET /api/phase3`, `GET /api/phase3/windows`, `GET /api/terrain-horizon`, `GET /api/mission-report`, `GET /api/mission-report.md`, `GET /api/engineering`, `GET /api/feasibility`, `GET /api/terrain-dem`, `GET /api/sites` (and `/api/sites/{site_id}`), `GET /api/psrs`, `GET /api/craters`, `GET /api/providers?mode=`, `GET /api/horizon-mask`, `POST /api/scenario`, `POST /api/requirements`, `POST /api/snapshot`, `POST /api/compare`, `POST /api/reschedule`, `GET /api/sky/now`, `GET /api/jpl/status`, `GET /api/imagery/layers`, `GET /api/imagery/south-pole`, `GET /api/imagery/global`, `GET /api/imagery/relief`, `GET /api/imagery/tile/{layer}/{z}/{row}/{col}`, `GET /health`. Interactive docs at `http://localhost:8000/docs`. `POST /api/requirements` also accepts optional `thresholds` (`min_sun_visible_pct`, `min_earth_visible_pct`, `max_earth_blackout_hours`) for user-adjusted demonstration targets; omitted fields keep the configured defaults. Errors share one shape: `{code, message, details}`.
 
 ## Further reading
 
@@ -163,6 +168,7 @@ lunanav/
 - [docs/TERRAIN.md](docs/TERRAIN.md): the LOLA terrain data obtained for each candidate — resolution, extent, CRS, datum, skyline angles and coverage limits
 - [docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md): the terrain horizon profile per site, Sun/Earth against the skyline, observer height, curvature, uncertainty, the geometric-only flag, and the feature-flagged 3D site view
 - [docs/MISSION_REPORT.md](docs/MISSION_REPORT.md): the Phase 3 result envelope — every field, its unit and meaning, and why it is reproducible
+- [docs/ENGINEERING.md](docs/ENGINEERING.md): the Phase 5 solar-power and link budgets — formulas, assumptions, limits, and the Markdown report export
 - [docs/DATASETS.md](docs/DATASETS.md): every dataset, its units, longitude convention, sources and validation, plus how to load and query it
 - [docs/VALIDATION.md](docs/VALIDATION.md): how the Phase 2 data was validated, what each check proves, and its known limitations
 - [docs/DATA_ACCESS.md](docs/DATA_ACCESS.md): loading the time-series and terrain data from Python or HTTP, the field contract, and the limits Phase 3 must carry

@@ -429,3 +429,35 @@ announced below before work starts.
   here), a power model / link budget behind the existing metric registry, and
   rankings — all out of scope for Phases 3–4 and labelled as such.
 - Thanks — clean split, no overlapping hunks, no rewritten history.
+
+### 2026-11-14 · Agent B — Phase 5 opened and Tasks 1-3 shipped
+- **New phase** in `tasks.md`: Phase 5 — Engineering and Mission Readiness, five
+  claimable tasks. Tasks 1-3 are done; Tasks 4-5 (transparent ranking with
+  sensitivity, scenario permalink) are open and unclaimed.
+- **Task 1-2** `services/engineering.py` + `GET /api/engineering`: solar array
+  energy for a fixed horizontal array and a vertical azimuth-tracking array
+  (incidence sin/cos elevation), battery stepped with a depth-of-discharge floor
+  (charge below it counted as unserved load), and a free-space X-band budget
+  from the committed Earth range with C/N0, supported rate, margin, best/worst
+  case, closing verdict and a data-volume bound. Assumptions are config blocks
+  (`power`, `link`), echoed in every response.
+- **Task 3** `services/report_export.py` + `GET /api/mission-report.md`:
+  deterministic Markdown report (terrain basis, visibility, requirement checks,
+  both budgets, assumptions, provenance, limits). No wall clock; byte-identical
+  on re-run (tested).
+- Findings worth keeping: at these latitudes the vertical array makes ~118 kWh
+  where a horizontal one makes ~3 kWh; Shackleton Rim (9.43 deg skyline) gets
+  zero array energy and reports 5,760 Wh of unserved load; Earth clears the
+  terrain for only 1-60 % of the windows, so the link budget is the binding
+  constraint, not the radio.
+- **Flag change:** `experimental_power_model`, `experimental_comm_link_budget`
+  and `experimental_report_export` are now `true` (the features are real and
+  labelled as estimates); `experimental_site_ranking` and
+  `experimental_ai_explanations` stay `false`. `tests/test_extensibility.py`
+  was updated to match, so it still guards against silently shipping the
+  unimplemented ones.
+- Frontend: new `EngineeringBudgetPanel` (candidate buttons, window tabs, power
+  and link tables, battery and link verdicts, assumptions, report download),
+  mounted in the Mission Planner between the horizon and feasibility panels.
+- Verification: backend **316 passed, 2 skipped**; frontend typecheck 0,
+  vitest **33 passed**, build 0. README and `docs/ENGINEERING.md` updated.

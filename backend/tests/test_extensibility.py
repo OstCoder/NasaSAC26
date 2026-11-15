@@ -24,5 +24,10 @@ def test_registered_metric_flows_through_scenario_and_comparison(client):
 
 
 def test_feature_flags_exposed(client):
+    """Shipped Phase 5 features are on; the unimplemented ones stay off."""
     flags = client.get("/api/config").json()["features"]
-    assert flags["experimental_power_model"] is False
+    assert flags["experimental_power_model"] is True
+    assert flags["experimental_comm_link_budget"] is True
+    assert flags["experimental_report_export"] is True
+    assert flags["experimental_site_ranking"] is False
+    assert flags["experimental_ai_explanations"] is False
