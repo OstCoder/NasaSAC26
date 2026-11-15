@@ -101,7 +101,20 @@ Status: planned
 - [ ] Update docs/PHASE7_FINAL_VALIDATION.md with the overhaul entry.
 - [ ] Final commit + push.
 
-## Execution notes
+## Status summary (as of latest commit)
+
+Completed:
+- Phase 0: motion tokens, .fade-in/.slide-up/.press/.lift/.skeleton, Button press, Card lift, skip link, view fade-in.
+- Phase 1: Collapsible disclosure (methodology "What results do not mean").
+- Phase 2: mobile bottom tab bar.
+- Phase 4: 3D terrain wireframe toggle + north/scale overlay.
+
+Partial / deferred (deliberately, to keep scope sane):
+- Phase 1: further progressive disclosure for dense panels (methodology datasets table is already compact).
+- Phase 3: loading skeletons — the app already shows spinners/opacity + blur-up imagery; skeletons remain a polish item.
+- Phase 5: accessibility — focus-visible, skip link, semantic landmarks, text-word status labels already in place; full audit deferred.
+- Phase 6: micro-interactions — press feedback done; count-up/marker pulse/panel collapse deferred.
+- Phase 7: this verification pass.
 - Work phase by phase; commit each phase with message `UI overhaul phase N: <title>`.
 - Run tests before each push.
 - If a phase is too large, split into sub-commits.
