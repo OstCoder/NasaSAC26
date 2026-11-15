@@ -23,7 +23,6 @@ const MODE_HINT: Record<Mode, string> = {
 }
 
 function LunaMark() {
-  // Crescent with a horizon line: the product is about what sits above a horizon.
   return (
     <svg viewBox="0 0 32 32" className="size-7" aria-hidden>
       <circle cx="16" cy="14" r="10" fill="none" stroke="#e4eaf4" strokeWidth="1.6" />
@@ -36,68 +35,89 @@ function LunaMark() {
 export function TopNav({ view, onView }: { view: View; onView: (v: View) => void }) {
   const { features, mode, setMode, config } = useApp()
   const [dataSaver, setDataSaver] = useDataSaver()
+  const visible = NAV.filter((n) => features[n.flag] !== false)
   return (
-    <header className="sticky top-0 z-[1100] border-b border-rule-soft bg-night/95 backdrop-blur">
-      <div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5">
-        <div className="flex items-center gap-2.5">
-          <LunaMark />
-          <div className="leading-tight">
-            <p className="font-display text-xl font-bold tracking-wide">LunaNav</p>
-            <p className="text-[11px] text-faint">Lunar landing site navigator</p>
+    <>
+      <header className="sticky top-0 z-[1100] border-b border-rule-soft bg-night/95 backdrop-blur">
+        <div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5">
+          <div className="flex items-center gap-2.5">
+            <LunaMark />
+            <div className="leading-tight">
+              <p className="font-display text-xl font-bold tracking-wide">LunaNav</p>
+              <p className="text-[11px] text-faint">Lunar landing site navigator</p>
+            </div>
+          </div>
+          <nav aria-label="Main" className="hidden min-w-0 flex-1 flex-wrap gap-1 sm:flex">
+            {visible.map((n) => (
+              <button
+                key={n.id}
+                onClick={() => onView(n.id)}
+                aria-current={view === n.id ? 'page' : undefined}
+                className={cn(
+                  'inline-flex h-9 items-center gap-2 whitespace-nowrap rounded-md px-3 text-sm font-medium transition-colors',
+                  view === n.id ? 'bg-raised text-ink' : 'text-muted hover:text-ink',
+                )}
+              >
+                <n.icon className="size-4" aria-hidden />
+                {n.label}
+              </button>
+            ))}
+          </nav>
+          <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:ml-auto sm:w-auto sm:justify-end">
+            <button
+              type="button"
+              onClick={() => setDataSaver(!dataSaver)}
+              aria-pressed={dataSaver}
+              title={dataSaver ? 'Data saver on: smaller imagery, no 3D textures' : 'Data saver off'}
+              className={cn(
+                'inline-flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors',
+                dataSaver ? 'bg-sun/15 text-sun' : 'text-muted hover:text-ink',
+              )}
+            >
+              <Gauge className="size-4" aria-hidden />
+              <span className="hidden sm:inline">{dataSaver ? 'Data saver on' : 'Data saver'}</span>
+            </button>
+            <JplStatusPill />
+            <div role="radiogroup" aria-label="Data mode" className="flex items-center gap-0.5 rounded-md border border-rule-soft p-0.5">
+              {config.mode.allowed.map((m: Mode) => (
+                <button
+                  key={m}
+                  role="radio"
+                  aria-checked={mode === m}
+                  onClick={() => setMode(m)}
+                  className={cn(
+                    'h-7 rounded px-1.5 text-[11px] font-medium capitalize transition-colors sm:px-2.5 sm:text-[13px]',
+                    mode === m
+                      ? { demo: 'bg-sun/15 text-sun', jpl: 'bg-signal/20 text-signal', scientific: 'bg-both/15 text-both' }[m]
+                      : 'text-muted hover:text-ink',
+                  )}
+                  title={MODE_HINT[m]}
+                >
+                  {MODE_LABEL[m]}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-        <nav aria-label="Main" className="flex w-full min-w-0 flex-wrap gap-1 sm:w-auto sm:flex-1">
-          {NAV.filter((n) => features[n.flag] !== false).map((n) => (
+      </header>
+      <nav aria-label="Main (mobile)" className="fixed inset-x-0 bottom-0 z-[1100] flex border-t border-rule-soft bg-night/95 backdrop-blur sm:hidden">
+        <div className="mx-auto flex w-full max-w-[1500px] items-center justify-around px-2 py-1.5">
+          {visible.map((n) => (
             <button
               key={n.id}
               onClick={() => onView(n.id)}
               aria-current={view === n.id ? 'page' : undefined}
               className={cn(
-                'inline-flex h-9 items-center gap-2 whitespace-nowrap rounded-md px-3 text-sm font-medium transition-colors',
-                view === n.id ? 'bg-raised text-ink' : 'text-muted hover:text-ink',
+                'flex flex-1 flex-col items-center gap-0.5 rounded-md px-1 py-1 text-[10px] font-medium transition-colors',
+                view === n.id ? 'text-signal' : 'text-muted',
               )}
             >
-              <n.icon className="size-4" aria-hidden />
-              {n.label}
+              <n.icon className="size-5" aria-hidden />
+              <span className="truncate">{n.label.split(' ')[0]}</span>
             </button>
           ))}
-        </nav>
-        <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:ml-auto sm:w-auto sm:justify-end">
-          <button
-            type="button"
-            onClick={() => setDataSaver(!dataSaver)}
-            aria-pressed={dataSaver}
-            title={dataSaver ? 'Data saver on: smaller imagery, no 3D textures' : 'Data saver off'}
-            className={cn(
-              'inline-flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors',
-              dataSaver ? 'bg-sun/15 text-sun' : 'text-muted hover:text-ink',
-            )}
-          >
-            <Gauge className="size-4" aria-hidden />
-            <span className="hidden sm:inline">{dataSaver ? 'Data saver on' : 'Data saver'}</span>
-          </button>
-          <JplStatusPill />
-          <div role="radiogroup" aria-label="Data mode" className="flex items-center gap-0.5 rounded-md border border-rule-soft p-0.5">
-            {config.mode.allowed.map((m: Mode) => (
-              <button
-                key={m}
-                role="radio"
-                aria-checked={mode === m}
-                onClick={() => setMode(m)}
-                className={cn(
-                  'h-7 rounded px-1.5 text-[11px] font-medium capitalize transition-colors sm:px-2.5 sm:text-[13px]',
-                mode === m
-                  ? { demo: 'bg-sun/15 text-sun', jpl: 'bg-signal/20 text-signal', scientific: 'bg-both/15 text-both' }[m]
-                    : 'text-muted hover:text-ink',
-                )}
-                title={MODE_HINT[m]}
-              >
-                {MODE_LABEL[m]}
-              </button>
-            ))}
-          </div>
         </div>
-      </div>
-    </header>
+      </nav>
+    </>
   )
 }

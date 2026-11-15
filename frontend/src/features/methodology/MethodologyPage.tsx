@@ -1,6 +1,7 @@
 import { Check, Minus } from 'lucide-react'
 import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Collapsible } from '@/components/ui/collapsible'
 import { useApiResource } from '@/hooks/useApiResource'
 import { useApp } from '@/hooks/useAppContext'
 import { fmtUtc } from '@/lib/format'
@@ -184,10 +185,12 @@ export function MethodologyPage() {
         <Card>
           <CardHeader title="What the results do not mean" />
           <CardContent className="space-y-2 text-sm leading-relaxed text-muted">
-            <p>Sun above the skyline is a precondition for solar power, not a power estimate. Panel orientation, shadowing by the lander and dust are not modelled.</p>
-            <p>Earth above the skyline is a precondition for direct-to-Earth links, not a link guarantee. Antenna pointing, ground-station coverage and relays are not modelled.</p>
-            <p>Comparisons describe differences in modelled visibility. They are not site rankings or recommendations.</p>
-            <p>Demo skylines are synthetic. Demo landing-site coordinates are approximate and are not official landing-region definitions.</p>
+            <Collapsible summary="Read the four limits before trusting a number">
+              <p>Sun above the skyline is a precondition for solar power, not a power estimate. Panel orientation, shadowing by the lander and dust are not modelled.</p>
+              <p>Earth above the skyline is a precondition for direct-to-Earth links, not a link guarantee. Antenna pointing, ground-station coverage and relays are not modelled.</p>
+              <p>Comparisons describe differences in modelled visibility. They are not site rankings or recommendations.</p>
+              <p>Demo skylines are synthetic. Demo landing-site coordinates are approximate and are not official landing-region definitions.</p>
+            </Collapsible>
           </CardContent>
         </Card>
       </div>

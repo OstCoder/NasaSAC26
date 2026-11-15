@@ -1014,7 +1014,7 @@ flight-certified NASA mission system.
 - [x] Phase 0: Button press feedback; Card interactive lift prop.
 - [x] Phase 1/2: skip-to-main link, view-change fade-in, main landmark + tabIndex.
 - [ ] Phase 1: progressive disclosure for long descriptions.
-- [ ] Phase 2: mobile bottom tab bar.
+- [x] Phase 2: mobile bottom tab bar.
 - [ ] Phase 3: loading skeletons for imagery/PSR.
 - [ ] Phase 4: 3D terrain enhancement (lighting, scale bar, wireframe toggle).
 - [ ] Phase 5: accessibility audit (aria-labels, color-blind safe status).
