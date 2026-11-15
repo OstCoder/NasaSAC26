@@ -17,7 +17,7 @@ import { CHART_COLORS } from '@/config/app'
 import { fmtDeg, fmtUtc } from '@/lib/format'
 import type { ScenarioResult } from '@/types/api'
 import { IntervalBands } from './IntervalBands'
-import { zoomDomain } from './timeline'
+import { nextTransition, zoomDomain } from './timeline'
 
 type View = 'clearance' | 'geometric'
 
@@ -64,7 +64,12 @@ export function VisibilityTimeline(props: TimelineProps) {
 function TimelineView({ result, index, onIndex }: TimelineProps) {
   const [view, setView] = React.useState<View>('clearance')
   const [playing, setPlaying] = React.useState(false)
+  const [speed, setSpeed] = React.useState(1)
   const [zoomHours, setZoomHours] = React.useState<number | null>(null)
+  const indexRef = React.useRef(index)
+  const onIndexRef = React.useRef(onIndex)
+  indexRef.current = index
+  onIndexRef.current = onIndex
   const s = result.series
   const n = s.times_utc.length
   const t0 = Date.parse(s.times_utc[0])
@@ -84,16 +89,19 @@ function TimelineView({ result, index, onIndex }: TimelineProps) {
     return rows
   }, [s, n, view])
 
-  // playback
+  // Playback reads the current sample from a ref. Without that, the parent's
+  // inline onIndex callback restarted this timer on every sample and playback
+  // slowed to a crawl. Speed is a sample multiplier, not a fabricated sample.
   React.useEffect(() => {
     if (!playing) return
-    const step = Math.max(1, Math.round(n / 240))
+    const step = Math.max(1, Math.round((n / 240) * speed))
     const id = window.setInterval(() => {
-      onIndex(Math.min(n - 1, index + step))
+      const next = Math.min(n - 1, indexRef.current + step)
+      onIndexRef.current(next)
+      if (next >= n - 1) setPlaying(false)
     }, 80)
-    if (index >= n - 1) setPlaying(false)
     return () => window.clearInterval(id)
-  }, [playing, index, n, onIndex])
+  }, [playing, n, speed])
 
   const cursorT = Date.parse(s.times_utc[index])
   const pickFrac = (f: number) => onIndex(Math.max(0, Math.min(n - 1, Math.round(f * (n - 1)))))
@@ -104,6 +112,8 @@ function TimelineView({ result, index, onIndex }: TimelineProps) {
     () => zoomDomain(t0, t1, cursorT, zoomHours),
     [zoomHours, cursorT, t0, t1],
   )
+
+  const next = React.useMemo(() => nextTransition(result.intervals, cursorT), [result.intervals, cursorT])
 
   const ticks = React.useMemo(() => {
     const spanDays = (domain[1] - domain[0]) / 86_400_000
@@ -185,6 +195,9 @@ function TimelineView({ result, index, onIndex }: TimelineProps) {
             <YAxis stroke={CHART_COLORS.axis} tick={{ fontSize: 11 }} width={44} tickFormatter={(v: number) => `${v}°`} />
             <ReferenceLine y={0} stroke={CHART_COLORS.terrainEdge} strokeWidth={1.2} />
             <ReferenceLine x={cursorT} stroke={CHART_COLORS.cursor} strokeWidth={1.5} />
+            {next && next.time >= domain[0] && next.time <= domain[1] && (
+              <ReferenceLine x={next.time} stroke={CHART_COLORS.sun} strokeDasharray="4 3" strokeWidth={1} />
+            )}
             <RTooltip content={<ChartTip view={view} />} cursor={{ stroke: CHART_COLORS.axis, strokeDasharray: '3 3' }} />
             <Line dataKey="sun" stroke={CHART_COLORS.sun} dot={false} strokeWidth={1.6} isAnimationActive={false} name="Sun" />
             <Line dataKey="earth" stroke={CHART_COLORS.earth} dot={false} strokeWidth={1.6} isAnimationActive={false} name="Earth" />
@@ -202,20 +215,45 @@ function TimelineView({ result, index, onIndex }: TimelineProps) {
         />
       </div>
 
-      <div className="flex items-center gap-2 pl-[36px]">
+      <div className="flex flex-wrap items-center gap-2 pl-[36px]">
         <Button size="icon" variant="ghost" aria-label="Previous sample" onClick={() => onIndex(Math.max(0, index - 1))}>
           <StepBack />
         </Button>
         <Button size="icon" variant="secondary" aria-label={playing ? 'Pause' : 'Play through mission'}
-          onClick={() => { if (index >= n - 1) onIndex(0); setPlaying((p) => !p) }}>
+          onClick={() => {
+            if (index >= n - 1) {
+              indexRef.current = 0
+              onIndexRef.current(0)
+            }
+            setPlaying((p) => !p)
+          }}>
           {playing ? <Pause /> : <Play />}
         </Button>
         <Button size="icon" variant="ghost" aria-label="Next sample" onClick={() => onIndex(Math.min(n - 1, index + 1))}>
           <StepForward />
         </Button>
         <Slider className="mx-2 flex-1" min={0} max={n - 1} step={1} value={[index]} onValueChange={([v]) => onIndex(v)} />
+        <div role="group" aria-label="Playback speed" className="flex items-center gap-1">
+          <span className="text-[11px] text-faint">Speed</span>
+          {[0.5, 1, 2, 4].map((value) => (
+            <Button
+              key={value}
+              size="sm"
+              variant={speed === value ? 'secondary' : 'ghost'}
+              aria-pressed={speed === value}
+              onClick={() => setSpeed(value)}
+            >
+              {value}×
+            </Button>
+          ))}
+        </div>
         <span className="num w-[150px] shrink-0 text-right text-sm text-ink">{fmtUtc(s.times_utc[index])} UTC</span>
       </div>
+
+      <p className="pl-[36px] text-xs text-faint" aria-live="polite">
+        {next ? `Next modelled edge: ${next.label} at ${fmtUtc(new Date(next.time).toISOString())} UTC.` : 'No visibility edge remains in this window.'}
+        {' '}The dashed amber rule marks it when it is inside the current chart range.
+      </p>
     </div>
   )
 }

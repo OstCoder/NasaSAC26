@@ -1,3 +1,34 @@
+import type { IntervalSet } from '@/types/api'
+
+export interface NextTransition {
+  time: number
+  body: 'sun' | 'earth'
+  kind: 'rise' | 'set'
+  label: string
+}
+
+/** The first modelled visibility edge strictly after `after` (epoch ms). */
+export function nextTransition(intervals: IntervalSet, after: number): NextTransition | null {
+  const candidates: NextTransition[] = []
+  const add = (body: 'sun' | 'earth', kind: 'rise' | 'set', iso: string) => {
+    const time = Date.parse(iso)
+    if (Number.isFinite(time) && time > after + 1) {
+      const name = body === 'sun' ? (kind === 'rise' ? 'Sunrise' : 'Sunset') : (kind === 'rise' ? 'Earthrise' : 'Earthset')
+      candidates.push({ time, body, kind, label: name })
+    }
+  }
+  for (const interval of intervals.sun_visible) {
+    add('sun', 'rise', interval.start_utc)
+    add('sun', 'set', interval.end_utc)
+  }
+  for (const interval of intervals.earth_visible) {
+    add('earth', 'rise', interval.start_utc)
+    add('earth', 'set', interval.end_utc)
+  }
+  candidates.sort((a, b) => a.time - b.time)
+  return candidates[0] ?? null
+}
+
 /** View-only time domain for the visibility chart. */
 export function zoomDomain(
   windowStart: number,

@@ -177,6 +177,16 @@ export function MethodologyPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader title="Scientific model labels" />
+        <CardContent className="space-y-2 text-sm leading-relaxed text-muted">
+          <p><strong className="text-ink">TERRAIN-AWARE MODEL</strong> — the result uses a committed LOLA terrain horizon. Sun/Earth clearance is the authoritative visibility calculation.</p>
+          <p><strong className="text-ink">SIMPLIFIED ENERGY MODEL</strong> — the power and link budgets use configured array, battery and communications assumptions. They are not hardware performance predictions.</p>
+          <p><strong className="text-ink">GEOMETRIC ONLY</strong> — no terrain mask covers this site or date. The result is the unobstructed geometric horizon and is not a terrain-adjusted visibility claim.</p>
+          <p><strong className="text-ink">UNAVAILABLE / NOT ASSESSED</strong> — the committed data does not contain the value. It is left unknown, never imputed. A nearby PSR is not evidence of water ice, and no result here is a landing-safety or NASA-approval verdict.</p>
+        </CardContent>
+      </Card>
     </div>
   )
 }

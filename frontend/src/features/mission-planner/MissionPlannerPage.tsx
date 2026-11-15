@@ -394,7 +394,12 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
       <FeasibilityPanel />
       <RequirementTuner />
       <DelayComparisonPanel />
-      <SiteTerrain3DPanel />
+      <SiteTerrain3DPanel
+        siteId={site?.id ?? null}
+        sun={snapshot.data ? { az: snapshot.data.sun.azimuth_deg, el: snapshot.data.sun.elevation_deg } : null}
+        earth={snapshot.data ? { az: snapshot.data.earth.azimuth_deg, el: snapshot.data.earth.elevation_deg } : null}
+        timestamp={snapshotTime}
+      />
     </div>
   )
 }

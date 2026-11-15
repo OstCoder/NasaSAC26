@@ -40,7 +40,9 @@ export function toShape(psr: PsrOut): PsrShape {
 
 export function usePsrs(): { shapes: PsrShape[]; error: string | null } {
   const [state, setState] = React.useState<{ shapes: PsrShape[]; error: string | null }>(
-    cache ? { shapes: [], error: null } : { shapes: [], error: null },
+    () => cache
+      ? { shapes: cache.map(toShape), error: null }
+      : { shapes: [], error: null },
   )
   const ready = Boolean(cache)
   React.useEffect(() => {

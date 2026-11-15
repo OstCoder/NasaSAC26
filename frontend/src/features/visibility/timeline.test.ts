@@ -1,5 +1,19 @@
 import { describe, expect, it } from 'vitest'
-import { zoomDomain } from './timeline'
+import type { Interval, IntervalSet } from '@/types/api'
+import { nextTransition, zoomDomain } from './timeline'
+
+const interval = (start: string, end: string): Interval => ({
+  start_utc: start,
+  end_utc: end,
+  duration_hours: (Date.parse(end) - Date.parse(start)) / 3_600_000,
+  clipped_start: false,
+  clipped_end: false,
+})
+
+const emptyIntervals = (): IntervalSet => ({
+  sun_visible: [], earth_visible: [], both_visible: [],
+  sun_blocked: [], earth_blocked: [], neither_visible: [],
+})
 
 const H = 3_600_000
 const t0 = Date.parse('2026-12-01T00:00:00Z')
@@ -30,5 +44,29 @@ describe('zoomDomain', () => {
 
   it('handles a zero-length mission without dividing by zero', () => {
     expect(zoomDomain(t0, t0, t0, 24)).toEqual([t0, t0])
+  })
+})
+
+describe('nextTransition', () => {
+  it('returns the first visibility edge after the cursor across both bodies', () => {
+    const intervals = emptyIntervals()
+    intervals.sun_visible = [interval('2026-12-01T02:00:00Z', '2026-12-01T05:00:00Z')]
+    intervals.earth_visible = [interval('2026-12-01T03:00:00Z', '2026-12-01T06:00:00Z')]
+    const result = nextTransition(intervals, Date.parse('2026-12-01T01:00:00Z'))
+    expect(result?.label).toBe('Sunrise')
+    expect(result?.body).toBe('sun')
+    expect(result?.time).toBe(Date.parse('2026-12-01T02:00:00Z'))
+  })
+
+  it('uses a set when the body is already visible', () => {
+    const intervals = emptyIntervals()
+    intervals.earth_visible = [interval('2026-12-01T03:00:00Z', '2026-12-01T06:00:00Z')]
+    const result = nextTransition(intervals, Date.parse('2026-12-01T04:00:00Z'))
+    expect(result?.label).toBe('Earthset')
+    expect(result?.time).toBe(Date.parse('2026-12-01T06:00:00Z'))
+  })
+
+  it('returns null when no edge remains', () => {
+    expect(nextTransition(emptyIntervals(), t0)).toBeNull()
   })
 })

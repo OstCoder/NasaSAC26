@@ -153,7 +153,7 @@
     "custom_coordinates": true,
     "horizon_panorama": true,
     "methodology_page": true,
-    "experimental_3d_terrain": false,
+    "experimental_3d_terrain": true,
     "experimental_power_model": true,
     "experimental_comm_link_budget": true,
     "experimental_site_ranking": true,
