@@ -33,6 +33,15 @@ class TestBasics:
         assert top.json() == {"status": "ok"}
         assert client.get("/api/health").json() == top.json()
 
+    def test_version(self, client):
+        v = client.get("/api/version").json()
+        assert v["name"]
+        assert v["version"]
+        assert v["api_contract"] == "lunanav.v1"
+        assert v["supported_start_utc"]
+        assert v["supported_end_utc"]
+        assert v["git_commit"] is None or isinstance(v["git_commit"], str)
+
     def test_config_and_sites(self, client):
         cfg = client.get("/api/config").json()
         assert cfg["features"]["rescheduler"] is True
@@ -312,6 +321,22 @@ class TestLiveSkyAndCraters:
         assert craters["Shackleton"]["latitude_deg"] == pytest.approx(-89.67, abs=0.01)
         assert craters["Tycho"]["longitude_deg"] == pytest.approx(-11.2153, abs=0.01)  # 348.78 °E in the source
         assert craters["Haworth"]["diameter_km"] == pytest.approx(51.4, abs=0.1)
+
+
+class TestCaching:
+    def test_etag_and_304(self, client):
+        r1 = client.get("/api/config")
+        assert r1.status_code == 200
+        etag = r1.headers.get("etag")
+        assert etag and etag.startswith('W/"')
+        assert "X-Response-Time" in r1.headers
+        r2 = client.get("/api/config", headers={"If-None-Match": etag})
+        assert r2.status_code == 304
+        assert r2.headers.get("etag") == etag
+
+    def test_no_etag_on_non_cached_path(self, client):
+        r = client.get("/api/health")
+        assert "etag" not in {k.lower() for k in r.headers}
 
 
 class TestCompression:

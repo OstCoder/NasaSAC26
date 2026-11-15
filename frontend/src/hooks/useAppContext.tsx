@@ -76,7 +76,20 @@ function ReadyProvider({ config, sites, children }: { config: AppConfig; sites: 
     [config.mission.candidate_sites, sites],
   )
   const pool = candidates.length > 0 ? candidates : sites
-  const [draftA, setDraftA] = React.useState<ScenarioDraft>({ ...base, ...siteDraftLocation(pool[0]) })
+  const [draftA, setDraftA] = React.useState<ScenarioDraft>(() => {
+    const params = new URLSearchParams(window.location.search)
+    const siteId = params.get('site')
+    const site = siteId ? sites.find((s) => s.id === siteId) : pool[0]
+    const draft: ScenarioDraft = { ...base, ...siteDraftLocation(site ?? pool[0]) }
+    const landing = params.get('landing')
+    if (landing) draft.landing_utc = landing
+    const dur = params.get('duration')
+    if (dur) {
+      const n = Number(dur)
+      if (Number.isFinite(n) && n > 0) draft.duration_hours = n
+    }
+    return draft
+  })
   const [draftB, setDraftB] = React.useState<ScenarioDraft>({
     ...base,
     ...siteDraftLocation(pool[Math.min(2, pool.length - 1)]),

@@ -9,11 +9,13 @@ from pathlib import Path
 from typing import Optional
 
 import json
+import os
+import subprocess
 
 from fastapi import APIRouter, Query, Response
 
 from app.core.errors import DataUnavailableError
-from app.core.settings import get_settings
+from app.core.settings import REPO_ROOT, get_settings
 from app.models.schemas import (
     ComparisonResult,
     CompareRequest,
@@ -69,6 +71,30 @@ router = APIRouter(prefix="/api")
 @router.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@router.get("/version")
+def version():
+    """App name, version and supported mission window. Useful for verifying a deployment."""
+    s = get_settings()
+    sha = None
+    try:
+        sha = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            stderr=subprocess.DEVNULL, text=True, cwd=str(REPO_ROOT),
+            timeout=2,
+        ).strip() or None
+    except (OSError, subprocess.SubprocessError, subprocess.TimeoutExpired):
+        sha = None
+    return {
+        "name": s.raw["app"]["name"],
+        "version": s.raw["app"]["version"],
+        "api_contract": "lunanav.v1",
+        "supported_start_utc": s.raw["simulation"]["supported_start_utc"],
+        "supported_end_utc": s.raw["simulation"]["supported_end_utc"],
+        "default_mode": s.default_mode,
+        "git_commit": sha,
+    }
 
 
 @router.get("/config")

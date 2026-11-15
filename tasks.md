@@ -984,3 +984,27 @@ mission schedules, and scientific exploration.
 Our project is a prototype decision-support
 tool, not an officially approved or
 flight-certified NASA mission system.
+
+---
+
+## Night upgrades (autonomous, 15 Nov 2026)
+
+> Working autonomously overnight. Each item is committed individually so a
+> second agent can resume mid-flight. Statuses are updated as work lands.
+
+### Backend (small, tested)
+
+- [x] Add `GET /api/version` (app name, version, API contract, supported window, git SHA).
+- [x] CORS `max_age=86400` + `X-Response-Time` middleware.
+- [x] ETag/304 for immutable GETs (`/api/config`, `/api/sites`, `/api/craters`, `/api/psrs`, `/api/science/psrs`).
+
+### Frontend (UX)
+
+- [x] Data-saver mode: localStorage preference + auto-detect slow link; 512 px imagery when on.
+- [x] TopNav toggle for data-saver mode.
+- [x] Shareable scenario links: "Copy scenario link" button + URL-param prefill on load.
+- [~] Keyboard accessibility for site markers — superseded: site selection already goes through the keyboard-accessible Landing-site `<select>` in ScenarioEditor; global `:focus-visible` ring is in place. Map markers remain click-to-inspect.
+
+### Docs
+
+- [x] README note + PHASE7 doc entry for the night upgrades.

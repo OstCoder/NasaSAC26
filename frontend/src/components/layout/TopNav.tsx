@@ -1,6 +1,7 @@
-import { BookOpen, Compass, GitCompare, Map, Microscope } from 'lucide-react'
+import { BookOpen, Compass, Gauge, GitCompare, Map, Microscope } from 'lucide-react'
 import { JplStatusPill } from '@/components/JplStatus'
 import { useApp } from '@/hooks/useAppContext'
+import { useDataSaver } from '@/hooks/useDataSaver'
 import { cn } from '@/lib/utils'
 import type { Mode } from '@/types/api'
 
@@ -34,6 +35,7 @@ function LunaMark() {
 
 export function TopNav({ view, onView }: { view: View; onView: (v: View) => void }) {
   const { features, mode, setMode, config } = useApp()
+  const [dataSaver, setDataSaver] = useDataSaver()
   return (
     <header className="sticky top-0 z-[1100] border-b border-rule-soft bg-night/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5">
@@ -61,6 +63,19 @@ export function TopNav({ view, onView }: { view: View; onView: (v: View) => void
           ))}
         </nav>
         <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:ml-auto sm:w-auto sm:justify-end">
+          <button
+            type="button"
+            onClick={() => setDataSaver(!dataSaver)}
+            aria-pressed={dataSaver}
+            title={dataSaver ? 'Data saver on: smaller imagery, no 3D textures' : 'Data saver off'}
+            className={cn(
+              'inline-flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors',
+              dataSaver ? 'bg-sun/15 text-sun' : 'text-muted hover:text-ink',
+            )}
+          >
+            <Gauge className="size-4" aria-hidden />
+            <span className="hidden sm:inline">{dataSaver ? 'Data saver on' : 'Data saver'}</span>
+          </button>
           <JplStatusPill />
           <div role="radiogroup" aria-label="Data mode" className="flex items-center gap-0.5 rounded-md border border-rule-soft p-0.5">
             {config.mode.allowed.map((m: Mode) => (

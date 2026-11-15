@@ -104,4 +104,15 @@ These are deliberately **not** marked complete because they need an external acc
 4. Rehearse the pitch with the team and confirm the event time limit.
 5. Complete the current official Project tab, submit, and verify the submission in a private window.
 
+## 6. Night upgrades (15 Nov 2026)
+
+Autonomous follow-up work committed after the initial Phase 7 package:
+
+- `GET /api/version` (app name, version, API contract, supported window, git SHA).
+- CORS `max_age=86400` plus `X-Response-Time` and weak ETag/304 on `/api/config`, `/api/sites`, `/api/craters`, `/api/psrs`, `/api/science/psrs`.
+- Frontend data-saver mode (localStorage + auto-detect slow link) with a TopNav toggle; 512 px imagery when on.
+- Shareable scenario links: "Copy scenario link" button and URL-param prefill on load.
+
+Backend suite: **348 passed + 4 skipped** (352 total). Frontend: **52 passed**, typecheck clean.
+
 Until those steps are done, Phase 7 is a verified local release candidate, not a completed submission.

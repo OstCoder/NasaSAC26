@@ -22,6 +22,7 @@ import { RequirementTuner } from '@/features/phase3/RequirementTuner'
 import { DelayComparisonPanel } from '@/features/phase3/DelayComparisonPanel'
 import { SiteTerrain3DPanel } from '@/features/phase3/SiteTerrain3DPanel'
 import { siteDraftLocation, useApp, type ScenarioDraft } from '@/hooks/useAppContext'
+import { useDataSaver } from '@/hooks/useDataSaver'
 import { useCraters, useScenario, useSkyNow, useSnapshot } from '@/hooks/useScenario'
 import { fmtLat, fmtLon, fmtUtc } from '@/lib/format'
 import { cn } from '@/lib/utils'
@@ -84,10 +85,49 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
   const [imageryError, setImageryError] = React.useState<string | null>(null)
   const [showPsrs, setShowPsrs] = React.useState(true)
   const imageryCredit = imageryLayer ? (config.imagery.layers[imageryLayer]?.credit ?? '') : ''
+  const [dataSaver] = useDataSaver()
+  const imagerySize = dataSaver ? 512 : 1024
+
+  const [copied, setCopied] = React.useState(false)
+  const shareUrl = React.useMemo(() => {
+    if (!draftA.location.site_id) return null
+    try {
+      const u = new URL(window.location.href)
+      u.search = ''
+      u.searchParams.set('site', draftA.location.site_id)
+      u.searchParams.set('landing', draftA.landing_utc)
+      u.searchParams.set('duration', String(draftA.duration_hours))
+      u.hash = 'planner'
+      return u.toString()
+    } catch {
+      return null
+    }
+  }, [draftA])
+
+  const copyLink = React.useCallback(async () => {
+    if (!shareUrl) return
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1600)
+    } catch {
+      /* clipboard unavailable */
+    }
+  }, [shareUrl])
 
   return (
     <div className="space-y-4">
       {result && <ProvenanceCallout provenance={result.provenance} />}
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={copyLink}
+          disabled={!shareUrl}
+          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-rule-soft px-2.5 text-xs text-muted transition-colors hover:text-ink disabled:opacity-50"
+        >
+          {copied ? 'Copied!' : 'Copy scenario link'}
+        </button>
+      </div>
 
       <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-12">
         {/* Map / 3D viewer */}
@@ -117,7 +157,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                     ? {
                         // 1024 covers the card at 2x density and renders 128 Trek tiles cold
                         // instead of 612 at 2048 (~6 s rather than ~24 s on a first load).
-                        url: api.southPoleImageryUrl(imageryLayer, 1024, -80),
+                        url: api.southPoleImageryUrl(imageryLayer, imagerySize, -80),
                         previewUrl: api.southPoleImageryUrl(imageryLayer, 512, -80),
                         credit: imageryCredit,
                       }
@@ -173,7 +213,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                   <LunarGlobe
                     className="aspect-square w-full"
                     textureUrl={imageryLayer ? api.globalImageryUrl(imageryLayer, 2) : null}
-                    hdTextureUrl={imageryLayer ? api.globalImageryUrl(imageryLayer, 3) : null}
+                    hdTextureUrl={dataSaver ? null : (imageryLayer ? api.globalImageryUrl(imageryLayer, 3) : null)}
                     relief={features.lunar_imagery ? { heightUrl: api.reliefUrl('height', 2), normalUrl: api.reliefUrl('normal', 3), credit: config.imagery.layers[config.imagery.relief_layer]?.credit ?? '' } : null}
                     textureCredit={imageryCredit}
                     craters={craters}
