@@ -1,6 +1,8 @@
 
 # Phase 6 — Scientific Exploration & Advanced Visualization
 
+> **Status (14 Nov 2026): complete.** PSR/science context, map layers, education, 3D terrain shadows, playback and transparency are implemented and browser-checked. The Phase 6 acceptance matrix passes **8/8**; see [docs/PHASE6_ACCEPTANCE.md](docs/PHASE6_ACCEPTANCE.md), [docs/PHASE6_SCIENCE.md](docs/PHASE6_SCIENCE.md) and [docs/PHASE6_PERFORMANCE.md](docs/PHASE6_PERFORMANCE.md). Water ice remains explicitly unassessed.
+
 ## Objective
 
 Enhance our NASA Space Apps Challenge 2026 Lunar
@@ -31,18 +33,18 @@ operationally challenging.
 
 ## Task 1: Research Permanently Shadowed Regions (PSRs)
 
-- [ ] Research what permanently shadowed regions are.
-- [ ] Understand why PSRs exist near the lunar poles.
-- [ ] Research how low solar elevation and crater
+- [x] Research what permanently shadowed regions are.
+- [x] Understand why PSRs exist near the lunar poles.
+- [x] Research how low solar elevation and crater
       geometry create long-term shadowing.
-- [ ] Investigate why PSRs may preserve water ice.
-- [ ] Identify PSRs near our three candidate sites.
-- [ ] Find verified NASA datasets showing PSR boundaries.
-- [ ] Review dataset resolution and coordinate systems.
-- [ ] Record sources and scientific limitations.
-- [ ] Distinguish permanent shadowing from temporary
+- [x] Investigate why PSRs may preserve water ice.
+- [x] Identify PSRs near our three candidate sites.
+- [x] Find verified NASA datasets showing PSR boundaries.
+- [x] Review dataset resolution and coordinate systems.
+- [x] Record sources and scientific limitations.
+- [x] Distinguish permanent shadowing from temporary
       darkness during the selected mission period.
-- [ ] Document why PSRs are scientifically valuable.
+- [x] Document why PSRs are scientifically valuable.
 
 ### Key Scientific Concepts
 
@@ -89,18 +91,18 @@ https://science.nasa.gov/
 
 ## Task 2: Integrate PSR Data Into the Lunar Map
 
-- [ ] Obtain a usable PSR boundary dataset.
-- [ ] Check the dataset's geographic coverage.
-- [ ] Confirm its lunar coordinate reference system.
-- [ ] Convert PSR data into a frontend-compatible format.
-- [ ] Align PSR boundaries with the lunar map projection.
-- [ ] Display PSRs as a separate map layer.
-- [ ] Add a toggle to enable or disable the layer.
-- [ ] Highlight PSRs near the selected landing sites.
-- [ ] Display PSR boundaries with appropriate labels.
-- [ ] Add a legend explaining the layer.
-- [ ] Verify map alignment against source data.
-- [ ] Display attribution for the scientific dataset.
+- [x] Obtain a usable PSR boundary dataset.
+- [x] Check the dataset's geographic coverage.
+- [x] Confirm its lunar coordinate reference system.
+- [x] Convert PSR data into a frontend-compatible format.
+- [x] Align PSR boundaries with the lunar map projection.
+- [x] Display PSRs as a separate map layer.
+- [x] Add a toggle to enable or disable the layer.
+- [x] Highlight PSRs near the selected landing sites.
+- [x] Display PSR boundaries with appropriate labels.
+- [x] Add a legend explaining the layer.
+- [x] Verify map alignment against source data.
+- [x] Display attribution for the scientific dataset.
 
 ### Suggested Map Layers
 
@@ -138,18 +140,18 @@ landing sites.
 
 ## Task 3: Calculate Proximity to PSRs
 
-- [ ] Load the selected landing site coordinates.
-- [ ] Load verified PSR boundaries.
-- [ ] Identify nearby permanently shadowed regions.
-- [ ] Calculate the minimum surface distance from
+- [x] Load the selected landing site coordinates.
+- [x] Load verified PSR boundaries.
+- [x] Identify nearby permanently shadowed regions.
+- [x] Calculate the minimum surface distance from
       each landing site to nearby PSR boundaries.
-- [ ] Use lunar surface geometry for distance estimates.
-- [ ] Identify the nearest mapped PSR.
-- [ ] Display proximity measurements in kilometers.
-- [ ] Compare PSR proximity across landing sites.
-- [ ] Handle sites with no nearby mapped PSRs.
-- [ ] Record uncertainty caused by dataset resolution.
-- [ ] Clearly distinguish distance from accessibility.
+- [x] Use lunar surface geometry for distance estimates.
+- [x] Identify the nearest mapped PSR.
+- [x] Display proximity measurements in kilometers.
+- [x] Compare PSR proximity across landing sites.
+- [x] Handle sites with no nearby mapped PSRs.
+- [x] Record uncertainty caused by dataset resolution.
+- [x] Clearly distinguish distance from accessibility.
 
 ### Simplified Lunar Surface Distance
 
@@ -205,18 +207,18 @@ sites to nearby mapped PSRs.
 
 ## Task 4: Create a Water-Ice Exploration Mode
 
-- [ ] Add an optional science exploration mode.
-- [ ] Allow users to prioritize proximity to PSRs.
-- [ ] Display nearby scientifically interesting regions.
-- [ ] Combine PSR proximity with sunlight metrics.
-- [ ] Combine PSR proximity with Earth visibility metrics.
-- [ ] Compare candidate sites based on these factors.
-- [ ] Display conflicts between engineering and
+- [x] Add an optional science exploration mode.
+- [x] Allow users to prioritize proximity to PSRs.
+- [x] Display nearby scientifically interesting regions.
+- [x] Combine PSR proximity with sunlight metrics.
+- [x] Combine PSR proximity with Earth visibility metrics.
+- [x] Compare candidate sites based on these factors.
+- [x] Display conflicts between engineering and
       scientific exploration priorities.
-- [ ] Identify sites that satisfy selected constraints.
-- [ ] Explain why a nearby PSR may be interesting.
-- [ ] Clearly identify unsupported scientific claims.
-- [ ] Avoid claiming confirmed water ice without evidence.
+- [x] Identify sites that satisfy selected constraints.
+- [x] Explain why a nearby PSR may be interesting.
+- [x] Clearly identify unsupported scientific claims.
+- [x] Avoid claiming confirmed water ice without evidence.
 
 ### Example User Scenario
 
@@ -266,18 +268,18 @@ combines PSR proximity with operational metrics.
 
 ## Task 5: Develop Advanced 3D Lunar Terrain Visualization
 
-- [ ] Review available elevation data for selected sites.
-- [ ] Choose Three.js or React Three Fiber.
-- [ ] Create a 3D terrain mesh from elevation data.
-- [ ] Apply appropriate lunar surface textures.
-- [ ] Place landing-site markers on the terrain.
-- [ ] Add camera rotation and zoom controls.
-- [ ] Display realistic relative terrain elevations.
-- [ ] Add a terrain scale or elevation legend.
-- [ ] Indicate when vertical exaggeration is applied.
-- [ ] Optimize terrain resolution for browser performance.
-- [ ] Ensure markers align with their real coordinates.
-- [ ] Provide a 2D fallback when 3D rendering is unavailable.
+- [x] Review available elevation data for selected sites.
+- [x] Choose Three.js or React Three Fiber.
+- [x] Create a 3D terrain mesh from elevation data.
+- [x] Apply appropriate lunar surface textures.
+- [x] Place landing-site markers on the terrain.
+- [x] Add camera rotation and zoom controls.
+- [x] Display realistic relative terrain elevations.
+- [x] Add a terrain scale or elevation legend.
+- [x] Indicate when vertical exaggeration is applied.
+- [x] Optimize terrain resolution for browser performance.
+- [x] Ensure markers align with their real coordinates.
+- [x] Provide a 2D fallback when 3D rendering is unavailable.
 
 ### Suggested 3D Features
 
@@ -316,19 +318,19 @@ https://quickmap.lroc.asu.edu/
 
 ## Task 6: Add Sunlight and Shadow Visualization
 
-- [ ] Use verified Sun position data from Phase 2.
-- [ ] Use terrain data for supported landing sites.
-- [ ] Determine the Sun direction at selected timestamps.
-- [ ] Display the direction of incoming sunlight.
-- [ ] Implement terrain-based shadow rendering.
-- [ ] Update shadows when the timestamp changes.
-- [ ] Clearly distinguish modeled shadows from
+- [x] Use verified Sun position data from Phase 2.
+- [x] Use terrain data for supported landing sites.
+- [x] Determine the Sun direction at selected timestamps.
+- [x] Display the direction of incoming sunlight.
+- [x] Implement terrain-based shadow rendering.
+- [x] Update shadows when the timestamp changes.
+- [x] Clearly distinguish modeled shadows from
       actual observed lunar imagery.
-- [ ] Synchronize shadow rendering with the timeline.
-- [ ] Test low-elevation Sun conditions.
-- [ ] Validate representative shadows against
+- [x] Synchronize shadow rendering with the timeline.
+- [x] Test low-elevation Sun conditions.
+- [x] Validate representative shadows against
       available NASA reference observations.
-- [ ] Document limitations of the rendering model.
+- [x] Document limitations of the rendering model.
 
 ### Suggested Visualization
 
@@ -360,19 +362,19 @@ visualization for a supported lunar site.
 
 ## Task 7: Create a Mission Time Animation
 
-- [ ] Add an interactive mission time slider.
-- [ ] Allow users to select a specific UTC timestamp.
-- [ ] Add play and pause functionality.
-- [ ] Add adjustable animation playback speed.
-- [ ] Update Sun and Earth position markers over time.
-- [ ] Update visibility status during playback.
-- [ ] Synchronize the sky view with the timeline.
-- [ ] Synchronize terrain illumination when available.
-- [ ] Update mission metrics or selected-time details.
-- [ ] Highlight visibility transitions.
-- [ ] Prevent animation outside available data ranges.
-- [ ] Handle gaps in astronomical data.
-- [ ] Test playback across different mission periods.
+- [x] Add an interactive mission time slider.
+- [x] Allow users to select a specific UTC timestamp.
+- [x] Add play and pause functionality.
+- [x] Add adjustable animation playback speed.
+- [x] Update Sun and Earth position markers over time.
+- [x] Update visibility status during playback.
+- [x] Synchronize the sky view with the timeline.
+- [x] Synchronize terrain illumination when available.
+- [x] Update mission metrics or selected-time details.
+- [x] Highlight visibility transitions.
+- [x] Prevent animation outside available data ranges.
+- [x] Handle gaps in astronomical data.
+- [x] Test playback across different mission periods.
 
 ### Expected User Experience
 
@@ -403,18 +405,18 @@ and available terrain visualizations.
 
 ## Task 8: Build Educational Information Panels
 
-- [ ] Create an explanation of lunar south-pole geography.
-- [ ] Explain why the Sun stays near the polar horizon.
-- [ ] Explain why some lunar craters remain shadowed.
-- [ ] Explain the scientific importance of PSRs.
-- [ ] Explain how lunar water ice may be preserved.
-- [ ] Explain Earth visibility and lunar libration.
-- [ ] Explain why sunlight affects spacecraft power.
-- [ ] Explain why Earth visibility affects communication.
-- [ ] Explain the purpose of landing-site comparisons.
-- [ ] Include relevant scientific references.
-- [ ] Make terminology understandable to non-specialists.
-- [ ] Provide tooltips for technical measurements.
+- [x] Create an explanation of lunar south-pole geography.
+- [x] Explain why the Sun stays near the polar horizon.
+- [x] Explain why some lunar craters remain shadowed.
+- [x] Explain the scientific importance of PSRs.
+- [x] Explain how lunar water ice may be preserved.
+- [x] Explain Earth visibility and lunar libration.
+- [x] Explain why sunlight affects spacecraft power.
+- [x] Explain why Earth visibility affects communication.
+- [x] Explain the purpose of landing-site comparisons.
+- [x] Include relevant scientific references.
+- [x] Make terminology understandable to non-specialists.
+- [x] Provide tooltips for technical measurements.
 
 ### Suggested Educational Topics
 
@@ -446,18 +448,18 @@ the application's calculations.
 
 ## Task 9: Improve Scientific Transparency
 
-- [ ] Identify which data comes from JPL Horizons.
-- [ ] Identify which data comes from lunar terrain datasets.
-- [ ] Display the observation time range.
-- [ ] Display dataset resolution when relevant.
-- [ ] Identify geometric-only visibility calculations.
-- [ ] Identify terrain-adjusted visibility calculations.
-- [ ] Identify simplified power and battery models.
-- [ ] Identify hypothetical mission parameters.
-- [ ] Document coordinate systems and conventions.
-- [ ] Document uncertainty and data limitations.
-- [ ] Add source attribution to the website.
-- [ ] Avoid unsupported scientific conclusions.
+- [x] Identify which data comes from JPL Horizons.
+- [x] Identify which data comes from lunar terrain datasets.
+- [x] Display the observation time range.
+- [x] Display dataset resolution when relevant.
+- [x] Identify geometric-only visibility calculations.
+- [x] Identify terrain-adjusted visibility calculations.
+- [x] Identify simplified power and battery models.
+- [x] Identify hypothetical mission parameters.
+- [x] Document coordinate systems and conventions.
+- [x] Document uncertainty and data limitations.
+- [x] Add source attribution to the website.
+- [x] Avoid unsupported scientific conclusions.
 
 ### Suggested Model Labels
 
@@ -497,18 +499,18 @@ and data-source information section.
 
 ## Task 10: Optimize Website Performance
 
-- [ ] Measure initial page loading time.
-- [ ] Optimize large lunar terrain datasets.
-- [ ] Reduce unnecessary API requests.
-- [ ] Cache previously calculated results.
-- [ ] Optimize chart rendering.
-- [ ] Reduce unnecessary React re-renders.
-- [ ] Test animation performance.
-- [ ] Optimize 3D terrain meshes.
-- [ ] Implement loading indicators.
-- [ ] Handle network failures gracefully.
-- [ ] Provide fallbacks for unsupported 3D rendering.
-- [ ] Verify the application remains usable
+- [x] Measure initial page loading time.
+- [x] Optimize large lunar terrain datasets.
+- [x] Reduce unnecessary API requests.
+- [x] Cache previously calculated results.
+- [x] Optimize chart rendering.
+- [x] Reduce unnecessary React re-renders.
+- [x] Test animation performance.
+- [x] Optimize 3D terrain meshes.
+- [x] Implement loading indicators.
+- [x] Handle network failures gracefully.
+- [x] Provide fallbacks for unsupported 3D rendering.
+- [x] Verify the application remains usable
       on slower devices.
 
 ### Performance Priorities
@@ -537,19 +539,19 @@ datasets and visualizations efficiently.
 
 ## Task 11: Validate Scientific Features
 
-- [ ] Verify PSR boundaries against source data.
-- [ ] Verify landing-site map alignment.
-- [ ] Test PSR distance calculations.
-- [ ] Validate lunar surface distance formulas.
-- [ ] Verify 3D terrain elevation consistency.
-- [ ] Verify solar direction calculations.
-- [ ] Verify Earth direction calculations.
-- [ ] Test shadow geometry at known timestamps.
-- [ ] Validate mission animation synchronization.
-- [ ] Test missing terrain data behavior.
-- [ ] Confirm all scientific units are correct.
-- [ ] Confirm explanations match calculated results.
-- [ ] Document unresolved scientific limitations.
+- [x] Verify PSR boundaries against source data.
+- [x] Verify landing-site map alignment.
+- [x] Test PSR distance calculations.
+- [x] Validate lunar surface distance formulas.
+- [x] Verify 3D terrain elevation consistency.
+- [x] Verify solar direction calculations.
+- [x] Verify Earth direction calculations.
+- [x] Test shadow geometry at known timestamps.
+- [x] Validate mission animation synchronization.
+- [x] Test missing terrain data behavior.
+- [x] Confirm all scientific units are correct.
+- [x] Confirm explanations match calculated results.
+- [x] Document unresolved scientific limitations.
 
 ### Example Test Cases
 
@@ -596,18 +598,18 @@ with tests and documented limitations.
 
 ## Task 12: Integrate and Test Advanced Features
 
-- [ ] Connect the PSR map layer to site selection.
-- [ ] Connect PSR proximity results to site comparison.
-- [ ] Connect science preferences to mission evaluation.
-- [ ] Connect 3D terrain to the selected landing site.
-- [ ] Connect mission time controls to position data.
-- [ ] Synchronize animations and visibility timelines.
-- [ ] Connect educational panels to relevant features.
-- [ ] Verify source attribution across the website.
-- [ ] Test combined frontend and backend workflows.
-- [ ] Test unsupported sites and missing datasets.
-- [ ] Verify advanced features do not break core analysis.
-- [ ] Confirm all advanced features can be disabled
+- [x] Connect the PSR map layer to site selection.
+- [x] Connect PSR proximity results to site comparison.
+- [x] Connect science preferences to mission evaluation.
+- [x] Connect 3D terrain to the selected landing site.
+- [x] Connect mission time controls to position data.
+- [x] Synchronize animations and visibility timelines.
+- [x] Connect educational panels to relevant features.
+- [x] Verify source attribution across the website.
+- [x] Test combined frontend and backend workflows.
+- [x] Test unsupported sites and missing datasets.
+- [x] Verify advanced features do not break core analysis.
+- [x] Confirm all advanced features can be disabled
       independently when necessary.
 
 ### Suggested API Endpoints
@@ -673,35 +675,35 @@ features integrated into the website.
 
 ### Core Scientific Features
 
-- [ ] Permanently shadowed regions researched.
-- [ ] Reliable PSR data sources identified.
-- [ ] PSR data integrated into the application.
-- [ ] PSR map layer implemented.
-- [ ] PSR proximity calculations implemented.
-- [ ] Scientific exploration preferences supported.
-- [ ] Scientific information panels created.
-- [ ] Scientific data sources documented.
-- [ ] Scientific limitations clearly displayed.
+- [x] Permanently shadowed regions researched.
+- [x] Reliable PSR data sources identified.
+- [x] PSR data integrated into the application.
+- [x] PSR map layer implemented.
+- [x] PSR proximity calculations implemented.
+- [x] Scientific exploration preferences supported.
+- [x] Scientific information panels created.
+- [x] Scientific data sources documented.
+- [x] Scientific limitations clearly displayed.
 
 ### Application Improvements
 
-- [ ] Mission-time visualization improved.
-- [ ] Map interaction tested.
-- [ ] Existing visibility charts verified.
-- [ ] Mission comparison remains functional.
-- [ ] Application performance optimized.
-- [ ] Missing-data behavior tested.
-- [ ] Advanced features integrated successfully.
+- [x] Mission-time visualization improved.
+- [x] Map interaction tested.
+- [x] Existing visibility charts verified.
+- [x] Mission comparison remains functional.
+- [x] Application performance optimized.
+- [x] Missing-data behavior tested.
+- [x] Advanced features integrated successfully.
 
 ### Advanced Completion Criteria
 
-- [ ] Interactive 3D lunar terrain implemented.
-- [ ] Terrain-based shadow rendering implemented.
-- [ ] Animated sunlight conditions supported.
-- [ ] Animated Earth positions supported.
-- [ ] Science-focused mission recommendations added.
-- [ ] Scientific model cross-validation completed.
-- [ ] Advanced visualization performance optimized.
+- [x] Interactive 3D lunar terrain implemented.
+- [x] Terrain-based shadow rendering implemented.
+- [x] Animated sunlight conditions supported.
+- [x] Animated Earth positions supported.
+- [x] Science-focused mission recommendations added.
+- [x] Scientific model cross-validation completed.
+- [x] Advanced visualization performance optimized.
 
 ---
 
