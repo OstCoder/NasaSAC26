@@ -1,4 +1,5 @@
 import { BookOpen, Compass, Gauge, GitCompare, Map, Microscope } from 'lucide-react'
+import * as React from 'react'
 import { JplStatusPill } from '@/components/JplStatus'
 import { useApp } from '@/hooks/useAppContext'
 import { useDataSaver } from '@/hooks/useDataSaver'
@@ -35,6 +36,11 @@ function LunaMark() {
 export function TopNav({ view, onView }: { view: View; onView: (v: View) => void }) {
   const { features, mode, setMode, config } = useApp()
   const [dataSaver, setDataSaver] = useDataSaver()
+  React.useEffect(() => {
+    const on = () => setDataSaver(!dataSaver)
+    window.addEventListener('lunanav:toggle-data-saver', on)
+    return () => window.removeEventListener('lunanav:toggle-data-saver', on)
+  }, [setDataSaver])
   const visible = NAV.filter((n) => features[n.flag] !== false)
   return (
     <>

@@ -89,6 +89,26 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
   const imagerySize = dataSaver ? 512 : 1024
 
   const [copied, setCopied] = React.useState(false)
+  const [savedScenarios, setSavedScenarios] = React.useState<{ name: string; siteId: string; landing: string; duration: number }[]>(() => {
+    try { return JSON.parse(localStorage.getItem('lunanav.savedScenarios') ?? '[]') } catch { return [] }
+  })
+  const persistSaved = (next: { name: string; siteId: string; landing: string; duration: number }[]) => {
+    setSavedScenarios(next)
+    try { localStorage.setItem('lunanav.savedScenarios', JSON.stringify(next)) } catch { /* ignore */ }
+  }
+  const saveScenario = () => {
+    if (!draftA.location.site_id) return
+    const name = window.prompt('Name this scenario')?.trim()
+    if (!name) return
+    persistSaved([...savedScenarios.filter((s) => s.name !== name), { name, siteId: draftA.location.site_id, landing: draftA.landing_utc, duration: draftA.duration_hours }])
+  }
+  const loadScenario = (name: string) => {
+    const s = savedScenarios.find((x) => x.name === name)
+    if (!s) return
+    const site = sites.find((x) => x.id === s.siteId)
+    setDraftA({ location: { site_id: s.siteId }, locationName: site?.name ?? s.siteId, landing_utc: s.landing, duration_hours: s.duration })
+  }
+  const deleteScenario = (name: string) => persistSaved(savedScenarios.filter((s) => s.name !== name))
   const shareUrl = React.useMemo(() => {
     if (!draftA.location.site_id) return null
     try {
@@ -104,6 +124,23 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
     }
   }, [draftA])
 
+  const exportCsv = React.useCallback(() => {
+    if (!result) return
+    const s = result.series
+    const rows: string[] = []
+    rows.push(['time_utc', 'sun_az_deg', 'sun_el_deg', 'sun_horizon_deg', 'sun_visible', 'earth_az_deg', 'earth_el_deg', 'earth_horizon_deg', 'earth_visible'].join(','))
+    for (let i = 0; i < s.times_utc.length; i++) {
+      rows.push([s.times_utc[i], s.sun_azimuth_deg[i], s.sun_elevation_deg[i], s.sun_terrain_horizon_deg[i], s.sun_visible[i], s.earth_azimuth_deg[i], s.earth_elevation_deg[i], s.earth_terrain_horizon_deg[i], s.earth_visible[i]].join(','))
+    }
+    const blob = new Blob([rows.join('\n')], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `lunanav-${result.location.site_id ?? 'site'}-${result.landing_utc.slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [result])
+
   const copyLink = React.useCallback(async () => {
     if (!shareUrl) return
     try {
@@ -115,10 +152,46 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
     }
   }, [shareUrl])
 
+  React.useEffect(() => {
+    const on = () => { copyLink() }
+    window.addEventListener('lunanav:copy-link', on)
+    return () => window.removeEventListener('lunanav:copy-link', on)
+  }, [copyLink])
+
   return (
     <div className="space-y-4">
       {result && <ProvenanceCallout provenance={result.provenance} />}
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        {savedScenarios.length > 0 && (
+          <select
+            className="h-8 rounded-md border border-rule-soft bg-panel px-2 text-xs text-muted"
+            defaultValue=""
+            onChange={(e) => { if (e.target.value) loadScenario(e.target.value); e.target.value = '' }}
+            aria-label="Load saved scenario"
+          >
+            <option value="" disabled>Load saved…</option>
+            {savedScenarios.map((s) => (
+              <option key={s.name} value={s.name}>{s.name}</option>
+            ))}
+          </select>
+        )}
+        {savedScenarios.length > 0 && (
+          <button
+            type="button"
+            onClick={() => { const n = window.prompt('Delete which scenario? ' + savedScenarios.map((s) => s.name).join(', ')); if (n) deleteScenario(n) }}
+            className="inline-flex h-8 items-center gap-1.5 rounded-md border border-rule-soft px-2.5 text-xs text-muted transition-colors hover:text-ink"
+          >
+            Delete
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={saveScenario}
+          disabled={!draftA.location.site_id}
+          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-rule-soft px-2.5 text-xs text-muted transition-colors hover:text-ink disabled:opacity-50"
+        >
+          Save scenario
+        </button>
         <button
           type="button"
           onClick={copyLink}
@@ -126,6 +199,14 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
           className="inline-flex h-8 items-center gap-1.5 rounded-md border border-rule-soft px-2.5 text-xs text-muted transition-colors hover:text-ink disabled:opacity-50"
         >
           {copied ? 'Copied!' : 'Copy scenario link'}
+        </button>
+        <button
+          type="button"
+          onClick={exportCsv}
+          disabled={!result}
+          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-rule-soft px-2.5 text-xs text-muted transition-colors hover:text-ink disabled:opacity-50"
+        >
+          Export CSV
         </button>
       </div>
 

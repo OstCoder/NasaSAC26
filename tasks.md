@@ -1024,12 +1024,14 @@ flight-certified NASA mission system.
 
 - [x] Phase 0: motion tokens + utility classes (fade-in, slide-up, press, lift, skeleton) in index.css; reduced-motion guard already present.
 - [x] Phase 0: Button press feedback; Card interactive lift prop.
-- [x] Phase 1/2: skip-to-main link, view-change fade-in, main landmark + tabIndex.
+- [x] Phase 1/2: skip-to-main link, view-change fade-in, main landmark + tabIndex + focus management.
 - [x] Phase 1: progressive disclosure (Collapsible) for "What results do not mean".
-- [ ] Phase 1: further progressive disclosure for dense panels.
 - [x] Phase 2: mobile bottom tab bar.
 - [ ] Phase 3: loading skeletons for imagery/PSR.
-- [x] Phase 4: 3D terrain enhancement (lighting, scale bar, wireframe toggle).
-- [ ] Phase 5: accessibility audit (aria-labels, color-blind safe status) — partial: focus-visible, skip link, semantic landmarks done; status cells already use text words.
-- [ ] Phase 6: micro-interactions (count-up, marker pulse, panel collapse).
+- [x] Phase 4: 3D terrain enhancement (lighting, scale bar, wireframe toggle, time scrubber, click-to-inspect, Save PNG).
+- [ ] Phase 5: accessibility audit — partial: focus-visible, skip link, semantic landmarks, text-word status labels, focus management done.
+- [x] Phase 6: micro-interactions — press feedback, view fade-in, help overlay (?), keyboard shortcuts (1-5, C, D, Esc), saved scenarios, CSV export.
+- [x] Phase 9: saved scenarios + scenario presets (via URL), keyboard shortcuts, help overlay.
+- [x] Phase 10: CSV export of visibility data.
+- [x] Phase 11: "Now" mode (live Sun/Earth, 60s refresh) already present; verified.
 - [ ] Phase 7: verification + docs.
