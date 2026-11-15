@@ -32,10 +32,14 @@ function BodyReadout({ body, state, lookahead }: { body: 'sun' | 'earth'; state:
         <h3 className="font-display text-base font-semibold">{isSun ? 'Sun' : 'Earth'}</h3>
         <span
           className={cn(
-            'ml-auto rounded px-1.5 py-0.5 text-xs font-medium',
-            status.tone === 'visible' && (isSun ? 'bg-sun/15 text-sun' : 'bg-earth/15 text-earth'),
-            status.tone === 'terrain' && 'hatch-blocked bg-raised text-ink',
-            status.tone === 'below' && 'bg-raised text-faint',
+            'rounded-md px-2.5 py-1 text-sm font-semibold',
+            status.tone === 'visible'
+              ? isSun
+                ? 'bg-sun/20 text-sun'
+                : 'bg-earth/20 text-earth'
+              : status.tone === 'terrain'
+                ? 'hatch-blocked bg-raised text-ink'
+                : 'bg-raised text-faint',
           )}
         >
           {status.label}
@@ -47,7 +51,11 @@ function BodyReadout({ body, state, lookahead }: { body: 'sun' | 'earth'; state:
         <Row label="Terrain skyline at that azimuth" value={fmtDeg(state.terrain_horizon_deg)} hint="LOLA-derived obstruction height in this direction. Zero means a flat horizon was used." />
         <Row
           label="Clearance above terrain"
-          value={<span className={state.clearance_deg > 0 ? 'text-ink' : 'text-alert'}>{fmtDeg(state.clearance_deg)}</span>}
+          value={
+            <span className={cn(state.clearance_deg > 0 ? 'text-ink' : 'text-alert', 'text-base font-bold')}>
+              {fmtDeg(state.clearance_deg)}
+            </span>
+          }
           hint="Body elevation minus the skyline at its azimuth. Visible means clearance is above zero; it is not a power or link-budget estimate."
         />
         {isSun && state.disk_fraction !== null && (

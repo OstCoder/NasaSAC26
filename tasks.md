@@ -992,15 +992,16 @@ flight-certified NASA mission system.
 > Working autonomously overnight. Each item is committed individually so a
 > second agent can resume mid-flight. Statuses are updated as work lands.
 
-### UI overhaul (in progress: Phase 1)
+### UI overhaul (in progress: Phase 3 — visibility & metrics cards)
 
-> Follows docs/UI_OVERHAUL_PHASES.md. Less text-heavy, more clickable, smooth CSS
-> transitions, accessible, NASA-guideline aligned. No new heavy deps; backend tests
+> Follows docs/UI_OVERHAUL_PHASES.md. The other agent completed shell/nav/3D phases
+> (tokens, motion, mobile bottom tab bar, skip link, view fade-in, 3D scrubber,
+> click-to-inspect, PNG export). Remaining for this clone: visibility/metrics cards,
+> accessibility audit, comparison/decision pages. No new heavy deps; backend tests
 > (349) + frontend tests (52) + typecheck stay green every commit.
 
-- [ ] Phase 1: Design tokens & shell polish (fade-in Page wrapper, TopNav active states, focus rings)
-- [ ] Phase 2: Mission planner visual overhaul (ScenarioEditor stacked cards, MissionPlannerPage scannable cards)
-- [ ] Phase 3: Visibility & metrics cards (VisibilityTimeline, SnapshotPanel chips, MetricsTable color-coded, IntervalBands hatch)
+- [x] Phase 0/1/2: design tokens, motion primitives, info architecture, navigation & layout (covered by other agent's UI phases 0-2)
+- [ ] Phase 3: Visibility & metrics cards (VisibilityTimeline, SnapshotPanel chips, MetricsTable color-coded, IntervalBands hatch) — IN PROGRESS
 - [ ] Phase 4: Comparison & decision pages (ComparisonPage delta chips, DecisionDashboard pass/warn/fail)
 - [ ] Phase 5: Accessibility & motion polish + final typecheck/tests
 

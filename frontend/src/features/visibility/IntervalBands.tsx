@@ -6,12 +6,13 @@ export interface BandRow {
   key: keyof IntervalSet
   label: string
   barClass: string
+  tone: string
 }
 
 export const DEFAULT_ROWS: BandRow[] = [
-  { key: 'sun_visible', label: 'Sun', barClass: 'bg-sun' },
-  { key: 'earth_visible', label: 'Earth', barClass: 'bg-earth' },
-  { key: 'both_visible', label: 'Both', barClass: 'bg-both' },
+  { key: 'sun_visible', label: 'Sun', barClass: 'bg-sun', tone: 'text-sun' },
+  { key: 'earth_visible', label: 'Earth', barClass: 'bg-earth', tone: 'text-earth' },
+  { key: 'both_visible', label: 'Both', barClass: 'bg-both', tone: 'text-both' },
 ]
 
 /**
@@ -102,7 +103,17 @@ export function IntervalBands({
                 <div className="absolute inset-y-0 w-0.5 bg-signal" style={{ left: `${cursorFrac * 100}%` }} />
               )}
             </div>
-            <span className="num w-16 shrink-0 text-right text-xs text-muted">{fmtHours(total)}</span>
+            <span
+              className={cn(
+                'num w-16 shrink-0 text-right text-sm font-semibold rounded-md px-1.5 py-0.5',
+                row.tone === 'text-sun' ? 'bg-sun/15 text-sun' :
+                row.tone === 'text-earth' ? 'bg-earth/15 text-earth' :
+                row.tone === 'text-both' ? 'bg-both/15 text-both' :
+                'bg-raised text-muted',
+              )}
+            >
+              {fmtHours(total)}
+            </span>
           </div>
         )
       })}

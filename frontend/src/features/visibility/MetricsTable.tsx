@@ -3,11 +3,11 @@ import { fmtMetric } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { MetricCategory, MetricValue } from '@/types/api'
 
-const GROUPS: { id: MetricCategory; label: string; dot: string }[] = [
-  { id: 'sun', label: 'Sunlight', dot: 'bg-sun' },
-  { id: 'earth', label: 'Earth line of sight', dot: 'bg-earth' },
-  { id: 'combined', label: 'Combined', dot: 'bg-both' },
-  { id: 'geometry', label: 'Geometry', dot: 'bg-faint' },
+const GROUPS: { id: MetricCategory; label: string; dot: string; tone: string }[] = [
+  { id: 'sun', label: 'Sunlight', dot: 'bg-sun', tone: 'text-sun' },
+  { id: 'earth', label: 'Earth line of sight', dot: 'bg-earth', tone: 'text-earth' },
+  { id: 'combined', label: 'Combined', dot: 'bg-both', tone: 'text-both' },
+  { id: 'geometry', label: 'Geometry', dot: 'bg-faint', tone: 'text-faint' },
 ]
 
 /** Mission summary. Values limited by the window length are shown as lower bounds (≥). */
@@ -27,12 +27,12 @@ export function MetricsTable({ metrics }: { metrics: MetricValue[] }) {
               {rows.map((m) => (
                 <div key={m.id} className="flex items-baseline justify-between gap-3 border-t border-rule-soft py-1.5">
                   <Tooltip content={m.description}>
-                    <dt className="cursor-help text-[13px] text-muted">
+                    <dt className="cursor-help text-[12px] text-muted">
                       {m.label}
                       {m.unit === '%' ? ' (share)' : ''}
                     </dt>
                   </Tooltip>
-                  <dd className="num text-sm text-ink">
+                  <dd className={cn('num text-base text-ink', g.tone)}>
                     {m.censored && (
                       <Tooltip content="Touches the edge of the analysis window, so the true value may be larger.">
                         <span className="mr-0.5 cursor-help text-faint">≥</span>

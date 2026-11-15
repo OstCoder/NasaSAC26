@@ -247,7 +247,7 @@ function TimelineView({ result, index, onIndex }: TimelineProps) {
             </Button>
           ))}
         </div>
-        <span className="num w-[150px] shrink-0 text-right text-sm text-ink">{fmtUtc(s.times_utc[index])} UTC</span>
+        <span className="num w-[160px] shrink-0 text-right text-base font-bold text-ink">{fmtUtc(s.times_utc[index])} UTC</span>
       </div>
 
       <p className="pl-[36px] text-xs text-faint" aria-live="polite">
