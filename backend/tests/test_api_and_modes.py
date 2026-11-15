@@ -33,6 +33,14 @@ class TestBasics:
         assert top.json() == {"status": "ok"}
         assert client.get("/api/health").json() == top.json()
 
+    def test_ready(self, client):
+        r = client.get("/api/ready")
+        assert r.status_code == 200
+        body = r.json()
+        assert body["status"] == "ready"
+        assert all(body["checks"].values())
+        assert client.get("/ready").json()["status"] == "ready"
+
     def test_version(self, client):
         v = client.get("/api/version").json()
         assert v["name"]

@@ -997,6 +997,8 @@ flight-certified NASA mission system.
 - [x] Add `GET /api/version` (app name, version, API contract, supported window, git SHA).
 - [x] CORS `max_age=86400` + `X-Response-Time` middleware.
 - [x] ETag/304 for immutable GETs (`/api/config`, `/api/sites`, `/api/craters`, `/api/psrs`, `/api/science/psrs`).
+- [x] Extended ETag/304 to `/api/series`, `/api/terrain-horizon`, `/api/phase3`, `/api/phase3/windows`, `/api/feasibility`, `/api/readiness`, `/api/engineering`, `/api/science/site-context`, `/api/science/nearest-psr`.
+- [x] `GET /api/ready` (+ top-level `/ready`) readiness probe checking committed data files.
 
 ### Frontend (UX)
 

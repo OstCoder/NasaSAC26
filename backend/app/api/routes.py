@@ -73,6 +73,23 @@ def health():
     return {"status": "ok"}
 
 
+@router.get("/ready")
+def ready():
+    """Readiness: the committed data files the API needs are present and loadable."""
+    s = get_settings()
+    checks = {
+        "sites": Path(s.datasets["sites"]).is_file(),
+        "craters": Path(s.datasets["craters"]).is_file(),
+        "psr_catalogue": Path(s.datasets["psr_catalogue"]).is_file(),
+        "site_series_index": Path(s.datasets["site_series_index"]).is_file(),
+        "site_terrain": Path(s.datasets["site_terrain"]).is_file(),
+        "horizons_reference": Path(s.datasets["horizons_reference"]).is_file(),
+    }
+    if not all(checks.values()):
+        raise DataUnavailableError("One or more required data files are missing.")
+    return {"status": "ready", "checks": checks}
+
+
 @router.get("/version")
 def version():
     """App name, version and supported mission window. Useful for verifying a deployment."""

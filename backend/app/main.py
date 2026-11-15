@@ -35,11 +35,21 @@ def health():
     """Top-level liveness probe (Render healthCheckPath). Mirrors /api/health."""
     return {"status": "ok"}
 
+
+@app.get("/ready", include_in_schema=True)
+def ready():
+    """Top-level readiness probe. Mirrors /api/ready."""
+    from app.api.routes import ready as _ready
+    return _ready()
+
 # Middleware (registration order: first = innermost, last = outermost).
 # Pure ASGI (not BaseHTTPMiddleware) so we can buffer the response body for
 # ETag hashing without confusing GZipMiddleware's size threshold.
 _ETAG_PATHS = {"/api/config", "/api/sites", "/api/craters",
-               "/api/psrs", "/api/science/psrs"}
+               "/api/psrs", "/api/science/psrs", "/api/series",
+               "/api/terrain-horizon", "/api/phase3", "/api/phase3/windows",
+               "/api/feasibility", "/api/readiness", "/api/engineering",
+               "/api/science/site-context", "/api/science/nearest-psr"}
 
 
 class _ETagMiddleware:
