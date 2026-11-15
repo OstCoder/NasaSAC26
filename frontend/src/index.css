@@ -106,6 +106,12 @@
     animation: lunanav-shimmer 1.4s linear infinite;
   }
   .panel-collapse { transition: max-height var(--dur-slow) var(--ease-in-out), opacity var(--dur-base) var(--ease-out); }
+  /* Public / educator mode: plainer, larger presentation text. Applied to
+     <main> via the publicMode state; respects reduced motion. */
+  .public-mode { font-size: 17px; line-height: 1.65; }
+  .public-mode .text-xs { font-size: 0.875rem; }
+  .public-mode .text-sm { font-size: 1rem; }
+  .public-mode h1, .public-mode h2, .public-mode h3 { font-size: 1.25rem; }
   /* Page surface: gentle fade-in + rise on mount. Reuses the shared motion
      tokens; reduced motion is handled by the global guard in @layer base. */
   .surface {

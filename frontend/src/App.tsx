@@ -9,6 +9,7 @@ import { DecisionDashboard } from '@/features/decision'
 import { MethodologyPage } from '@/features/methodology/MethodologyPage'
 import { MissionPlannerPage } from '@/features/mission-planner/MissionPlannerPage'
 import { AppProvider } from '@/hooks/useAppContext'
+import { usePublicMode } from '@/hooks/usePublicMode'
 
 const VIEWS: View[] = ['planner', 'science', 'decision', 'compare', 'methodology']
 
@@ -69,6 +70,7 @@ function useHashView(): [View, (v: View) => void] {
 
 function Shell() {
   const [view, setView] = useHashView()
+  const [publicMode, setPublicMode] = usePublicMode()
   const [helpOpen, setHelpOpen] = React.useState(false)
   const mainRef = React.useRef<HTMLElement>(null)
   React.useEffect(() => {
@@ -98,8 +100,8 @@ function Shell() {
       >
         Skip to main content
       </a>
-      <TopNav view={view} onView={setView} />
-      <main ref={mainRef} id="main" tabIndex={-1} className="mx-auto max-w-[1500px] px-4 py-4 outline-none">
+      <TopNav view={view} onView={setView} publicMode={publicMode} setPublicMode={setPublicMode} />
+      <main ref={mainRef} id="main" tabIndex={-1} className={`mx-auto max-w-[1500px] px-4 py-4 outline-none ${publicMode ? 'public-mode' : ''}`}>
         <div key={view} className="fade-in">
           {view === 'planner' && <MissionPlannerPage onCompare={() => setView('compare')} />}
           {view === 'science' && (

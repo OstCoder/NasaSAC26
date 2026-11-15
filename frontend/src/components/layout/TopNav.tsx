@@ -1,4 +1,4 @@
-import { BookOpen, Compass, Gauge, GitCompare, Map, Microscope } from 'lucide-react'
+import { BookOpen, Compass, Gauge, GitCompare, Map, Microscope, School } from 'lucide-react'
 import * as React from 'react'
 import { JplStatusPill } from '@/components/JplStatus'
 import { useApp } from '@/hooks/useAppContext'
@@ -33,7 +33,7 @@ function LunaMark() {
   )
 }
 
-export function TopNav({ view, onView }: { view: View; onView: (v: View) => void }) {
+export function TopNav({ view, onView, publicMode, setPublicMode }: { view: View; onView: (v: View) => void; publicMode: boolean; setPublicMode: (v: boolean) => void }) {
   const { features, mode, setMode, config } = useApp()
   const [dataSaver, setDataSaver] = useDataSaver()
   const dataSaverRef = React.useRef(dataSaver)
@@ -84,6 +84,19 @@ export function TopNav({ view, onView }: { view: View; onView: (v: View) => void
             >
               <Gauge className="size-4" aria-hidden />
               <span className="hidden sm:inline">{dataSaver ? 'Data saver on' : 'Data saver'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPublicMode(!publicMode)}
+              aria-pressed={publicMode}
+              title={publicMode ? 'Public / educator mode: plain-language cards and larger text' : 'Public / educator mode'}
+              className={cn(
+                'inline-flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors',
+                publicMode ? 'bg-signal/15 text-signal' : 'text-muted hover:text-ink',
+              )}
+            >
+              <School className="size-4" aria-hidden />
+              <span className="hidden sm:inline">{publicMode ? 'Public mode on' : 'Public mode'}</span>
             </button>
             <JplStatusPill />
             <div role="radiogroup" aria-label="Data mode" className="flex items-center gap-0.5 rounded-md border border-rule-soft p-0.5">
