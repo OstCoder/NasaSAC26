@@ -62,6 +62,9 @@ export function SiteTerrain3DPanel({
   const [window, setWindow] = React.useState<WindowKey>('initial')
   const [exaggeration, setExaggeration] = React.useState(3)
   const [wireframe, setWireframe] = React.useState(false)
+  const [timeIndex, setTimeIndex] = React.useState<number | null>(null)
+
+  React.useEffect(() => { setTimeIndex(null) }, [siteId, window])
 
   React.useEffect(() => {
     if (requestedSiteId && sites.some((site) => site.id === requestedSiteId)) {
@@ -81,21 +84,31 @@ export function SiteTerrain3DPanel({
     return profile.azimuth_deg.map((az, i) => ({ az, el: profile.elevation_deg[i] }))
   }, [horizon.data])
 
+  const series = track.data?.series ?? []
   const meanSun = React.useMemo(
-    () => meanAzEl((track.data?.series ?? []).map((r) => ({ az: r.sun.azimuth_deg, el: r.sun.elevation_deg }))),
-    [track.data],
+    () => meanAzEl(series.map((r) => ({ az: r.sun.azimuth_deg, el: r.sun.elevation_deg }))),
+    [series],
   )
   const meanEarth = React.useMemo(
-    () => meanAzEl((track.data?.series ?? []).map((r) => ({ az: r.earth.azimuth_deg, el: r.earth.elevation_deg }))),
-    [track.data],
+    () => meanAzEl(series.map((r) => ({ az: r.earth.azimuth_deg, el: r.earth.elevation_deg }))),
+    [series],
   )
+  const selectedRecord = timeIndex !== null ? series[timeIndex] ?? null : null
   const sun = React.useMemo(
-    () => (requestedSun ? { az: requestedSun.az, el: requestedSun.el } : meanSun),
-    [requestedSun?.az, requestedSun?.el, meanSun],
+    () => (requestedSun
+      ? { az: requestedSun.az, el: requestedSun.el }
+      : selectedRecord
+        ? { az: selectedRecord.sun.azimuth_deg, el: selectedRecord.sun.elevation_deg }
+        : meanSun),
+    [requestedSun?.az, requestedSun?.el, selectedRecord, meanSun],
   )
   const earth = React.useMemo(
-    () => (requestedEarth ? { az: requestedEarth.az, el: requestedEarth.el } : meanEarth),
-    [requestedEarth?.az, requestedEarth?.el, meanEarth],
+    () => (requestedEarth
+      ? { az: requestedEarth.az, el: requestedEarth.el }
+      : selectedRecord
+        ? { az: selectedRecord.earth.azimuth_deg, el: selectedRecord.earth.elevation_deg }
+        : meanEarth),
+    [requestedEarth?.az, requestedEarth?.el, selectedRecord, meanEarth],
   )
 
   const illumination = React.useMemo(
@@ -168,6 +181,26 @@ export function SiteTerrain3DPanel({
               >
                 {wireframe ? 'Shaded' : 'Wireframe'}
               </button>
+              {series.length > 0 && (
+                <label className="ml-2 flex items-center gap-2 text-muted" htmlFor="dem3d-time">
+                  Time
+                  <input
+                    id="dem3d-time"
+                    type="range" min={0} max={series.length - 1} step={1}
+                    value={timeIndex ?? Math.floor(series.length / 2)}
+                    onChange={(e) => setTimeIndex(Number(e.target.value))}
+                    className="w-32"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setTimeIndex(null)}
+                    className="rounded-md border border-rule-soft px-1.5 py-0.5 text-[10px] text-muted transition-colors hover:text-ink"
+                    title="Use the window-average Sun/Earth direction"
+                  >
+                    mean
+                  </button>
+                </label>
+              )}
             </div>
             {dem.data && !dem.error && webglAvailable() && (
               <div className="relative">

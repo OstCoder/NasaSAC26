@@ -101,6 +101,67 @@ Status: planned
 - [ ] Update docs/PHASE7_FINAL_VALIDATION.md with the overhaul entry.
 - [ ] Final commit + push.
 
+## Phase 8 — 3D map becomes a real analysis tool
+Status: in progress
+
+The 3D view is currently a passive renderer driven by a single selected time. Make it
+an interactive analysis surface while keeping "display only" labeling.
+
+- [ ] Time scrubber in 3D view: drive Sun/Earth direction from a slider over the
+      mission window (not just the window mean). Reuse the committed hourly series.
+- [ ] Click-to-inspect: click the terrain to read lat/lon/height at that cell.
+- [ ] Multi-site markers: overlay markers for all candidate sites, not just the
+      selected one, with labels.
+- [ ] Distance measurement: click two points, show great-circle distance in km.
+- [ ] Export: "Save view as PNG" button (canvas.toBlob).
+- [ ] Earth visibility cone: optional overlay showing Earth direction as a cone.
+- [ ] Contour lines at configurable height intervals (optional, may be heavy).
+
+## Phase 9 — User input & scenario management
+Status: planned
+
+- [ ] Saved scenarios: name + save/restore/delete named scenarios in localStorage.
+- [ ] Scenario presets: one-click buttons for common analyses (initial window,
+      delayed window, custom date).
+- [ ] Drag-to-place custom site on the polar map (click already works; add
+      visual feedback and coordinate readout).
+- [ ] Keyboard shortcuts: 1-5 for views, D for data-saver, C for copy link,
+      ? for help overlay.
+- [ ] Help overlay (?): list of shortcuts and a 30-second "how to read this" guide.
+- [ ] Adjustable observer height (default 2 m) in terrain panels.
+
+## Phase 10 — Data export & sharing
+Status: planned
+
+- [ ] Export visibility data as CSV (one row per hour: time, sun el, earth el,
+      skyline, clearance, visible flags).
+- [ ] Export mission report as PDF (client-side print stylesheet).
+- [ ] QR code for scenario link (mobile sharing).
+- [ ] Batch export: all three candidates, both windows, one CSV.
+
+## Phase 11 — Live data & freshness
+Status: planned
+
+- [ ] "Now" mode: live Sun/Earth sub-points updating every 60 s (uses /api/sky/now).
+- [ ] Auto-refresh JPL status pill every 5 min.
+- [ ] Staleness indicator: "data as of X" on committed series.
+
+## Phase 12 — Accessibility & robustness
+Status: planned
+
+- [ ] Focus management: move focus to main heading on view change.
+- [ ] Screen reader live region for data updates ("Calculating…", "Done").
+- [ ] Color-blind safe: ensure all status uses icon + text (audit).
+- [ ] Error boundary per panel (so one failure doesn't blank the page).
+- [ ] Print stylesheet for mission report.
+
+## Phase 13 — Verification & docs
+Status: planned
+
+- [ ] Re-run full test suites + typecheck after each phase.
+- [ ] Update README with new capabilities.
+- [ ] Final commit + push.
+
 ## Status summary (as of latest commit)
 
 Completed:
