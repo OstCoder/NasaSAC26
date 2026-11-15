@@ -1,4 +1,4 @@
-"""Phase 2 Task 5: validate the NASA-derived datasets end to end.
+"""Validate the NASA-derived datasets end to end.
 
 Task 2 produced 1,014 hourly Sun/Earth records from JPL Horizons; Task 3 produced
 three LOLA DEM descriptions. This module answers, from the committed files
@@ -100,7 +100,7 @@ ASSUMPTIONS = [
     "The observer is the site point plus a 2 m antenna/eye height above the LOLA surface sample.",
     "Elevation is apparent, airless and terrain-free: the geometric horizon, with no atmospheric refraction.",
     "UTC is used everywhere; UTC -> TT for the analytic model uses the fixed 69.184 s offset valid for 2026-2030.",
-    "Hourly sampling is adequate to validate the data, not to time sunrise/Earthrise; Phase 3 refines edges.",
+    "Hourly sampling is adequate to validate the data, not to time sunrise/Earthrise; the visibility step refines edges.",
     "Horizons applies light-time and aberration to the apparent position; the analytic model omits them.",
 ]
 
@@ -110,9 +110,9 @@ LIMITATIONS = [
     {"item": "Analytic model accuracy",
      "impact": "Meeus' truncated series omits physical libration, light-time and aberration. Agreement of a few hundredths of a degree is expected; a sub-arcsecond disagreement is not claimed."},
     {"item": "Geometric, not terrain-obstructed, visibility",
-     "impact": "Every elevation here is above the local flat horizon. A Sun or Earth at +0.5 deg can still be hidden by the 6-13 deg LOLA skylines in data/reference/site_terrain.json; Phase 3 applies them."},
+     "impact": "Every elevation here is above the local flat horizon. A Sun or Earth at +0.5 deg can still be hidden by the 6-13 deg LOLA skylines in data/reference/site_terrain.json; the terrain-adjusted result applies them."},
     {"item": "Time resolution of the verification",
-     "impact": "The series is hourly and the reference fetch is 12-hourly. A value at an un-sampled minute is not validated by either; Phase 3 interpolates and must say so."},
+     "impact": "The series is hourly and the reference fetch is 12-hourly. A value at an un-sampled minute is not validated by either; the visibility step interpolates and must say so."},
     {"item": "Observer height",
      "impact": "A 2 m observer is assumed for all three sites. A real lander's camera, antenna or solar panel sits at a different height, which changes the geometric horizon by ~0.0005 deg per km and the terrain horizon much more."},
     {"item": "Site elevation provenance",
@@ -928,7 +928,7 @@ def build_report(*, settings: Settings | None = None, live: dict | None = None) 
         "schema": SCHEMA,
         "generated_utc": to_iso(datetime.now(timezone.utc)),
         "generator": GENERATOR,
-        "deliverable": "Phase 2 Task 5: validated astronomical datasets and documented limitations",
+        "deliverable": "Validated astronomical datasets and documented limitations",
         "method": (
             "Re-read the committed Task 2 series and Task 3 terrain reference, recompute every "
             "azimuth/elevation with LunaNav's independent analytic model, compare the records "

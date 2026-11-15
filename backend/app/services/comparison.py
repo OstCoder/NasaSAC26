@@ -2,7 +2,7 @@
 
 Comparison output is descriptive: it states measured differences and the
 trade-offs they imply between metrics. It never recommends a site or date,
-because the inputs (especially in Demo Mode) cannot support that.
+because the inputs cannot support that.
 """
 
 from __future__ import annotations
@@ -172,7 +172,7 @@ class ScenarioComparisonService:
     def _comparability(a: ScenarioResult, b: ScenarioResult) -> list[str]:
         notes = []
         if a.provenance.mode != b.provenance.mode:
-            notes.append("Not directly comparable: scenarios were computed in different modes.")
+            notes.append("Not directly comparable: scenarios used different data sources.")
         if a.provenance.overall != b.provenance.overall:
             notes.append(f"Data quality differs: A is {a.provenance.overall.value}, "
                          f"B is {b.provenance.overall.value}.")

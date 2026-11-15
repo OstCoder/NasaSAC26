@@ -72,6 +72,8 @@ async function test(id, title, fn) {
 async function openPlanner() {
   await page.goto(`${APP}/#planner`, { waitUntil: 'networkidle', timeout: 120_000 })
   await page.getByRole('heading', { name: 'Mission summary' }).waitFor({ timeout: 120_000 })
+  await page.getByRole('button', { name: /Advanced analysis/ }).click()
+  await page.getByRole('heading', { name: 'Detailed measurements' }).waitFor({ timeout: 120_000 })
 }
 
 async function main() {
@@ -159,11 +161,11 @@ async function main() {
     return 'The power panel selected the fixed array, rendered the timeline and exposed the sensitivity table with no console/API errors.'
   })
 
-  await test('P5-4', 'Science exploration mode UI', async () => {
+  await test('P5-4', 'Science focus UI', async () => {
     await page.goto(`${APP}/#decision`, { waitUntil: 'networkidle', timeout: 120_000 })
-    await page.getByRole('heading', { name: 'Mission decision support' }).waitFor({ timeout: 120_000 })
-    await page.getByRole('button', { name: 'Science exploration' }).click()
-    await page.getByRole('heading', { name: 'Science exploration mode' }).waitFor({ timeout: 120_000 })
+    await page.getByRole('heading', { name: 'Choose a landing site' }).waitFor({ timeout: 120_000 })
+    await page.getByRole('button', { name: 'Science focus' }).click()
+    await page.getByRole('heading', { name: 'Science context' }).waitFor({ timeout: 120_000 })
     const body = await text(page.locator('body'))
     assert.ok(body.includes('nearest mapped PSR'))
     assert.ok(body.includes('not a traverse plan'))
@@ -171,7 +173,7 @@ async function main() {
     assert.equal(pageErrors.length, 0, `page errors: ${pageErrors.join(' | ')}`)
     assert.equal(apiFailures.length, 0, `API failures: ${apiFailures.join(' | ')}`)
     await screenshot('science-exploration')
-    return 'Science exploration mode is visible, sends the science weights, lists PSR context and states the traverse/water-ice limits.'
+    return 'Science focus is visible, sends the science weights, lists PSR context and states the traverse/water-ice limits.'
   })
 
   await test('P5-5', 'Delay power and requirement comparison UI', async () => {
@@ -180,7 +182,7 @@ async function main() {
     await page.getByLabel('Landing time (UTC)').fill(DEC1.slice(0, 16))
     await page.getByLabel('Duration in hours').fill(String(DURATION))
     await page.waitForTimeout(800)
-    await page.getByRole('button', { name: 'Compare scenarios' }).click()
+    await page.getByRole('button', { name: 'Compare sites' }).click()
     await page.getByRole('tab', { name: /Reschedule a mission/ }).click()
     await page.getByLabel('Proposed landing time (UTC)').fill(DEC11.slice(0, 16))
     await page.getByRole('heading', { name: 'Requirement verdicts' }).waitFor({ timeout: 120_000 })
@@ -198,7 +200,7 @@ async function main() {
 
   await test('P5-6', 'Date and power changes refresh the best-site recommendation', async () => {
     await page.goto(`${APP}/#decision`, { waitUntil: 'networkidle', timeout: 120_000 })
-    await page.getByRole('heading', { name: 'Mission decision support' }).waitFor({ timeout: 120_000 })
+    await page.getByRole('heading', { name: 'Choose a landing site' }).waitFor({ timeout: 120_000 })
 
     const alternateResponse = page.waitForResponse(
       (response) => response.url().endsWith('/api/decision') && response.request().method() === 'POST',

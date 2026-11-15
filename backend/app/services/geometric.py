@@ -1,4 +1,4 @@
-"""Phase 3 Task 1: geometric Sun visibility.
+"""Geometric Sun visibility.
 
 The rule is the one the task specifies, exactly:
 
@@ -155,7 +155,7 @@ def sun_visibility_response(
         },
         "provenance": {
             "ephemeris": table.payload.get("source") or "NASA JPL Horizons",
-            "series": "Phase 2 Task 2 hourly Sun track (data/scientific/site_series)",
+            "series": "Hourly Sun track (data/scientific/site_series)",
             "terrain": "none - geometric horizon only",
             "time": "UTC, ISO-8601 with Z; airless, no refraction",
             "rule": "Sun centre strictly above 0 deg; terrain and the solar disk are not applied",

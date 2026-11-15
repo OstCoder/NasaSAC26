@@ -268,7 +268,7 @@ def test_markdown_report_is_complete_and_deterministic(client):
     body = first.text
     assert body == second.text
     for heading in ("## Terrain basis", "## Visibility against the terrain",
-                    "## Phase 1 requirements", "## Power budget",
+                    "## Mission requirements", "## Power budget",
                     "## Direct-to-Earth link budget", "## Assumptions",
                     "## What this report does not claim"):
         assert heading in body

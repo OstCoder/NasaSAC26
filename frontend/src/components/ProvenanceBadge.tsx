@@ -4,10 +4,10 @@ import { cn } from '@/lib/utils'
 import type { Provenance, ProvenanceLevel } from '@/types/api'
 
 export const PROVENANCE_META: Record<ProvenanceLevel, { short: string; icon: typeof Database; cls: string }> = {
-  synthetic: { short: 'Synthetic demo data', icon: FlaskConical, cls: 'text-sun synthetic-edge bg-sun/5' },
-  geometric_only: { short: 'Geometric only, no terrain', icon: Ruler, cls: 'text-muted border border-dashed border-rule' },
+  synthetic: { short: 'Illustrative synthetic terrain', icon: FlaskConical, cls: 'text-sun synthetic-edge bg-sun/5' },
+  geometric_only: { short: 'Flat horizon, no terrain', icon: Ruler, cls: 'text-muted border border-dashed border-rule' },
   analytic_approximate: { short: 'Approximate model', icon: Calculator, cls: 'text-signal border border-signal/40' },
-  scientific_sourced: { short: 'Sourced scientific data', icon: Database, cls: 'text-both border border-both/40' },
+  scientific_sourced: { short: 'NASA-sourced data', icon: Database, cls: 'text-both border border-both/40' },
 }
 
 export function ProvenanceBadge({ level, className }: { level: ProvenanceLevel; className?: string }) {

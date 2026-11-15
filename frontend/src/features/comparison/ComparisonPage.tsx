@@ -32,7 +32,7 @@ function ScenarioHeading({ r, tag, color }: { r: ScenarioResult; tag: string; co
 }
 
 function TwoScenarios() {
-  const { draftA, setDraftA, draftB, setDraftB, mode, setMode, config } = useApp()
+  const { draftA, setDraftA, draftB, setDraftB, mode, config } = useApp()
   const sim = config.simulation
   const a = draftToInput(draftA, mode, 'A')
   const b = draftToInput(draftB, mode, 'B')
@@ -54,13 +54,7 @@ function TwoScenarios() {
         ))}
       </div>
 
-      {cmp.error && (
-        <ErrorNotice
-          error={cmp.error}
-          onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined}
-          onRetry={cmp.retry}
-        />
-      )}
+      {cmp.error && <ErrorNotice error={cmp.error} onRetry={cmp.retry} />}
       {cmp.loading && !cmp.data && (
         <p className="flex items-center gap-2 text-sm text-muted"><LoaderCircle className="size-4 animate-spin" /> Comparing…</p>
       )}

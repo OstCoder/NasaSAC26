@@ -59,6 +59,8 @@ async function test(id, title, fn) {
 async function openPlanner() {
   await page.goto(`${APP}/#planner`, { waitUntil: 'networkidle', timeout: 120_000 })
   await page.getByRole('heading', { name: 'Mission summary' }).waitFor({ timeout: 120_000 })
+  await page.getByRole('button', { name: /Advanced analysis/ }).click()
+  await page.getByRole('heading', { name: 'Detailed measurements' }).waitFor({ timeout: 120_000 })
 }
 
 async function main() {
@@ -125,7 +127,7 @@ async function main() {
     const started = Date.now()
     await page.goto(`${APP}/#science`, { waitUntil: 'networkidle', timeout: 120_000 })
     await page.getByRole('heading', { name: 'Science exploration' }).waitFor({ timeout: 120_000 })
-    await page.getByText('Water ice: not assessed').waitFor({ timeout: 120_000 })
+    await page.getByText('Water ice potential').waitFor({ timeout: 120_000 })
     await page.getByText('Nearest mapped PSR').first().waitFor({ timeout: 120_000 })
     const nav = await page.evaluate(() => {
       const entry = performance.getEntriesByType('navigation')[0]
@@ -139,12 +141,12 @@ async function main() {
     const body = await text(page.locator('body'))
     assert.ok(body.toUpperCase().includes('NEAREST MAPPED PSR'))
     assert.ok(body.includes('Boundary distance'))
-    assert.ok(body.includes('Water ice: not assessed'))
-    assert.ok(body.includes('Unknown is not evidence of absence'))
-    assert.ok(body.includes('Scientific model labels'))
+    assert.ok(body.includes('Water ice potential'))
+    assert.ok(body.includes('Water ice is likely to be stable'))
+    assert.ok(body.includes('How to read the labels'))
     assert.ok(body.includes('TERRAIN-AWARE MODEL'))
     assert.ok(body.includes('Learn the science'))
-    assert.ok(body.includes('Why are water-ice deposits scientifically important?'))
+    assert.ok(body.includes('Could there be water ice here?'))
     assert.ok(body.includes('NASA LOLA south-pole topography'))
     assert.ok(!/confirmed water ice|NASA-approved|fully safe/i.test(body), 'science page makes an unsupported claim')
     assert.equal(pageErrors.length, 0, `page errors: ${pageErrors.join(' | ')}`)
@@ -158,7 +160,7 @@ async function main() {
     await mobile.setViewportSize({ width: 390, height: 844 })
     await mobile.goto(`${APP}/#science`, { waitUntil: 'networkidle', timeout: 120_000 })
     await mobile.getByRole('heading', { name: 'Science exploration' }).waitFor({ timeout: 120_000 })
-    await mobile.getByText('Water ice: not assessed').waitFor({ timeout: 120_000 })
+    await mobile.getByText('Water ice potential').waitFor({ timeout: 120_000 })
     const layout = await mobile.evaluate(() => ({
       width: document.documentElement.scrollWidth,
       viewport: window.innerWidth,
@@ -240,7 +242,7 @@ async function main() {
   await test('P6-8', 'Transparency, missing-data handling and no overclaim', async () => {
     await page.goto(`${APP}/#science`, { waitUntil: 'networkidle', timeout: 120_000 })
     await page.getByRole('heading', { name: 'Science exploration' }).waitFor({ timeout: 120_000 })
-    await page.getByText('Water ice: not assessed').waitFor({ timeout: 120_000 })
+    await page.getByText('Water ice potential').waitFor({ timeout: 120_000 })
     const body = await text(page.locator('body'))
     for (const phrase of [
       'PSR boundaries:', 'Terrain:', 'Ephemeris:', 'Coordinate frame:',

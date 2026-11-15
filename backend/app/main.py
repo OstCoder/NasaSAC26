@@ -26,7 +26,7 @@ app = FastAPI(
     title="LunaNav API",
     version=settings.raw["app"]["version"],
     description="Lunar landing-site Sun/Earth visibility analysis. "
-    "Every result carries a provenance block; Demo Mode data is synthetic.",
+    "Every result says which data it used; synthetic terrain is never presented as real.",
 )
 
 

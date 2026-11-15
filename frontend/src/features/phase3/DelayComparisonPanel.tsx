@@ -139,8 +139,8 @@ export function DelayComparisonPanel() {
                 <th className="px-2 py-1.5 font-medium" title="Share of the window with the Sun above the skyline">Sun-visible share</th>
                 <th className="px-2 py-1.5 font-medium" title="Share of the window with Earth above the skyline">Earth-visible share</th>
                 <th className="px-2 py-1.5 font-medium" title="Share of the window with both above the skyline">Simultaneous share</th>
-                <th className="px-2 py-1.5 font-medium" title="Phase 1 requirement verdict for 1–8 Dec 2026">Initial constraints</th>
-                <th className="px-2 py-1.5 font-medium" title="Phase 1 requirement verdict for 11–18 Dec 2026">After delay</th>
+                <th className="px-2 py-1.5 font-medium" title="Mission requirement verdict for 1–8 Dec 2026">Initial constraints</th>
+                <th className="px-2 py-1.5 font-medium" title="Mission requirement verdict for 11–18 Dec 2026">After delay</th>
               </tr>
             </thead>
             <tbody>
@@ -159,7 +159,7 @@ export function DelayComparisonPanel() {
         <p className="mt-2 text-xs text-faint">
           Committed data, offline: percentages of the 168 h window from the stored
           Horizons series and LOLA skylines. The two constraint columns re-run the
-          Phase 1 targets against each window, so a delay that improves visibility
+          Mission targets against each window, so a delay that improves visibility
           but still misses a target stays visible as a failure. The change is a
           property of the dates, not a site ranking.
         </p>
@@ -189,7 +189,7 @@ export function DelayComparisonPanel() {
               {offlineHint && (
                 <p className="mt-1 text-xs text-faint">
                   The live recompute needs the ephemeris provider; switch the app to
-                  Demo Mode or try again when the provider is reachable.
+                  Try again when the provider is reachable.
                 </p>
               )}
             </div>

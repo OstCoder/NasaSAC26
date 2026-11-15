@@ -78,13 +78,13 @@ export function Phase3Panel() {
   return (
     <Card>
       <CardHeader
-        title="Phase 3 · Wider horizons and readiness"
+        title="Data readiness"
         description="Computed offline from the committed hourly Sun/Earth series and two-tier LOLA skyline (5 m pixels near the site, 80 m out to 150 km). Percentages are geometry: Sun above terrain is not power, Earth above terrain is not a link budget."
       />
       <CardContent className="space-y-4">
         {error && <ErrorNotice error={error} />}
         {!readiness.data || !windows.data ? (
-          !error && <p className="text-sm text-muted">Loading Phase 3 readiness…</p>
+          !error && <p className="text-sm text-muted">Loading data readiness…</p>
         ) : (
           <>
             <div className="grid gap-3 sm:grid-cols-3">

@@ -228,7 +228,7 @@ export function CandidateComparison() {
     <Card>
       <CardHeader
         title="Compare all candidates over one window"
-        description="Every Phase 1 candidate uses the same landing time, duration and thresholds. Values come from the same requirement engine as the planner; pass/fail is reported per measure, never merged into a ranking."
+        description="Every candidate uses the same landing time, duration and thresholds. Values come from the same requirement engine as the planner; pass/fail is reported per measure, never merged into a ranking."
       />
       <CardContent className="space-y-4">
         <ScenarioEditor
@@ -306,7 +306,7 @@ export function CandidateComparison() {
             {comparison.loading ? 'Comparing…' : 'Compare all candidates'}
           </Button>
           <Button variant="ghost" size="sm" onClick={reset}>
-            Phase 1 targets
+            Mission targets
           </Button>
           <p className="text-xs text-muted">
             {fmtUtc(landing)} UTC for {fmtHours(duration)}. Demonstration targets only — not NASA flight requirements.

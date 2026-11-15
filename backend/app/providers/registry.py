@@ -46,7 +46,11 @@ EPHEMERIS_FACTORIES: dict[str, EphemerisFactory] = {
 TERRAIN_FACTORIES: dict[str, TerrainFactory] = {
     "synthetic_horizon": lambda s: SyntheticHorizonProvider(s.datasets["demo_horizon_masks"]),
     "lola_horizon_mask": lambda s: LolaHorizonMaskProvider(s.datasets["scientific_horizon_dir"]),
-    "lola_or_flat": lambda s: LolaOrFlatHorizonProvider(s.datasets["scientific_horizon_dir"]),
+    "lola_or_flat": lambda s: LolaOrFlatHorizonProvider(
+        s.datasets["scientific_horizon_dir"],
+        s.datasets.get("wide_terrain"),
+        s.datasets["cache_dir"] / "lola_wide",
+    ),
     "flat": lambda s: FlatHorizonProvider(),
 }
 

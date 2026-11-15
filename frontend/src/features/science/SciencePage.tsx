@@ -1,7 +1,8 @@
-import { ExternalLink, ShieldAlert } from 'lucide-react'
+import { ExternalLink, MapPin, ShieldAlert } from 'lucide-react'
 import * as React from 'react'
 import { ErrorNotice } from '@/components/ErrorNotice'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Field, Input, Select } from '@/components/ui/field'
 import { LunarMap, type MapSelection } from '@/features/lunar-map'
 import { useApp } from '@/hooks/useAppContext'
 import { useScienceSiteContext } from '@/hooks/useScenario'
@@ -56,8 +57,8 @@ function CandidateRow({ site, selected, onSelect }: {
   )
 }
 
-function ContextCard({ siteId }: { siteId: string }) {
-  const context = useScienceSiteContext(siteId)
+function ContextCard({ siteId, lat, lon }: { siteId: string | null; lat?: number | null; lon?: number | null }) {
+  const context = useScienceSiteContext(siteId, lat, lon)
   if (context.error) return <ErrorNotice error={context.error} onRetry={context.retry} />
   if (!context.data) return <p role="status" className="text-sm text-muted">Loading the science context…</p>
   return <ContextBody context={context.data} />
@@ -65,6 +66,7 @@ function ContextCard({ siteId }: { siteId: string }) {
 
 function ContextBody({ context }: { context: ScienceSiteContext }) {
   const { site, nearest_psr: psr, terrain, science } = context
+  const elevation = site.elevation_m ?? terrain.surface_elevation_m ?? null
   return (
     <div className="space-y-4">
       <div className="grid gap-3 md:grid-cols-2">
@@ -93,20 +95,28 @@ function ContextBody({ context }: { context: ScienceSiteContext }) {
             <div className="flex justify-between gap-3"><dt className="text-muted">Near / far pixels</dt><dd className="num text-ink">{terrain.coverage.near.pixel_m ?? '—'} m / {terrain.coverage.far.pixel_m ?? '—'} m</dd></div>
             <div className="flex justify-between gap-3"><dt className="text-muted">Sampled range</dt><dd className="num text-ink">{terrain.coverage.max_sampled_range_km ?? '—'} km</dd></div>
             <div className="flex justify-between gap-3"><dt className="text-muted">Observer height</dt><dd className="num text-ink">{terrain.observer_height_m} m</dd></div>
-            <div className="flex justify-between gap-3"><dt className="text-muted">Elevation / slope</dt><dd className="num text-ink">{site.elevation_m == null ? '—' : `${Math.round(site.elevation_m)} m`} / {site.slope_deg == null ? '—' : `${site.slope_deg.toFixed(1)}°`}</dd></div>
+            <div className="flex justify-between gap-3"><dt className="text-muted">Elevation / slope</dt><dd className="num text-ink">{elevation == null ? '—' : `${Math.round(elevation)} m`} / {site.slope_deg == null ? '—' : `${site.slope_deg.toFixed(1)}°`}</dd></div>
           </dl>
           <p className="mt-2 text-[11px] leading-relaxed text-faint">{terrain.source}</p>
         </div>
       </div>
 
-      <div className="rounded-md border border-sun/30 bg-sun/5 p-3">
+      <div className="rounded-md border border-earth/30 bg-earth/5 p-3">
         <p className="flex items-center gap-2 text-sm font-medium text-ink">
-          <ShieldAlert className="size-4 text-sun" aria-hidden />
-          Water ice: not assessed
+          <ShieldAlert className="size-4 text-earth" aria-hidden />
+          Water ice potential
         </p>
-        <p className="mt-1 max-w-[90ch] text-xs leading-relaxed text-muted">
-          {science.psr_interpretation} No detection, concentration, depth, temperature, or resource
-          estimate is available in the committed data. Unknown is not evidence of absence.
+        <p className="mt-1 text-sm text-ink">
+          {psr.inside
+            ? `This location is inside the mapped PSR “${psr.label}”.`
+            : `The nearest mapped PSR is ${km(psr.boundary_distance_km)} away (${psr.label}).`}
+        </p>
+        <p className="mt-1 max-w-[90ch] text-sm leading-relaxed text-muted">
+          {science.psr_interpretation}
+        </p>
+        <p className="mt-2 text-xs leading-relaxed text-faint">
+          LunaNav can map the cold trap. It cannot detect ice or estimate its concentration, depth,
+          temperature or rover access here.
         </p>
       </div>
 
@@ -188,8 +198,8 @@ const TOPICS: { title: string; body: React.ReactNode }[] = [
     body: <>The Sun and Earth move in the lunar sky, and the terrain blocks different directions at different times. A delay can trade illumination against Earth visibility, blackout length and battery reserve. The rescheduler compares the two committed windows using the same measurement engine.</>,
   },
   {
-    title: 'Why are water-ice deposits scientifically important?',
-    body: <>Water ice could preserve a record of volatile delivery and could be a resource for future exploration. But a PSR is only a shadow classification. LunaNav does not infer ice from proximity: the science context reports “not assessed” until a verified detection product is added.</>,
+    title: 'Could there be water ice here?',
+    body: <>Water ice is likely to form in the very cold, permanently shadowed regions near the poles. A mapped PSR tells you where those cold traps are, not how much ice is present. LunaNav shows whether the point is inside or near a PSR and withholds an ice estimate until a verified detection product is added.</>,
   },
 ]
 
@@ -199,12 +209,21 @@ export function SciencePage() {
   const candidates = candidateIds.flatMap((id) => sites.filter((site) => site.id === id))
   const fallback = candidates.length > 0 ? candidates : sites
   const [selectedId, setSelectedId] = React.useState(fallback[0]?.id ?? '')
+  const [custom, setCustom] = React.useState(false)
+  const [lat, setLat] = React.useState('-87.0')
+  const [lon, setLon] = React.useState('0.0')
   const [showPsrs, setShowPsrs] = React.useState(true)
-  const selected = sites.find((site) => site.id === selectedId)
-  const selection: MapSelection | undefined = selected
-    ? { lat: selected.latitude_deg, lon: selected.longitude_deg, label: selected.name }
-    : undefined
-  const context = useScienceSiteContext(selectedId || null)
+  const latNum = Number(lat)
+  const lonNum = Number(lon)
+  const customValid = lat.trim() !== '' && lon.trim() !== '' && Number.isFinite(latNum) && Number.isFinite(lonNum)
+    && latNum >= -90 && latNum <= 90 && Math.abs(latNum) < 89.999999 && lonNum >= -180 && lonNum <= 180
+  const selected = custom ? undefined : sites.find((site) => site.id === selectedId)
+  const selection: MapSelection | undefined = custom && customValid
+    ? { lat: latNum, lon: lonNum, label: `Custom ${latNum.toFixed(3)}°, ${lonNum.toFixed(3)}°` }
+    : selected
+      ? { lat: selected.latitude_deg, lon: selected.longitude_deg, label: selected.name }
+      : undefined
+  const context = useScienceSiteContext(custom ? null : selectedId || null, custom ? latNum : null, custom ? lonNum : null)
 
   return (
     <div className="space-y-4">
@@ -215,14 +234,50 @@ export function SciencePage() {
         />
         <CardContent className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
           <div className="space-y-2">
+            <Field label="Place to explore">
+              <Select
+                value={custom ? '__custom__' : selectedId}
+                onChange={(event) => {
+                  if (event.target.value === '__custom__') {
+                    setCustom(true)
+                    return
+                  }
+                  setCustom(false)
+                  setSelectedId(event.target.value)
+                }}
+              >
+                <optgroup label="Mission candidates">
+                  {candidates.map((site) => <option key={site.id} value={site.id}>{site.name}</option>)}
+                </optgroup>
+                <optgroup label="Other sites">
+                  {sites.filter((site) => !candidateIds.includes(site.id)).map((site) => (
+                    <option key={site.id} value={site.id}>{site.name}</option>
+                  ))}
+                </optgroup>
+                <option value="__custom__">Custom coordinates…</option>
+              </Select>
+            </Field>
+            {custom && (
+              <div className="grid grid-cols-2 gap-2">
+                <Field label="Latitude (°)">
+                  <Input inputMode="decimal" value={lat} onChange={(event) => setLat(event.target.value)} />
+                </Field>
+                <Field label="Longitude (°E)">
+                  <Input inputMode="decimal" value={lon} onChange={(event) => setLon(event.target.value)} />
+                </Field>
+                <p className="col-span-2 text-xs text-faint">
+                  {customValid ? 'Showing the science context for this point.' : 'Enter a latitude between −90 and 90 and a longitude between −180 and 180.'}
+                </p>
+              </div>
+            )}
             <div className="flex flex-wrap items-center justify-between gap-2">
               <label className="flex items-center gap-2 text-xs text-muted">
                 <input type="checkbox" checked={showPsrs} onChange={(event) => setShowPsrs(event.target.checked)} />
-                PSR layer
+                Shadow regions
               </label>
-              {selected && (
-                <p className="num text-xs text-faint">
-                  {fmtLat(selected.latitude_deg)}, {fmtLon(selected.longitude_deg)}
+              {selection && (
+                <p className="num flex items-center gap-1 text-xs text-faint">
+                  <MapPin className="size-3" aria-hidden /> {fmtLat(selection.lat)}, {fmtLon(selection.lon)}
                 </p>
               )}
             </div>
@@ -231,7 +286,12 @@ export function SciencePage() {
               sites={sites}
               selections={selection ? { A: selection } : {}}
               activeSlot="A"
-              onSelectSite={(site) => setSelectedId(site.id)}
+              onSelectSite={(site) => { setCustom(false); setSelectedId(site.id) }}
+              onPickCoordinates={(nextLat, nextLon) => {
+                setCustom(true)
+                setLat(nextLat.toFixed(4))
+                setLon(nextLon.toFixed(4))
+              }}
               showPsrs={showPsrs}
               highlightPsrId={context.data?.nearest_psr.psr_id ?? null}
             />
@@ -241,7 +301,11 @@ export function SciencePage() {
             </p>
           </div>
           <div className="min-w-0">
-            {selected && <ContextCard siteId={selected.id} />}
+            {custom && !customValid && (
+              <p className="text-sm text-muted">Enter a valid custom point to see its PSR and terrain context.</p>
+            )}
+            {custom && customValid && <ContextCard siteId={null} lat={latNum} lon={lonNum} />}
+            {!custom && selected && <ContextCard siteId={selected.id} />}
           </div>
         </CardContent>
       </Card>
@@ -254,15 +318,15 @@ export function SciencePage() {
               <CandidateRow
                 key={site.id}
                 site={site}
-                selected={site.id === selectedId}
-                onSelect={() => setSelectedId(site.id)}
+                selected={!custom && site.id === selectedId}
+                onSelect={() => { setCustom(false); setSelectedId(site.id) }}
               />
             ))}
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader title="Scientific model labels" description="Read every number with its basis attached." />
+          <CardHeader title="How to read the labels" description="Read every number with its basis attached." />
           <CardContent className="space-y-3 text-sm">
             {[
               ['GEOMETRIC MODEL', 'Sun or Earth centre above a flat horizon. No terrain obstruction.'],
@@ -310,8 +374,8 @@ export function SciencePage() {
             committed and reproducible.
           </p>
           <p>
-            <span className="text-ink">Ephemeris:</span> NASA JPL Horizons for the live/scientific
-            modes; the analytic Meeus model is clearly labelled in Demo Mode.
+            <span className="text-ink">Ephemeris:</span> NASA JPL Horizons, requested live by the
+            LunaNav server. Every result is labelled with the source that produced it.
           </p>
           <p className="flex flex-col gap-1">
             <span className="text-ink">Further reading:</span>

@@ -121,7 +121,7 @@ export function RequirementTuner() {
         description={`Adjusted for ${draftA.locationName}, landing ${fmtUtc(draftA.landing_utc)} UTC for ${fmtHours(draftA.duration_hours)}. Demonstration targets only — not NASA flight requirements.`}
         actions={
           <Button size="sm" variant="ghost" onClick={reset}>
-            <RotateCcw /> Phase 1 targets
+            <RotateCcw /> Mission targets
           </Button>
         }
       />

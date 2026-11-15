@@ -196,7 +196,7 @@ describe('DecisionDashboard', () => {
     })
     await screen.findByText('de Gerlache Rim is top-ranked')
     expect(screen.getAllByText(/fails at least one constraint/).length).toBeGreaterThan(0)
-    expect(screen.getByText(/demo model/i)).toBeTruthy()
+    expect(screen.getAllByText(/Priority fit/i).length).toBeGreaterThan(0)
   })
 
   it('updates the request when the mission priority changes', async () => {
@@ -221,7 +221,7 @@ describe('DecisionDashboard', () => {
       ...result,
       weights: { sunlight: 0.3, earth_visibility: 0.2, communication: 0.1, science: 0.4 },
     })
-    fireEvent.click(screen.getByRole('button', { name: 'Science exploration' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Science focus' }))
     await waitFor(() => expect(decisionMock).toHaveBeenCalledTimes(2))
 
     expect(decisionMock.mock.calls[1][0].weights).toEqual({
@@ -230,7 +230,7 @@ describe('DecisionDashboard', () => {
       communication: 0.1,
       science: 0.4,
     })
-    expect(await screen.findByText('Science exploration mode')).toBeTruthy()
+    expect(await screen.findByText('Science context')).toBeTruthy()
     expect(screen.getAllByText(/nearest mapped PSR/).length).toBeGreaterThan(0)
     expect(screen.getByText(/not a traverse plan/i)).toBeTruthy()
   })

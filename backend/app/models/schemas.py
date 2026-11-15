@@ -364,7 +364,7 @@ class RequirementStatus(str, Enum):
 
 
 class RequirementCheck(BaseModel):
-    """One Phase 1 requirement, measured against its configured threshold."""
+    """One mission requirement, measured against its configured threshold."""
 
     id: str
     label: str
@@ -400,7 +400,7 @@ class RequirementEvaluation(BaseModel):
 class RequirementThresholdsInput(BaseModel):
     """Optional user-adjusted targets for one requirement check.
 
-    Missing fields keep the configured Phase 1 default. These are demonstration
+    Missing fields keep the configured default. These are demonstration
     constraints selected in the UI, not NASA flight requirements.
     """
 
@@ -417,7 +417,7 @@ class RequirementRequest(ScenarioInput):
 
 
 class DecisionThresholdsInput(RequirementThresholdsInput):
-    """Phase 5 requirements, including the power demand used by the power model."""
+    """Decision requirements, including the power demand used by the power model."""
 
     power_demand_w: Optional[float] = Field(None, ge=0, le=100_000)
 
@@ -442,6 +442,7 @@ class DecisionRequest(BaseModel):
     duration_hours: float = Field(..., gt=0)
     mode: Optional[Mode] = None
     site_ids: list[str] = Field(default_factory=list)
+    custom_location: Optional[LocationInput] = None
     thresholds: Optional[DecisionThresholdsInput] = None
     weights: DecisionWeights = Field(default_factory=DecisionWeights)
     panel_design: Optional[Literal["horizontal", "vertical_tracking", "fixed"]] = None

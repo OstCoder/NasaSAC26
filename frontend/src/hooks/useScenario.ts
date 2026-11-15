@@ -118,11 +118,12 @@ export function useSiteEngineering(
   )
 }
 
-/** Phase 6: verified PSR, terrain and visibility context for one candidate. */
-export function useScienceSiteContext(siteId: string | null) {
+/** PSR, terrain and visibility context for a catalogue site or custom coordinates. */
+export function useScienceSiteContext(siteId: string | null, latitude?: number | null, longitude?: number | null) {
+  const custom = !siteId && latitude != null && longitude != null
   return useApiResource<ScienceSiteContext>(
-    siteId ? `science-context:${siteId}` : null,
-    (signal) => api.scienceSiteContext(siteId!, signal),
+    siteId ? `science-context:${siteId}` : custom ? `science-context:${latitude}:${longitude}` : null,
+    (signal) => api.scienceSiteContext(siteId, latitude, longitude, signal),
     0,
   )
 }

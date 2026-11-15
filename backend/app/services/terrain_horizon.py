@@ -1,8 +1,8 @@
-"""Phase 3 Task 3: terrain horizon obstructions.
+"""Terrain horizon obstructions.
 
-Phase 3's visibility calculation already applies a LOLA skyline, but it returns
-one array of angles. This module makes the *obstruction* itself the object of
-study, the way the Phase 3 task list describes it: the surface elevation, the
+The visibility calculation already applies a LOLA skyline, but it returns one
+array of angles. This module makes the *obstruction* itself the object of
+study: the surface elevation, the
 observer height, the per-azimuth horizon profile, curvature, and an explicit
 comparison of Sun and Earth elevation against that profile.
 
@@ -39,10 +39,11 @@ from __future__ import annotations
 import numpy as np
 
 from app.core.coords import validate_lat_lon
-from app.core.errors import InvalidInputError
+from app.core.errors import DataUnavailableError, InvalidInputError
 from app.core.settings import Settings, get_settings
-from app.models.schemas import ProvenanceLevel
+from app.models.schemas import Mode, ProvenanceLevel
 from app.providers.base import HorizonMask
+from app.providers.registry import get_bundle
 from app.services.phase3 import visibility_response
 from app.services.site_data import load_series, load_mask, mask_payload
 from app.services.sites import get_site_repository
@@ -261,7 +262,7 @@ def _geometric_only_response(
             "window": {"key": window},
             "reason": reason or (
                 "No committed Sun/Earth series exists for this point. Add the point as a "
-                "candidate site and build its Phase 2 series and LOLA mask, or use "
+                "candidate site with a stored Sun/Earth track and LOLA mask, or use "
                 "/api/sky/now for a single instant."),
             "summary": None,
             "intervals": None,
@@ -294,21 +295,158 @@ def _geometric_only_response(
     }
 
 
+def _custom_terrain_response(
+    *, latitude_deg: float, longitude_deg: float, window: str, mask: HorizonMask,
+) -> dict:
+    """A custom polar point with an on-demand wide-DEM profile but no stored series."""
+    az = np.asarray(mask.azimuth_deg, float)
+    elevation = np.asarray(mask.elevation_deg, float)
+    top = int(np.argmax(elevation))
+    max_range_m = float(mask.metadata.get("max_range_m", MAX_RANGE_KM * 1000.0))
+    pixel_m = float(mask.metadata.get("pixel_m", FAR_PIXEL_M))
+    dem_file = mask.metadata.get("dem_file")
+    surface_m = mask.metadata.get("site_elevation_m")
+    range_km = round(max_range_m / 1000.0, 3)
+    return {
+        "schema": SCHEMA,
+        "site": {
+            "site_id": None,
+            "name": f"Custom ({latitude_deg:.3f}°, {longitude_deg:.3f}°)",
+            "latitude_deg": latitude_deg,
+            "longitude_deg": longitude_deg,
+            "elevation_m": surface_m,
+        },
+        "window": {"key": window},
+        "terrain": {
+            "available": True,
+            "basis": "terrain",
+            "geometric_only": False,
+            "source": mask.source,
+            "provenance": mask.provenance.value,
+            "observer_height_m": OBSERVER_HEIGHT_M,
+            "azimuth_step_deg": AZIMUTH_STEP_DEG,
+            "surface_elevation_m": surface_m,
+            "profile": {
+                "azimuth_deg": [round(float(value), 6) for value in az],
+                "elevation_deg": [round(float(value), 6) for value in elevation],
+            },
+            "summary": {
+                "max_obstruction_deg": round(float(elevation.max()), 6),
+                "min_obstruction_deg": round(float(elevation.min()), 6),
+                "mean_obstruction_deg": round(float(elevation.mean()), 6),
+                "max_obstruction_azimuth_deg": round(float(az[top]), 6),
+            },
+            "coverage": {
+                "near": {"pixel_m": pixel_m, "max_range_m": 0.0, "dem": dem_file},
+                "far": {"pixel_m": pixel_m, "max_range_m": max_range_m, "dem": dem_file},
+                "max_sampled_range_km": range_km,
+                "azimuth_step_deg": AZIMUTH_STEP_DEG,
+                "curvature_applied": True,
+                "curvature_radius_m": CURVATURE_RADIUS_M,
+                "curvature_model": "drop = s^2 / (2R) applied during the wide-DEM ray march, R = 1 737 400 m",
+                "beyond_range_note": (
+                    f"This custom point has terrain coverage to {range_km:g} km. Beyond that "
+                    "range, lunar curvature or the wide-DEM edge limits the profile."
+                ),
+            },
+            "uncertainty": {
+                "observer_height_m": OBSERVER_HEIGHT_M,
+                "observer_height_uncertainty_m": OBSERVER_HEIGHT_UNCERTAINTY_M,
+                "near_pixel_m": pixel_m,
+                "far_pixel_m": pixel_m,
+                "azimuth_step_deg": AZIMUTH_STEP_DEG,
+                "max_range_km": range_km,
+                "unmodelled": [
+                    "Custom points use the 80 m/pixel wide polar DEM; there is no 5 m site DEM at this location.",
+                    "Terrain finer than 80 m and obstructions narrower than the 1 degree azimuth step are sampled, not resolved.",
+                    "A different observer height changes the skyline; this profile assumes a 2 m eye height.",
+                ],
+            },
+            "limits": [
+                f"Custom-point LOLA skyline: {pixel_m:g} m/pixel, 360 azimuths at 1 degree, "
+                f"2 m observer, coverage to {range_km:g} km, curvature applied.",
+                "No committed Sun/Earth series exists for this custom point, so this report gives "
+                "the terrain profile only. The Plan page computes the moving Sun and Earth against "
+                "the same skyline.",
+                "Sun above the skyline is a precondition for solar power, not a power estimate. "
+                "Earth above the skyline is line of sight, not a communications link budget.",
+                "Not a landing-safety or trafficability assessment.",
+            ],
+        },
+        "visibility": {
+            "available": False,
+            "basis": "terrain",
+            "geometric_only": False,
+            "window": {"key": window},
+            "reason": (
+                "No committed Sun/Earth series exists for a custom point. The Plan page can "
+                "compute one for the selected mission window."
+            ),
+            "summary": None,
+            "intervals": None,
+            "metrics": None,
+            "series_endpoint": None,
+        },
+        "comparison": {"sun": None, "earth": None},
+        "checks": {
+            "terrain_profile_available": True,
+            "geometric_only_flagged": False,
+            "profile_has_360_points": len(az) == 360,
+            "all_profile_angles_finite": bool(np.isfinite(elevation).all()),
+            "visibility_available": False,
+            "terrain_changes_the_answer": False,
+            "mask_reaches_150_km": range_km >= MAX_RANGE_KM,
+        },
+        "provenance": {
+            "ephemeris": None,
+            "terrain": mask.source,
+            "terrain_provenance": mask.provenance.value,
+            "time": "UTC, ISO-8601 with Z; airless geometry",
+            "sampling": "360 azimuths at 1 degree from the 80 m/pixel wide polar LOLA DEM",
+            "visibility": "Not computed: no committed Sun/Earth series for this custom point",
+            "observer_height_m": OBSERVER_HEIGHT_M,
+            "curvature": "drop = s^2 / (2R), R = 1 737 400 m",
+            "expected_terrain_provenance": ProvenanceLevel.scientific_sourced.value,
+        },
+        "notes": [
+            "Terrain is real LOLA data, but only at 80 m/pixel; the three catalog sites have a "
+            "5 m near tier that a custom point does not.",
+            "The Plan page uses the same skyline for the Sun and Earth tracks.",
+        ],
+    }
+
+
 def terrain_horizon_response(
     *, site_id: str | None = None, latitude_deg: float | None = None,
     longitude_deg: float | None = None, window: str = "initial",
     settings: Settings | None = None,
 ) -> dict:
-    """One site's terrain horizon and terrain-adjusted visibility.
+    """One site's terrain horizon and, where available, terrain-adjusted visibility.
 
-    Pass either ``site_id`` or ``latitude_deg`` + ``longitude_deg``. A site with a
-    committed mask gets the full profile and delegated adjusted visibility; any
-    other point is returned geometric-only, flagged, with a flat horizon.
+    Pass either ``site_id`` or ``latitude_deg`` + ``longitude_deg``. Catalogue
+    sites use their committed mask. A custom point inside the wide polar LOLA DEM
+    gets a real on-demand skyline; points outside its coverage are returned
+    geometric-only, flagged, with a flat horizon.
     """
     settings = settings or get_settings()
     if site_id is not None and (latitude_deg is not None or longitude_deg is not None):
         raise InvalidInputError("Pass either site_id or latitude_deg/longitude_deg, not both.")
     if site_id is None:
+        if (latitude_deg is None) != (longitude_deg is None):
+            raise InvalidInputError(
+                "Give both latitude_deg and longitude_deg for a custom point.")
+        if latitude_deg is not None and longitude_deg is not None:
+            latitude_deg, longitude_deg = validate_lat_lon(latitude_deg, longitude_deg)
+        if window not in WINDOWS:
+            raise InvalidInputError(f"unknown window {window!r}; expected one of {list(WINDOWS)}")
+        try:
+            mask = get_bundle(Mode(settings.default_mode)).terrain.horizon_mask(
+                latitude_deg, longitude_deg)
+        except DataUnavailableError:
+            mask = None
+        if mask is not None and mask.provenance == ProvenanceLevel.scientific_sourced:
+            return _custom_terrain_response(
+                latitude_deg=latitude_deg, longitude_deg=longitude_deg, window=window, mask=mask)
         return _geometric_only_response(
             latitude_deg=latitude_deg, longitude_deg=longitude_deg, window=window,
             settings=settings)
@@ -401,7 +539,7 @@ def terrain_horizon_response(
             "terrain": mask.source,
             "terrain_provenance": mask.provenance.value,
             "time": report["provenance"]["time"],
-            "sampling": ("360 azimuths at 1 degree; Phase 2 hourly series for the body "
+            "sampling": ("360 azimuths at 1 degree; hourly series for the body "
                          "positions; interval edges interpolated from clearance"),
             "visibility": report["provenance"]["visibility"],
             "observer_height_m": float(payload.get("observer_height_m", OBSERVER_HEIGHT_M)),

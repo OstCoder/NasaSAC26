@@ -1,4 +1,4 @@
-"""Phase 3 Task 2: geometric Earth visibility.
+"""Geometric Earth visibility.
 
 The rule is the one the task specifies, exactly:
 
@@ -68,7 +68,7 @@ def earth_visibility_response(
         earth = table.records[index]["earth"]
         records.append({
             "timestamp_utc": to_iso(when),
-            # Azimuth and elevation are copied from the Phase 2 record unchanged.
+            # Azimuth and elevation are copied from the committed record unchanged.
             "azimuth_deg": earth["azimuth_deg"],
             "elevation_deg": earth["elevation_deg"],
             "visible": bool(result.visible[index]),
@@ -129,7 +129,7 @@ def earth_visibility_response(
         },
         "provenance": {
             "ephemeris": table.payload.get("source") or "NASA JPL Horizons",
-            "series": "Phase 2 Task 2 hourly Earth track (data/scientific/site_series)",
+            "series": "Hourly Earth track (data/scientific/site_series)",
             "terrain": "none - geometric horizon only",
             "time": "UTC, ISO-8601 with Z; airless, no refraction",
             "rule": "Earth centre strictly above 0 deg; terrain and the Earth disk are not applied",

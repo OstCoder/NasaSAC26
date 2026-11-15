@@ -1,10 +1,10 @@
-"""Phase 5 decision support: requirements, power survival, and a transparent rank.
+"""Decision support: requirements, power survival and a transparent rank.
 
 This module is intentionally a composition layer. It does not invent a second
 visibility or power model:
 
 - Sun/Earth metrics come from :class:`~app.services.comparison.ScenarioService`;
-- the three Phase 1 checks and maximum darkness come from
+- the three mission checks and maximum darkness come from
   :func:`app.services.requirements.RequirementService`;
 - battery survival comes from :func:`app.services.engineering.engineering_response`
   with the caller's power demand substituted for the configured load.
@@ -19,6 +19,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 from datetime import datetime
+from types import SimpleNamespace
 from typing import Any
 
 from app.core.settings import Settings, get_settings
@@ -32,12 +33,14 @@ from app.models.schemas import (
     DecisionThresholdsInput,
     DecisionWeights,
     LocationInput,
+    PsrProximity,
     RequirementCheck,
     RequirementStatus,
     ScenarioInput,
 )
 from app.services.comparison import ScenarioService
 from app.services.engineering import engineering_response, window_for_landing
+from app.services.psr import get_psr_catalogue
 from app.services.requirements import RequirementService
 from app.services.sites import get_site_repository
 
@@ -227,13 +230,33 @@ def decide(req: DecisionRequest, settings: Settings | None = None) -> DecisionRe
     thresholds = replace(base, **overrides)
 
     site_ids = req.site_ids or list(settings.raw["mission"]["candidate_sites"])
-    sites = [repository.get(site_id) for site_id in site_ids]
+    sites: list[Any] = [repository.get(site_id) for site_id in site_ids]
+    if req.custom_location is not None:
+        loc = repository.resolve(req.custom_location)
+        catalogue = get_psr_catalogue()
+        psr, distance = catalogue.nearest(loc.latitude_deg, loc.longitude_deg)
+        sites.append(SimpleNamespace(
+            id="custom",
+            name=loc.name,
+            latitude_deg=loc.latitude_deg,
+            longitude_deg=loc.longitude_deg,
+            nearest_psr=PsrProximity(
+                psr_id=psr.psr_id,
+                label=psr.label,
+                distance_km=round(distance, 3),
+                area_km2=psr.area_km2,
+                centroid_latitude_deg=psr.centroid_latitude_deg,
+                centroid_longitude_deg=psr.centroid_longitude_deg,
+            ),
+            psrs_within_10_km=len(catalogue.within_km(loc.latitude_deg, loc.longitude_deg, 10.0)),
+        ))
     window = window_for_landing(req.landing_utc, settings)
 
     rows: list[dict[str, Any]] = []
     for order, site in enumerate(sites):
         scenario = ScenarioInput(
-            location=LocationInput(site_id=site.id),
+            location=LocationInput(site_id=site.id) if site.id != "custom" else LocationInput(
+                latitude_deg=site.latitude_deg, longitude_deg=site.longitude_deg, label=site.name),
             landing_utc=req.landing_utc,
             duration_hours=req.duration_hours,
             mode=req.mode,
@@ -243,7 +266,12 @@ def decide(req: DecisionRequest, settings: Settings | None = None) -> DecisionRe
         evaluation = requirements.evaluate(result, thresholds)
         checks = list(evaluation.checks)
 
-        if window is None:
+        if site.id == "custom":
+            power = DecisionPower(
+                available=False,
+                reason="The power model needs a catalogue site with a committed hourly series.",
+            )
+        elif window is None:
             power = DecisionPower(
                 available=False,
                 reason=(
@@ -364,7 +392,7 @@ def decide(req: DecisionRequest, settings: Settings | None = None) -> DecisionRe
         "landing-site suitability score. Change the weights to express a different mission priority.",
         "Sunlight is a precondition for solar power, not a power guarantee; Earth visibility is a "
         "precondition for a link, not a working communications link.",
-        "The power check uses the Phase 5 engineering model, the caller's average power demand "
+        "The power check uses the mission engineering model, the caller's average power demand "
         "and the selected panel design. Panel, battery, load and loss assumptions are engineering "
         "estimates, not measured hardware. The sensitivity cases are deterministic one-at-a-time "
         "bounds, not measured uncertainty.",
@@ -375,12 +403,11 @@ def decide(req: DecisionRequest, settings: Settings | None = None) -> DecisionRe
         "A passing verdict does not mean a site is safe, approved, or flight-ready. Landing hazards, "
         "radiation, thermal limits and other mission risks are out of scope.",
     ]
-    if mode != "scientific":
-        notes.insert(
-            0,
-            f"Inputs are {str(result.provenance.overall.value).replace('_', ' ')} in {mode} mode: "
-            "the ranking describes the model, not verified mission conditions.",
-        )
+    notes.insert(
+        0,
+        f"Data basis: {str(result.provenance.overall.value).replace('_', ' ')}. "
+        "The ranking describes the model, not verified mission conditions.",
+    )
 
     return DecisionResult(
         schema_id=SCHEMA,

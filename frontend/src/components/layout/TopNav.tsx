@@ -1,27 +1,18 @@
-import { BookOpen, Compass, Gauge, GitCompare, Map, Microscope, School } from 'lucide-react'
+import { BookOpen, Compass, Gauge, GitCompare, Map, Microscope, Type } from 'lucide-react'
 import * as React from 'react'
-import { JplStatusPill } from '@/components/JplStatus'
 import { useApp } from '@/hooks/useAppContext'
 import { useDataSaver } from '@/hooks/useDataSaver'
 import { cn } from '@/lib/utils'
-import type { Mode } from '@/types/api'
 
 export type View = 'planner' | 'science' | 'decision' | 'compare' | 'methodology'
 
-const NAV: { id: View; label: string; icon: typeof Map; flag: string }[] = [
-  { id: 'planner', label: 'Mission planner', icon: Map, flag: 'mission_planner' },
-  { id: 'science', label: 'Science', icon: Microscope, flag: 'science_exploration' },
-  { id: 'decision', label: 'Decision support', icon: Compass, flag: 'decision_support' },
-  { id: 'compare', label: 'Compare scenarios', icon: GitCompare, flag: 'scenario_comparison' },
-  { id: 'methodology', label: 'Data & methodology', icon: BookOpen, flag: 'methodology_page' },
+const NAV: { id: View; label: string; short: string; icon: typeof Map; flag: string }[] = [
+  { id: 'planner', label: 'Plan a landing', short: 'Plan', icon: Map, flag: 'mission_planner' },
+  { id: 'science', label: 'Explore the Moon', short: 'Explore', icon: Microscope, flag: 'science_exploration' },
+  { id: 'decision', label: 'Choose a site', short: 'Choose', icon: Compass, flag: 'decision_support' },
+  { id: 'compare', label: 'Compare sites', short: 'Compare', icon: GitCompare, flag: 'scenario_comparison' },
+  { id: 'methodology', label: 'How it works', short: 'Guide', icon: BookOpen, flag: 'methodology_page' },
 ]
-
-const MODE_LABEL: Record<Mode, string> = { demo: 'Demo data', jpl: 'JPL live', scientific: 'Scientific' }
-const MODE_HINT: Record<Mode, string> = {
-  demo: 'Approximate built-in ephemeris with synthetic terrain. Works offline.',
-  jpl: 'Live Sun and Earth positions from JPL Horizons. Terrain only where LOLA masks exist.',
-  scientific: 'JPL Horizons plus LOLA terrain masks. Refuses to compute if either is missing.',
-}
 
 function LunaMark() {
   return (
@@ -34,7 +25,7 @@ function LunaMark() {
 }
 
 export function TopNav({ view, onView, publicMode, setPublicMode }: { view: View; onView: (v: View) => void; publicMode: boolean; setPublicMode: (v: boolean) => void }) {
-  const { features, mode, setMode, config } = useApp()
+  const { features } = useApp()
   const [dataSaver, setDataSaver] = useDataSaver()
   const dataSaverRef = React.useRef(dataSaver)
   React.useEffect(() => { dataSaverRef.current = dataSaver }, [dataSaver])
@@ -89,35 +80,15 @@ export function TopNav({ view, onView, publicMode, setPublicMode }: { view: View
               type="button"
               onClick={() => setPublicMode(!publicMode)}
               aria-pressed={publicMode}
-              title={publicMode ? 'Public / educator mode: plain-language cards and larger text' : 'Public / educator mode'}
+              title={publicMode ? 'Larger text is on' : 'Make the text larger'}
               className={cn(
                 'inline-flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors',
                 publicMode ? 'bg-signal/15 text-signal' : 'text-muted hover:text-ink',
               )}
             >
-              <School className="size-4" aria-hidden />
-              <span className="hidden sm:inline">{publicMode ? 'Public mode on' : 'Public mode'}</span>
+              <Type className="size-4" aria-hidden />
+              <span className="hidden sm:inline">{publicMode ? 'Larger text on' : 'Larger text'}</span>
             </button>
-            <JplStatusPill />
-            <div role="radiogroup" aria-label="Data mode" className="flex items-center gap-0.5 rounded-md border border-rule-soft p-0.5">
-              {config.mode.allowed.map((m: Mode) => (
-                <button
-                  key={m}
-                  role="radio"
-                  aria-checked={mode === m}
-                  onClick={() => setMode(m)}
-                  className={cn(
-                    'h-7 rounded px-1.5 text-[11px] font-medium capitalize transition-colors sm:px-2.5 sm:text-[13px]',
-                    mode === m
-                      ? { demo: 'bg-sun/15 text-sun', jpl: 'bg-signal/20 text-signal', scientific: 'bg-both/15 text-both' }[m]
-                      : 'text-muted hover:text-ink',
-                  )}
-                  title={MODE_HINT[m]}
-                >
-                  {MODE_LABEL[m]}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </header>
@@ -128,13 +99,14 @@ export function TopNav({ view, onView, publicMode, setPublicMode }: { view: View
               key={n.id}
               onClick={() => onView(n.id)}
               aria-current={view === n.id ? 'page' : undefined}
+              aria-label={n.label}
               className={cn(
                 'flex flex-1 flex-col items-center gap-0.5 rounded-md px-1 py-1 text-[10px] font-medium transition-colors',
                 view === n.id ? 'text-signal' : 'text-muted',
               )}
             >
               <n.icon className="size-5" aria-hidden />
-              <span className="truncate">{n.label.split(' ')[0]}</span>
+              <span className="truncate">{n.short}</span>
             </button>
           ))}
         </div>

@@ -1,12 +1,12 @@
-"""Phase 5 Tasks 1-2: solar-power and direct-to-Earth budgets from committed geometry.
+"""Solar-power and direct-to-Earth budgets from committed geometry.
 
 The rest of LunaNav answers *when* the Sun and Earth clear the terrain. A mission
 team's next two questions are *can the lander keep running* and *can it talk*.
 This module answers both with textbook engineering formulas, using only numbers
 the project already commits:
 
-- Sun elevation, Earth elevation and **Earth range** from the Phase 2 Task 2
-  hourly series;
+- Sun elevation, Earth elevation and **Earth range** from the hourly
+  Sun/Earth series;
 - the terrain-adjusted visibility flags from :func:`phase3.visibility_response`,
   so a sample the skyline blocks contributes no power and no downlink.
 
@@ -82,8 +82,8 @@ LINK_LIMITS = [
 ]
 
 NOTES = [
-    "Every input is committed: the Sun/Earth track and ranges are the Phase 2 Task 2 "
-    "series, and visibility is the terrain-adjusted Phase 3 answer.",
+    "Every input is committed: the Sun/Earth track and ranges come from the hourly "
+    "series, and visibility is the terrain-adjusted result.",
     "Both budgets are engineering estimates under stated assumptions. Neither is a "
     "flight power budget or a negotiated communications link.",
 ]
@@ -559,7 +559,7 @@ def engineering_response(*, site_id: str, window: str = "initial",
                          panel_design: str | None = None,
                          panel_tilt_deg: float | None = None,
                          panel_azimuth_deg: float | None = None) -> dict:
-    """Phase 5: the power and link budgets for one site and window, with provenance."""
+    """The power and link budgets for one site and window, with provenance."""
     settings = settings or get_settings()
     window = _window(window)
     report = visibility_response(site_id=site_id, window=window, settings=settings)

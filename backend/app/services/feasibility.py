@@ -1,7 +1,7 @@
-"""One matrix: every Phase 1 candidate against both mission windows.
+"""One matrix: every candidate against both mission windows.
 
-Phase 4 requirement: a feasibility table that composes what the committed
-data already says - it computes no new physics:
+A feasibility table that composes what the committed data already says - it
+computes no new physics:
 
 - Terrain-adjusted visibility and metrics come from
   :func:`app.services.phase3.visibility_response` (committed Horizons series,
@@ -12,7 +12,7 @@ data already says - it computes no new physics:
 - The geometric (flat-horizon) baselines reuse Task 1/Task 2's single ``> 0``
   rule implementation, so the matrix cannot contradict ``/api/geometric-sun``
   or ``/api/geometric-earth`` either.
-- Site context (PSR proximity) comes from the Phase 1 site catalogue.
+- Site context (PSR proximity) comes from the site catalogue.
 
 The result is descriptive: it reports whether each candidate/window pair
 meets the stated targets and how each number was measured. It does not rank
@@ -42,7 +42,7 @@ from app.services.sites import get_site_repository
 
 SCHEMA = "lunanav.feasibility_matrix.v1"
 NOTES = (
-    "A verdict is not a ranking: it says whether the stated Phase 1 targets are met "
+    "A verdict is not a ranking: it says whether the stated mission targets are met "
     "for that candidate and window, not which site to choose.",
     "Terrain-adjusted values use the committed LOLA horizon masks; geometric values "
     "use the flat 0 deg horizon. The two are reported side by side and never merged.",
@@ -112,7 +112,7 @@ def _checks_from_metrics(metrics: list[dict], thresholds) -> tuple[list[Requirem
 
 
 def feasibility_matrix(settings: Settings | None = None) -> dict:
-    """Every candidate x both windows against the Phase 1 requirements."""
+    """Every candidate x both windows against the configured mission targets."""
     settings = settings or get_settings()
     thresholds = settings.requirements
     rows: list[dict[str, Any]] = []

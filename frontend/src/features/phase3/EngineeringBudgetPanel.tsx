@@ -92,7 +92,7 @@ export function EngineeringBudgetPanel() {
   return (
     <Card>
       <CardHeader
-        title="Phase 5 · Power and link budget"
+        title="Power and link budget"
         description="Solar array energy and a direct-to-Earth X-band budget from the committed hourly track and the terrain-adjusted visibility. Engineering estimates under the assumptions printed below — not a flight power budget and not a negotiated communications link."
       />
       <CardContent className="space-y-4">

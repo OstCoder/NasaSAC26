@@ -84,7 +84,7 @@ class TestJplModeApi:
         assert r.status_code == 200, r.text
         prov = r.json()["provenance"]
         assert prov["mode"] == "jpl" and prov["ephemeris"]["id"] == "horizons_live"
-        assert prov["overall"] == "geometric_only" and prov["label"].startswith("JPL LIVE")
+        assert prov["overall"] == "geometric_only" and prov["label"].startswith("NASA data")
         assert any("flat geometric horizon" in c for c in prov["caveats"])
 
     def test_snapshot_reports_sub_points(self, client):

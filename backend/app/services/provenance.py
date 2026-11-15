@@ -5,7 +5,6 @@ from __future__ import annotations
 from app.models.schemas import (
     PROVENANCE_RANK,
     EffectsIncluded,
-    Mode,
     Provenance,
     ProvenanceLevel,
 )
@@ -13,10 +12,10 @@ from app.providers.base import HorizonMask
 from app.providers.registry import ProviderBundle
 
 LABELS = {
-    ProvenanceLevel.synthetic: "Demonstration data: synthetic terrain, not real lunar conditions",
-    ProvenanceLevel.geometric_only: "Geometric only: terrain obstruction not applied",
-    ProvenanceLevel.analytic_approximate: "Approximate: analytic ephemeris, unverified",
-    ProvenanceLevel.scientific_sourced: "Scientific: sourced ephemeris and terrain data",
+    ProvenanceLevel.synthetic: "Illustrative data: synthetic terrain, not real lunar conditions",
+    ProvenanceLevel.geometric_only: "Flat-horizon estimate: terrain obstruction not applied",
+    ProvenanceLevel.analytic_approximate: "Approximate: simplified ephemeris, unverified",
+    ProvenanceLevel.scientific_sourced: "Terrain-aware: NASA ephemeris and LOLA terrain",
 }
 
 STANDING_CAVEATS = [
@@ -52,7 +51,7 @@ def build_provenance(bundle: ProviderBundle, mask: HorizonMask) -> Provenance:
     if eph.provenance == ProvenanceLevel.analytic_approximate:
         caveats.append("Ephemeris is a truncated analytic model (~0.05-0.1 deg); near-grazing events "
                        "may shift by tens of minutes to hours.")
-    prefix = {Mode.demo: "DEMO MODE", Mode.jpl: "JPL LIVE", Mode.scientific: "SCIENTIFIC MODE"}[bundle.mode]
+    prefix = "NASA data"
     return Provenance(
         mode=bundle.mode,
         overall=overall,

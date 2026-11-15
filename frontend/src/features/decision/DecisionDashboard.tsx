@@ -63,8 +63,8 @@ const PRIORITIES: {
   },
   {
     id: 'science',
-    label: 'Science exploration',
-    hint: 'Science exploration mode prioritises mapped PSR proximity while keeping every operational check visible. Closer is not proof of water ice or rover access.',
+    label: 'Science focus',
+    hint: 'Prioritises mapped PSR proximity while keeping every operational check visible. Closer is not proof of water ice or rover access.',
     weights: { sunlight: 0.3, earth_visibility: 0.2, communication: 0.1, science: 0.4 },
   },
 ]
@@ -115,67 +115,80 @@ function ScoreBar({ site }: { site: DecisionSite }) {
   )
 }
 
-function SiteDetails({ site }: { site: DecisionSite }) {
+type PrioritySignal = 'score' | 'sunlight' | 'blackout' | 'psr'
+const PRIORITY_COMPONENT: Record<string, { key: string; label: string; signal: PrioritySignal }> = {
+  balanced: { key: 'sunlight', label: 'balanced score', signal: 'score' },
+  sunlight: { key: 'sunlight', label: 'sunlight', signal: 'sunlight' },
+  communication: { key: 'communication', label: 'Earth contact', signal: 'blackout' },
+  science: { key: 'science', label: 'PSR proximity', signal: 'psr' },
+}
+const WEIGHT_LABEL: Record<keyof DecisionWeights, string> = {
+  sunlight: 'Sunlight',
+  earth_visibility: 'Earth visibility',
+  communication: 'Earth contact',
+  science: 'PSR proximity',
+}
+
+function priorityFit(site: DecisionSite, focus: { key: string; signal: PrioritySignal }) {
+  if (focus.signal === 'score') return site.score == null ? null : site.score / 100
+  return site.score_components[focus.key] ?? null
+}
+
+function prioritySignal(site: DecisionSite, focus: { signal: PrioritySignal }) {
+  if (focus.signal === 'score') return site.score == null ? '—' : `${site.score.toFixed(1)}/100`
+  if (focus.signal === 'sunlight') return pct(site.metrics.sun_visible_pct)
+  if (focus.signal === 'blackout') return hours(site.metrics.longest_earth_blackout_hours)
+  return site.nearest_psr ? `${site.nearest_psr.distance_km.toFixed(1)} km` : '—'
+}
+
+function SiteDetails({ site, priorityId }: { site: DecisionSite; priorityId: string }) {
+  const focus = PRIORITY_COMPONENT[priorityId] ?? PRIORITY_COMPONENT.balanced
+  const focusValue = priorityFit(site, focus)
+  const headline = site.rank != null
+    ? `#${site.rank} ${site.name} · ${site.score?.toFixed(1)}/100`
+    : `${site.name} · not ranked`
   return (
-    <div className="rounded-md border border-rule-soft p-3">
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div>
-          <p className="font-display text-sm font-semibold text-ink">
-            {site.rank != null && (
-              <span className="mr-1.5 rounded bg-signal/15 px-1.5 py-0.5 text-[11px] text-signal">
-                #{site.rank}
-              </span>
-            )}
-            {site.name}
-          </p>
-          <p className="text-xs text-faint">
-            {site.provenance.replace(/_/g, ' ')}
-            {site.nearest_psr
-              ? ` · nearest mapped PSR ${site.nearest_psr.distance_km.toFixed(1)} km (${site.nearest_psr.label})`
-              : ' · no mapped PSR proximity'}
-          </p>
+    <details className="rounded-md border border-rule-soft p-3">
+      <summary className="cursor-pointer list-none">
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <p className="font-display text-sm font-semibold text-ink">{headline}</p>
+            <p className="text-xs text-faint">
+              Priority fit: {focus.label} {focusValue != null ? `${Math.round(focusValue * 100)}/100` : 'not scored'}
+              {site.nearest_psr && ` · nearest mapped PSR ${site.nearest_psr.distance_km.toFixed(1)} km`}
+            </p>
+          </div>
+          <SiteStatus site={site} />
         </div>
-        <SiteStatus site={site} />
-      </div>
+      </summary>
 
-      <ul className="mt-2 space-y-1 text-xs text-muted">
-        {site.reasons.map((reason) => (
-          <li key={reason}>{reason}</li>
+      <div className="mt-3 space-y-2 border-t border-rule-soft pt-3 text-sm leading-relaxed text-muted">
+        <p>{site.reasons[0]}</p>
+        {site.reasons.slice(1).map((reason) => (
+          <p key={reason}>{reason}</p>
         ))}
-      </ul>
 
-      {site.risks.length > 0 && (
-        <div className="mt-2 rounded border border-sun/25 bg-sun/5 p-2">
-          <p className="flex items-center gap-1 text-[11px] font-medium text-sun">
-            <AlertTriangle className="size-3.5" aria-hidden /> Risks and undecided evidence
+        {site.risks.length > 0 && (
+          <div className="rounded border border-sun/25 bg-sun/5 p-2">
+            <p className="flex items-center gap-1 text-xs font-medium text-sun">
+              <AlertTriangle className="size-3.5" aria-hidden /> Things to check
+            </p>
+            <ul className="mt-1 space-y-1">
+              {site.risks.map((risk) => <li key={risk}>{risk}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {site.power.available && site.power.battery ? (
+          <p>
+            Power estimate: {site.power.load_w?.toFixed(0)} W load, minimum battery{' '}
+            {site.power.battery.min_soc_pct.toFixed(1)}%. {site.power.battery.verdict}
           </p>
-          <ul className="mt-1 space-y-1 text-xs text-muted">
-            {site.risks.map((risk) => (
-              <li key={risk}>{risk}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {site.score != null && Object.keys(site.score_components).length > 0 && (
-        <p className="mt-2 text-[11px] text-faint">
-          Score components (0–1):{' '}
-          {Object.entries(site.score_components)
-            .map(([key, value]) => `${key.replace(/_/g, ' ')} ${value.toFixed(2)}`)
-            .join(' · ')}
-        </p>
-      )}
-
-      {site.power.available && site.power.battery ? (
-        <p className="mt-2 text-xs text-faint">
-          Power model: {site.power.load_w?.toFixed(0)} W load, {Math.round(site.power.array_energy_wh ?? 0)} Wh
-          array energy, battery minimum {site.power.battery.min_soc_pct.toFixed(1)}% (reserve{' '}
-          {site.power.battery.reserve_pct.toFixed(0)}%). {site.power.battery.verdict}
-        </p>
-      ) : (
-        <p className="mt-2 text-xs text-faint">{site.power.reason}</p>
-      )}
-    </div>
+        ) : (
+          <p>{site.power.reason}</p>
+        )}
+      </div>
+    </details>
   )
 }
 
@@ -187,7 +200,7 @@ function SiteDetails({ site }: { site: DecisionSite }) {
  * but never receive a favourable score.
  */
 export function DecisionDashboard() {
-  const { config, sites, mode, draftA } = useApp()
+  const { config, sites, mode, draftA, setDraftA } = useApp()
   const defaults = config.requirements
   const sim = config.simulation
   const candidates = React.useMemo(
@@ -228,6 +241,9 @@ export function DecisionDashboard() {
               : null
 
   const windowDraft = { ...draftA, landing_utc: landing, duration_hours: duration }
+  const customLocation = !draftA.location.site_id && draftA.location.latitude_deg != null && draftA.location.longitude_deg != null
+    ? { latitude_deg: draftA.location.latitude_deg, longitude_deg: draftA.location.longitude_deg, label: draftA.locationName }
+    : undefined
   const problem = thresholdProblem ?? rangeProblem(windowDraft, sim.supported_start_utc, sim.supported_end_utc)
   const body =
     problem === null && candidates.length > 0
@@ -236,6 +252,7 @@ export function DecisionDashboard() {
           duration_hours: duration,
           mode,
           site_ids: candidates.map((site) => site.id),
+          custom_location: customLocation,
           thresholds: {
             min_sun_visible_pct: sunNum,
             min_earth_visible_pct: earthNum,
@@ -264,24 +281,34 @@ export function DecisionDashboard() {
   // evaluation is debounced or in flight.
   const result: DecisionResult | null =
     decision.dataKey === requestKey ? decision.data : null
+  const priorityFocus = PRIORITY_COMPONENT[priorityId] ?? PRIORITY_COMPONENT.balanced
+  const weightRows = (Object.entries(priority.weights) as [keyof DecisionWeights, number][])
+    .filter(([, weight]) => weight > 0)
   const orderedSites = React.useMemo(() => {
     if (!result) return []
+    const sortValue = (site: DecisionSite) => {
+      if (priorityFocus.signal === 'score') return -(site.score ?? -1)
+      if (priorityFocus.signal === 'sunlight') return -(site.metrics.sun_visible_pct ?? -1)
+      if (priorityFocus.signal === 'blackout') return site.metrics.longest_earth_blackout_hours ?? Infinity
+      return site.nearest_psr?.distance_km ?? Infinity
+    }
     return [...result.sites].sort((a, b) => {
       if (a.rank != null && b.rank != null) return a.rank - b.rank
       if (a.rank != null) return -1
       if (b.rank != null) return 1
-      return 0
+      return sortValue(a) - sortValue(b)
     })
-  }, [result])
+  }, [result, priorityFocus.signal])
   const top = result?.sites.find((site) => site.site_id === result.recommendation.top_site_id)
   const windows = new Set(result?.sites.map((site) => site.power.window).filter(Boolean) ?? [])
+  const shortSummary = result ? `${result.recommendation.summary.split('. ')[0]}.` : ''
 
   return (
     <div className="space-y-4">
       <Card>
         <CardHeader
-          title="Mission decision support"
-          description="Set the mission window and operational constraints. The same evaluator checks every candidate, then ranks only the sites that pass all selected checks. Demonstration targets and weights — not NASA flight requirements."
+          title="Choose a landing site"
+          description="Pick a mission date and a place. LunaNav compares that place with the three candidates and ranks only the options that meet your limits. The targets are demonstration settings, not NASA flight requirements."
           actions={
             <Button size="sm" variant="ghost" onClick={reset}>
               <RotateCcw /> Defaults
@@ -291,11 +318,16 @@ export function DecisionDashboard() {
         <CardContent className="space-y-4">
           <ScenarioEditor
             draft={windowDraft}
+            showSite
             onChange={(next) => {
               setLanding(next.landing_utc)
               setDuration(next.duration_hours)
+              setDraftA((previous) => ({
+                ...previous,
+                location: next.location,
+                locationName: next.locationName,
+              }))
             }}
-            showSite={false}
           />
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -380,11 +412,26 @@ export function DecisionDashboard() {
               ))}
             </div>
             <p className="text-xs text-faint">
-              {priority.hint} Weights: sunlight {priority.weights.sunlight.toFixed(2)}, Earth visibility{' '}
-              {priority.weights.earth_visibility.toFixed(2)}, communication{' '}
-              {priority.weights.communication.toFixed(2)}, science {priority.weights.science.toFixed(2)}.
-              They are normalised over the eligible candidates; they are not a NASA suitability score.
+              {priority.hint}
             </p>
+            <div className="rounded-md border border-rule-soft bg-raised/40 p-2.5">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-faint">
+                What this priority weights
+              </p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-4">
+                {weightRows.map(([key, weight]) => (
+                  <div key={key}>
+                    <div className="flex items-baseline justify-between gap-2 text-xs">
+                      <span className="text-muted">{WEIGHT_LABEL[key]}</span>
+                      <span className="num text-ink">{Math.round(weight * 100)}%</span>
+                    </div>
+                    <div className="mt-1 h-1.5 rounded bg-rule-soft" aria-hidden>
+                      <div className="h-1.5 rounded bg-signal" style={{ width: `${weight * 100}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {problem && <p className="text-xs text-alert">{problem}</p>}
@@ -406,7 +453,7 @@ export function DecisionDashboard() {
           <Card>
             <CardHeader
               title={result.recommendation.status === 'ranked' ? 'Recommendation' : 'No eligible candidate'}
-              description={`${fmtUtc(result.landing_utc)} UTC for ${fmtHours(result.duration_hours)} · ${result.mode} mode`}
+              description={`${fmtUtc(result.landing_utc)} UTC for ${fmtHours(result.duration_hours)} · ranked for ${priority.label.toLowerCase()}`}
             />
             <CardContent className="space-y-3">
               <div
@@ -427,19 +474,11 @@ export function DecisionDashboard() {
                     {result.recommendation.top_site_name
                       ? `${result.recommendation.top_site_name} is top-ranked`
                       : 'No site is recommended'}
-                    {result.mode === 'demo' && (
-                      <span className="ml-2 rounded border border-sun/50 bg-sun/10 px-1.5 py-0.5 text-[10px] font-normal text-sun">
-                        demo model
-                      </span>
-                    )}
                   </p>
-                  <p className="mt-1 text-sm text-muted">{result.recommendation.summary}</p>
-                  {result.mode === 'demo' && (
-                    <p className="mt-1 text-xs text-sun">
-                      Demo Mode uses synthetic ephemeris/terrain values. This rank describes the demonstration model,
-                      not verified lunar conditions.
-                    </p>
-                  )}
+                  <p className="mt-1 text-sm text-muted">{shortSummary}</p>
+                  <p className="mt-2 text-xs text-faint">
+                    Ranking focus: <span className="font-medium text-ink">{priority.label}</span> · {priority.hint}
+                  </p>
                 </div>
               </div>
 
@@ -451,6 +490,7 @@ export function DecisionDashboard() {
                       <th className="px-2 py-1.5 font-medium">Candidate</th>
                       <th className="px-2 py-1.5 font-medium">Status</th>
                       <th className="px-2 py-1.5 font-medium">Score</th>
+                      <th className="px-2 py-1.5 text-right font-medium">Priority signal</th>
                       <th className="px-2 py-1.5 text-right font-medium">Sun</th>
                       <th className="px-2 py-1.5 text-right font-medium">Earth</th>
                       <th className="px-2 py-1.5 text-right font-medium">Earth blackout</th>
@@ -468,6 +508,9 @@ export function DecisionDashboard() {
                         <td className="border-t border-rule-soft px-2 py-2 text-ink">{site.name}</td>
                         <td className="border-t border-rule-soft px-2 py-2"><SiteStatus site={site} /></td>
                         <td className="border-t border-rule-soft px-2 py-2"><ScoreBar site={site} /></td>
+                        <td className="num border-t border-rule-soft px-2 py-2 text-right text-ink">
+                          {prioritySignal(site, priorityFocus)}
+                        </td>
                         <td className="num border-t border-rule-soft px-2 py-2 text-right text-ink">
                           {pct(site.metrics.sun_visible_pct)}
                         </td>
@@ -504,14 +547,17 @@ export function DecisionDashboard() {
                       {hours(site.metrics.longest_earth_blackout_hours)} Earth blackout ·{' '}
                       {hours(site.metrics.longest_sun_blackout_hours)} darkness
                     </p>
-                    <p className="mt-1 text-xs text-faint">Score: {site.score == null ? 'not ranked' : `${site.score.toFixed(1)}/100`}</p>
+                    <p className="mt-1 text-xs text-faint">
+                      Score: {site.score == null ? 'not ranked' : `${site.score.toFixed(1)}/100`}
+                      {' · '}{priorityFocus.label}: {prioritySignal(site, priorityFocus)}
+                    </p>
                   </div>
                 ))}
               </div>
 
               <div className="space-y-2">
                 {orderedSites.map((site) => (
-                  <SiteDetails key={`details-${site.site_id}`} site={site} />
+                  <SiteDetails key={`details-${site.site_id}`} site={site} priorityId={priorityId} />
                 ))}
               </div>
 
@@ -551,14 +597,14 @@ export function DecisionDashboard() {
             />
             <CardContent className="space-y-3">
               {orderedSites.map((site) => (
-                <div key={`checks-${site.site_id}`} className="overflow-x-auto">
-                  <p className="mb-1 text-xs font-medium text-ink">
+                <details key={`checks-${site.site_id}`} className="overflow-x-auto rounded-md border border-rule-soft p-2">
+                  <summary className="cursor-pointer text-sm font-medium text-ink">
                     {site.name}{' '}
-                    <span className="text-faint">
+                    <span className="font-normal text-muted">
                       {site.satisfied === true ? 'meets all selected constraints' : site.satisfied === false ? 'fails at least one constraint' : 'has an undecided constraint'}
                     </span>
-                  </p>
-                  <table className="w-full min-w-[660px] text-left text-xs">
+                  </summary>
+                  <table className="mt-2 w-full min-w-[660px] text-left text-sm">
                     <thead>
                       <tr className="text-faint">
                         <th className="px-2 py-1 font-medium">Requirement</th>
@@ -588,7 +634,7 @@ export function DecisionDashboard() {
                       ))}
                     </tbody>
                   </table>
-                </div>
+                </details>
               ))}
             </CardContent>
           </Card>
@@ -596,48 +642,38 @@ export function DecisionDashboard() {
           {result.weights.science > 0 && (
             <Card>
               <CardHeader
-                title="Science exploration mode"
-                description="Science proximity is a ranking preference, not an extra eligibility rule. Every operational check above still applies."
+                title="Science context"
+                description="A closer mapped shadow region raises the science score. It does not prove ice or a safe route."
               />
-              <CardContent className="space-y-3">
-                <p className="text-xs text-muted">
-                  Science weight {result.weights.science.toFixed(2)}. A closer mapped PSR raises the
-                  science component, but it does not prove water ice, a traversable route, or a safe
-                  landing. The operational constraints remain the gate on eligibility.
-                </p>
-                <ul className="space-y-2">
-                  {orderedSites.map((site) => (
-                    <li key={`science-${site.site_id}`} className="rounded border border-rule-soft p-2 text-xs">
-                      <span className="font-medium text-ink">{site.name}</span>{' '}
-                      {site.nearest_psr ? (
-                        <>
-                          — nearest mapped PSR <span className="num text-earth">{site.nearest_psr.distance_km.toFixed(1)} km</span>{' '}
-                          ({site.nearest_psr.label}); {site.psrs_within_10_km ?? 0} mapped PSR(s) within 10 km.
-                        </>
-                      ) : (
-                        <span className="text-faint">— no mapped PSR proximity; science component is the least favourable value.</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-[11px] text-faint">
-                  This is a comparison context, not a traverse plan. It does not model slope, trafficability,
-                  illumination along a route, or the scientific value of a specific PSR.
-                </p>
+              <CardContent>
+                <details>
+                  <summary className="cursor-pointer text-sm font-medium text-ink">Show PSR distances for each option</summary>
+                  <ul className="mt-3 space-y-2 text-sm text-muted">
+                    {orderedSites.map((site) => (
+                      <li key={`science-${site.site_id}`} className="rounded border border-rule-soft p-2">
+                        <span className="font-medium text-ink">{site.name}</span>{' '}
+                        {site.nearest_psr ? (
+                          <>— nearest mapped PSR {site.nearest_psr.distance_km.toFixed(1)} km away ({site.nearest_psr.label}).</>
+                        ) : (
+                          <span>— no mapped PSR proximity.</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-2 text-xs text-faint">This is a comparison context, not a traverse plan.</p>
+                </details>
               </CardContent>
             </Card>
           )}
 
-          <Card>
-            <CardHeader title="Model limits" />
-            <CardContent>
-              <ul className="space-y-1 text-xs text-faint">
-                {result.notes.map((note) => (
-                  <li key={note}>{note}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+          <details className="rounded-lg border border-rule-soft bg-panel p-4">
+            <summary className="cursor-pointer text-sm font-medium text-ink">Model limits and sources</summary>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted">
+              {result.notes.map((note) => (
+                <li key={note}>{note}</li>
+              ))}
+            </ul>
+          </details>
         </div>
       )}
     </div>

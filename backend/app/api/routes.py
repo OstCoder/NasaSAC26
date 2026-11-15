@@ -143,13 +143,13 @@ def _validation_report() -> dict:
         return build_validation_report()
     except (FileNotFoundError, ValueError) as exc:
         raise DataUnavailableError(
-            f"The Phase 2 Task 5 validation report cannot be built: {exc}"
+            f"The NASA data validation report cannot be built: {exc}"
         ) from exc
 
 
 @router.get("/validation")
 def validation(force: bool = False):
-    """Phase 2 Task 5: ten checks over the committed NASA datasets.
+    """Ten checks over the committed NASA datasets.
 
     Offline, derived from the files: coordinates, lunar observer, Sun/Earth
     positions against an independent model, the Horizons reference sample, units,
@@ -164,9 +164,9 @@ def validation(force: bool = False):
 
 @router.get("/readiness")
 def readiness():
-    """Phase 2 Task 6: which candidates have both mission windows and a LOLA skyline.
+    """Which candidates have both mission windows and a LOLA skyline.
 
-    ``ready`` means the data a Phase 3 visibility calculation needs is present;
+    ``ready`` means the data a visibility calculation needs is present;
     it is not a landing recommendation and terrain still has to be applied.
     """
     return build_readiness()
@@ -195,7 +195,7 @@ def site_series(
 
 @router.get("/geometric-sun")
 def geometric_sun(site_id: str, window: str = "initial"):
-    """Phase 3 Task 1: geometric Sun visibility, point source, no terrain.
+    """Geometric Sun visibility: point source, no terrain.
 
     The rule is exactly ``sun.elevation_deg > 0``. Every timestamp keeps its
     Task 2 azimuth and elevation, gains a boolean, a grazing flag (within the
@@ -207,10 +207,10 @@ def geometric_sun(site_id: str, window: str = "initial"):
 
 @router.get("/geometric-earth")
 def geometric_earth(site_id: str, window: str = "initial"):
-    """Phase 3 Task 2: geometric Earth visibility, point source, no terrain.
+    """Geometric Earth visibility: point source, no terrain.
 
     The rule is exactly ``earth.elevation_deg > 0``. Every timestamp keeps its
-    Phase 2 azimuth and elevation, gains a boolean, a grazing flag (within
+    committed azimuth and elevation, gains a boolean, a grazing flag (within
     Earth's apparent angular radius, 0.95 deg) and the Earth disk fraction for
     context. Geometric visibility is not a communication link. For a
     terrain-adjusted answer use ``/api/phase3``.
@@ -220,7 +220,7 @@ def geometric_earth(site_id: str, window: str = "initial"):
 
 @router.get("/feasibility")
 def feasibility():
-    """Phase 4: every candidate x both windows against the Phase 1 requirements.
+    """Every candidate x both windows against the configured mission requirements.
 
     Composes the committed terrain-adjusted metrics, the shared requirement
     thresholds and Task 1/Task 2's geometric baselines into one matrix. It
@@ -231,10 +231,10 @@ def feasibility():
 
 @router.get("/phase3")
 def phase3(site_id: str, window: str = "initial"):
-    """Phase 3: terrain-adjusted Sun/Earth visibility from the committed data.
+    """Terrain-adjusted Sun/Earth visibility from the committed data.
 
-    Offline: the hourly track is the Phase 2 Task 2 series, the skyline is the
-    Phase 2 Task 6 two-tier LOLA mask. Records carry elevation, skyline,
+    Offline: the hourly track is the committed series, the skyline is the
+    two-tier LOLA mask. Records carry elevation, skyline,
     clearance and a boolean, plus intervals and summary metrics. Geometry only:
     Sun above terrain is not power, Earth above terrain is not a link budget.
     """
@@ -254,7 +254,7 @@ def terrain_horizon(
     longitude_deg: Optional[float] = Query(None),
     window: str = "initial",
 ):
-    """Phase 3 Task 3: the terrain horizon profile, and visibility against it.
+    """The terrain horizon profile, and visibility against it.
 
     The full 360-point LOLA skyline for a candidate site with its coverage and
     uncertainty, Sun and Earth elevation compared against it at their own
@@ -271,7 +271,7 @@ def terrain_horizon(
 
 @router.get("/terrain-dem")
 def terrain_dem(site_id: str):
-    """Phase 4 Task 6 (experimental): one candidate's pooled LOLA DEM grid.
+    """Experimental: one candidate's pooled LOLA DEM grid.
 
     A committed 128x128 average-pooled height sample of the 5 m/pix PGDA site
     model, for the feature-flagged 3D terrain view. Display only - the 2D
@@ -282,10 +282,10 @@ def terrain_dem(site_id: str):
 
 @router.get("/mission-report")
 def mission_report_route(site_id: str, window: str = "initial"):
-    """Phase 3 Task 11: one result envelope per site and window, for Phase 4.
+    """One result envelope per site and window.
 
     Concatenates the terrain basis and coverage, adjusted visibility, intervals,
-    metrics and the Phase 1 requirement checks into one deterministic document.
+    metrics and the mission requirement checks into one deterministic document.
     Every number is copied from ``/api/terrain-horizon`` and ``/api/phase3``;
     there is no wall clock, so a re-run reproduces it. Geometry only.
     """
@@ -294,10 +294,10 @@ def mission_report_route(site_id: str, window: str = "initial"):
 
 @router.post("/decision", response_model=DecisionResult)
 def decision(req: DecisionRequest):
-    """Phase 5 Tasks 6-11: evaluate, explain and rank mission candidates.
+    """Evaluate, explain and rank mission candidates.
 
     The evaluator composes the scenario metrics, the shared requirement checks,
-    maximum darkness and the Phase 5 power/battery model with the caller's
+    maximum darkness and the power/battery model with the caller's
     average power demand. Only candidates that pass every selected check are
     ranked; FAIL and UNDECIDED stay visible and are never scored as favorable.
     """
@@ -310,10 +310,10 @@ def engineering(site_id: str, window: str = "initial",
                panel_design: Optional[str] = None,
                panel_tilt_deg: Optional[float] = Query(None, ge=0, le=90),
                panel_azimuth_deg: Optional[float] = Query(None, ge=0, lt=360)):
-    """Phase 5 Tasks 1-2: solar-power and direct-to-Earth budgets.
+    """Solar-power and direct-to-Earth budgets.
 
     Both budgets use only committed numbers: the hourly Sun/Earth track and Earth
-    range from the Phase 2 series, and the terrain-adjusted visibility flags from
+    range from the committed series, and the terrain-adjusted visibility flags from
     ``/api/phase3``. The power side reports a fixed horizontal array, a vertical
     azimuth-tracking array (the polar case), and optionally an arbitrary fixed
     tilt/azimuth design selected with ``panel_design=fixed``. The selected design
@@ -332,9 +332,9 @@ def engineering(site_id: str, window: str = "initial",
 
 @router.get("/mission-report.md", response_class=Response)
 def mission_report_markdown_route(site_id: str, window: str = "initial"):
-    """Phase 5 Task 3: the mission report as deterministic Markdown.
+    """The mission report as deterministic Markdown.
 
-    Same numbers as ``/api/mission-report`` plus the Phase 5 engineering budgets,
+    Same numbers as ``/api/mission-report`` plus the engineering budgets,
     rendered as tables with assumptions, provenance and limitations. No wall
     clock, so the same committed inputs produce the same bytes.
     """
@@ -405,7 +405,7 @@ def science_psrs(
     near_site_id: Optional[str] = None,
     radius_km: float = Query(30.0, ge=0, le=200),
 ):
-    """Phase 6: verified PSR polygons plus their source and geometry metadata.
+    """Verified PSR polygons plus their source and geometry metadata.
 
     Same LROC/LOLA catalogue as ``GET /api/psrs``; the envelope keeps the
     dataset provenance next to the geometry so a client can show attribution
@@ -424,7 +424,7 @@ def science_nearest_psr(
     radius_km: float = Query(10.0, ge=0, le=200),
     limit: int = Query(5, ge=1, le=50),
 ):
-    """Phase 6: nearest mapped PSR and nearby PSRs for a site or coordinate.
+    """Nearest mapped PSR and nearby PSRs for a site or coordinate.
 
     ``boundary_distance_km`` is the minimum point-to-polygon distance (zero
     inside). ``centroid_distance_km`` is the haversine value. Neither is a
@@ -436,18 +436,23 @@ def science_nearest_psr(
 
 
 @router.get("/science/site-context")
-def science_site_context(site_id: str):
-    """Phase 6: PSR, terrain and visibility context for one landing site.
+def science_site_context(
+    site_id: Optional[str] = None,
+    latitude_deg: Optional[float] = Query(None, ge=-90, le=90),
+    longitude_deg: Optional[float] = Query(None, ge=-360, le=360),
+):
+    """PSR, terrain and visibility context for a landing site or custom point.
 
-    The water-ice field is explicitly withheld (``confirmed: null`` with status
-    ``not_assessed``) because the committed data contains no ice detection.
+    The water-ice field is explicitly withheld (``confirmed: null``) because the
+    committed data contains no ice detection.
     """
-    return site_context_response(site_id=site_id)
+    return site_context_response(
+        site_id=site_id, latitude_deg=latitude_deg, longitude_deg=longitude_deg)
 
 
 @router.get("/terrain/mesh")
 def terrain_mesh(site_id: str):
-    """Phase 6 alias for the committed pooled site DEM used by the 3D view."""
+    """Alias for the committed pooled site DEM used by the 3D view."""
     return terrain_dem_response(site_id=site_id)
 
 

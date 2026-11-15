@@ -25,7 +25,7 @@ export function TradeoffNotes({ result }: { result: ComparisonResult }) {
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-muted">Same mode, data quality, duration and sampling. Values compare directly.</p>
+          <p className="text-sm text-muted">Same data source, quality, duration and sampling. Values compare directly.</p>
         )}
       </div>
     </div>

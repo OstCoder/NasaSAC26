@@ -116,7 +116,7 @@ export function TerrainHorizonPanel() {
   return (
     <Card>
       <CardHeader
-        title="Phase 4 · Terrain horizon profile"
+        title="Terrain horizon profile"
         description="The committed LOLA skyline for one candidate, with the Sun and Earth tracks drawn on top at their own azimuths. Points above the grey terrain are clear of it; points below are blocked. Geometry only — Sun above terrain is not power, Earth above terrain is not a link budget."
       />
       <CardContent className="space-y-4">

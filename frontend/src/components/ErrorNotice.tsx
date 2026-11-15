@@ -4,7 +4,7 @@ import { fmtUtc } from '@/lib/format'
 import type { ApiError } from '@/services/api'
 
 /** Turns API errors into direction: what happened and what to do next. */
-export function ErrorNotice({ error, onUseDemo, onRetry }: { error: ApiError; onUseDemo?: () => void; onRetry?: () => void }) {
+export function ErrorNotice({ error, onRetry }: { error: ApiError; onRetry?: () => void }) {
   let Icon = AlertTriangle
   let title = 'The calculation could not run'
   let action: React.ReactNode = null
@@ -22,31 +22,22 @@ export function ErrorNotice({ error, onUseDemo, onRetry }: { error: ApiError; on
       )
   } else if (error.code === 'SCIENTIFIC_DATA_UNAVAILABLE') {
     Icon = DatabaseZap
-    title = 'Scientific data is not loaded'
+    title = 'That terrain data is not available'
     action = (
-      <div className="flex flex-wrap items-center gap-2">
-        <p className="text-muted">
-          No values are shown rather than substituting demo data. Add Horizons tables and LOLA horizon masks
-          (see docs/ADAPTATION_GUIDE.md), or switch to demo mode.
-        </p>
-        {onUseDemo && (
-          <Button size="sm" onClick={onUseDemo}>
-            Switch to demo mode
-          </Button>
-        )}
-      </div>
+      <p className="text-muted">
+        No values are invented to fill the gap. Pick a site with a committed terrain profile, or use a
+        flat-horizon result that is clearly labelled.
+      </p>
     )
   } else if (error.code === 'JPL_UNAVAILABLE') {
     Icon = SatelliteDish
     title = 'NASA/JPL data could not be used'
     action = (
-      <div className="flex flex-wrap items-center gap-2">
-        <p className="text-muted">
-          The LunaNav server needs internet access to JPL. Run <code className="text-ink">python scripts/check_jpl.py</code> in
-          the backend folder for a diagnosis, or switch to demo mode.
-        </p>
-        {onUseDemo && <Button size="sm" onClick={onUseDemo}>Switch to demo mode</Button>}
-      </div>
+      <p className="text-muted">
+        The LunaNav server needs internet access to JPL. Run{' '}
+        <code className="text-ink">python scripts/check_jpl.py</code> in the backend folder for a
+        diagnosis, then try again.
+      </p>
     )
   } else if (error.code === 'BACKEND_UNREACHABLE') {
     Icon = PlugZap

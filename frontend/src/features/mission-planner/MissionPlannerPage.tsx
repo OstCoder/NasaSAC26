@@ -1,4 +1,4 @@
-import { CalendarPlus, Earth, GitCompare, Globe2, LoaderCircle, Map as MapIcon, X } from 'lucide-react'
+import { CalendarPlus, ChevronDown, Earth, GitCompare, Globe2, Lightbulb, LoaderCircle, Map as MapIcon, Sparkles, Sun, X } from 'lucide-react'
 import * as React from 'react'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { ErrorNotice } from '@/components/ErrorNotice'
@@ -24,9 +24,10 @@ import { SiteTerrain3DPanel } from '@/features/phase3/SiteTerrain3DPanel'
 import { siteDraftLocation, useApp, type ScenarioDraft } from '@/hooks/useAppContext'
 import { useDataSaver } from '@/hooks/useDataSaver'
 import { useCraters, useScenario, useSkyNow, useSnapshot } from '@/hooks/useScenario'
-import { fmtLat, fmtLon, fmtUtc } from '@/lib/format'
+import { fmtHours, fmtLat, fmtLon, fmtUtc } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import { api } from '@/services/api'
+import type { ScenarioResult } from '@/types/api'
 import { ScenarioEditor } from './ScenarioEditor'
 import { ProvenanceCallout } from './ProvenanceCallout'
 
@@ -45,16 +46,137 @@ const LunarGlobe = React.lazy(() => import('@/features/lunar-globe/LunarGlobe'))
 type Viewer = 'map' | 'moon' | 'globe'
 
 const VIEWER_TEXT: Record<Viewer, { title: string; description: string }> = {
-  map: { title: 'South polar region', description: 'Select a site, or click anywhere to analyse custom coordinates. Crater outlines are from the IAU gazetteer.' },
-  moon: { title: 'Whole Moon', description: 'Scroll to zoom into the LRO imagery. Crater names and outlines are from the IAU gazetteer.' },
-  globe: { title: 'Lunar viewer', description: 'Drag to rotate, scroll to zoom.' },
+  map: { title: 'South pole map', description: 'Pick a site, or click anywhere for custom coordinates. Gold outlines are mapped permanently shadowed regions.' },
+  moon: { title: 'Whole Moon', description: 'Scroll to zoom into the LRO imagery. Crater names and outlines come from the IAU gazetteer.' },
+  globe: { title: 'Moon in 3D', description: 'Drag to rotate, scroll to zoom.' },
 }
 
 const addDays = (iso: string, d: number) => new Date(Date.parse(iso) + d * 86_400_000).toISOString().slice(0, 19) + 'Z'
 
+function metricValue(result: ScenarioResult, id: string) {
+  return result.metrics.find((metric) => metric.id === id)
+}
+
+function shareText(metric: ReturnType<typeof metricValue>): string {
+  if (!metric || metric.value == null) return '—'
+  return `${metric.censored ? '≥' : ''}${Math.round(metric.value)}%`
+}
+
+function Outcome({ icon: Icon, tone, label, value, note }: {
+  icon: typeof Sun
+  tone: string
+  label: string
+  value: string
+  note: string
+}) {
+  return (
+    <div className="rounded-md border border-rule-soft bg-night/40 p-3">
+      <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-faint">
+        <Icon className={cn('size-4', tone)} aria-hidden /> {label}
+      </p>
+      <p className="mt-2 font-display text-2xl font-semibold text-ink">{value}</p>
+      <p className="mt-1 text-xs leading-relaxed text-muted">{note}</p>
+    </div>
+  )
+}
+
+function AtAGlance({ result }: { result: ScenarioResult }) {
+  const sun = metricValue(result, 'sun_visible_pct')
+  const earth = metricValue(result, 'earth_visible_pct')
+  const blackout = metricValue(result, 'longest_earth_blackout_hours')
+  const blackoutText = blackout?.value == null
+    ? '—'
+    : `${blackout.censored ? '≥' : ''}${Math.round(blackout.value)} h`
+
+  return (
+    <Card className="border-signal/30">
+      <CardHeader
+        title="Mission summary"
+        description={
+          <span className="num">
+            {result.location.name} · {fmtUtc(result.landing_utc)} to {fmtUtc(result.end_utc)} UTC ·{' '}
+            {fmtHours(result.duration_hours)} · sampled every {result.step_minutes} min
+          </span>
+        }
+      />
+      <CardContent className="space-y-3">
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Outcome
+            icon={Sun}
+            tone="text-sun"
+            label="Sunlight"
+            value={shareText(sun)}
+            note="Share of the mission with the Sun above the landing-site horizon."
+          />
+          <Outcome
+            icon={Earth}
+            tone="text-earth"
+            label="Earth in view"
+            value={shareText(earth)}
+            note="Share of the mission with Earth above the horizon."
+          />
+          <Outcome
+            icon={X}
+            tone="text-alert"
+            label="Longest Earth blackout"
+            value={blackoutText}
+            note="Longest stretch without a direct view of Earth."
+          />
+        </div>
+        <p className="text-xs leading-relaxed text-muted">
+          These are visibility measurements. Sunlight is not generated power, and Earth in view is
+          line of sight, not a working radio link. The timeline below shows exactly when each changes.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
+function StartHere({ onExample }: { onExample: () => void }) {
+  const steps = [
+    ['Pick a place', 'Choose a published candidate or click anywhere on the map.'],
+    ['Choose a date', 'The two mission dates are one click away.'],
+    ['Read the answer', 'Check sunlight, Earth contact and the timeline.'],
+  ]
+  return (
+    <section aria-labelledby="start-here-title" className="rounded-xl border border-signal/30 bg-signal/5 p-4 sm:p-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-signal">
+            <Lightbulb className="size-4" aria-hidden /> Start here
+          </p>
+          <h1 id="start-here-title" className="mt-1 max-w-[46ch] font-display text-xl font-semibold text-ink sm:text-2xl">
+            Pick a landing site and a date. See when it gets sunlight and can reach Earth.
+          </h1>
+          <p className="mt-1 max-w-[65ch] text-sm text-muted">
+            LunaNav does the comparison for you. There is no data setting to choose and no setup to learn.
+          </p>
+        </div>
+        <Button onClick={onExample} className="shrink-0">
+          <Sparkles /> Try the example
+        </Button>
+      </div>
+      <ol className="mt-4 grid gap-3 md:grid-cols-3">
+        {steps.map(([title, text], index) => (
+          <li key={title} className="flex gap-2.5 rounded-md border border-rule-soft bg-night/30 p-3">
+            <span className="grid size-6 shrink-0 place-items-center rounded-full bg-signal/15 text-xs font-semibold text-signal" aria-hidden>
+              {index + 1}
+            </span>
+            <span>
+              <span className="block text-sm font-medium text-ink">{title}</span>
+              <span className="block text-xs leading-relaxed text-muted">{text}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
 export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
-  const { sites, mode, setMode, features, config, draftA, setDraftA, draftB, setDraftB } = useApp()
+  const { sites, mode, features, config, draftA, setDraftA, draftB, setDraftB } = useApp()
   const [slot, setSlot] = React.useState<Slot>('A')
+  const [showAdvanced, setShowAdvanced] = React.useState(false)
   const [index, setIndex] = React.useState(0)
   const [candidates, setCandidates] = React.useState<string[]>(() => [
     draftA.landing_utc,
@@ -158,11 +280,27 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
     return () => window.removeEventListener('lunanav:copy-link', on)
   }, [copyLink])
 
+  const tryExample = () => {
+    const example = sites.find((s) => s.id === 'de-gerlache-rim') ?? sites[0]
+    if (!example) return
+    setDraftA({
+      location: { site_id: example.id },
+      locationName: example.name,
+      landing_utc: config.simulation.default_landing_utc,
+      duration_hours: config.simulation.default_duration_hours,
+    })
+    setSlot('A')
+    window.setTimeout(() => {
+      document.getElementById('mission-workspace')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 60)
+  }
+
   return (
     <div className="space-y-4">
       <span className="sr-only" aria-live="polite" aria-atomic="true">
         {scenario.loading ? 'Calculating visibility…' : result ? 'Visibility data ready.' : ''}
       </span>
+      <StartHere onExample={tryExample} />
       {result && <ProvenanceCallout provenance={result.provenance} />}
       <div className="flex flex-wrap items-center justify-end gap-2">
         {savedScenarios.length > 0 && (
@@ -213,7 +351,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
         </button>
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-12">
+      <div id="mission-workspace" className="grid scroll-mt-20 grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-12">
         {/* Map / 3D viewer */}
         <Card className="min-w-0 lg:col-span-5">
           <CardHeader
@@ -344,11 +482,11 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
               <label className="flex items-center gap-2 text-[13px] text-muted">
                 <input type="checkbox" checked={showPsrs} onChange={(e) => setShowPsrs(e.target.checked)} />
-                PSR layer
+                Shadow regions
               </label>
               {features.lunar_imagery && (
                 <label className="flex items-center gap-2 text-[13px] text-muted">
-                  Imagery
+                  Moon imagery
                   <Select className="h-8 w-auto py-0 text-[13px]" value={imageryLayer}
                     onChange={(e) => { setImageryLayer(e.target.value); setImageryError(null) }}>
                     <option value="">None</option>
@@ -364,7 +502,7 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                     <button key={s} role="radio" aria-checked={slot === s} onClick={() => setSlot(s)}
                       className={cn('h-7 rounded px-2.5 text-[13px] font-medium',
                         slot === s ? (s === 'A' ? 'bg-signal/20 text-signal' : 'bg-[#c79bff]/20 text-[#c79bff]') : 'text-muted')}>
-                      Place {s}
+                      Choose {s}
                     </button>
                   ))}
                 </div>
@@ -422,32 +560,23 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
                 )}
               </div>
               {site && (
-                <div className="space-y-1">
-                  <p className="text-xs text-faint">
-                    {site.region} · elevation{' '}
-                    {site.elevation_m != null ? `${Math.round(site.elevation_m)} m` : 'not yet recorded'}
-                    {site.slope_deg != null && ` · slope ${site.slope_deg.toFixed(1)}°`} · source{' '}
-                    {site.source || 'not yet recorded'} · nearest PSR{' '}
-                    {site.nearest_psr
-                      ? `${site.nearest_psr.label} (${site.nearest_psr.distance_km.toFixed(1)} km, ${Math.round(site.nearest_psr.area_km2)} km²)`
-                      : 'not yet mapped'}
-                  </p>
-                  {site.coordinate_note && <p className="text-xs text-faint">Coordinates: {site.coordinate_note}</p>}
-                </div>
+                <p className="text-xs text-faint">
+                  {site.region} · {site.elevation_m != null ? `${Math.round(site.elevation_m)} m elevation` : 'elevation not recorded'}
+                  {site.nearest_psr && <> · nearest mapped PSR {site.nearest_psr.label} ({site.nearest_psr.distance_km.toFixed(1)} km)</>}
+                </p>
               )}
             </CardContent>
           </Card>
 
           <Card className="flex-1">
             <CardHeader
-              title="Conditions at the inspected time"
+              title="Conditions at the selected time"
               description={snapshotTime ? <span className="num">{fmtUtc(snapshotTime)} UTC. Move the timeline cursor to inspect other times.</span> : undefined}
             />
             <CardContent>
               {scenario.error ? (
                 <ErrorNotice
                   error={scenario.error}
-                  onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined}
                   onRetry={() => { scenario.retry(); snapshot.retry() }}
                 />
               ) : snapshot.data ? (
@@ -466,64 +595,89 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
 
       {result && !scenario.error && (
         <>
+          <AtAGlance result={result} />
+
           {features.horizon_panorama && (
             <Card>
               <CardHeader
                 title="Horizon panorama"
-                description="Full 360° skyline from the site, with the Sun and Earth paths over the mission. Faint dots are hidden behind terrain or below the horizon. Elevation is exaggerated."
+                description={
+                  result.horizon_mask.provenance === 'geometric_only'
+                    ? 'No local terrain profile covers this point, so the skyline is the flat geometric horizon. The Sun and Earth paths are still shown over the mission.'
+                    : 'Full 360° skyline from the site, with the Sun and Earth paths over the mission. Faint dots are hidden behind terrain or below the horizon. Elevation is exaggerated.'
+                }
                 actions={
                   <div className="flex gap-3 text-xs text-muted">
                     <span className="flex items-center gap-1.5"><i className="size-2 rounded-full bg-sun" />Sun</span>
                     <span className="flex items-center gap-1.5"><i className="size-2 rounded-full bg-earth" />Earth</span>
-                    <span className="flex items-center gap-1.5"><i className="h-2 w-3 rounded-sm bg-terrain" />Terrain</span>
+                    <span className="flex items-center gap-1.5"><i className="h-2 w-3 rounded-sm bg-terrain" />Skyline</span>
                   </div>
                 }
               />
-              <CardContent className={cn(result.horizon_mask.provenance === 'synthetic' && 'rounded-b-lg')}>
+              <CardContent>
                 <HorizonPanorama result={result} index={safeIndex} />
-                <p className="mt-1 text-xs text-faint">Skyline source: {result.horizon_mask.source}. Azimuth measured clockwise from local north, which points toward the lunar equator.</p>
+                <p className="mt-1 text-xs text-faint">
+                  Skyline source: {result.horizon_mask.source}. Azimuth is measured clockwise from local north.
+                </p>
               </CardContent>
             </Card>
           )}
 
           <Card>
-            <CardHeader title="Visibility timeline" description="Hatched track means blocked. Click a band or the chart, drag the slider, or press play." />
+            <CardHeader title="Visibility timeline" description="Hatched track means blocked. Click the chart, drag the slider, or press play." />
             <CardContent>
               <VisibilityTimeline result={result} index={safeIndex} onIndex={(i) => { setIndex(i); setSunTime('mission') }} />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader
-              title="Mission summary"
-              description={
-                <span className="num">
-                  {config.mission.name} · {config.mission.label}. {fmtUtc(result.landing_utc)} to{' '}
-                  {fmtUtc(result.end_utc)} UTC, sampled every{' '}
-                  {result.step_minutes} min with interpolated edges.
-                </span>
-              }
-            />
-            <CardContent className="space-y-4">
-              <MetricsTable metrics={result.metrics} />
-              <ProvenanceStrip provenance={result.provenance} />
             </CardContent>
           </Card>
         </>
       )}
 
-      <Phase3Panel />
-      <TerrainHorizonPanel />
-      <EngineeringBudgetPanel />
-      <FeasibilityPanel />
-      <RequirementTuner />
-      <DelayComparisonPanel />
-      <SiteTerrain3DPanel
-        siteId={site?.id ?? null}
-        sun={snapshot.data ? { az: snapshot.data.sun.azimuth_deg, el: snapshot.data.sun.elevation_deg } : null}
-        earth={snapshot.data ? { az: snapshot.data.earth.azimuth_deg, el: snapshot.data.earth.elevation_deg } : null}
-        timestamp={snapshotTime}
-      />
+      <section className="rounded-xl border border-rule-soft bg-panel">
+        <button
+          type="button"
+          aria-expanded={showAdvanced}
+          aria-controls="advanced-analysis"
+          onClick={() => setShowAdvanced((open) => !open)}
+          className="flex w-full items-center justify-between gap-3 p-4 text-left"
+        >
+          <span>
+            <span className="block font-display text-sm font-semibold text-ink">Advanced analysis</span>
+            <span className="mt-0.5 block text-xs text-muted">
+              Power and link budgets, mission requirements, landing-date comparison and 3D terrain.
+            </span>
+          </span>
+          <ChevronDown className={cn('size-5 shrink-0 text-muted transition-transform', showAdvanced && 'rotate-180')} aria-hidden />
+        </button>
+      </section>
+
+      {showAdvanced && (
+        <div id="advanced-analysis" className="space-y-4">
+          {result && !scenario.error && (
+            <Card>
+              <CardHeader
+                title="Detailed measurements"
+                description="Every visibility measure for this mission, including totals, blackouts and counts."
+              />
+              <CardContent className="space-y-4">
+                <MetricsTable metrics={result.metrics} />
+                <ProvenanceStrip provenance={result.provenance} />
+              </CardContent>
+            </Card>
+          )}
+          <Phase3Panel />
+          <TerrainHorizonPanel />
+          <EngineeringBudgetPanel />
+          <FeasibilityPanel />
+          <RequirementTuner />
+          <DelayComparisonPanel />
+          <SiteTerrain3DPanel
+            siteId={site?.id ?? null}
+            sun={snapshot.data ? { az: snapshot.data.sun.azimuth_deg, el: snapshot.data.sun.elevation_deg } : null}
+            earth={snapshot.data ? { az: snapshot.data.earth.azimuth_deg, el: snapshot.data.earth.elevation_deg } : null}
+            timestamp={snapshotTime}
+          />
+        </div>
+      )}
     </div>
   )
 }

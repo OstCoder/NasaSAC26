@@ -94,8 +94,8 @@ export function FeasibilityPanel() {
         title="Feasibility matrix"
         description={
           thresholds
-            ? `Phase 1 targets: ≥ ${thresholds.min_sun_visible_pct}% Sun, ≥ ${thresholds.min_earth_visible_pct}% Earth, ≤ ${thresholds.max_earth_blackout_hours} h Earth blackout, ≤ ${thresholds.max_darkness_hours} h darkness — per candidate and window`
-            : 'Loading Phase 1 targets…'
+            ? `Mission targets: ≥ ${thresholds.min_sun_visible_pct}% Sun, ≥ ${thresholds.min_earth_visible_pct}% Earth, ≤ ${thresholds.max_earth_blackout_hours} h Earth blackout, ≤ ${thresholds.max_darkness_hours} h darkness — per candidate and window`
+            : 'Loading mission targets…'
         }
       />
       <CardContent>

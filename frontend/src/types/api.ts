@@ -166,7 +166,7 @@ export interface ScienceNearestPsr {
 export interface ScienceSiteContext {
   schema: 'lunanav.science_context.v1'
   site: {
-    site_id: string
+    site_id: string | null
     name: string
     latitude_deg: number
     longitude_deg: number
@@ -185,6 +185,7 @@ export interface ScienceSiteContext {
     geometric_only: boolean
     source: string
     provenance: string
+    surface_elevation_m?: number | null
     observer_height_m: number
     coverage: TerrainCoverage
     uncertainty: TerrainUncertainty
@@ -936,6 +937,7 @@ export interface DecisionRequest {
   duration_hours: number
   mode?: Mode | null
   site_ids?: string[]
+  custom_location?: LocationInput
   thresholds?: DecisionThresholdsInput
   weights?: Partial<DecisionWeights>
   panel_design?: 'horizontal' | 'vertical_tracking' | 'fixed'

@@ -213,25 +213,40 @@ def psr_catalogue_response(
     }
 
 
-def site_context_response(site_id: str, settings: Settings | None = None) -> dict[str, Any]:
-    """Scientific context for one landing site, with operational windows.
+def site_context_response(
+    site_id: str | None = None,
+    latitude_deg: float | None = None,
+    longitude_deg: float | None = None,
+    settings: Settings | None = None,
+) -> dict[str, Any]:
+    """Scientific context for a catalogue site or a custom point.
 
-    The context intentionally has a three-state water-ice field: ``None`` means
-    *not assessed*, never "absent".  Terrain availability is copied from the
-    committed horizon/visibility services; a geometric-only site is labelled
-    rather than filled with a synthetic mesh.
+    The context intentionally reports water ice as unmeasured, never "absent".
+    Terrain availability is copied from the committed horizon service; a point
+    without a LOLA mask is labelled rather than filled with a synthetic mesh.
     """
     settings = settings or get_settings()
-    site = get_site_repository().get(site_id)
+    resolved_id, name, lat, lon = _location(
+        site_id=site_id, latitude_deg=latitude_deg, longitude_deg=longitude_deg)
+    site = get_site_repository().get(resolved_id) if resolved_id else None
     catalogue = get_psr_catalogue()
-    nearest, distance = catalogue.nearest(site.latitude_deg, site.longitude_deg)
-    nearby = catalogue.within_km(site.latitude_deg, site.longitude_deg, DEFAULT_RADIUS_KM)
+    nearest, distance = catalogue.nearest(lat, lon)
+    nearby = catalogue.within_km(lat, lon, DEFAULT_RADIUS_KM)
 
-    horizon = terrain_horizon_response(site_id=site_id, window="initial", settings=settings)
+    horizon = terrain_horizon_response(
+        site_id=resolved_id, latitude_deg=None if resolved_id else lat,
+        longitude_deg=None if resolved_id else lon, window="initial", settings=settings,
+    )
     windows: dict[str, Any] = {}
     for window in ("initial", "alternative"):
+        if resolved_id is None:
+            windows[window] = {
+                "available": False,
+                "reason": "Committed mission windows are only available for catalogue sites.",
+            }
+            continue
         try:
-            report = visibility_response(site_id=site_id, window=window, settings=settings)
+            report = visibility_response(site_id=resolved_id, window=window, settings=settings)
             windows[window] = {
                 "available": True,
                 "label": report["window"].get("label"),
@@ -252,19 +267,19 @@ def site_context_response(site_id: str, settings: Settings | None = None) -> dic
     return {
         "schema": SCIENCE_SCHEMA,
         "site": {
-            "site_id": site.id,
-            "name": site.name,
-            "latitude_deg": site.latitude_deg,
-            "longitude_deg": site.longitude_deg,
-            "elevation_m": site.elevation_m,
-            "slope_deg": site.slope_deg,
-            "region": site.region,
-            "description": site.description,
-            "sources": [source.model_dump() for source in site.sources],
+            "site_id": resolved_id,
+            "name": name,
+            "latitude_deg": lat,
+            "longitude_deg": lon,
+            "elevation_m": site.elevation_m if site else None,
+            "slope_deg": site.slope_deg if site else None,
+            "region": site.region if site else "Custom point",
+            "description": site.description if site else "A location you chose on the map.",
+            "sources": [source.model_dump() for source in site.sources] if site else [],
         },
-        "nearest_psr": _psr_entry(nearest, distance, site.latitude_deg, site.longitude_deg),
+        "nearest_psr": _psr_entry(nearest, distance, lat, lon),
         "nearby_psrs": [
-            _psr_entry(psr, dist, site.latitude_deg, site.longitude_deg)
+            _psr_entry(psr, dist, lat, lon)
             for psr, dist in nearby[:5]
         ],
         "nearby_count": len(nearby),
@@ -274,6 +289,7 @@ def site_context_response(site_id: str, settings: Settings | None = None) -> dic
             "geometric_only": terrain["geometric_only"],
             "source": terrain["source"],
             "provenance": terrain["provenance"],
+            "surface_elevation_m": terrain.get("surface_elevation_m"),
             "observer_height_m": terrain["observer_height_m"],
             "coverage": terrain["coverage"],
             "uncertainty": terrain["uncertainty"],
@@ -285,8 +301,10 @@ def site_context_response(site_id: str, settings: Settings | None = None) -> dic
             "water_ice_status": "not_assessed",
             "water_ice_evidence": [],
             "psr_interpretation": (
-                "Mapped PSRs are priority exploration targets. PSR proximity does not "
-                "prove water ice, concentration, depth, or rover access."
+                "Water ice is likely to form in the cold, permanently shadowed regions "
+                "near the poles. A mapped PSR is a strong sign of a cold trap, but LunaNav "
+                "has no ice detection, concentration, depth, temperature or rover-access "
+                "measurement."
             ),
             "temperature": None,
             "temperature_note": "Surface temperature is not in the committed datasets.",

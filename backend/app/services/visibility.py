@@ -74,6 +74,14 @@ class VisibilityCalculator:
     def mask_for(self, loc: ResolvedLocation) -> HorizonMask:
         return self.bundle.terrain.horizon_mask(loc.latitude_deg, loc.longitude_deg, loc.site_id)
 
+    @staticmethod
+    def _with_mask_elevation(loc: ResolvedLocation, mask: HorizonMask) -> ResolvedLocation:
+        """Use the DEM surface height for a custom point when the provider supplies it."""
+        elevation = mask.metadata.get("site_elevation_m")
+        if loc.is_custom and loc.elevation_m is None and elevation is not None:
+            return loc.model_copy(update={"elevation_m": float(elevation)})
+        return loc
+
     def _geometry(self, loc: ResolvedLocation, times: list[datetime]):
         r = self.settings.reference_radius_km
         # Observer radius = reference sphere + site elevation (catalogue, LOLA)
@@ -115,6 +123,7 @@ class VisibilityCalculator:
         end = landing + timedelta(hours=duration_hours)
         self.check_range(landing, end)
         mask = self.mask_for(loc)
+        loc = self._with_mask_elevation(loc, mask)
         times = time_grid(landing, duration_hours, step)
         if times[-1] < end:
             times.append(end)
@@ -174,6 +183,7 @@ class VisibilityCalculator:
         horizon_end = min(when + timedelta(hours=lookahead), hi)
         effective_lookahead = (horizon_end - when).total_seconds() / 3600.0
         mask = self.mask_for(loc)
+        loc = self._with_mask_elevation(loc, mask)
 
         coarse = time_grid(when, max(effective_lookahead, 0.0), 30.0)
         geo, sun, earth = self._evaluate(loc, mask, coarse)

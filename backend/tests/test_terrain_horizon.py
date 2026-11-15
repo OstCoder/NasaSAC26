@@ -1,13 +1,24 @@
-"""Phase 3 Task 3: terrain horizon obstructions and terrain-adjusted visibility."""
+"""Terrain horizon obstructions and terrain-adjusted visibility."""
+
+from pathlib import Path
 
 import pytest
 
 from app.core.errors import InvalidInputError
+from app.providers.terrain import LolaOrFlatHorizonProvider
 from app.services.phase3 import visibility_response
 from app.services.site_data import mask_payload
-from app.services.terrain_horizon import SCHEMA, terrain_horizon_response
+from app.services.terrain_horizon import (
+    SCHEMA,
+    _custom_terrain_response,
+    terrain_horizon_response,
+)
 
+ROOT = Path(__file__).resolve().parents[2]
 CANDIDATES = ("shackleton-rim", "connecting-ridge", "de-gerlache-rim")
+WIDE_CACHE = ROOT / "data" / "cache" / "lola_wide" / "LDEM_80S_80MPP_ADJ.TIF"
+HORIZON_DIR = ROOT / "data" / "scientific" / "horizon_masks"
+WIDE_REFERENCE = ROOT / "data" / "reference" / "wide_dem.json"
 
 
 def test_full_skyline_profile_for_a_verified_site():
@@ -104,8 +115,8 @@ def test_adjusted_visibility_is_delegated_to_phase3():
     assert report["checks"]["skyline_matches_mask"] is True
 
 
-def test_custom_coordinates_are_geometric_only():
-    report = terrain_horizon_response(latitude_deg=-89.9, longitude_deg=0.0)
+def test_custom_coordinates_outside_wide_dem_are_geometric_only():
+    report = terrain_horizon_response(latitude_deg=-45.0, longitude_deg=0.0)
     terrain = report["terrain"]
 
     assert terrain["available"] is False
@@ -119,6 +130,28 @@ def test_custom_coordinates_are_geometric_only():
     assert report["comparison"]["sun"] is None
     assert report["checks"]["geometric_only_flagged"] is True
     assert report["provenance"]["expected_terrain_provenance"] == "scientific_sourced"
+
+
+@pytest.mark.skipif(not WIDE_CACHE.exists(), reason="wide LOLA DEM cache is not present")
+def test_custom_polar_point_uses_the_wide_lola_dem():
+    provider = LolaOrFlatHorizonProvider(HORIZON_DIR, WIDE_REFERENCE, WIDE_CACHE.parent)
+    mask = provider.horizon_mask(-87.0, 0.0)
+    report = _custom_terrain_response(
+        latitude_deg=-87.0, longitude_deg=0.0, window="initial", mask=mask)
+    terrain = report["terrain"]
+
+    assert mask.provenance.value == "scientific_sourced"
+    assert terrain["available"] is True
+    assert terrain["basis"] == "terrain"
+    assert terrain["geometric_only"] is False
+    assert "wide polar DEM" in terrain["source"]
+    assert len(terrain["profile"]["elevation_deg"]) == 360
+    assert max(terrain["profile"]["elevation_deg"]) > 0
+    assert terrain["summary"]["max_obstruction_deg"] > 0
+    assert report["visibility"]["available"] is False
+    assert report["checks"]["terrain_profile_available"] is True
+    assert report["provenance"]["terrain_provenance"] == "scientific_sourced"
+    assert provider.horizon_mask(-45.0, 0.0).provenance.value == "geometric_only"
 
 
 def test_partial_coordinates_are_rejected():
@@ -140,7 +173,7 @@ def test_http_route_serves_the_report(client):
 
 def test_http_route_accepts_custom_coordinates(client):
     response = client.get(
-        "/api/terrain-horizon", params={"latitude_deg": -89.9, "longitude_deg": 12.5})
+        "/api/terrain-horizon", params={"latitude_deg": -45.0, "longitude_deg": 12.5})
 
     assert response.status_code == 200
     assert response.json()["terrain"]["geometric_only"] is True

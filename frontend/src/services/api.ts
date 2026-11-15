@@ -174,9 +174,16 @@ export const api = {
     if (opts.limit !== undefined) q.set('limit', String(opts.limit))
     return request<ScienceNearestPsr>(`/api/science/nearest-psr?${q.toString()}`, { signal })
   },
-  /** Phase 6: PSR, terrain and visibility context for one candidate. */
-  scienceSiteContext: (siteId: string, signal?: AbortSignal) =>
-    request<ScienceSiteContext>(`/api/science/site-context?site_id=${encodeURIComponent(siteId)}`, { signal }),
+  /** PSR, terrain and visibility context for a catalogue site or custom coordinates. */
+  scienceSiteContext: (siteId: string | null, latitude?: number | null, longitude?: number | null, signal?: AbortSignal) => {
+    const q = new URLSearchParams()
+    if (siteId) q.set('site_id', siteId)
+    else {
+      if (latitude != null) q.set('latitude_deg', String(latitude))
+      if (longitude != null) q.set('longitude_deg', String(longitude))
+    }
+    return request<ScienceSiteContext>(`/api/science/site-context?${q.toString()}`, { signal })
+  },
   /** PSR polygons (LROC/LOLA); rings in south polar stereographic km. */
   psrs: (opts?: { minAreaKm2?: number; maxLat?: number; nearSiteId?: string; radiusKm?: number }, signal?: AbortSignal) => {
     const q = new URLSearchParams()

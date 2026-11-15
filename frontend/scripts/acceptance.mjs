@@ -134,6 +134,11 @@ async function scenarioRange(date, duration) {
 async function openPlanner() {
   await page.goto(`${APP}/#planner`, { waitUntil: 'networkidle', timeout: 90_000 })
   await scenarioRange(DEC1, DURATION)
+  const advanced = page.getByRole('button', { name: /Advanced analysis/ })
+  if (await advanced.count()) {
+    await advanced.click()
+    await page.getByRole('heading', { name: 'Detailed measurements' }).waitFor({ timeout: 90_000 })
+  }
 }
 
 async function setPlanner(site, date = DEC1, duration = DURATION) {
@@ -302,7 +307,7 @@ async function main() {
     assert.ok((await text(page.locator('body'))).includes('Sourced scientific data'))
     assert.ok((await text(page.locator('body'))).includes('JPL Horizons (live)'))
     assert.ok((await text(page.locator('body'))).includes('LOLA horizon masks'))
-    assert.equal(await page.getByRole('radio', { name: 'JPL Live' }).getAttribute('aria-checked'), 'true')
+    assert.equal(await page.getByRole('radio', { name: /Demo data|Scientific|JPL Live/ }).count(), 0)
 
     const uiSun = Number((await metricValue('Sun above terrain (share)')).replace('%', ''))
     const uiEarth = Number((await metricValue('Earth above terrain (share)')).replace('%', ''))
@@ -574,14 +579,6 @@ async function main() {
     await setPlanner('shackleton-rim', DEC1, DURATION)
     assert.ok((await page.getByLabel('Landing time (UTC)').getAttribute('max')).startsWith('2030-12-31'))
 
-    await page.getByRole('radio', { name: 'Scientific' }).click()
-    await page.getByLabel('Landing site').selectOption('peak-near-shackleton')
-    await page.getByText('Scientific data is not loaded').waitFor({ timeout: 90_000 })
-    const missing = await text(page.locator('body'))
-    assert.ok(missing.includes('No values are shown rather than substituting demo data.'))
-    assert.equal(await page.getByRole('heading', { name: 'Mission summary' }).count(), 0)
-
-    await page.getByRole('radio', { name: 'JPL Live' }).click()
     await setPlanner('shackleton-rim', DEC1, DURATION)
 
     await page.route('**/api/scenario', (route) => route.abort('failed'))
@@ -632,7 +629,7 @@ async function main() {
     }))
     assert.ok(desktop.width <= desktop.viewport + 1, 'desktop layout overflows horizontally')
 
-    const compare = page.getByRole('button', { name: 'Compare scenarios' })
+    const compare = page.getByRole('button', { name: 'Compare sites' })
     await compare.focus()
     await page.keyboard.press('Enter')
     await page.getByRole('tab', { name: /All candidates/ }).waitFor({ timeout: 30_000 })
@@ -685,7 +682,7 @@ async function main() {
       await mkdir('.tmp-acceptance', { recursive: true })
       await mobile.screenshot({ path: '.tmp-acceptance/05-mobile-planner.png' })
     }
-    await mobile.getByRole('button', { name: 'Compare scenarios' }).click()
+    await mobile.getByRole('button', { name: 'Compare sites' }).click()
     await mobile.getByRole('tab', { name: /All candidates/ }).click()
     await mobile.getByRole('button', { name: 'Compare all candidates' }).click()
     await mobile.getByRole('region', { name: 'All-candidate comparison results' }).waitFor({ timeout: 90_000 })

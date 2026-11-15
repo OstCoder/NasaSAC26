@@ -62,18 +62,17 @@ function ProviderRow({ p }: { p: ProviderInfo }) {
 
 export function MethodologyPage() {
   const { config } = useApp()
-  const demo = useApiResource<ProviderInfo[]>('demo', () => api.providers('demo'), 0)
   const jpl = useApiResource<ProviderInfo[]>('jpl', () => api.providers('jpl'), 0)
-  const sci = useApiResource<ProviderInfo[]>('scientific', () => api.providers('scientific'), 0)
   const catalogue = useApiResource<DatasetCatalogue>('datasets', () => api.datasets() as Promise<DatasetCatalogue>, 0)
-  const all = [...(demo.data ?? []), ...(jpl.data ?? []), ...(sci.data ?? [])].filter(
-    (p, i, arr) => arr.findIndex((q) => q.id === p.id) === i,
-  )
+  const all = jpl.data ?? []
 
   return (
     <div className="mx-auto max-w-[1100px] space-y-4">
       <Card>
-        <CardHeader title="How LunaNav calculates visibility" />
+        <CardHeader
+          title="How LunaNav calculates visibility"
+          description="The app uses live NASA/JPL geometry and real lunar terrain where a committed LOLA profile exists. Missing data is labelled, never invented."
+        />
         <CardContent>
           <ol className="grid gap-4 md:grid-cols-5">
             {PIPELINE.map(([t, d], i) => (
@@ -88,30 +87,25 @@ export function MethodologyPage() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Card>
-          <CardHeader title="Demo mode" description="For exploring the interface and method. Skylines are invented." />
-          <CardContent>{demo.data?.map((p) => <ProviderRow key={p.id} p={p} />)}</CardContent>
-        </Card>
-        <Card>
-          <CardHeader title="JPL live mode" description="Live JPL Horizons geometry. Terrain applied only where LOLA masks exist; otherwise results are labelled geometric only." />
-          <CardContent>{jpl.data?.map((p) => <ProviderRow key={p.id} p={p} />)}</CardContent>
-        </Card>
-        <Card>
-          <CardHeader title="Scientific mode" description="Uses only sourced data. If a dataset is missing, results are withheld, never substituted." />
-          <CardContent>{sci.data?.map((p) => <ProviderRow key={p.id} p={p} />)}</CardContent>
-        </Card>
-      </div>
+      <Card>
+        <CardHeader
+          title="The data behind every answer"
+          description="Sun and Earth positions come from the live service. Terrain comes from LRO LOLA where a profile is available; elsewhere the result is clearly marked as a flat horizon."
+        />
+        <CardContent>{jpl.data?.map((p) => <ProviderRow key={p.id} p={p} />)}</CardContent>
+      </Card>
 
       <Card>
-        <CardHeader title="Effects included by each provider" />
+        <CardHeader title="What the data includes" />
         <CardContent className="overflow-x-auto">
           <table className="w-full min-w-[640px] text-sm">
             <thead>
               <tr className="border-b border-rule text-[13px] text-muted">
                 <th className="py-2 pr-3 text-left font-medium">Effect</th>
                 {all.map((p) => (
-                  <th key={p.id} className="px-2 py-2 text-center font-medium">{p.id.replace(/_/g, ' ')}</th>
+                  <th key={p.id} className="px-2 py-2 text-center font-medium">
+                    {p.kind === 'ephemeris' ? 'Sun and Earth positions' : 'Terrain'}
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -134,8 +128,8 @@ export function MethodologyPage() {
 
       <Card>
         <CardHeader
-          title="Mission requirements"
-          description="Phase 1 thresholds from config/lunanav.config.json. The same values are served at GET /api/config and checked by POST /api/requirements; nothing is hardcoded in the UI."
+          title="Mission targets"
+          description="The targets come from config/lunanav.config.json and are served by the API. They are demonstration targets, not NASA flight requirements."
         />
         <CardContent>
           <dl className="grid gap-2 text-sm sm:grid-cols-2">
@@ -189,14 +183,14 @@ export function MethodologyPage() {
               <p>Sun above the skyline is a precondition for solar power, not a power estimate. Panel orientation, shadowing by the lander and dust are not modelled.</p>
               <p>Earth above the skyline is a precondition for direct-to-Earth links, not a link guarantee. Antenna pointing, ground-station coverage and relays are not modelled.</p>
               <p>Comparisons describe differences in modelled visibility. They are not site rankings or recommendations.</p>
-              <p>Demo skylines are synthetic. Demo landing-site coordinates are approximate and are not official landing-region definitions.</p>
+              <p>When no terrain profile covers a point, the page says so and uses a flat horizon. That is an estimate, not a terrain-verified result.</p>
             </Collapsible>
           </CardContent>
         </Card>
       </div>
 
       <Card>
-        <CardHeader title="Scientific model labels" />
+        <CardHeader title="How to read a result" />
         <CardContent className="space-y-2 text-sm leading-relaxed text-muted">
           <p><strong className="text-ink">TERRAIN-AWARE MODEL</strong> — the result uses a committed LOLA terrain horizon. Sun/Earth clearance is the authoritative visibility calculation.</p>
           <p><strong className="text-ink">SIMPLIFIED ENERGY MODEL</strong> — the power and link budgets use configured array, battery and communications assumptions. They are not hardware performance predictions.</p>
@@ -206,7 +200,10 @@ export function MethodologyPage() {
       </Card>
 
       <Card>
-        <CardHeader title="Committed datasets" description="Every dataset the backend loads, with availability and source. Problems list is empty when all cross-dataset checks pass." />
+        <CardHeader
+          title="Data sources and readiness"
+          description="What LunaNav reads, whether it is ready, and where it comes from. A missing source is shown as unavailable, never filled in."
+        />
         <CardContent className="overflow-x-auto">
           {catalogue.loading && <p className="text-sm text-muted">Loading dataset catalogue…</p>}
           {catalogue.error && <p className="text-sm text-alert">{catalogue.error.message}</p>}
@@ -215,8 +212,8 @@ export function MethodologyPage() {
               <thead>
                 <tr className="border-b border-rule text-[13px] text-muted">
                   <th className="py-2 pr-3 text-left font-medium">Dataset</th>
-                  <th className="px-2 py-2 text-center font-medium">Records</th>
-                  <th className="px-2 py-2 text-center font-medium">Available</th>
+                  <th className="px-2 py-2 text-center font-medium">Items</th>
+                  <th className="px-2 py-2 text-center font-medium">Ready</th>
                   <th className="px-2 py-2 text-left font-medium">Source</th>
                 </tr>
               </thead>
@@ -225,11 +222,10 @@ export function MethodologyPage() {
                   <tr key={d.id} className="border-b border-rule-soft">
                     <td className="py-2 pr-3">
                       <p className="font-medium text-ink">{d.label}</p>
-                      <p className="text-xs text-faint">{d.id}</p>
                       {d.unavailable_reason && <p className="text-xs text-alert">{d.unavailable_reason}</p>}
                     </td>
                     <td className="px-2 py-2 text-center num">{d.records ?? '—'}</td>
-                    <td className="px-2 py-2 text-center">{d.available ? 'yes' : 'no'}</td>
+                    <td className="px-2 py-2 text-center">{d.available ? 'Ready' : 'Unavailable'}</td>
                     <td className="px-2 py-2 text-xs text-muted">
                       {d.sources.map((s) => s.label).join('; ')}
                     </td>

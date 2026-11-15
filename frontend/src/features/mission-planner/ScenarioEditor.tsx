@@ -138,8 +138,8 @@ export function ScenarioEditor({
             <p className="col-span-3 text-xs text-alert">{coordError}</p>
           ) : (
             <p className="col-span-3 text-xs text-faint">
-              Or click the map. Custom points have no LOLA skyline, so results use the flat geometric
-              horizon and are labelled geometric only.
+              Or click the map. Custom points still get a horizon panorama. Terrain is applied only
+              where a LOLA skyline exists; otherwise the panorama is labelled flat.
             </p>
           )}
         </div>

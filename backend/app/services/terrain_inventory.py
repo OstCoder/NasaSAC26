@@ -207,7 +207,7 @@ def terrain_payload(
     """The committed on-disk document (schema ``lunanav.site_terrain.v1``)."""
     return {
         "schema": SCHEMA,
-        "dataset": "LOLA terrain at the three Phase 1 mission candidates",
+        "dataset": "LOLA terrain at the three mission candidates",
         "generated_utc": generated_utc,
         "generator": "backend/scripts/inspect_site_terrain.py",
         "conventions": {
@@ -219,8 +219,8 @@ def terrain_payload(
             "azimuth": "degrees clockwise from local lunar north, 0 <= az < 360",
             "obstruction_deg": (
                 "angle from the local horizontal to the skyline for a ground-level (0 m) "
-                "observer, lunar curvature included; the Phase 3 horizon masks use the same "
-                "skyline sampled from the 2 m observer the Sun/Earth track uses"
+                "observer, lunar curvature included; the terrain-aware horizon masks use the "
+                "same skyline sampled from the 2 m observer the Sun/Earth track uses"
             ),
         },
         "sources": sources,

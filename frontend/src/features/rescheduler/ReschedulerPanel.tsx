@@ -131,7 +131,7 @@ function DelayPower({ comparison }: { comparison: DelayPowerComparison }) {
 
 /** Same site and duration, two landing dates: what changes if the mission slips? */
 export function ReschedulerPanel() {
-  const { draftA, setDraftA, mode, setMode, config } = useApp()
+  const { draftA, setDraftA, mode, config } = useApp()
   const sim = config.simulation
   const [proposed, setProposed] = React.useState(() => shift(draftA.landing_utc, 3))
 
@@ -184,7 +184,6 @@ export function ReschedulerPanel() {
       {res.error && (
         <ErrorNotice
           error={res.error}
-          onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined}
           onRetry={res.retry}
         />
       )}

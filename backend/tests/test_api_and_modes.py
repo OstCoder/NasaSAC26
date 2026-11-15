@@ -2,6 +2,7 @@
 
 import copy
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -13,12 +14,14 @@ from app.models.schemas import Mode, ProvenanceLevel, ResolvedLocation
 from app.providers.ephemeris_analytic import AnalyticMeeusEphemeris
 from app.providers.ephemeris_tabulated import HorizonsTableEphemeris
 from app.providers.registry import ProviderBundle, build_bundle
-from app.providers.terrain import LolaHorizonMaskProvider
+from app.providers.terrain import LolaHorizonMaskProvider, LolaOrFlatHorizonProvider
 from app.services.comparison import ScenarioComparisonService
 from app.services.sites import SiteRepository
 from app.services.visibility import VisibilityCalculator
 
 LANDING = "2027-01-15T12:00:00Z"
+ROOT = Path(__file__).resolve().parents[2]
+WIDE_CACHE = ROOT / "data" / "cache" / "lola_wide" / "LDEM_80S_80MPP_ADJ.TIF"
 
 
 def scenario(site="malapert-massif", landing=LANDING, hours=336, **extra):
@@ -120,7 +123,7 @@ class TestScenario:
         body = r.json()
         prov = body["provenance"]
         assert prov["mode"] == "demo" and prov["overall"] == "synthetic"
-        assert "DEMO MODE" in prov["label"]
+        assert "Illustrative data" in prov["label"]
         assert any("SYNTHETIC" in c for c in prov["caveats"])
         assert any("does not guarantee electrical power" in c for c in prov["caveats"])
         n = len(body["series"]["times_utc"])
@@ -136,14 +139,40 @@ class TestScenario:
         assert hours("earth_visible") + hours("earth_blocked") == pytest.approx(336, abs=0.01)
         assert hours("both_visible") <= min(hours("sun_visible"), hours("earth_visible")) + 1e-6
 
-    def test_custom_coordinates_flag_geometric_only(self, client):
-        r = client.post("/api/scenario", json={"location": {"latitude_deg": -87.2, "longitude_deg": 45.0},
+    def test_custom_coordinates_outside_wide_dem_are_geometric_only(self, client):
+        # The wide LOLA DEM covers the south polar cap only. A mid-latitude point
+        # must still be labelled flat rather than borrowing terrain from a site.
+        r = client.post("/api/scenario", json={"location": {"latitude_deg": -45.0, "longitude_deg": 45.0},
                                                "landing_utc": LANDING, "duration_hours": 48})
         assert r.status_code == 200
         b = r.json()
         assert b["location"]["is_custom"] is True
         assert b["provenance"]["overall"] == "geometric_only"
         assert any("flat geometric horizon" in c for c in b["provenance"]["caveats"])
+
+    @pytest.mark.skipif(not WIDE_CACHE.exists(), reason="wide LOLA DEM cache is not present")
+    def test_custom_polar_scenario_gets_a_real_wide_lola_skyline(self, settings):
+        provider = LolaOrFlatHorizonProvider(
+            ROOT / "data" / "scientific" / "horizon_masks",
+            settings.datasets["wide_terrain"],
+            ROOT / "data" / "cache" / "lola_wide",
+        )
+        bundle = ProviderBundle(
+            Mode.jpl,
+            AnalyticMeeusEphemeris(settings.simulation.supported_start, settings.simulation.supported_end),
+            provider,
+        )
+        calc = VisibilityCalculator(bundle, settings)
+        loc = ResolvedLocation(
+            site_id=None, name="Custom polar point", latitude_deg=-87.0, longitude_deg=45.0,
+            is_custom=True, height_m=2,
+        )
+        result = calc.scenario(loc, datetime(2027, 1, 15, 12, tzinfo=timezone.utc), 24)
+
+        assert result.horizon_mask.provenance == ProvenanceLevel.scientific_sourced
+        assert max(result.horizon_mask.elevation_deg) > 0
+        assert result.location.elevation_m is not None
+        assert result.provenance.terrain.provenance == ProvenanceLevel.scientific_sourced
 
     @pytest.mark.parametrize("loc", [{"latitude_deg": -95, "longitude_deg": 0},
                                      {"latitude_deg": -90, "longitude_deg": 0}, {}])

@@ -14,18 +14,22 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from threading import Lock
 from typing import Optional
 
 import numpy as np
 
-from app.core.coords import angular_distance_deg
+from app.core.coords import angular_distance_deg, polar_stereographic_xy
 from app.core.errors import DataUnavailableError
 from app.core.settings import rel
 from app.models.schemas import EffectsIncluded, ProvenanceLevel
+from app.services.horizon import build_horizon_mask_from_dem
 
 from .base import HorizonMask, LunarTerrainProvider, flat_mask, make_info
 
 MATCH_TOLERANCE_KM = 0.25
+WIDE_MAX_RANGE_M = 150_000.0
+WIDE_OBSERVER_HEIGHT_M = 2.0
 
 
 def _load_mask_file(path: Path, provenance: ProvenanceLevel) -> dict:
@@ -154,27 +158,128 @@ class FlatHorizonProvider(LunarTerrainProvider):
 
 
 class LolaOrFlatHorizonProvider(LolaHorizonMaskProvider):
-    """JPL mode terrain: a LOLA mask when one exists, otherwise the flat geometric horizon.
+    """LOLA terrain for candidates, plus an on-demand wide-DEM skyline for custom points.
 
-    The fallback is never hidden: a flat mask carries ``geometric_only``
-    provenance, so the result is labelled "terrain obstruction not applied".
+    Candidate sites use their committed two-tier masks. A custom point inside the
+    wide 80 m/pixel south-polar DEM is ray-marched on demand (cached by rounded
+    coordinate), so the panorama is real terrain rather than a flat placeholder.
+    Points outside coverage still fall back to a clearly labelled flat horizon.
     """
 
     id = "lola_or_flat"
 
+    def __init__(self, directory: Path, wide_reference: Path | None = None,
+                 wide_cache_dir: Path | None = None):
+        super().__init__(directory)
+        self.wide_reference = Path(wide_reference) if wide_reference else None
+        self.wide_cache_dir = Path(wide_cache_dir) if wide_cache_dir else None
+        self._wide: tuple[dict, np.ndarray] | None = None
+        self._wide_attempted = False
+        self._wide_error: str | None = None
+        self._wide_lock = Lock()
+        self._custom_masks: dict[tuple[float, float], HorizonMask] = {}
+
+    def _wide_available(self) -> bool:
+        if not self.wide_reference or not self.wide_cache_dir or not self.wide_reference.exists():
+            return False
+        try:
+            reference = json.loads(self.wide_reference.read_text())
+            return (self.wide_cache_dir / reference["dem"]["file"]).exists()
+        except (OSError, KeyError, json.JSONDecodeError):
+            return False
+
+    def _load_wide(self) -> tuple[dict, np.ndarray] | None:
+        if self._wide_attempted:
+            return self._wide
+        with self._wide_lock:
+            if self._wide_attempted:
+                return self._wide
+            self._wide_attempted = True
+            if not self._wide_available():
+                self._wide_error = "wide LOLA DEM cache is not available"
+                return None
+            try:
+                import rasterio  # optional dependency; only needed for custom points
+
+                reference = json.loads(self.wide_reference.read_text())
+                path = self.wide_cache_dir / reference["dem"]["file"]
+                with rasterio.open(path) as dataset:
+                    heights = dataset.read(1).astype(float)
+                    if dataset.nodata is not None and np.isfinite(dataset.nodata):
+                        heights[heights == dataset.nodata] = np.nan
+                self._wide = (reference, heights)
+            except Exception as exc:  # noqa: BLE001 - fall back honestly to flat terrain
+                self._wide_error = str(exc)
+                self._wide = None
+            return self._wide
+
+    def _wide_mask(self, lat_deg: float, lon_deg: float) -> HorizonMask | None:
+        key = (round(float(lat_deg), 4), round(float(lon_deg), 4))
+        if key in self._custom_masks:
+            return self._custom_masks[key]
+        loaded = self._load_wide()
+        if loaded is None:
+            return None
+        reference, heights = loaded
+        dem = reference["dem"]
+        bounds = dem["bounds_m"]
+        pixel_m = float(dem["pixel_m"])
+        x_km, y_km = polar_stereographic_xy(lat_deg, lon_deg)
+        x_m, y_m = x_km * 1000.0, y_km * 1000.0
+        if not (bounds["left"] <= x_m <= bounds["right"]
+                and bounds["bottom"] <= y_m <= bounds["top"]):
+            return None
+        radius_m = min(
+            WIDE_MAX_RANGE_M,
+            x_m - bounds["left"],
+            bounds["right"] - x_m,
+            y_m - bounds["bottom"],
+            bounds["top"] - y_m,
+        )
+        if radius_m <= pixel_m * 2:
+            return None
+        try:
+            mask = build_horizon_mask_from_dem(
+                heights + float(reference.get("height", {}).get("offset_m", 0.0)),
+                bounds["left"], bounds["top"], pixel_m, x_m, y_m,
+                obs_height_m=WIDE_OBSERVER_HEIGHT_M,
+                max_range_m=radius_m,
+                source=(
+                    f"LOLA 80 m/pix wide polar DEM ray-march to {radius_m / 1000:.1f} km, "
+                    "observer 2 m, lunar curvature included"
+                ),
+                provenance=ProvenanceLevel.scientific_sourced,
+            )
+        except Exception as exc:  # noqa: BLE001 - never fabricate a skyline
+            self._wide_error = str(exc)
+            return None
+        col = int(round((x_m - bounds["left"]) / pixel_m))
+        row = int(round((bounds["top"] - y_m) / pixel_m))
+        elevation = float(heights[row, col]) if np.isfinite(heights[row, col]) else None
+        mask.metadata.update({
+            "max_range_m": radius_m,
+            "pixel_m": pixel_m,
+            "dem_file": dem["file"],
+            "site_elevation_m": elevation,
+            "custom_point": True,
+        })
+        self._custom_masks[key] = mask
+        return mask
+
     def info(self):
         n = len(self._entries)
+        wide = self._wide_available()
         return make_info(
             id=self.id,
             kind="terrain",
-            name="LOLA horizon masks where available, otherwise flat horizon",
-            provenance=ProvenanceLevel.scientific_sourced if n else ProvenanceLevel.geometric_only,
-            source="LRO LOLA-derived masks (data/scientific/horizon_masks) or none",
+            name="LOLA terrain for sites and custom polar points",
+            provenance=ProvenanceLevel.scientific_sourced if n or wide else ProvenanceLevel.geometric_only,
+            source="LRO LOLA-derived masks; 80 m/pix wide polar DEM for custom points",
             description=(
-                f"{n} LOLA mask(s) loaded. Locations without a mask use the flat geometric horizon "
-                "and are labelled 'geometric only', which overestimates visibility near the poles."
+                f"{n} candidate LOLA mask(s) plus an on-demand 80 m/pixel wide polar DEM. "
+                "Custom points outside its coverage use the flat geometric horizon and say so."
             ),
-            effects=EffectsIncluded(terrain_topography=n > 0, lunar_curvature_in_horizon=n > 0),
+            effects=EffectsIncluded(terrain_topography=n > 0 or wide, lunar_curvature_in_horizon=n > 0 or wide),
             available=True,
         )
 
@@ -182,5 +287,10 @@ class LolaOrFlatHorizonProvider(LolaHorizonMaskProvider):
         try:
             return super().horizon_mask(lat_deg, lon_deg, site_id)
         except DataUnavailableError:
-            return flat_mask("No LOLA horizon mask for this location: flat geometric horizon used",
-                             ProvenanceLevel.geometric_only)
+            mask = self._wide_mask(lat_deg, lon_deg)
+            if mask is not None:
+                return mask
+            return flat_mask(
+                "No LOLA wide-DEM coverage for this point: flat geometric horizon used",
+                ProvenanceLevel.geometric_only,
+            )

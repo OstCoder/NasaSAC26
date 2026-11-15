@@ -77,7 +77,7 @@ try {
   await page.waitForTimeout(400)
   assert.notEqual(await snapshotLine.textContent(), before, 'snapshot should follow the timeline cursor')
 
-  await page.getByRole('button', { name: /Compare scenarios/ }).click()
+  await page.getByRole('button', { name: /Compare sites/ }).click()
   await page.getByRole('tab', { name: /All candidates/ }).click()
   await page.getByRole('button', { name: 'Compare all candidates' }).click()
   await page.getByText('Most sunlight:').waitFor({ timeout: 30_000 })

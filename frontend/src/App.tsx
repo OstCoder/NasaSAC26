@@ -28,13 +28,13 @@ function Footer() {
     <footer className="mt-8 border-t border-rule-soft bg-night/80">
       <div className="mx-auto max-w-[1500px] space-y-2 px-4 py-5 text-xs text-faint">
         <p className="max-w-[100ch] leading-relaxed">
-          Visibility is modelled geometry: the Sun or Earth centre above the LOLA skyline. It is not
-          generated power, a communication link budget, or a landing-safety assessment. Demo skylines
-          are synthetic; entries that are not sourced are labelled as such.
+          Visibility is modelled geometry: the Sun or Earth centre above the local skyline. It is not
+          generated power, a communication link budget, or a landing-safety assessment. Where no
+          terrain profile exists, the page says so and uses a flat horizon.
         </p>
         <nav aria-label="NASA data sources" className="flex flex-wrap gap-x-4 gap-y-1">
           <a className="text-muted underline-offset-2 hover:text-ink hover:underline" href="#methodology">
-            Data &amp; methodology
+            How it works
           </a>
           {DATA_SOURCES.map((source) => (
             <a
@@ -129,13 +129,13 @@ function Shell() {
               <button type="button" onClick={() => setHelpOpen(false)} className="text-muted hover:text-ink" aria-label="Close">✕</button>
             </div>
             <ul className="space-y-1.5 text-sm text-muted">
-              <li><kbd className="rounded bg-raised px-1.5 py-0.5 text-xs text-ink">1</kbd>–<kbd className="rounded bg-raised px-1.5 py-0.5 text-xs text-ink">5</kbd> switch views (Planner, Science, Decision, Compare, Methodology)</li>
+              <li><kbd className="rounded bg-raised px-1.5 py-0.5 text-xs text-ink">1</kbd>–<kbd className="rounded bg-raised px-1.5 py-0.5 text-xs text-ink">5</kbd> switch views (Plan, Explore, Choose, Compare, How it works)</li>
               <li><kbd className="rounded bg-raised px-1.5 py-0.5 text-xs text-ink">?</kbd> toggle this help</li>
               <li><kbd className="rounded bg-raised px-1.5 py-0.5 text-xs text-ink">Esc</kbd> close dialogs</li>
               <li><kbd className="rounded bg-raised px-1.5 py-0.5 text-xs text-ink">C</kbd> copy scenario link (on the planner)</li>
               <li><kbd className="rounded bg-raised px-1.5 py-0.5 text-xs text-ink">D</kbd> toggle data-saver mode</li>
             </ul>
-            <p className="mt-3 text-xs text-faint">Tip: site selection also works from the keyboard-accessible "Landing site" dropdown in the scenario editor.</p>
+            <p className="mt-3 text-xs text-faint">Tip: you can also choose a place from the "Landing site" menu in the planner.</p>
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 """One index of every dataset the backend loads.
 
-Phase 2 Task 4 is about organisation, not acquisition: each dataset gets one
+This catalogue is about organisation, not acquisition: each dataset gets one
 owner, one path, declared units and longitude convention, its sources, and
 cross-dataset checks proving that a site is the same point in every file.
 
@@ -169,7 +169,7 @@ class Dataset:
 def _sites(settings, problems: list[str]) -> tuple[Dataset, dict[str, dict]]:
     path = Path(settings.datasets["sites"])
     raw, error = _read(path)
-    dataset = Dataset("sites", "Landing-site catalogue (Phase 1 Task 1)", "sites", _rel(path))
+    dataset = Dataset("sites", "Landing-site catalogue", "sites", _rel(path))
     if error or raw is None:
         dataset.available = False
         dataset.unavailable_reason = error
@@ -206,7 +206,7 @@ def _series(settings, sites_by_id: dict[str, dict], problems: list[str]) -> Data
     index_path = Path(settings.datasets.get(
         "site_series_index", ROOT / "data" / "scientific" / "site_series" / "index.json"))
     index, error = _read(index_path)
-    dataset = Dataset("site_series", "Hourly Sun/Earth series (Phase 2 Task 2)", "observations",
+    dataset = Dataset("site_series", "Hourly Sun/Earth series", "observations",
                       _rel(index_path))
     if error or index is None:
         dataset.available = False
@@ -274,7 +274,7 @@ def _series(settings, sites_by_id: dict[str, dict], problems: list[str]) -> Data
 def _terrain(settings, sites_by_id: dict[str, dict], problems: list[str]) -> Dataset:
     path = Path(settings.datasets.get("site_terrain", ROOT / "data" / "reference" / "site_terrain.json"))
     payload, error = _read(path)
-    dataset = Dataset("site_terrain", "LOLA terrain inventory (Phase 2 Task 3)", "terrain", _rel(path))
+    dataset = Dataset("site_terrain", "LOLA terrain inventory", "terrain", _rel(path))
     if error or payload is None:
         dataset.available = False
         dataset.unavailable_reason = error
@@ -345,10 +345,10 @@ def _reference(dataset_id: str, label: str, path: Path, kind: str, problems: lis
 
 
 def _horizons_reference(settings, sites_by_id: dict[str, dict], problems: list[str]) -> Dataset:
-    """The independent Horizons sample the Task 5 validation compares against."""
+    """The independent Horizons sample the validation compares against."""
     path = Path(settings.datasets["horizons_reference"])
     payload, error = _read(path)
-    dataset = Dataset("horizons_reference", "Independent Horizons reference sample (Phase 2 Task 5)",
+    dataset = Dataset("horizons_reference", "Independent Horizons reference sample",
                       "observations", _rel(path))
     if error or payload is None:
         dataset.available = False
@@ -387,10 +387,10 @@ def _horizons_reference(settings, sites_by_id: dict[str, dict], problems: list[s
 
 
 def _nasa_validation(settings, problems: list[str]) -> Dataset:
-    """The Task 5 report itself, indexed so its status is visible with the data."""
+    """The validation report itself, indexed so its status is visible with the data."""
     path = Path(settings.datasets["nasa_validation"])
     payload, error = _read(path)
-    dataset = Dataset("nasa_validation", "Phase 2 Task 5 validation report", "reference", _rel(path))
+    dataset = Dataset("nasa_validation", "NASA data validation report", "reference", _rel(path))
     if error or payload is None:
         dataset.available = False
         dataset.unavailable_reason = error
@@ -417,7 +417,7 @@ def _nasa_validation(settings, problems: list[str]) -> Dataset:
 
 
 def _horizon_masks(settings, problems: list[str]) -> Dataset:
-    """The committed masks, checked against both DEM references (Task 6).
+    """The committed masks, checked against both DEM references.
 
     A directory listing is not evidence: each file must be a 360-point mask for
     a mission candidate, reach the far tier, and carry the wide DEM checksum it
@@ -425,7 +425,7 @@ def _horizon_masks(settings, problems: list[str]) -> Dataset:
     """
     directory = Path(settings.datasets["scientific_horizon_dir"])
     wide_path = Path(settings.datasets["wide_terrain"])
-    dataset = Dataset("horizon_masks", "LOLA two-tier horizon masks (Phase 2 Task 6)",
+    dataset = Dataset("horizon_masks", "LOLA two-tier horizon masks",
                       "terrain", _rel(directory), schema=MASK_SCHEMA)
     wide, wide_error = _read(wide_path)
     if wide_error or wide is None:
@@ -435,7 +435,7 @@ def _horizon_masks(settings, problems: list[str]) -> Dataset:
         dataset.available = False
         dataset.records = 0
         dataset.unavailable_reason = (
-            "no horizon masks yet (Phase 2 Task 6); Scientific Mode reports terrain unavailable")
+            "No horizon masks are available, so terrain is reported as unavailable.")
         dataset.details = {"files": [], "wide_dem": {"available": False}}
         return dataset
 
@@ -579,9 +579,9 @@ def build_catalogue(*, use_cache: bool = False) -> dict:
     reference = _horizons_reference(settings, sites_by_id, problems)
     validation = _nasa_validation(settings, problems)
     ephemeris = _optional_directory(
-        "ephemeris", "Tabulated Horizons ephemeris (Scientific Mode)",
+        "ephemeris", "Saved Horizons ephemeris",
         Path(settings.datasets["scientific_ephemeris_dir"]),
-        "No tabulated ephemeris files; Scientific Mode uses the live Horizons provider instead.",
+        "No saved ephemeris files; the live Horizons provider is used instead.",
         "lunanav.ephemeris_table",
     )
     masks = _horizon_masks(settings, problems)

@@ -1,4 +1,4 @@
-"""Phase 5 Task 3: the mission report as a standalone Markdown document.
+"""The mission report as a standalone Markdown document.
 
 The JSON envelope (:mod:`mission_report`) is for machines; a reviewer, a judge or
 a teammate wants one file they can read. This module renders the same numbers as
@@ -123,7 +123,7 @@ def mission_report_markdown(*, site_id: str, window: str = "initial",
             ],
         ),
         "",
-        "## Phase 1 requirements",
+        "## Mission requirements",
         "",
         _table(["Requirement", "Measured", "Target", "Status", "Measurement"], requirement_rows),
         "",
