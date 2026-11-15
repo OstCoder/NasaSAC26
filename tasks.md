@@ -1,7 +1,7 @@
 
 # Phase 7 — Final Validation, Deployment & Submission
 
-> **Status (14 Nov 2026): local release validation complete.** Application readiness, scientific validation, automated tests, performance, repository cleanup and presentation materials have been verified locally. Public deployment, a recorded video, team rehearsal and the official NASA submission remain open because they require hosting credentials, recorded media or the registered team account. See [docs/PHASE7_FINAL_VALIDATION.md](docs/PHASE7_FINAL_VALIDATION.md).
+> **Status (15 Nov 2026): local release validation complete; 202 items verified, 80 open.** Application readiness, scientific validation, automated tests, performance, repository cleanup and presentation materials have been verified locally. Public deployment, a recorded video, team rehearsal and the official NASA submission remain open because they require hosting credentials, recorded media or the registered team account. Use **[finalize.md](finalize.md)** as the pre-submission gate; detailed evidence is in [docs/PHASE7_FINAL_VALIDATION.md](docs/PHASE7_FINAL_VALIDATION.md).
 
 ## Objective
 
@@ -325,15 +325,18 @@ GitHub
 ### Example Environment Configuration
 
 ```text
-Frontend:
-VITE_API_BASE_URL=<production-backend-url>
+Frontend (Vercel):
+VITE_API_BASE=<production-backend-origin>
 
-Backend:
-ALLOWED_ORIGINS=<production-frontend-url>
+Backend (Render):
+LUNANAV_CORS=<production-frontend-origin>
 ```
 
-Set real deployment values in environment
-configuration rather than committing secrets.
+Use these exact names: `frontend/src/services/api.ts` reads
+`VITE_API_BASE`, and `backend/app/main.py` reads `LUNANAV_CORS`.
+Both values are origins only, with no trailing slash. Set real
+deployment values in environment configuration rather than
+committing secrets. Never commit a `.env` file.
 
 ### Important
 
@@ -998,8 +1001,8 @@ flight-certified NASA mission system.
 > tokens/motion, mobile bottom tab bar, skip link, view fade-in, 3D scrubber,
 > click-to-inspect, PNG export, saved scenarios, CSV export, keyboard shortcuts,
 > help overlay, focus management, visibility/metrics cards, print stylesheet,
-> JPL auto-refresh, SR live region, Skeleton/CountUp. Backend 349 (4 skipped) +
-> frontend 52 + typecheck green.
+> JPL auto-refresh, SR live region, Skeleton/CountUp. Backend 353 passed +
+> frontend 52 + typecheck/build green.
 
 - [x] Phase 0/1/2: design tokens, motion primitives, info architecture, navigation & layout
 - [x] Phase 3: Visibility & metrics cards
@@ -1048,4 +1051,4 @@ Files owned: README.md, docs/SUBMISSION_PACKET.md, frontend/src/components/layou
 - [x] B4: SUBMISSION_PACKET.md — team + validation date present; local API verification recorded; public URL/video left pending (not deployed/recorded)
 - [x] B5: Deployment verification — `/health` ok, `/api/config` ok, `/ready` all checks true, CORS allows configured origin/rejects others on 127.0.0.1:8002; public deployment & second-device/Project-tab checks pending hosting
 
-Protocol: fetch before push; backend `pytest -q` (349 passed + 4 skipped) and frontend `typecheck` + `test` (52 passed) green before each commit; do not touch ports 8000/5173 (other agent) or 8002/5180 (this clone).
+Protocol: fetch before push; backend `pytest -q` (353 passed) and frontend `typecheck` + `test` (52 passed) green before each commit; do not touch ports 8000/5173 (other agent) or 8002/5180 (this clone).

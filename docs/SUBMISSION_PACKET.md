@@ -3,7 +3,7 @@
 **Project:** LunaNav — Lunar Landing Site Navigator
 **Challenge:** NASA Space Apps Challenge 2026 — Lunar Landing Site Navigator
 **Repository:** <https://github.com/OstCoder/NasaSAC26>
-**Validation date:** 14 November 2026
+**Validation date:** 14 November 2026; final local recheck 15 November 2026
 
 ## Status
 
@@ -18,7 +18,7 @@
 | Official Project tab | **Not yet submitted** |
 | Submission confirmation | **Not yet available** |
 
-Do not mark the official submission complete from this packet alone. The current Project tab on the registered team page determines the required fields and media.
+Do not mark the official submission complete from this packet alone. The current Project tab on the registered team page determines the required fields and media. Work through [finalize.md](../finalize.md) before submitting.
 
 ## Proposed submission text
 
@@ -47,16 +47,19 @@ LunaNav is a prototype decision-support tool, not a NASA-approved, flight-certif
 - **Team:** OstCoder and Aarush Gutha (repository history)
 - **Code license:** MIT
 
-## Required-field checklist
+## Submission content readiness
 
-- [x] Project title
-- [x] Challenge selection
+Content below is drafted and locally verified. These are **not** official Project-tab confirmations.
+
+- [x] Proposed project title: **LunaNav — Lunar Landing Site Navigator**
+- [x] Proposed challenge: **NASA Space Apps Challenge 2026 — Lunar Landing Site Navigator**
 - [x] Problem and proposed solution
 - [x] How the application works
 - [x] GitHub repository URL
 - [x] Scientific references and data sources
 - [x] License and attribution
-- [ ] Public website URL
+- [ ] Project title and challenge confirmed in the current Project tab
+- [ ] Public website URL verified in a private window
 - [ ] Demonstration video / media link, if required
 - [ ] Confirmed team-member list on the registered team page
 - [ ] Official Project tab reviewed in the current event UI
@@ -65,7 +68,7 @@ LunaNav is a prototype decision-support tool, not a NASA-approved, flight-certif
 
 ## Final submission procedure
 
-1. Deploy using [DEPLOYMENT.md](DEPLOYMENT.md).
+1. Complete every gate in [finalize.md](../finalize.md) and deploy using [DEPLOYMENT.md](DEPLOYMENT.md).
 2. Put the public URL and deployment commit SHA in this packet and the README.
 3. Run the public workflow in a private window and on a second device.
 4. Record the demonstration using [DEMO_AND_PITCH.md](DEMO_AND_PITCH.md); verify the current official media requirements.

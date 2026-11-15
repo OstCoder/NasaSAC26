@@ -1,17 +1,17 @@
 # Phase 7 — Final local validation
 
-**Result (14 November 2026): release candidate verified locally. Public deployment, recorded video and the official NASA submission are not complete yet.**
+**Result (14 November 2026; rechecked 15 November 2026): release candidate verified locally. Public deployment, recorded video and the official NASA submission are not complete yet.**
 
-This document records what was actually run against the final repository state. It does not treat a local server as a public deployment, and it does not treat a test matrix as a NASA submission.
+This document records what was actually run against the final repository state. It does not treat a local server as a public deployment, and it does not treat a test matrix as a NASA submission. The single pre-submission gate is [finalize.md](../finalize.md).
 
 ## 1. Release checks
 
 | Check | Command | Result |
 | --- | --- | --- |
-| Backend suite | `cd backend && ./.venv/bin/python -m pytest -q` | **349 tests** — 345 passed + 4 skipped on Python 3.14 (the 4 need the local LOLA DEM cache, absent in a fresh clone; they passed in the earlier 3.12.8 run that recorded 348). Includes the new top-level `/health` test. One non-failing Starlette/httpx deprecation warning. |
+| Backend suite | `cd backend && ./.venv/bin/python -m pytest -q` | **353 passed**, 0 skipped on Python 3.14. Includes the new top-level `/health` test. One non-failing Starlette/httpx deprecation warning. |
 | Frontend suite | `cd frontend && npm test -- --run` | **52 passed** in 13 files |
 | TypeScript | `cd frontend && npm run typecheck` | passed |
-| Production build | `cd frontend && npm run build` | passed; entry chunk 1,051.67 kB / 312.56 kB gzip |
+| Production build | `cd frontend && npm run build` | passed; entry chunk 1,066.01 kB / 316.26 kB gzip |
 | Phase 4 browser matrix | `cd frontend && npm run acceptance` | **13/13 passed** |
 | Phase 5 browser matrix | `cd frontend && npm run acceptance:phase5` | **6/6 passed** |
 | Phase 6 browser matrix | `cd frontend && npm run acceptance:phase6` | **8/8 passed** |
@@ -24,6 +24,8 @@ This document records what was actually run against the final repository state. 
 | Generated-file scan | tracked `.tmp`, `.log`, `__pycache__`, `.DS_Store`, `node_modules`, `dist` | no matches |
 | Slow-connection check (Task 5) | throttled API link via `scripts/slow_connection_proxy.py` (400 kbit/s, 600 ms RTT) | all analysis endpoints < 1 s; repeat-visit boot interactive ≈ 8.7 s; zero errors; see [PHASE6_PERFORMANCE.md](PHASE6_PERFORMANCE.md) |
 | README screenshots (Task 8) | 8 captured views in `assets/screenshots/`, linked from the README | done |
+
+On 15 November the backend suite, frontend suite, TypeScript check and production build were rerun against this repository state and all passed. The browser matrices and live scientific checks below remain the 14 November evidence; they were not rerun in this documentation pass.
 
 The browser matrices use the installed Google Chrome through Playwright and the real FastAPI backend; they do not mock analysis responses. The Phase 6 science page rendered in **3.117 s** with a **641 ms** navigation load in this run. The 390 px layout had no horizontal overflow.
 
@@ -113,6 +115,6 @@ Autonomous follow-up work committed after the initial Phase 7 package:
 - Frontend data-saver mode (localStorage + auto-detect slow link) with a TopNav toggle; 512 px imagery when on.
 - Shareable scenario links: "Copy scenario link" button and URL-param prefill on load.
 
-Backend suite: **348 passed + 4 skipped** (352 total). Frontend: **52 passed**, typecheck clean.
+Backend suite: **353 passed**, 0 skipped. Frontend: **52 passed**; typecheck and build clean.
 
 Until those steps are done, Phase 7 is a verified local release candidate, not a completed submission.

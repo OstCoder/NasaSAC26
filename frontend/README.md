@@ -13,7 +13,7 @@ explains how the pieces fit together.
 | `npm run dev` | Vite dev server on :5173, proxying `/api` to `http://127.0.0.1:8000` (override the target with `LUNANAV_API`) |
 | `npm run build` | `tsc -b` across all project references, then the production bundle |
 | `npm run typecheck` | Types only, no bundle |
-| `npm test` | Vitest: stereographic projection round-trips, terminator geometry, crater-ring layout, PSR geometry |
+| `npm test` | Vitest/jsdom: 52 tests covering maps, visibility, comparison, decision support, rescheduling, power helpers and 3D shadows |
 | `npm run lint` | Oxlint |
 | `npm run preview` | Serve the built bundle |
 

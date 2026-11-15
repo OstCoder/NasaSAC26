@@ -1,6 +1,6 @@
 # LunaNav — Lunar Landing Site Navigator
 
-> **Status (14 Nov 2026):** verified local release candidate. The backend, frontend, scientific checks and Phase 4–6 browser matrices pass. A public deployment, demonstration video and official NASA submission are still pending — see [docs/PHASE7_FINAL_VALIDATION.md](docs/PHASE7_FINAL_VALIDATION.md).
+> **Status (15 Nov 2026):** verified local release candidate. The final recheck passed the backend and frontend suites, TypeScript and the production build; the Phase 4–6 browser matrices passed on 14 Nov. A public deployment, demonstration video and official NASA submission are still pending. Before submitting, work through **[finalize.md](finalize.md)**; the detailed evidence is in [docs/PHASE7_FINAL_VALIDATION.md](docs/PHASE7_FINAL_VALIDATION.md).
 
 A lunar landing-site visibility explorer, built for the NASA Space Apps Challenge 2026 problem *Lunar Landing Site Navigator*.
 
@@ -36,7 +36,7 @@ For details on the JPL connection, see [docs/JPL_CONNECTION.md](docs/JPL_CONNECT
 
 ## Quick start
 
-Requirements: Python 3.11+ and Node 20+.
+Requirements: Python 3.11+ and Node 20.19+ (or 22.12+), matching Vite 8's engine requirement.
 
 ```bash
 # 1. Backend (http://localhost:8000, API docs at /docs)
@@ -60,7 +60,7 @@ Deployment is prepared for a Vercel static frontend and a Render Python API, wit
 ### Tests
 
 ```bash
-cd backend && pytest          # 349 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
+cd backend && pytest          # 353 tests: coordinates, time, ephemeris vs Meeus, horizon logic,
                               # intervals, API contract, mission config and site-catalogue validation,
                               # site provenance and PSR geometry, requirement checks, comparison,
                               # rescheduler, mode switching, topocentric Horizons site az/el (Task 1),
@@ -241,6 +241,7 @@ lunanav/
 
 ## Further reading
 
+- [finalize.md](finalize.md): the single pre-submission gate — deployment, public checks, media, official fields and final verification
 - [docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md): the finalized Phase 1 specification — sites, requirements, Phase 2 datasets, sign-off
 - [docs/MISSION.md](docs/MISSION.md): the 7-day solar-powered robotic mission and its three candidate sites
 - [docs/SITES.md](docs/SITES.md): the selected sites, their published coordinates, LOLA elevations and PSR context

@@ -200,10 +200,6 @@ function resetDiagnostics() {
   apiFailures = []
 }
 
-function note(message) {
-  console.log(`      ${message}`)
-}
-
 async function test(id, title, fn) {
   resetDiagnostics()
   try {

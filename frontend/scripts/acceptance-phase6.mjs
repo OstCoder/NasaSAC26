@@ -15,8 +15,6 @@ const APP = (process.env.LUNANAV_APP ?? 'http://127.0.0.1:5173').replace(/\/$/, 
 const API = (process.env.LUNANAV_API ?? 'http://127.0.0.1:8000').replace(/\/$/, '')
 const SHOTS = process.env.ACCEPTANCE_SHOTS === '1'
 const CHROME = process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-const DEC1 = '2026-12-01T00:00:00Z'
-const DURATION = 168
 
 const results = []
 let browser
