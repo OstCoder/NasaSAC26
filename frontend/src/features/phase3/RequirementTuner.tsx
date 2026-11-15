@@ -165,7 +165,7 @@ export function RequirementTuner() {
           </p>
         </div>
         {problem && <p className="text-xs text-alert">{problem}</p>}
-        {check.error && <ErrorNotice error={check.error} />}
+        {check.error && <ErrorNotice error={check.error} onRetry={check.retry} />}
 
         {result && !check.error && (
           <div

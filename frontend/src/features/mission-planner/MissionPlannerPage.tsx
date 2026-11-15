@@ -314,13 +314,17 @@ export function MissionPlannerPage({ onCompare }: { onCompare: () => void }) {
             />
             <CardContent>
               {scenario.error ? (
-                <ErrorNotice error={scenario.error} onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined} />
+                <ErrorNotice
+                  error={scenario.error}
+                  onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined}
+                  onRetry={() => { scenario.retry(); snapshot.retry() }}
+                />
               ) : snapshot.data ? (
                 <div className={cn(snapshot.loading && 'opacity-70 transition-opacity')}>
                   <SnapshotPanel snapshot={snapshot.data} />
                 </div>
               ) : snapshot.error ? (
-                <ErrorNotice error={snapshot.error} />
+                <ErrorNotice error={snapshot.error} onRetry={snapshot.retry} />
               ) : (
                 <p className="text-sm text-muted">Calculating…</p>
               )}

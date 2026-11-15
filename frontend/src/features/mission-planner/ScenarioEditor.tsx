@@ -138,8 +138,8 @@ export function ScenarioEditor({
             <p className="col-span-3 text-xs text-alert">{coordError}</p>
           ) : (
             <p className="col-span-3 text-xs text-faint">
-              Or click the map. Custom points have no terrain profile in demo mode, so results use the flat
-              geometric horizon.
+              Or click the map. Custom points have no LOLA skyline, so results use the flat geometric
+              horizon and are labelled geometric only.
             </p>
           )}
         </div>

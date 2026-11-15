@@ -5,6 +5,8 @@ export interface Resource<T> {
   data: T | null
   error: ApiError | null
   loading: boolean
+  /** Re-run the current request without changing its inputs. */
+  retry: () => void
 }
 
 /**
@@ -17,7 +19,8 @@ export function useApiResource<T>(
   fetcher: (signal: AbortSignal) => Promise<T>,
   debounceMs = 250,
 ): Resource<T> {
-  const [state, setState] = React.useState<Resource<T>>({ data: null, error: null, loading: false })
+  const [state, setState] = React.useState<Omit<Resource<T>, 'retry'>>({ data: null, error: null, loading: false })
+  const [attempt, setAttempt] = React.useState(0)
   const fetchRef = React.useRef(fetcher)
   fetchRef.current = fetcher
 
@@ -42,7 +45,8 @@ export function useApiResource<T>(
       ctrl.abort()
       window.clearTimeout(timer)
     }
-  }, [key, debounceMs])
+  }, [key, debounceMs, attempt])
 
-  return state
+  const retry = React.useCallback(() => setAttempt((n) => n + 1), [])
+  return { ...state, retry }
 }

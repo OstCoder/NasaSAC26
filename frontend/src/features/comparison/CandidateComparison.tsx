@@ -292,7 +292,7 @@ export function CandidateComparison() {
           </p>
         </div>
         {problem && <p className="text-xs text-alert">{problem}</p>}
-        {comparison.error && <ErrorNotice error={comparison.error} />}
+        {comparison.error && <ErrorNotice error={comparison.error} onRetry={comparison.retry} />}
 
         {rows.length > 0 && !comparison.error && (
           <div

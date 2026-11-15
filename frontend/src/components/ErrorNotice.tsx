@@ -1,10 +1,10 @@
-import { AlertTriangle, CalendarX, DatabaseZap, PlugZap, SatelliteDish } from 'lucide-react'
+import { AlertTriangle, CalendarX, DatabaseZap, PlugZap, RotateCw, SatelliteDish } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { fmtUtc } from '@/lib/format'
 import type { ApiError } from '@/services/api'
 
 /** Turns API errors into direction: what happened and what to do next. */
-export function ErrorNotice({ error, onUseDemo }: { error: ApiError; onUseDemo?: () => void }) {
+export function ErrorNotice({ error, onUseDemo, onRetry }: { error: ApiError; onUseDemo?: () => void; onRetry?: () => void }) {
   let Icon = AlertTriangle
   let title = 'The calculation could not run'
   let action: React.ReactNode = null
@@ -62,6 +62,11 @@ export function ErrorNotice({ error, onUseDemo }: { error: ApiError; onUseDemo?:
         <p className="font-medium text-ink">{title}</p>
         <p className="text-muted">{error.message}</p>
         {action}
+        {onRetry && (
+          <Button size="sm" variant="outline" onClick={onRetry}>
+            <RotateCw /> Try again
+          </Button>
+        )}
       </div>
     </div>
   )

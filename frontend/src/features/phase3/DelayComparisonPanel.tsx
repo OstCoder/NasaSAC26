@@ -125,7 +125,12 @@ export function DelayComparisonPanel() {
         }
       />
       <CardContent>
-        {(windows.error || matrix.error) && <ErrorNotice error={windows.error ?? matrix.error!} />}
+        {(windows.error || matrix.error) && (
+          <ErrorNotice
+            error={windows.error ?? matrix.error!}
+            onRetry={() => { windows.retry(); matrix.retry() }}
+          />
+        )}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
@@ -180,7 +185,7 @@ export function DelayComparisonPanel() {
           </div>
           {liveError && (
             <div className="mt-2">
-              <ErrorNotice error={liveError} />
+              <ErrorNotice error={liveError} onRetry={reschedule.retry} />
               {offlineHint && (
                 <p className="mt-1 text-xs text-faint">
                   The live recompute needs the ephemeris provider; switch the app to

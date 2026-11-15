@@ -70,7 +70,13 @@ export function ReschedulerPanel() {
         </CardContent>
       </Card>
 
-      {res.error && <ErrorNotice error={res.error} onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined} />}
+      {res.error && (
+        <ErrorNotice
+          error={res.error}
+          onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined}
+          onRetry={res.retry}
+        />
+      )}
       {res.loading && !res.data && (
         <p className="flex items-center gap-2 text-sm text-muted"><LoaderCircle className="size-4 animate-spin" /> Recomputing…</p>
       )}

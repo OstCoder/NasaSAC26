@@ -54,7 +54,13 @@ function TwoScenarios() {
         ))}
       </div>
 
-      {cmp.error && <ErrorNotice error={cmp.error} onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined} />}
+      {cmp.error && (
+        <ErrorNotice
+          error={cmp.error}
+          onUseDemo={mode !== 'demo' ? () => setMode('demo') : undefined}
+          onRetry={cmp.retry}
+        />
+      )}
       {cmp.loading && !cmp.data && (
         <p className="flex items-center gap-2 text-sm text-muted"><LoaderCircle className="size-4 animate-spin" /> Comparing…</p>
       )}
