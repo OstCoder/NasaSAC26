@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScenarioEditor, rangeProblem } from '@/features/mission-planner/ScenarioEditor'
 import { FeasibilityPanel } from '@/features/phase3/FeasibilityPanel'
+import { CandidateComparison } from './CandidateComparison'
 import { ReschedulerPanel } from '@/features/rescheduler'
 import { useApiResource } from '@/hooks/useApiResource'
 import { useApp } from '@/hooks/useAppContext'
@@ -89,7 +90,12 @@ export function ComparisonPage() {
         {features.rescheduler && <TabsTrigger value="reschedule"><CalendarClock /> Reschedule a mission</TabsTrigger>}
       </TabsList>
       <TabsContent value="pair"><TwoScenarios /></TabsContent>
-      <TabsContent value="candidates"><FeasibilityPanel /></TabsContent>
+      <TabsContent value="candidates">
+        <div className="space-y-4">
+          <CandidateComparison />
+          <FeasibilityPanel />
+        </div>
+      </TabsContent>
       {features.rescheduler && <TabsContent value="reschedule"><ReschedulerPanel /></TabsContent>}
     </Tabs>
   )

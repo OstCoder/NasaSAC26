@@ -13,5 +13,5 @@ export default defineConfig({
     port: 5173,
     proxy: { '/api': { target: process.env.LUNANAV_API ?? 'http://127.0.0.1:8000', changeOrigin: true } },
   },
-  test: { environment: 'node' },
+  test: { environment: 'jsdom', setupFiles: './src/test/setup.ts' },
 })

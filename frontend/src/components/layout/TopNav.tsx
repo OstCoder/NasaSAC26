@@ -42,14 +42,14 @@ export function TopNav({ view, onView }: { view: View; onView: (v: View) => void
             <p className="text-[11px] text-faint">Lunar landing site navigator</p>
           </div>
         </div>
-        <nav aria-label="Main" className="flex flex-1 flex-wrap gap-1">
+        <nav aria-label="Main" className="flex w-full min-w-0 flex-wrap gap-1 sm:w-auto sm:flex-1">
           {NAV.filter((n) => features[n.flag] !== false).map((n) => (
             <button
               key={n.id}
               onClick={() => onView(n.id)}
               aria-current={view === n.id ? 'page' : undefined}
               className={cn(
-                'inline-flex h-9 items-center gap-2 rounded-md px-3 text-sm font-medium transition-colors',
+                'inline-flex h-9 items-center gap-2 whitespace-nowrap rounded-md px-3 text-sm font-medium transition-colors',
                 view === n.id ? 'bg-raised text-ink' : 'text-muted hover:text-ink',
               )}
             >
@@ -58,25 +58,27 @@ export function TopNav({ view, onView }: { view: View; onView: (v: View) => void
             </button>
           ))}
         </nav>
-        <JplStatusPill />
-        <div role="radiogroup" aria-label="Data mode" className="flex items-center gap-1 rounded-md border border-rule-soft p-0.5">
-          {config.mode.allowed.map((m: Mode) => (
-            <button
-              key={m}
-              role="radio"
-              aria-checked={mode === m}
-              onClick={() => setMode(m)}
-              className={cn(
-                'h-7 rounded px-2.5 text-[13px] font-medium capitalize transition-colors',
+        <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:ml-auto sm:w-auto sm:justify-end">
+          <JplStatusPill />
+          <div role="radiogroup" aria-label="Data mode" className="flex items-center gap-0.5 rounded-md border border-rule-soft p-0.5">
+            {config.mode.allowed.map((m: Mode) => (
+              <button
+                key={m}
+                role="radio"
+                aria-checked={mode === m}
+                onClick={() => setMode(m)}
+                className={cn(
+                  'h-7 rounded px-1.5 text-[11px] font-medium capitalize transition-colors sm:px-2.5 sm:text-[13px]',
                 mode === m
                   ? { demo: 'bg-sun/15 text-sun', jpl: 'bg-signal/20 text-signal', scientific: 'bg-both/15 text-both' }[m]
-                  : 'text-muted hover:text-ink',
-              )}
-              title={MODE_HINT[m]}
-            >
-              {MODE_LABEL[m]}
-            </button>
-          ))}
+                    : 'text-muted hover:text-ink',
+                )}
+                title={MODE_HINT[m]}
+              >
+                {MODE_LABEL[m]}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </header>

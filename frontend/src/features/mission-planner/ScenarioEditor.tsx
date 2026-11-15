@@ -23,12 +23,14 @@ export function rangeProblem(draft: ScenarioDraft, start: string, end: string): 
 export function ScenarioEditor({
   draft,
   onChange,
+  showSite = true,
   showDate = true,
   showDuration = true,
   dense = false,
 }: {
   draft: ScenarioDraft
   onChange: (d: ScenarioDraft) => void
+  showSite?: boolean
   showDate?: boolean
   showDuration?: boolean
   dense?: boolean
@@ -75,7 +77,7 @@ export function ScenarioEditor({
 
   return (
     <div className={cn('grid gap-3', dense ? 'grid-cols-1' : 'sm:grid-cols-2')}>
-      <Field label="Landing site" className={dense ? '' : 'sm:col-span-2'}>
+      {showSite && <Field label="Landing site" className={dense ? '' : 'sm:col-span-2'}>
         <Select
           value={isCustom ? CUSTOM : (draft.location.site_id ?? '')}
           onChange={(e) => {
@@ -116,9 +118,9 @@ export function ScenarioEditor({
               <> · nearest mapped PSR {selectedSite.nearest_psr.distance_km.toFixed(1)} km ({selectedSite.nearest_psr.label})</>}
           </p>
         )}
-      </Field>
+      </Field>}
 
-      {isCustom && (
+      {showSite && isCustom && (
         <div className={cn('grid grid-cols-[1fr_1fr_auto] items-end gap-2', dense ? '' : 'sm:col-span-2')}>
           <Field label="Latitude (°)">
             <Input inputMode="decimal" value={lat} onChange={(e) => setLat(e.target.value)} onBlur={applyCoords}

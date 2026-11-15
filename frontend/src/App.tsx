@@ -11,6 +11,45 @@ import { AppProvider } from '@/hooks/useAppContext'
 
 const VIEWS: View[] = ['planner', 'compare', 'methodology']
 
+const DATA_SOURCES = [
+  { label: 'NASA LROC QuickMap', href: 'https://quickmap.lroc.asu.edu/' },
+  { label: 'NASA Moon Trek', href: 'https://trek.nasa.gov/moon/' },
+  { label: 'NASA JPL Horizons', href: 'https://ssd.jpl.nasa.gov/horizons/' },
+  { label: 'NASA LOLA south-pole topography', href: 'https://pgda.gsfc.nasa.gov/products/78' },
+  { label: 'Canadian Space Agency lunar exploration', href: 'https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/' },
+]
+
+function Footer() {
+  return (
+    <footer className="mt-8 border-t border-rule-soft bg-night/80">
+      <div className="mx-auto max-w-[1500px] space-y-2 px-4 py-5 text-xs text-faint">
+        <p className="max-w-[100ch] leading-relaxed">
+          Visibility is modelled geometry: the Sun or Earth centre above the LOLA skyline. It is not
+          generated power, a communication link budget, or a landing-safety assessment. Demo skylines
+          are synthetic; entries that are not sourced are labelled as such.
+        </p>
+        <nav aria-label="NASA data sources" className="flex flex-wrap gap-x-4 gap-y-1">
+          <a className="text-muted underline-offset-2 hover:text-ink hover:underline" href="#methodology">
+            Data &amp; methodology
+          </a>
+          {DATA_SOURCES.map((source) => (
+            <a
+              key={source.href}
+              className="text-muted underline-offset-2 hover:text-ink hover:underline"
+              href={source.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {source.label}
+            </a>
+          ))}
+        </nav>
+        <p>LunaNav · NASA Space Apps Challenge 2026. Not affiliated with or endorsed by NASA.</p>
+      </div>
+    </footer>
+  )
+}
+
 function useHashView(): [View, (v: View) => void] {
   const read = () => {
     const h = window.location.hash.replace('#', '') as View
@@ -35,6 +74,7 @@ function Shell() {
         {view === 'compare' && <ComparisonPage />}
         {view === 'methodology' && <MethodologyPage />}
       </main>
+      <Footer />
     </div>
   )
 }

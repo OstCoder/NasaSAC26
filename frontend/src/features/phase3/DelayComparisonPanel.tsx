@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { useApiResource } from '@/hooks/useApiResource'
 import { useApp } from '@/hooks/useAppContext'
-import { usePhase3Windows } from '@/hooks/useScenario'
+import { useFeasibilityMatrix, usePhase3Windows } from '@/hooks/useScenario'
 import { api } from '@/services/api'
 import { cn } from '@/lib/utils'
-import type { Phase3WindowSummary, RescheduleResult, Site } from '@/types/api'
+import type { FeasibilityRow, Phase3WindowSummary, RescheduleResult, Site } from '@/types/api'
 
 const pct = (value: number | null | undefined) => (value == null ? '—' : `${Math.round(value)}%`)
 
@@ -26,7 +26,26 @@ function Delta({ before, after, good }: { before: number | null; after: number |
   )
 }
 
-function CommittedRow({ site, windows }: { site: Site; windows?: Record<string, Phase3WindowSummary> }) {
+function VerdictCell({ row }: { row?: FeasibilityRow }) {
+  if (!row) return <span className="text-faint">—</span>
+  if (row.available === false)
+    return <span className="text-faint" title={row.reason}>unavailable</span>
+  if (row.satisfied === true) return <span className="text-both">meets all</span>
+  if (row.satisfied === false) return <span className="text-sun">fails</span>
+  return <span className="text-faint">undecided</span>
+}
+
+function CommittedRow({
+  site,
+  windows,
+  initialRow,
+  alternativeRow,
+}: {
+  site: Site
+  windows?: Record<string, Phase3WindowSummary>
+  initialRow?: FeasibilityRow
+  alternativeRow?: FeasibilityRow
+}) {
   const initial = windows?.initial
   const alternative = windows?.alternative
   const ready = (w?: Phase3WindowSummary) => w?.available && w.summary
@@ -34,7 +53,7 @@ function CommittedRow({ site, windows }: { site: Site; windows?: Record<string, 
     return (
       <tr>
         <td className="border-t border-rule-soft px-2 py-1.5 text-ink">{site.name}</td>
-        <td colSpan={3} className="border-t border-rule-soft px-2 py-1.5 text-xs text-faint">
+        <td colSpan={5} className="border-t border-rule-soft px-2 py-1.5 text-xs text-faint">
           committed windows not available for this site
         </td>
       </tr>
@@ -48,6 +67,8 @@ function CommittedRow({ site, windows }: { site: Site; windows?: Record<string, 
       <td className="border-t border-rule-soft px-2 py-1.5"><Delta before={s?.sun_visible_pct ?? null} after={a?.sun_visible_pct ?? null} good /></td>
       <td className="border-t border-rule-soft px-2 py-1.5"><Delta before={s?.earth_visible_pct ?? null} after={a?.earth_visible_pct ?? null} good /></td>
       <td className="border-t border-rule-soft px-2 py-1.5"><Delta before={s?.both_visible_pct ?? null} after={a?.both_visible_pct ?? null} good /></td>
+      <td className="border-t border-rule-soft px-2 py-1.5"><VerdictCell row={initialRow} /></td>
+      <td className="border-t border-rule-soft px-2 py-1.5"><VerdictCell row={alternativeRow} /></td>
     </tr>
   )
 }
@@ -66,7 +87,10 @@ const fmtUnit = (unit: string, value: number | null) =>
 export function DelayComparisonPanel() {
   const { config, sites, mode } = useApp()
   const windows = usePhase3Windows()
+  const matrix = useFeasibilityMatrix()
   const bySite = new Map((windows.data?.sites ?? []).map((s) => [s.site_id, s.windows]))
+  const rowFor = (siteId: string, window: 'initial' | 'alternative') =>
+    matrix.data?.rows.find((row) => row.site_id === siteId && row.window.key === window)
 
   const presets = config.simulation?.landing_presets ?? []
   const initial = presets.find((p) => p.key === 'initial') ?? presets[0]
@@ -101,7 +125,7 @@ export function DelayComparisonPanel() {
         }
       />
       <CardContent>
-        {windows.error && <ErrorNotice error={windows.error} />}
+        {(windows.error || matrix.error) && <ErrorNotice error={windows.error ?? matrix.error!} />}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
@@ -110,19 +134,29 @@ export function DelayComparisonPanel() {
                 <th className="px-2 py-1.5 font-medium" title="Share of the window with the Sun above the skyline">Sun-visible share</th>
                 <th className="px-2 py-1.5 font-medium" title="Share of the window with Earth above the skyline">Earth-visible share</th>
                 <th className="px-2 py-1.5 font-medium" title="Share of the window with both above the skyline">Simultaneous share</th>
+                <th className="px-2 py-1.5 font-medium" title="Phase 1 requirement verdict for 1–8 Dec 2026">Initial constraints</th>
+                <th className="px-2 py-1.5 font-medium" title="Phase 1 requirement verdict for 11–18 Dec 2026">After delay</th>
               </tr>
             </thead>
             <tbody>
               {sites.map((site) => (
-                <CommittedRow key={site.id} site={site} windows={bySite.get(site.id)} />
+                <CommittedRow
+                  key={site.id}
+                  site={site}
+                  windows={bySite.get(site.id)}
+                  initialRow={rowFor(site.id, 'initial')}
+                  alternativeRow={rowFor(site.id, 'alternative')}
+                />
               ))}
             </tbody>
           </table>
         </div>
         <p className="mt-2 text-xs text-faint">
           Committed data, offline: percentages of the 168 h window from the stored
-          Horizons series and LOLA skylines. The change is a property of the dates,
-          not a site ranking.
+          Horizons series and LOLA skylines. The two constraint columns re-run the
+          Phase 1 targets against each window, so a delay that improves visibility
+          but still misses a target stays visible as a failure. The change is a
+          property of the dates, not a site ranking.
         </p>
 
         <div className="mt-4 rounded-lg border border-rule-soft p-3">

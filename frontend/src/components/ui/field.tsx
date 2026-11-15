@@ -8,13 +8,17 @@ export function Field({ label, hint, children, className }: {
   className?: string
 }) {
   const id = React.useId()
-  const child = React.isValidElement<{ id?: string }>(children)
-    ? React.cloneElement(children, { id: children.props.id ?? id })
-    : children
+  // A field may include a description or helper after its control. Label the
+  // first control in that list rather than silently dropping the association.
+  const content = React.Children.toArray(children).map((child, index) =>
+    index === 0 && React.isValidElement<{ id?: string }>(child)
+      ? React.cloneElement(child, { id: child.props.id ?? id })
+      : child,
+  )
   return (
     <div className={cn('flex flex-col gap-1', className)}>
       <label htmlFor={id} className="text-[13px] text-muted">{label}</label>
-      {child}
+      {content}
       {hint && <p className="text-xs text-faint">{hint}</p>}
     </div>
   )

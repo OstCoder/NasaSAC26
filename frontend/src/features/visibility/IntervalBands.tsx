@@ -40,6 +40,7 @@ export function IntervalBands({
 }) {
   const t0 = Date.parse(windowStart)
   const span = Date.parse(windowEnd) - t0
+  const cursorTime = cursorFrac === undefined ? null : t0 + cursorFrac * span
   const pos = (iv: Interval) => ({
     left: `${((Date.parse(iv.start_utc) - t0) / span) * 100}%`,
     width: `${Math.max(((Date.parse(iv.end_utc) - Date.parse(iv.start_utc)) / span) * 100, 0.15)}%`,
@@ -64,16 +65,39 @@ export function IntervalBands({
                 const r = e.currentTarget.getBoundingClientRect()
                 onPick((e.clientX - r.left) / r.width)
               }}
-              role={onPick ? 'presentation' : undefined}
+              onKeyDown={(e) => {
+                if (!onPick || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return
+                e.preventDefault()
+                const step = e.key === 'ArrowRight' ? 0.01 : -0.01
+                onPick(Math.max(0, Math.min(1, (cursorFrac ?? 0) + step)))
+              }}
+              role={onPick ? 'button' : undefined}
+              tabIndex={onPick ? 0 : undefined}
+              aria-label={
+                onPick
+                  ? `${row.label} visibility bands over the mission. Total visible ${fmtHours(total)}. Use left and right arrows to move the inspected time.`
+                  : undefined
+              }
             >
-              {list.map((iv) => (
-                <div
-                  key={iv.start_utc}
-                  className={cn('absolute inset-y-0', row.barClass)}
-                  style={pos(iv)}
-                  title={`${row.label}: ${fmtUtc(iv.start_utc)} to ${fmtUtc(iv.end_utc)} UTC (${fmtHours(iv.duration_hours)})`}
-                />
-              ))}
+              {list.map((iv) => {
+                const active =
+                  cursorTime !== null &&
+                  cursorTime >= Date.parse(iv.start_utc) &&
+                  cursorTime <= Date.parse(iv.end_utc)
+                return (
+                  <div
+                    key={iv.start_utc}
+                    className={cn(
+                      'absolute inset-y-0',
+                      row.barClass,
+                      active && 'z-10 ring-1 ring-signal ring-inset',
+                    )}
+                    style={pos(iv)}
+                    aria-current={active ? 'time' : undefined}
+                    title={`${row.label}: ${fmtUtc(iv.start_utc)} to ${fmtUtc(iv.end_utc)} UTC (${fmtHours(iv.duration_hours)})`}
+                  />
+                )
+              })}
               {cursorFrac !== undefined && (
                 <div className="absolute inset-y-0 w-0.5 bg-signal" style={{ left: `${cursorFrac * 100}%` }} />
               )}

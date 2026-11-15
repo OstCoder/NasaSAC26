@@ -39,19 +39,29 @@ function ChartTip({ active, payload, view }: {
   )
 }
 
+interface TimelineProps {
+  result: ScenarioResult
+  index: number
+  onIndex: (i: number) => void
+}
+
 /**
  * Elevation/clearance chart + Sun/Earth/Both interval bands + time scrubber.
  * `index` is the inspected sample in result.series; all children share it.
  */
-export function VisibilityTimeline({
-  result,
-  index,
-  onIndex,
-}: {
-  result: ScenarioResult
-  index: number
-  onIndex: (i: number) => void
-}) {
+export function VisibilityTimeline(props: TimelineProps) {
+  if (props.result.series.times_utc.length === 0) {
+    return (
+      <div role="status" className="rounded-md border border-rule-soft p-4 text-sm text-muted">
+        No timeline samples were returned for this scenario. The chart, intervals and cursor are
+        hidden rather than filled with assumed values.
+      </div>
+    )
+  }
+  return <TimelineView {...props} />
+}
+
+function TimelineView({ result, index, onIndex }: TimelineProps) {
   const [view, setView] = React.useState<View>('clearance')
   const [playing, setPlaying] = React.useState(false)
   const [zoomHours, setZoomHours] = React.useState<number | null>(null)
@@ -153,7 +163,11 @@ export function VisibilityTimeline({
         </div>
       )}
 
-      <div className="h-[200px] w-full">
+      <div
+        className="h-[200px] w-full"
+        role="img"
+        aria-label={`Sun and Earth ${view === 'clearance' ? 'clearance above terrain' : 'geometric elevation'} from ${fmtUtc(s.times_utc[0])} to ${fmtUtc(s.times_utc[n - 1])} UTC. Inspected time ${fmtUtc(s.times_utc[index])} UTC. Use the time controls below the chart to inspect other samples.`}
+      >
         <ResponsiveContainer>
           <LineChart
             data={data}

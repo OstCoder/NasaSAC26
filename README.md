@@ -45,8 +45,10 @@ cd backend && pytest          # 309 tests: coordinates, time, ephemeris vs Meeus
                               # and the reproducible mission-report envelope, the Phase 4
                               # feasibility matrix, pooled site DEM previews, JPL Horizons
                               # live provider and Moon Trek imagery
-cd frontend && npm test       # projection round-trips
+cd frontend && npm test       # 33 Vitest/jsdom tests: projection, night, craters, PSR, zoom,
+                              # interval bands, date validation, thresholds, candidate comparison
 cd frontend && npm run build  # strict TypeScript + production bundle
+cd frontend && npm run smoke  # real-browser workflow; needs both dev servers running and Chrome
 ```
 
 ### Mid-project acceptance check (Phase 3, no frontend needed)
@@ -144,7 +146,7 @@ lunanav/
 | Moon Trek imagery (tile cache, polar reprojection, global texture, 3D globe) | Working against a mock; reprojection verified numerically. All three layer paths were confirmed on 2026-10-30, and live LOLA tiles were fetched for all three candidate sites on 2026-11-14 — which exposed a wrong max zoom: the two LOLA layers stop at zoom 5, now corrected in the config. |
 | LOLA horizon masks (DEM ray-march with curvature) | Built for all three candidates on 2026-11-14 and verified offline: 360 azimuths each, 5 m/pix to the site DEM edge and 80 m/pix to 150 km at a 2 m observer, max skyline 9.43°/2.85°/1.28° (far tier only 1.06°/−0.85°/−0.22°); committed in `data/scientific/horizon_masks/`. |
 | SPICE provider | Implemented, **not validated**: needs `spiceypy` + kernels |
-| Phase 4 Mission Planner panels (horizon profile, feasibility matrix, landing delay) | Working and typechecked: the horizon profile draws the committed skyline with Sun/Earth tracks from `GET /api/terrain-horizon` and `GET /api/series` ([docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md)); the feasibility matrix reads every candidate × both windows against the Phase 1 requirements from `GET /api/feasibility`; the landing-delay panel shows before/after metrics from `POST /api/reschedule`. The requirement tuner runs one scenario against adjustable demonstration targets through `POST /api/requirements`, and the visibility timeline offers 3 d / 24 h / 6 h zoom while its interval bands stay at full-mission scale. |
+| Phase 4 Mission Planner and comparison panels (horizon profile, feasibility, delay, adjustable targets) | Working and browser-checked: the horizon profile draws the committed skyline with Sun/Earth tracks from `GET /api/terrain-horizon` and `GET /api/series` ([docs/TERRAIN_HORIZON.md](docs/TERRAIN_HORIZON.md)); the feasibility matrix reads every candidate × both windows against the Phase 1 requirements from `GET /api/feasibility`; the landing-delay panel shows before/after metrics and requirement verdicts from `POST /api/reschedule` and the matrix. The requirement tuner runs one scenario against adjustable demonstration targets through `POST /api/requirements`; the comparison view evaluates all three candidates over one shared user-set window and threshold set, with stacked cards on phones. The visibility timeline offers 3 d / 24 h / 6 h zoom, and the footer links the NASA source catalogues. |
 | Phase 3 result envelope (Task 11) | `GET /api/mission-report` returns one deterministic document per site and window — terrain basis and coverage, sunlight/Earth/simultaneous windows, the metric list and the Phase 1 requirement checks; [docs/MISSION_REPORT.md](docs/MISSION_REPORT.md) lists every field and unit. |
 | Experimental site 3D terrain (Phase 4 Task 6, feature-flagged) | Working and off by default: `GET /api/terrain-dem` serves committed 128 × 128 pooled LOLA height grids with SHA-256 provenance (503 `DEM_UNAVAILABLE` rather than a fabricated mesh), and `SiteTerrain3DPanel` renders them with three.js behind `experimental_3d_terrain` and an in-panel enable button. The 2D profile stays the source of truth. |
 | Power model, link budget, rankings, AI explanations, report export | Extension points only |

@@ -29,16 +29,16 @@ astronomical datasets.
 
 ## Task 1: Set Up the Frontend Application
 
-- [ ] Initialize the frontend using React and TypeScript.
-- [ ] Configure Vite or the team's chosen framework.
-- [ ] Install Tailwind CSS for styling.
-- [ ] Set up routing if multiple pages are required.
-- [ ] Create reusable components.
-- [ ] Configure environment variables for the backend URL.
-- [ ] Set up API request utilities.
-- [ ] Configure loading and error states.
-- [ ] Confirm the application runs locally.
-- [ ] Test communication with the backend.
+- [x] Initialize the frontend using React and TypeScript.
+- [x] Configure Vite or the team's chosen framework.
+- [x] Install Tailwind CSS for styling.
+- [x] Set up routing if multiple pages are required.
+- [x] Create reusable components.
+- [x] Configure environment variables for the backend URL.
+- [x] Set up API request utilities.
+- [x] Configure loading and error states.
+- [x] Confirm the application runs locally.
+- [x] Test communication with the backend.
 
 ### Suggested Technology Stack
 
@@ -95,17 +95,17 @@ the scientific backend and loads mission data.
 
 ## Task 2: Build the Lunar Landing-Site Map
 
-- [ ] Display an interactive map of the lunar south pole.
-- [ ] Use lunar imagery or map tiles from a permitted source.
-- [ ] Display the three landing sites from Phase 1.
-- [ ] Add markers for each candidate landing site.
-- [ ] Allow users to select a site by clicking a marker.
-- [ ] Display each site's name and coordinates.
-- [ ] Highlight the currently selected location.
-- [ ] Support zooming and panning.
-- [ ] Display elevation data when available.
-- [ ] Provide a curated site list if map interaction fails.
-- [ ] Verify that coordinates align with the map projection.
+- [x] Display an interactive map of the lunar south pole.
+- [x] Use lunar imagery or map tiles from a permitted source.
+- [x] Display the three landing sites from Phase 1.
+- [x] Add markers for each candidate landing site.
+- [x] Allow users to select a site by clicking a marker.
+- [x] Display each site's name and coordinates.
+- [x] Highlight the currently selected location.
+- [x] Support zooming and panning.
+- [x] Display elevation data when available.
+- [x] Provide a curated site list if map interaction fails.
+- [x] Verify that coordinates align with the map projection.
 
 ### Initial Landing Sites
 
@@ -157,17 +157,17 @@ https://trek.nasa.gov/moon/
 
 ## Task 3: Build Date and Mission Controls
 
-- [ ] Create a landing date and time selector.
-- [ ] Display timestamps in UTC.
-- [ ] Add mission duration controls.
-- [ ] Load the initial mission scenario.
-- [ ] Load the delayed mission scenario.
-- [ ] Allow users to switch between scenarios.
-- [ ] Provide a button to run the analysis.
-- [ ] Validate date ranges before sending requests.
-- [ ] Display an error for unsupported date ranges.
-- [ ] Prevent duplicate API requests while loading.
-- [ ] Reset outdated results when parameters change.
+- [x] Create a landing date and time selector.
+- [x] Display timestamps in UTC.
+- [x] Add mission duration controls.
+- [x] Load the initial mission scenario.
+- [x] Load the delayed mission scenario.
+- [x] Allow users to switch between scenarios.
+- [x] Provide a button to run the analysis.
+- [x] Validate date ranges before sending requests.
+- [x] Display an error for unsupported date ranges.
+- [x] Prevent duplicate API requests while loading.
+- [x] Reset outdated results when parameters change.
 
 ### Default Mission Configuration
 
@@ -207,17 +207,17 @@ connected to backend calculations.
 
 ## Task 4: Create Sun and Earth Position Visualizations
 
-- [ ] Display the Sun's azimuth and elevation.
-- [ ] Display Earth's azimuth and elevation.
-- [ ] Create a 2D sky-view visualization.
-- [ ] Show the geometric horizon.
-- [ ] Show the terrain horizon when available.
-- [ ] Represent the Sun with a recognizable marker.
-- [ ] Represent Earth with a recognizable marker.
-- [ ] Update positions based on selected timestamps.
-- [ ] Clearly indicate when an object is obstructed.
-- [ ] Add tooltips for position measurements.
-- [ ] Label the difference between geometric and
+- [x] Display the Sun's azimuth and elevation.
+- [x] Display Earth's azimuth and elevation.
+- [x] Create a 2D sky-view visualization.
+- [x] Show the geometric horizon.
+- [x] Show the terrain horizon when available.
+- [x] Represent the Sun with a recognizable marker.
+- [x] Represent Earth with a recognizable marker.
+- [x] Update positions based on selected timestamps.
+- [x] Clearly indicate when an object is obstructed.
+- [x] Add tooltips for position measurements.
+- [x] Label the difference between geometric and
       terrain-adjusted visibility.
 
 ### Suggested Visualization
@@ -258,18 +258,18 @@ Sun and Earth positions relative to the horizon.
 
 ## Task 5: Build the Visibility Timeline
 
-- [ ] Create a timeline covering the mission duration.
-- [ ] Display sunlight availability intervals.
-- [ ] Display periods without direct sunlight.
-- [ ] Display Earth visibility intervals.
-- [ ] Display Earth obstruction intervals.
-- [ ] Highlight simultaneous Sun/Earth visibility.
-- [ ] Display accurate UTC timestamps.
-- [ ] Add hover details for visibility transitions.
-- [ ] Add zoom controls for longer mission intervals.
-- [ ] Allow users to select a timestamp.
-- [ ] Synchronize timeline selection with the sky view.
-- [ ] Handle incomplete or missing data clearly.
+- [x] Create a timeline covering the mission duration.
+- [x] Display sunlight availability intervals.
+- [x] Display periods without direct sunlight.
+- [x] Display Earth visibility intervals.
+- [x] Display Earth obstruction intervals.
+- [x] Highlight simultaneous Sun/Earth visibility.
+- [x] Display accurate UTC timestamps.
+- [x] Add hover details for visibility transitions.
+- [x] Add zoom controls for longer mission intervals.
+- [x] Allow users to select a timestamp.
+- [x] Synchronize timeline selection with the sky view.
+- [x] Handle incomplete or missing data clearly.
 
 ### Timeline Layout
 
@@ -309,18 +309,18 @@ the Sun and Earth position visualization.
 
 ## Task 6: Build the Mission Metrics Dashboard
 
-- [ ] Display total sunlight duration.
-- [ ] Display sunlight availability percentage.
-- [ ] Display longest darkness interval.
-- [ ] Display total Earth visibility duration.
-- [ ] Display Earth visibility percentage.
-- [ ] Display longest Earth visibility blackout.
-- [ ] Display simultaneous visibility percentage.
-- [ ] Display the next Sun visibility transition.
-- [ ] Display the next Earth visibility transition.
-- [ ] Show measurement units clearly.
-- [ ] Add explanations for technical terminology.
-- [ ] Display data quality and calculation assumptions.
+- [x] Display total sunlight duration.
+- [x] Display sunlight availability percentage.
+- [x] Display longest darkness interval.
+- [x] Display total Earth visibility duration.
+- [x] Display Earth visibility percentage.
+- [x] Display longest Earth visibility blackout.
+- [x] Display simultaneous visibility percentage.
+- [x] Display the next Sun visibility transition.
+- [x] Display the next Earth visibility transition.
+- [x] Show measurement units clearly.
+- [x] Add explanations for technical terminology.
+- [x] Display data quality and calculation assumptions.
 
 ### Suggested Metrics
 
@@ -356,18 +356,18 @@ scientifically grounded results.
 
 ## Task 7: Build Side-by-Side Landing-Site Comparison
 
-- [ ] Allow users to select at least two landing sites.
-- [ ] Support comparing all three curated sites.
-- [ ] Use the same date range for site comparisons.
-- [ ] Display sunlight percentages side by side.
-- [ ] Display Earth visibility percentages side by side.
-- [ ] Compare longest darkness periods.
-- [ ] Compare longest Earth blackouts.
-- [ ] Compare simultaneous visibility.
-- [ ] Highlight meaningful differences.
-- [ ] Show each site's mission constraint results.
-- [ ] Explain why one site may be preferable.
-- [ ] Clearly identify differences in model fidelity.
+- [x] Allow users to select at least two landing sites.
+- [x] Support comparing all three curated sites.
+- [x] Use the same date range for site comparisons.
+- [x] Display sunlight percentages side by side.
+- [x] Display Earth visibility percentages side by side.
+- [x] Compare longest darkness periods.
+- [x] Compare longest Earth blackouts.
+- [x] Compare simultaneous visibility.
+- [x] Highlight meaningful differences.
+- [x] Show each site's mission constraint results.
+- [x] Explain why one site may be preferable.
+- [x] Clearly identify differences in model fidelity.
 
 ### Example Comparison
 
@@ -398,15 +398,15 @@ showing the trade-offs between landing sites.
 
 ## Task 8: Display Mission Feasibility Results
 
-- [ ] Load mission requirements from Phase 1.
-- [ ] Allow users to adjust supported constraints.
-- [ ] Display PASS or FAIL for each requirement.
-- [ ] Highlight failed mission constraints.
-- [ ] Provide a short explanation for each result.
-- [ ] Display an overall constraints-met status.
-- [ ] Identify missing data that prevents evaluation.
-- [ ] Allow comparisons using the same constraints.
-- [ ] Distinguish hypothetical requirements
+- [x] Load mission requirements from Phase 1.
+- [x] Allow users to adjust supported constraints.
+- [x] Display PASS or FAIL for each requirement.
+- [x] Highlight failed mission constraints.
+- [x] Provide a short explanation for each result.
+- [x] Display an overall constraints-met status.
+- [x] Identify missing data that prevents evaluation.
+- [x] Allow comparisons using the same constraints.
+- [x] Distinguish hypothetical requirements
       from real NASA flight requirements.
 
 ### Default Demonstration Constraints
@@ -448,17 +448,17 @@ that explains site suitability.
 
 ## Task 9: Build Mission Delay Comparison
 
-- [ ] Add a scenario comparison mode.
-- [ ] Display the original mission date.
-- [ ] Display the delayed mission date.
-- [ ] Retrieve metrics for both mission intervals.
-- [ ] Compare sunlight availability changes.
-- [ ] Compare Earth visibility changes.
-- [ ] Compare maximum darkness changes.
-- [ ] Compare communication blackout changes.
-- [ ] Highlight improvements and disadvantages.
-- [ ] Display updated mission feasibility results.
-- [ ] Provide an explanation of the changes.
+- [x] Add a scenario comparison mode.
+- [x] Display the original mission date.
+- [x] Display the delayed mission date.
+- [x] Retrieve metrics for both mission intervals.
+- [x] Compare sunlight availability changes.
+- [x] Compare Earth visibility changes.
+- [x] Compare maximum darkness changes.
+- [x] Compare communication blackout changes.
+- [x] Highlight improvements and disadvantages.
+- [x] Display updated mission feasibility results.
+- [x] Provide an explanation of the changes.
 
 ### Example Scenario
 
@@ -491,19 +491,19 @@ that demonstrates the effects of schedule changes.
 
 ## Task 10: Add User Experience and Accessibility Features
 
-- [ ] Create a clear dashboard layout.
-- [ ] Use consistent typography and spacing.
-- [ ] Provide descriptions for technical terms.
-- [ ] Add hover tooltips to unfamiliar metrics.
-- [ ] Add loading states for scientific calculations.
-- [ ] Add helpful error messages.
-- [ ] Support keyboard navigation.
-- [ ] Add sufficient text/background contrast.
-- [ ] Avoid relying exclusively on colors.
-- [ ] Make charts readable on smaller screens.
-- [ ] Test mobile and desktop layouts.
-- [ ] Add links to NASA scientific data sources.
-- [ ] Display calculation limitations clearly.
+- [x] Create a clear dashboard layout.
+- [x] Use consistent typography and spacing.
+- [x] Provide descriptions for technical terms.
+- [x] Add hover tooltips to unfamiliar metrics.
+- [x] Add loading states for scientific calculations.
+- [x] Add helpful error messages.
+- [x] Support keyboard navigation.
+- [x] Add sufficient text/background contrast.
+- [x] Avoid relying exclusively on colors.
+- [x] Make charts readable on smaller screens.
+- [x] Test mobile and desktop layouts.
+- [x] Add links to NASA scientific data sources.
+- [x] Display calculation limitations clearly.
 
 ### Suggested Dashboard Layout
 
@@ -539,20 +539,20 @@ for mission planners, educators, and the public.
 
 ## Task 11: Integrate Frontend and Backend
 
-- [ ] Connect landing-site selection to backend data.
-- [ ] Connect date controls to mission analysis requests.
-- [ ] Retrieve Sun and Earth positions.
-- [ ] Retrieve calculated visibility windows.
-- [ ] Retrieve mission metrics.
-- [ ] Retrieve mission constraint results.
-- [ ] Display real results in frontend components.
-- [ ] Handle backend connection failures.
-- [ ] Handle missing or unsupported scientific data.
-- [ ] Verify that changing sites updates all visualizations.
-- [ ] Verify that changing dates updates all calculations.
-- [ ] Ensure that outdated requests do not overwrite
+- [x] Connect landing-site selection to backend data.
+- [x] Connect date controls to mission analysis requests.
+- [x] Retrieve Sun and Earth positions.
+- [x] Retrieve calculated visibility windows.
+- [x] Retrieve mission metrics.
+- [x] Retrieve mission constraint results.
+- [x] Display real results in frontend components.
+- [x] Handle backend connection failures.
+- [x] Handle missing or unsupported scientific data.
+- [x] Verify that changing sites updates all visualizations.
+- [x] Verify that changing dates updates all calculations.
+- [x] Ensure that outdated requests do not overwrite
       newer results.
-- [ ] Confirm consistent UTC timestamps and units.
+- [x] Confirm consistent UTC timestamps and units.
 
 ### Suggested API Endpoints
 
@@ -609,21 +609,21 @@ with functioning scientific visualizations.
 
 ## Task 12: Test the Website
 
-- [ ] Test selecting each landing site.
-- [ ] Test changing the landing date.
-- [ ] Test changing the mission duration.
-- [ ] Test visibility chart interactions.
-- [ ] Test sky-view timestamp synchronization.
-- [ ] Test side-by-side site comparison.
-- [ ] Test mission-delay comparison.
-- [ ] Test mission requirement adjustments.
-- [ ] Test invalid dates and coordinates.
-- [ ] Test missing backend data.
-- [ ] Test API connection failures.
-- [ ] Test desktop and mobile layouts.
-- [ ] Verify scientific values match backend outputs.
-- [ ] Verify labels and units are correct.
-- [ ] Check that no fabricated data is shown
+- [x] Test selecting each landing site.
+- [x] Test changing the landing date.
+- [x] Test changing the mission duration.
+- [x] Test visibility chart interactions.
+- [x] Test sky-view timestamp synchronization.
+- [x] Test side-by-side site comparison.
+- [x] Test mission-delay comparison.
+- [x] Test mission requirement adjustments.
+- [x] Test invalid dates and coordinates.
+- [x] Test missing backend data.
+- [x] Test API connection failures.
+- [x] Test desktop and mobile layouts.
+- [x] Verify scientific values match backend outputs.
+- [x] Verify labels and units are correct.
+- [x] Check that no fabricated data is shown
       as real NASA calculations.
 
 ### Critical Test Scenario
@@ -651,31 +651,31 @@ and final hackathon presentation.
 
 ## Phase 4 Completion Checklist
 
-- [ ] React frontend initialized.
-- [ ] Frontend connected to backend.
-- [ ] Interactive lunar map implemented.
-- [ ] Three landing sites selectable.
-- [ ] Date and mission controls functional.
-- [ ] Sun and Earth positions visualized.
-- [ ] Geometric horizon displayed.
-- [ ] Visibility timeline implemented.
-- [ ] Mission metrics displayed.
-- [ ] Side-by-side site comparison functional.
-- [ ] Mission constraints displayed.
-- [ ] Mission-delay comparison functional.
-- [ ] Scientific assumptions documented.
-- [ ] Loading and error states implemented.
-- [ ] Responsive layout tested.
-- [ ] End-to-end workflow tested.
+- [x] React frontend initialized.
+- [x] Frontend connected to backend.
+- [x] Interactive lunar map implemented.
+- [x] Three landing sites selectable.
+- [x] Date and mission controls functional.
+- [x] Sun and Earth positions visualized.
+- [x] Geometric horizon displayed.
+- [x] Visibility timeline implemented.
+- [x] Mission metrics displayed.
+- [x] Side-by-side site comparison functional.
+- [x] Mission constraints displayed.
+- [x] Mission-delay comparison functional.
+- [x] Scientific assumptions documented.
+- [x] Loading and error states implemented.
+- [x] Responsive layout tested.
+- [x] End-to-end workflow tested.
 
 ### Advanced Completion Criteria
 
-- [ ] Terrain horizon displayed in sky visualization.
-- [ ] Terrain-adjusted visibility supported.
-- [ ] Three-dimensional lunar terrain visualization.
-- [ ] Smooth time-based animation.
-- [ ] Interactive custom lunar coordinates.
-- [ ] Educational explanations of lunar polar conditions.
+- [x] Terrain horizon displayed in sky visualization.
+- [x] Terrain-adjusted visibility supported.
+- [x] Three-dimensional lunar terrain visualization.
+- [x] Smooth time-based animation.
+- [x] Interactive custom lunar coordinates.
+- [x] Educational explanations of lunar polar conditions.
 
 ---
 

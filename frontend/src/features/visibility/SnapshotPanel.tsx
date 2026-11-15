@@ -1,16 +1,21 @@
 import { Earth, Sun } from 'lucide-react'
+import { Tooltip } from '@/components/ui/tooltip'
 import { fmtDeg, fmtHours, fmtUtc } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { BodyState, Snapshot } from '@/types/api'
 import { bodyStatus } from './bodyStatus'
 
 function Row({ label, value, hint }: { label: string; value: React.ReactNode; hint?: string }) {
-  return (
-    <div className="flex items-baseline justify-between gap-3 border-t border-rule-soft py-1.5 first:border-t-0" title={hint}>
+  const content = (
+    <div
+      className="flex items-baseline justify-between gap-3 border-t border-rule-soft py-1.5 first:border-t-0 focus-visible:outline-2 focus-visible:outline-signal"
+      tabIndex={hint ? 0 : undefined}
+    >
       <dt className="text-[13px] text-muted">{label}</dt>
       <dd className="num text-sm text-ink">{value}</dd>
     </div>
   )
+  return hint ? <Tooltip content={hint}>{content}</Tooltip> : content
 }
 
 function BodyReadout({ body, state, lookahead }: { body: 'sun' | 'earth'; state: BodyState; lookahead: number }) {
@@ -37,27 +42,30 @@ function BodyReadout({ body, state, lookahead }: { body: 'sun' | 'earth'; state:
         </span>
       </div>
       <dl>
-        <Row label="Elevation (geometric)" value={fmtDeg(state.elevation_deg)} hint="Relative to the flat local horizon" />
-        <Row label="Azimuth" value={fmtDeg(state.azimuth_deg, 1)} hint="Clockwise from local north (toward the equator)" />
-        <Row label="Terrain skyline at that azimuth" value={fmtDeg(state.terrain_horizon_deg)} />
+        <Row label="Elevation (geometric)" value={fmtDeg(state.elevation_deg)} hint="Elevation relative to the flat local horizon. Positive is geometric visibility only when terrain is absent." />
+        <Row label="Azimuth" value={fmtDeg(state.azimuth_deg, 1)} hint="Clockwise from local north, which points toward the lunar equator at the south pole." />
+        <Row label="Terrain skyline at that azimuth" value={fmtDeg(state.terrain_horizon_deg)} hint="LOLA-derived obstruction height in this direction. Zero means a flat horizon was used." />
         <Row
           label="Clearance above terrain"
           value={<span className={state.clearance_deg > 0 ? 'text-ink' : 'text-alert'}>{fmtDeg(state.clearance_deg)}</span>}
+          hint="Body elevation minus the skyline at its azimuth. Visible means clearance is above zero; it is not a power or link-budget estimate."
         />
         {isSun && state.disk_fraction !== null && (
-          <Row label="Solar disk above skyline" value={`${Math.round(state.disk_fraction * 100)}%`} />
+          <Row label="Solar disk above skyline" value={`${Math.round(state.disk_fraction * 100)}%`} hint="Share of the Sun’s disk above the skyline. The visibility verdict still uses the disk centre." />
         )}
         <Row
-          label={`Time until ${eventName}`}
+          label={`Next ${eventName}`}
           value={
-            state.hours_until_transition !== null ? (
-              <span title={state.next_transition_utc ? `${fmtUtc(state.next_transition_utc)} UTC` : undefined}>
-                {fmtHours(state.hours_until_transition)}
+            state.next_transition_utc ? (
+              <span>
+                {state.hours_until_transition !== null ? `in ${fmtHours(state.hours_until_transition)}` : 'scheduled'}
+                <span className="block text-xs text-muted">{fmtUtc(state.next_transition_utc)} UTC</span>
               </span>
             ) : (
               <span className="text-muted">beyond {fmtHours(lookahead)}</span>
             )
           }
+          hint={`The next modelled change in ${isSun ? 'Sun' : 'Earth'} visibility within the ${fmtHours(lookahead)} look-ahead. “Beyond” means none was found, not that none will occur.`}
         />
       </dl>
     </div>
