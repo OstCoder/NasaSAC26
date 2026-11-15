@@ -16,14 +16,14 @@
   --font-sans: 'Barlow', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Barlow Semi Condensed', 'Barlow', ui-sans-serif, sans-serif;
 
-  --color-night: #0d1524;
-  --color-panel: #141f33;
-  --color-raised: #1b2942;
-  --color-rule: #2a3b57;
-  --color-rule-soft: #213049;
-  --color-ink: #e4eaf4;
-  --color-muted: #98a5bd;
-  --color-faint: #8394b0;
+  --color-night: #0a101d;
+  --color-panel: #121b2c;
+  --color-raised: #182338;
+  --color-rule: #25344c;
+  --color-rule-soft: #1c283c;
+  --color-ink: #e8eef7;
+  --color-muted: #a3b1c9;
+  --color-faint: #8d9fb3;
 
   --color-sun: #f2b544;
   --color-sun-dim: #7a5d27;
@@ -106,6 +106,15 @@
     animation: lunanav-shimmer 1.4s linear infinite;
   }
   .panel-collapse { transition: max-height var(--dur-slow) var(--ease-in-out), opacity var(--dur-base) var(--ease-out); }
+  /* Page surface: gentle fade-in + rise on mount. Reuses the shared motion
+     tokens; reduced motion is handled by the global guard in @layer base. */
+  .surface {
+    animation: lunanav-surface var(--dur-base) var(--ease-out) both;
+  }
+  @keyframes lunanav-surface {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 }
 
 @keyframes lunanav-fade-in { from { opacity: 0; } to { opacity: 1; } }

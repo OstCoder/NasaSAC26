@@ -2,7 +2,10 @@
 
 > Companion to `tasks.md` "Night upgrades". This document is the working plan for the
 > autonomous UI/UX overhaul. Another agent can pick up any phase. Checkboxes mirror
-> progress; commit each phase separately.
+> progress; commit each phase separately. Check `git log` before pushing; rebase if needed.
+>
+> Repo: OstCoder/NasaSAC26 (main). Ports 8002/5174 (never 8000/5173, the other agent's).
+> Backend tests (349) + frontend tests (52) + typecheck must stay green every commit.
 
 ## Guiding principles (NASA Space Apps alignment)
 
@@ -27,74 +30,68 @@
 - No dark/light theme toggle (dark is the product identity).
 - No marketing landing page; the app IS the demo.
 
-## Phase 0 — Design tokens & motion primitives
-Status: in progress
+## Phase 0 — Design tokens & motion primitives — DONE
 
-- [ ] Audit `frontend/src/index.css` tokens (colors, spacing, radii, shadows, motion).
-- [ ] Add motion tokens: `--dur-fast` (120ms), `--dur-base` (200ms), `--dur-slow` (320ms), `--ease-out` (cubic-bezier(.2,.8,.2,1)), `--ease-in-out`.
-- [ ] Add utility classes: `.fade-in`, `.slide-up`, `.press` (scale on active), `.skeleton` (shimmer).
-- [ ] Respect `prefers-reduced-motion`: disable non-essential motion globally.
-- [ ] Add a single `motion-safe:` discipline: every animation gated by `prefers-reduced-motion: no-preference`.
+- [x] Audit `frontend/src/index.css` tokens (colors, spacing, radii, shadows, motion).
+- [x] Add motion tokens: `--dur-fast` (120ms), `--dur-base` (200ms), `--dur-slow` (320ms), `--ease-out` (cubic-bezier(.2,.8,.2,1)), `--ease-in-out`.
+- [x] Add utility classes: `.fade-in`, `.slide-up`, `.press` (scale on active), `.skeleton` (shimmer), `.lift`, `.panel-collapse`.
+- [x] Respect `prefers-reduced-motion`: disable non-essential motion globally.
+- [x] Skip-to-main-content link (keyboard).
+- [x] View fade-in via shared `.fade-in` + `key={view}` remount in `App.tsx`.
 
-Deliverable: a small, documented token set; no visual change yet beyond smoother focus.
+## Phase 1 — Information architecture (less text, more hierarchy) — DONE
 
-## Phase 1 — Information architecture (less text, more hierarchy)
-Status: planned
-
-- [ ] Collapse long descriptive paragraphs into progressive disclosure (details/summary or "Show more").
+- [x] Collapse long descriptive paragraphs into progressive disclosure (methodology "What results do not mean").
+- [x] Mobile nav: bottom tab bar on <640px instead of wrapped top nav.
+- [ ] Further progressive disclosure for dense panels (methodology datasets table already compact).
 - [ ] Promote the single most important number per panel to a large display value; demote secondary text to tooltips.
-- [ ] Replace dense tables with compact cards on mobile (already partially done in CandidateComparison).
-- [ ] Add a "What am I looking at?" one-line subtitle under each view title (already present in some).
-- [ ] Trim the README-style prose inside the app (Methodology page is the place for depth).
 
-## Phase 2 — Navigation & layout
-Status: planned
+## Phase 2 — Navigation & layout — DONE
 
-- [ ] Sticky header polish: blur, shadow on scroll, compact on mobile.
-- [ ] Mobile nav: bottom tab bar on <640px instead of wrapped top nav.
-- [ ] Skip-to-main-content link (keyboard).
+- [x] Sticky header polish: blur, shadow, compact on mobile.
+- [x] Mobile bottom tab bar (in place of wrapped top nav on small screens).
+- [x] Skip-to-main-content link.
+- [x] Persist last view in URL hash (useHashView) — verify all views.
 - [ ] Breadcrumbs/back affordance in sub-views.
-- [ ] Persist last view in URL hash (already does via useHashView) — verify all views.
 
-## Phase 3 — Visual polish & feedback
-Status: planned
+## Phase 3 — Visual polish & feedback — IN PROGRESS
 
-- [ ] Card hover/focus lift (subtle shadow + translate) with reduced-motion guard.
-- [ ] Button press feedback (scale 0.98).
-- [ ] Loading skeletons for map imagery and PSR layer (replace "Loading…" text).
+- [ ] Loading skeletons for map imagery and PSR layer (replace "Loading…" text where a skeleton adds clarity).
 - [ ] Empty states with a single clear next action.
 - [ ] Toast for "Copied scenario link" (replace inline text swap).
+- [ ] Card hover/focus lift (subtle shadow + translate) with reduced-motion guard.
+- [ ] Button press feedback (scale 0.98) via `.press`.
 - [ ] Consistent icon sizing and spacing.
+- [ ] Visibility & metrics cards: glanceable Sun/Earth status chips, color-coded metrics,
+      clearer blocked-vs-visible hatch, distinct next-edge rule (VisibilityTimeline,
+      SnapshotPanel, MetricsTable, IntervalBands).
 
-## Phase 4 — 3D terrain enhancement (display only)
-Status: planned
+## Phase 4 — 3D terrain enhancement (display only) — DONE
 
-- [ ] Better default camera angle and lighting (warm sun, cool ambient).
-- [ ] Scale bar / north arrow overlay.
-- [ ] Toggle: wireframe vs shaded.
+- [x] Better default camera angle and lighting (warm sun, cool ambient).
+- [x] Scale bar / north arrow overlay.
+- [x] Toggle: wireframe vs shaded.
+- [x] Keep "display only — 2D profile is authoritative" label prominent.
+- [x] Respect data-saver mode (skip 3D textures).
 - [ ] Loading overlay with progress for DEM fetch.
-- [ ] Keep "display only — 2D profile is authoritative" label prominent.
-- [ ] Respect data-saver mode (skip 3D textures).
 
-## Phase 5 — Accessibility & i18n-readiness
-Status: planned
+## Phase 5 — Accessibility & i18n-readiness — PLANNED
 
 - [ ] aria-labels on icon-only buttons (TopNav data-saver already done).
 - [ ] Landmark roles (main, nav, aside) audit.
 - [ ] Color-blind safe: ensure status colors (pass/fail) also use icons/text, not color alone.
 - [ ] Reduced-motion: all motion gated.
 - [ ] Focus management on view change (focus main heading).
+- [ ] `focus-visible` rings on every interactive element; `aria-live` on dynamic values.
 
-## Phase 6 — Micro-interactions & delight
-Status: planned
+## Phase 6 — Micro-interactions & delight — PLANNED
 
 - [ ] Number count-up on metric reveal (CSS, reduced-motion aware).
 - [ ] Chart tooltip polish.
 - [ ] Site marker pulse on hover/select.
 - [ ] Smooth panel collapse/expand (CSS grid-rows or max-height).
 
-## Phase 7 — Verification & docs
-Status: planned
+## Phase 7 — Verification & docs — PLANNED
 
 - [ ] Re-run full test suites + typecheck.
 - [ ] Update README "What it does" with new screenshots if visuals changed.
@@ -171,11 +168,14 @@ Completed:
 - Phase 4: 3D terrain wireframe toggle + north/scale overlay.
 
 Partial / deferred (deliberately, to keep scope sane):
-- Phase 1: further progressive disclosure for dense panels (methodology datasets table is already compact).
-- Phase 3: loading skeletons — the app already shows spinners/opacity + blur-up imagery; skeletons remain a polish item.
+- Phase 1: further progressive disclosure for dense panels.
+- Phase 3: loading skeletons — the app already shows spinners/opacity + blur-up imagery.
 - Phase 5: accessibility — focus-visible, skip link, semantic landmarks, text-word status labels already in place; full audit deferred.
 - Phase 6: micro-interactions — press feedback done; count-up/marker pulse/panel collapse deferred.
 - Phase 7: this verification pass.
+
+## Commit protocol
+
 - Work phase by phase; commit each phase with message `UI overhaul phase N: <title>`.
 - Run tests before each push.
 - If a phase is too large, split into sub-commits.
