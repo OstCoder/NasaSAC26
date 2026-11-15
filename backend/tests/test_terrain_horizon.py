@@ -152,3 +152,23 @@ def test_http_errors(client):
         "/api/terrain-horizon",
         params={"site_id": "shackleton-rim", "window": "lunar-eclipse"}).status_code == 422
     assert client.get("/api/terrain-horizon", params={"latitude_deg": -89.9}).status_code == 422
+
+
+def test_custom_point_uses_the_same_coordinate_rules_as_a_scenario():
+    """The exact pole has no local north, so it has no horizon at an azimuth either."""
+    with pytest.raises(InvalidInputError, match="pole"):
+        terrain_horizon_response(latitude_deg=-90.0, longitude_deg=0.0)
+
+    # Longitude wraps into [-180, 180) exactly as it does for a scenario location.
+    report = terrain_horizon_response(latitude_deg=-87.5, longitude_deg=-348.0)
+    assert report["site"]["longitude_deg"] == pytest.approx(12.0)
+    with pytest.raises(InvalidInputError):
+        terrain_horizon_response(latitude_deg=-87.5, longitude_deg=400.0)
+
+
+def test_http_route_rejects_an_exact_pole(client):
+    response = client.get(
+        "/api/terrain-horizon", params={"latitude_deg": -90.0, "longitude_deg": 0.0})
+
+    assert response.status_code == 422
+    assert "pole" in response.json()["message"].lower()

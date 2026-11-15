@@ -169,5 +169,8 @@ def test_markdown_report_is_complete_and_deterministic(client):
     assert "De Gerlache" in body or "de-gerlache-rim" in body
     assert "vertical_tracking" in body or "Vertical array" in body
     assert "UNKNOWN" in body
+    # Targets carry the same unit as the measured column; a bare number is ambiguous.
+    assert "at least 60.0 %" in body
+    assert "at most 12.0 h" in body
     assert client.get("/api/mission-report.md",
                       params={"site_id": "nowhere"}).status_code == 404

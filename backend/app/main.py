@@ -11,6 +11,7 @@ import os
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.routes import router
@@ -25,6 +26,11 @@ app = FastAPI(
     description="Lunar landing-site Sun/Earth visibility analysis. "
     "Every result carries a provenance block; Demo Mode data is synthetic.",
 )
+
+# The PSR catalogue (~2 MB) and the crater gazetteer (~140 kB) are JSON that
+# gzip to a fraction of their size. Threshold keeps small payloads uncompressed,
+# where framing costs more than it saves.
+app.add_middleware(GZipMiddleware, minimum_size=1024)
 
 app.add_middleware(
     CORSMiddleware,

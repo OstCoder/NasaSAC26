@@ -38,6 +38,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from app.core.coords import validate_lat_lon
 from app.core.errors import InvalidInputError
 from app.core.settings import Settings, get_settings
 from app.models.schemas import ProvenanceLevel
@@ -180,10 +181,13 @@ def _geometric_only_response(
     if (latitude_deg is None) != (longitude_deg is None):
         raise InvalidInputError(
             "Give both latitude_deg and longitude_deg for a geometric-only point.")
-    if latitude_deg is not None and not -90.0 <= latitude_deg <= 90.0:
-        raise InvalidInputError(f"latitude_deg must be inside [-90, 90], got {latitude_deg}")
-    if longitude_deg is not None and not -360.0 <= longitude_deg <= 360.0:
-        raise InvalidInputError(f"longitude_deg must be inside [-360, 360], got {longitude_deg}")
+    if latitude_deg is not None:
+        # The same validation the scenario and snapshot paths use: finite, inside
+        # [-90, 90], longitude wrapped into [-180, 180), and the exact pole
+        # rejected because local north (and so azimuth, and so "the horizon at
+        # the body's azimuth") is undefined there. Without this, a point at
+        # exactly -90 replied with a flat profile it cannot actually represent.
+        latitude_deg, longitude_deg = validate_lat_lon(latitude_deg, longitude_deg)
     if window not in WINDOWS:
         raise InvalidInputError(f"unknown window {window!r}; expected one of {list(WINDOWS)}")
 

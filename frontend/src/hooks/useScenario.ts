@@ -53,17 +53,21 @@ export function usePhase3Windows() {
 }
 
 /** Phase 4 Task 1: one site's terrain horizon profile, with Sun/Earth compared against it. */
-export function useSiteHorizon(siteId: string, window: string) {
+export function useSiteHorizon(siteId: string, window: string, enabled = true) {
   return useApiResource<TerrainHorizon>(
-    `terrain-horizon:${siteId}:${window}`,
+    enabled ? `terrain-horizon:${siteId}:${window}` : null,
     (signal) => api.terrainHorizon({ siteId, window }, signal),
     0,
   )
 }
 
 /** The committed Sun/Earth track for the same site and window, for the overlaid points. */
-export function useSiteSeries(siteId: string, window: string) {
-  return useApiResource<SiteSeries>(`series:${siteId}:${window}`, (signal) => api.series({ siteId, window }, signal), 0)
+export function useSiteSeries(siteId: string, window: string, enabled = true) {
+  return useApiResource<SiteSeries>(
+    enabled ? `series:${siteId}:${window}` : null,
+    (signal) => api.series({ siteId, window }, signal),
+    0,
+  )
 }
 
 /** Phase 4: the feasibility matrix — every candidate x both windows vs the requirements. */
@@ -72,8 +76,12 @@ export function useFeasibilityMatrix() {
 }
 
 /** Phase 4 Task 6 (experimental): one candidate's pooled LOLA DEM grid, display only. */
-export function useSiteDem(siteId: string) {
-  return useApiResource<TerrainDem>(`site-dem:${siteId}`, (signal) => api.terrainDem({ siteId }, signal), 0)
+export function useSiteDem(siteId: string, enabled = true) {
+  return useApiResource<TerrainDem>(
+    enabled ? `site-dem:${siteId}` : null,
+    (signal) => api.terrainDem({ siteId }, signal),
+    0,
+  )
 }
 
 export function useCraters() {

@@ -169,9 +169,13 @@ export function SiteTerrain3DPanel() {
   const [window, setWindow] = React.useState<WindowKey>('initial')
   const [exaggeration, setExaggeration] = React.useState(3)
 
-  const dem = useSiteDem(siteId)
-  const horizon = useSiteHorizon(siteId, window)
-  const track = useSiteSeries(siteId, window)
+  // Experimental and off by default: while it is off, do not fetch its three
+  // resources either. The panel used to request the DEM on first paint even
+  // though it rendered nothing.
+  const live = features.experimental_3d_terrain && enabled
+  const dem = useSiteDem(siteId, live)
+  const horizon = useSiteHorizon(siteId, window, live)
+  const track = useSiteSeries(siteId, window, live)
   const error = dem.error ?? horizon.error ?? track.error
 
   const skyline = React.useMemo(() => {

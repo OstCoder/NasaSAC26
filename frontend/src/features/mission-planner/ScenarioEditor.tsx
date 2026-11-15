@@ -185,7 +185,13 @@ export function ScenarioEditor({
               value={draft.duration_hours}
               onChange={(e) => {
                 const v = Number(e.target.value)
-                if (v > 0) onChange({ ...draft, duration_hours: Math.min(v, sim.max_duration_hours) })
+                // Clamp to the configured range here so the input cannot produce a
+                // request the backend is certain to reject.
+                if (v > 0)
+                  onChange({
+                    ...draft,
+                    duration_hours: Math.min(Math.max(v, sim.min_duration_hours), sim.max_duration_hours),
+                  })
               }}
               className="w-24"
               aria-label="Duration in hours"

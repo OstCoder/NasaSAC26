@@ -277,3 +277,20 @@ class TestLiveSkyAndCraters:
         assert craters["Shackleton"]["latitude_deg"] == pytest.approx(-89.67, abs=0.01)
         assert craters["Tycho"]["longitude_deg"] == pytest.approx(-11.2153, abs=0.01)  # 348.78 °E in the source
         assert craters["Haworth"]["diameter_km"] == pytest.approx(51.4, abs=0.1)
+
+
+class TestCompression:
+    """The PSR catalogue is ~2 MB of JSON: it should not cross the wire uncompressed."""
+
+    def test_large_json_is_compressed(self, client):
+        response = client.get("/api/psrs", headers={"Accept-Encoding": "gzip"})
+
+        assert response.status_code == 200
+        assert response.headers.get("content-encoding") == "gzip"
+        assert len(response.json()) > 100  # the client still reads it transparently
+
+    def test_small_payloads_are_left_alone(self, client):
+        response = client.get("/api/health", headers={"Accept-Encoding": "gzip"})
+
+        assert response.status_code == 200
+        assert "content-encoding" not in response.headers

@@ -30,6 +30,11 @@ def _f(value, digits: int = 2, dash: str = "—") -> str:
     return str(value)
 
 
+def _with_unit(value, unit: str, digits: int = 1) -> str:
+    """A measured value and its unit, using the table's own convention."""
+    return _f(value, digits) + (" %" if unit == "%" else f" {unit}")
+
+
 def _table(headers: list[str], rows: list[list[str]]) -> str:
     lines = ["| " + " | ".join(headers) + " |",
              "| " + " | ".join("---" for _ in headers) + " |"]
@@ -52,9 +57,9 @@ def mission_report_markdown(*, site_id: str, window: str = "initial",
     requirement_rows = [
         [
             check["label"],
-            _f(check["value"], 1) + (" " + check["unit"] if check["unit"] == "h" else " %"),
+            _with_unit(check["value"], check["unit"]),
             ("at least " if check["comparison"] == "at_least" else "at most ")
-            + _f(check["threshold"], 1),
+            + _with_unit(check["threshold"], check["unit"]),
             check["status"].upper(),
             "window-limited" if check["censored"] else "measured",
         ]
